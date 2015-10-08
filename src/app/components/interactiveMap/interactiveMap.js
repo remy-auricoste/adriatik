@@ -4,7 +4,7 @@ angular.module("adriatik").directive("interactiveMap", [function() {
 
         return {
             restrict: 'E',
-            templateUrl: "app/components/map/interactiveMap.html",
+            templateUrl: "app/components/interactiveMap/interactiveMap.html",
             replace: true,
             scope: {
               title: "@"
