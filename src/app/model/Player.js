@@ -1,4 +1,4 @@
-Player = function(name, gold, color, priests, thinkers) {
+function Player(name, gold, color, priests, thinkers) {
   if (!priests) {
     priests = 0;
   }
@@ -11,3 +11,4 @@ Player = function(name, gold, color, priests, thinkers) {
   this.thinkers = thinkers;
   this.color = color;
 }
+new Player();

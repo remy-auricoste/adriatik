@@ -1,5 +1,5 @@
-angular.module("adriatik").directive("game", [function() {
-
+/** @ngInject */
+function game() {
     'use strict';
 
         return {
@@ -11,4 +11,6 @@ angular.module("adriatik").directive("game", [function() {
             link: function() {
             }
         };
-}]);
+}
+
+angular.module("adriatik").directive("game", game);

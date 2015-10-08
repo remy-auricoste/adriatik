@@ -1,5 +1,5 @@
-angular.module("adriatik").directive("france", ["$http", "$log", function($http, $log) {
-
+/** @ngInject */
+function france($http) {
     'use strict';
 
         return {
@@ -43,4 +43,6 @@ angular.module("adriatik").directive("france", ["$http", "$log", function($http,
               }
             }
         };
-}]);
+}
+
+angular.module("adriatik").directive("france", france);

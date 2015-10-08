@@ -1,7 +1,6 @@
-angular.module("adriatik").directive("interactiveMap", [function() {
-
+/** @ngInject */
+function interactiveMap() {
     'use strict';
-
         return {
             restrict: 'E',
             templateUrl: "app/components/interactiveMap/interactiveMap.html",
@@ -9,9 +8,9 @@ angular.module("adriatik").directive("interactiveMap", [function() {
             scope: {
               title: "@"
             },
-            link: function(scope) {
-
-              console.log(scope.title);
+            link: function() {
             }
         };
-}]);
+}
+
+angular.module("adriatik").directive("interactiveMap", interactiveMap);

@@ -1,7 +1,6 @@
-angular.module("adriatik").directive("playerPanel", [function() {
-
+/** @ngInject */
+function playerPanel($window) {
     'use strict';
-
         return {
             restrict: 'E',
             templateUrl: "app/components/playerPanel/playerPanel.html",
@@ -9,7 +8,7 @@ angular.module("adriatik").directive("playerPanel", [function() {
             scope: {
             },
             link: function(scope) {
-              var models = window;
+              var models = $window;
               // TODO pass as args instead of init here
               scope.players = [
                 new models.Player("Remy", 7, "red"),
@@ -20,4 +19,6 @@ angular.module("adriatik").directive("playerPanel", [function() {
               scope.currentPlayer = scope.players[0];
             }
         };
-}]);
+}
+
+angular.module("adriatik").directive("playerPanel", playerPanel);
