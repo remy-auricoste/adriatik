@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "test": "gulp test",
-    "start": "bower install ; gulp build ; node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bower": "x",
