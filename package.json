@@ -6,9 +6,7 @@
     "start": "gulp dist ; node server.js"
   },
   "dependencies": {
-    "node-static": "x"
-  },
-  "devDependencies": {
+    "node-static": "x",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "~3.0.1",
     "gulp-angular-templatecache": "~1.7.0",
