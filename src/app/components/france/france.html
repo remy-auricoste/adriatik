@@ -1,0 +1,16 @@
+<div class="france">
+  <svg>
+    <g id="departements">
+      <path ng-repeat="path in paths"
+            ng-attr-d="{{path.d}}"
+            class="departement"
+            ng-class="{over: path.over}"
+            ng-mouseover="onMouseOver(path)"
+            ng-mouseout="onMouseOut(path)"
+            ng-click="onClick(path)"
+            style="fill: {{path.color}};"
+            stroke="black"
+        />
+    </g>
+  </svg>
+</div>
