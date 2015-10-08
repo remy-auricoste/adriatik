@@ -2,7 +2,7 @@ var static = require('node-static');
 
 var port = process.env.PORT || 8000;
 
-var fileServer = new static.Server('./src', {
+var fileServer = new static.Server('./dist', {
     cache: 1
 });
 
