@@ -5,7 +5,7 @@
     "test": "gulp test",
     "start": "node server.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "node-static": "x"
   },
   "devDependencies": {
