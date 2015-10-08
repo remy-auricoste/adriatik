@@ -1,10 +1,12 @@
 {
   "name": "adriatik",
-  "version": "0.0.0",
-  "dependencies": {},
+  "version": "0.0.1",
   "scripts": {
     "test": "gulp test",
     "start": "node server.js"
+  },
+  "devDependencies": {
+    "node-static": "x"
   },
   "devDependencies": {
     "gulp": "~3.9.0",
