@@ -1,4 +1,4 @@
-angular.module("adriatik").directive("interactiveMap", ["$log", function($log) {
+angular.module("adriatik").directive("interactiveMap", [function() {
 
     'use strict';
 

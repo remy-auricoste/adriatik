@@ -1,4 +1,4 @@
-angular.module("adriatik").directive("playerPanel", ["$log", function($log) {
+angular.module("adriatik").directive("playerPanel", [function() {
 
     'use strict';
 
