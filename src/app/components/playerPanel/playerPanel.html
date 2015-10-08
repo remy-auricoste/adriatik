@@ -1,5 +1,7 @@
 <div class="player-panel">
-  <div ng-repeat="player in players">{{player.color}}</div>
+  <div class="names">
+    <div class="player-name" ng-repeat="player in players" style="background-color: {{player.color}}">{{player.name}}</div>
+  </div>
   <div>
     <div>pieces: {{currentPlayer.gold}}</div>
     <div>pretres : {{currentPlayer.priests}}</div>

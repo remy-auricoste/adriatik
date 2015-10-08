@@ -1,4 +1,4 @@
-Player = function(name, gold, priests, thinkers, color) {
+Player = function(name, gold, color, priests, thinkers) {
   if (!priests) {
     priests = 0;
   }
