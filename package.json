@@ -6,6 +6,7 @@
     "start": "bower install ; gulp build ; node server.js"
   },
   "dependencies": {
+    "bower": "x",
     "node-static": "x",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "~3.0.1",
