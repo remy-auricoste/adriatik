@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "test": "gulp test",
-    "start": "gulp dist ; node server.js"
+    "start": "gulp build ; node server.js"
   },
   "dependencies": {
     "node-static": "x",
