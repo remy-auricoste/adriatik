@@ -4,7 +4,6 @@
 
   angular
     .module('adriatik')
-    .constant('malarkey', malarkey)
     .constant('moment', moment);
 
 })();
