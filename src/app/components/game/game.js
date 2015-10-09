@@ -8,7 +8,7 @@ function game() {
             replace: true,
             scope: {
             },
-            link: function() {
+            link: function(scope, elements, attr) {
             }
         };
 }

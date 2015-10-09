@@ -11,10 +11,10 @@ function playerPanel($window) {
               var models = $window;
               // TODO pass as args instead of init here
               scope.players = [
-                new models.Player("Remy", 7, "red"),
-                new models.Player("Alain", 7, "blue"),
-                new models.Player("Alan", 7, "green"),
-                new models.Player("Charles", 7, "black")
+                Player.new("Remy", "red"),
+                Player.new("Alain", "blue"),
+                Player.new("Alan", "green"),
+                Player.new("Charles", "black")
               ];
               scope.currentPlayer = scope.players[0];
             }
