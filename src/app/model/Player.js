@@ -28,9 +28,7 @@ Player = Meta.declareClass("Player", {
   },
   build: function(territory) {
     try {
-      if (!this.god) {
-        throw new Error("aucun dieu n'est sélectionné");
-      }
+      this.requireGod();
       if (!territory.buildSlots) {
         throw new Error("aucun emplacement libre sur le territoire sélectionné");
       }
@@ -46,9 +44,7 @@ Player = Meta.declareClass("Player", {
   },
   buyUnit: function(territory) {
     try {
-      if (!this.god) {
-        throw new Error("aucun dieu n'est sélectionné");
-      }
+      this.requireGod();
       if (!this.god.unit) {
         throw new Error("ce dieu ne peut pas vous fournir d'unité");
       }
@@ -69,11 +65,14 @@ Player = Meta.declareClass("Player", {
     }
     this.gold -= number;
   },
+  requireGod: function() {
+    if (!this.god) {
+      throw new Error("aucun dieu n'est sélectionné");
+    }
+  },
   buyGodCard: function() {
     try {
-      if (!this.god) {
-        throw new Error("aucun dieu n'est sélectionné");
-      }
+      this.requireGod();
       if (!this.god.card) {
         throw new Error("ce dieu ne peut pas vous fournir de carte");
       }
