@@ -5,6 +5,7 @@ Player = Meta.declareClass("Player", {
   thinkers: 1,
   color: "",
   troupsLeft: {},
+  god: "God",
   init: function() {
     if (!this.priests) {
       this.priests = 0;
@@ -12,6 +13,10 @@ Player = Meta.declareClass("Player", {
     if (!this.thinkers) {
       this.thinkers = 0;
     }
+  },
+  build: function(territory) {
+    // TODO impl
+    throw new Error("not implemented");
   }
 });
 
