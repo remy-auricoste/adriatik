@@ -32,7 +32,11 @@ function france($http) {
                 return Math.floor(randomFloat(min, max+1));
               }
 
-              scope.onMouseOver = function(path) {
+              scope.onMouseOver = function(event, path) {
+                var element = event.srcElement;
+                var box = element.getBoundingClientRect();
+                // it is buggy : cf http://stackoverflow.com/questions/16377186/how-to-get-bounding-box-or-rect-getbbox-for-svg-path-in-jquery
+                scope.box = box;
                 path.over = true;
               }
               scope.onMouseOut = function(path) {

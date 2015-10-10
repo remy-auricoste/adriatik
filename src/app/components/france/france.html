@@ -5,12 +5,29 @@
             ng-attr-d="{{path.d}}"
             class="departement"
             ng-class="{over: path.over}"
-            ng-mouseover="onMouseOver(path)"
+            ng-mouseover="onMouseOver($event, path)"
             ng-mouseout="onMouseOut(path)"
             ng-click="onClick(path)"
             style="fill: {{path.color}};"
             stroke="black"
-        />
+        >
+      </path>
     </g>
+    <image ng-if="box"
+           ng-attr-x="{{box.left + (box.width-20) / 2}}"
+           ng-attr-y="{{box.top + (box.height-20) / 2}}"
+           width="20"
+           height="20"
+           style="pointer: none;"
+           xlink:href="/favicon.ico"/>
+    <rect ng-attr-width="{{box.width}}"
+          ng-attr-height="{{box.height}}"
+          ng-attr-x="{{box.left}}"
+          ng-attr-y="{{box.top}}"
+          ng-if="box"
+          fill="none"
+          stroke="red"
+          stroke-width="1"
+      />
   </svg>
 </div>
