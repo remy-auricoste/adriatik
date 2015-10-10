@@ -7,6 +7,7 @@ Player = Meta.declareClass("Player", {
   troupsLeft: {},
   unitBuyCount: 1,
   cardBuyCount: 1,
+  eliteMoveCount: 1,
   god: "God",
   cards: {},
   init: function() {
@@ -24,6 +25,9 @@ Player = Meta.declareClass("Player", {
     }
     if (!this.cards) {
       this.cards = {};
+    }
+    if (!this.eliteMoveCount) {
+      this.eliteMoveCount = 0;
     }
   },
   build: function(territory) {
@@ -115,6 +119,42 @@ Player = Meta.declareClass("Player", {
     var payment = Math.max(1, goldLeft);
     this.spend(payment);
     return payment;
+  },
+  move: function(units, fromTerritory, toTerritorry) {
+    try {
+      if (!units || !units.length) {
+        throw new Error("aucune unité sélectionnée");
+      }
+      this.requireGod();
+      if (this.god === God.Apollon) {
+        throw new Error("Apollon ne peut pas déplacer d'unité");
+      }
+      if (fromTerritory.neighbours.indexOf(toTerritorry.id) === -1) {
+        throw new Error("le territoire de destination n'est pas adjacent au territoire de départ");
+      }
+      var elites = units.filter(function(unit) {
+        return unit === Unit.Elite;
+      });
+      if (fromTerritory.type === "sea" && this.god === God.Neptune) {
+        this.spend(1);
+      } else if (fromTerritory.type === "earth" && this.god === God.Mars) {
+        this.spend(1);
+      } else if (fromTerritory.type === "earth" && elites.length) {
+        this.eliteMoveCount++;
+        this.spend(this.eliteMoveCount);
+      } else {
+        throw new Error("vous n'avez pas les faveurs du dieu correspondant");
+      }
+      var destIsEmpty = toTerritorry.isEmpty();
+      fromTerritory.moveUnits(units, toTerritorry);
+      if (destIsEmpty) {
+        toTerritorry.owner = this;
+      } else {
+        // TODO fight
+      }
+    } catch(err) {
+      throw new Error("Impossible de déplacer des unités : "+err.message);
+    }
   }
 });
 

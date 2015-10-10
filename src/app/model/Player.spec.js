@@ -3,11 +3,16 @@
 describe('Player class', function () {
   var player;
   var territory;
+  var territory2;
+  var emptyTerritory;
 
   beforeEach(function () {
     player = Player.new();
     player.god = God.Mars;
     territory = new Territory({owner: player, buildSlots: 4, type:"earth"});
+    territory2 = new Territory({owner: player, buildSlots: 4, type:"earth"});
+    emptyTerritory = new Territory({buildSlots: 4, type:"earth"});
+    emptyTerritory.nextTo(territory);
   });
 
   describe("build method", function() {
@@ -199,4 +204,83 @@ describe('Player class', function () {
       expect(player.gold).toBe(1);
     });
   });
+
+  describe("move method", function() {
+    it("should take control of dest empty territory (Mars)", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Mars;
+      territory.placeUnit(Unit.Troup);
+      // when
+      var units = [Unit.Troup];
+      player.move(units, territory, emptyTerritory);
+      // then
+      expect(territory.units.length).toBe(0);
+      expect(emptyTerritory.units.length).toBe(1);
+      expect(emptyTerritory.owner).toBe(player);
+      expect(player.gold).toBe(0);
+    });
+    it("should take control of dest empty territory (Mars) (more units)", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Mars;
+      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(Unit.Troup);
+      // when
+      var units = [Unit.Troup, Unit.Troup];
+      player.move(units, territory, emptyTerritory);
+      // then
+      expect(territory.units.length).toBe(1);
+      expect(emptyTerritory.units.length).toBe(2);
+      expect(emptyTerritory.owner).toBe(player);
+      expect(player.gold).toBe(0);
+    });
+    it("should throw an exception because there is not enough gold", function() {
+      // given
+      player.gold = 0;
+      player.god = God.Mars;
+      territory.placeUnit(Unit.Troup);
+      // when
+      var units = [Unit.Troup];
+      // then
+      expect(territory.units.length).toBe(1);
+      expect(emptyTerritory.units.length).toBe(0);
+      expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : pas assez de pièces. Cette action coûte 1 pièces"));
+      expect(player.gold).toBe(0);
+    });
+    it("should take control of dest empty territory (elite troups)", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Minerve;
+      territory.placeUnit(Unit.Elite);
+      territory.placeUnit(Unit.Troup);
+      // when
+      var units = [Unit.Troup, Unit.Elite];
+      player.move(units, territory, emptyTerritory);
+      // then
+      expect(territory.units.length).toBe(0);
+      expect(emptyTerritory.units.length).toBe(2);
+      expect(emptyTerritory.owner).toBe(player);
+      expect(player.gold).toBe(0);
+    });
+    it("should throw an exception because destination is not next to source", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Mars;
+      territory.placeUnit(Unit.Troup);
+      // when
+      var units = [Unit.Troup];
+      expect(function() {player.move(units, territory, territory2);}).toThrow(new Error("Impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ"));
+    });
+    it("should throw an exception because move is not allowed by the god", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Neptune;
+      territory.placeUnit(Unit.Troup);
+      // when
+      var units = [Unit.Troup];
+      expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : vous n'avez pas les faveurs du dieu correspondant"));
+    });
+  })
 });
