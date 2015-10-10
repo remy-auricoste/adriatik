@@ -7,10 +7,17 @@ Unit.Troup = new Unit({type: "earth", territoryType: "earth"});
 Unit.Ship = new Unit({type: "sea", territoryType: "sea"});
 Unit.Elite = new Unit({type: "elite", territoryType: "earth"});
 
+GodCard.Priest = new GodCard({name: "prêtre"});
+GodCard.Thinker = new GodCard({name: "philosophe"});
+
 God.Jupiter = new God({
   name: "Jupiter",
   color: "white",
-  building: Building.Temple
+  building: Building.Temple,
+  card: GodCard.Priest,
+  cardPrice: function(index) {
+    return [0, 4][index];
+  }
 });
 God.Pluton = new God({
   name: "Pluton",
@@ -36,7 +43,11 @@ God.Neptune = new God({
 God.Minerve = new God({
   name: "Minerve",
   color: "blue",
-  building: Building.Universite
+  building: Building.Universite,
+  card: GodCard.Thinker,
+  cardPrice: function(index) {
+    return [0, 4][index];
+  }
 });
 God.Mars = new God({
   name: "Mars",

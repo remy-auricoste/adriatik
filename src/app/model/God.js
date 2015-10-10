@@ -4,5 +4,7 @@ var God = Meta.declareClass("God", {
   building: "Building",
   unit: "Unit",
   unitPrice: "fct",
+  card: "GodCard",
+  cardPrice: "fct",
   index: 1
 });

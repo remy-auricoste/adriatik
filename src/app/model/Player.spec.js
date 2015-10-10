@@ -66,7 +66,7 @@ describe('Player class', function () {
       territory.type = "earth";
       // then
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : impossible de placer ce type d'unité sur ce type de territoire"));
-      expect(player.buyCount).toBe(0);
+      expect(player.unitBuyCount).toBe(0);
     });
     it("should throw an exception the player does not have enough gold", function() {
       // given
@@ -111,5 +111,39 @@ describe('Player class', function () {
       player.buyUnit(territory);
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
     });
-  })
+  });
+
+  describe("buyCard method", function() {
+    it("should buy a card", function() {
+      // given
+      player.god = God.Jupiter;
+      // when
+      var card = player.buyGodCard();
+      // then
+      expect(player.cards[card.name]).toBe(1);
+    });
+    it("should throw an exception the player does not have enough gold", function() {
+      // given
+      player.god = God.Jupiter;
+      player.gold = 1;
+      // then
+      player.buyGodCard();
+      expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : pas assez de pièces. Cette action coûte 4 pièces"));
+    });
+    it("should throw an exception if the god cannot give cards", function() {
+      // given
+      player.god = God.Mars;
+      // then
+      expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : ce dieu ne peut pas vous fournir de carte"));
+    });
+    it("should throw an exception if there is no more card to buy", function() {
+      // given
+      player.god = God.Minerve;
+      player.gold = 20;
+      // then
+      player.buyGodCard();
+      player.buyGodCard();
+      expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : il n'y a plus de carte à acheter"));
+    });
+  });
 });

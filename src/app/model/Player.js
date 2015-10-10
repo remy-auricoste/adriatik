@@ -5,8 +5,10 @@ Player = Meta.declareClass("Player", {
   thinkers: 1,
   color: "",
   troupsLeft: {},
-  buyCount: 1,
+  unitBuyCount: 1,
+  cardBuyCount: 1,
   god: "God",
+  cards: {},
   init: function() {
     if (!this.priests) {
       this.priests = 0;
@@ -14,8 +16,14 @@ Player = Meta.declareClass("Player", {
     if (!this.thinkers) {
       this.thinkers = 0;
     }
-    if (!this.buyCount) {
-      this.buyCount = 0;
+    if (!this.unitBuyCount) {
+      this.unitBuyCount = 0;
+    }
+    if (!this.cardBuyCount) {
+      this.cardBuyCount = 0;
+    }
+    if (!this.cards) {
+      this.cards = {};
     }
   },
   build: function(territory) {
@@ -44,13 +52,13 @@ Player = Meta.declareClass("Player", {
       if (!this.god.unit) {
         throw new Error("ce dieu ne peut pas vous fournir d'unité");
       }
-      var price = this.god.unitPrice(this.buyCount);
+      var price = this.god.unitPrice(this.unitBuyCount);
       if (!price && price !== 0) {
         throw new Error("il n'y a plus d'unité à acheter");
       }
       this.spend(price);
       territory.placeUnit(this.god.unit);
-      this.buyCount++;
+      this.unitBuyCount++;
     } catch(err) {
       throw new Error("Impossible d'acheter une unité : "+err.message);
     }
@@ -60,6 +68,30 @@ Player = Meta.declareClass("Player", {
       throw new Error("pas assez de pièces. Cette action coûte "+number+" pièces");
     }
     this.gold -= number;
+  },
+  buyGodCard: function() {
+    try {
+      if (!this.god) {
+        throw new Error("aucun dieu n'est sélectionné");
+      }
+      if (!this.god.card) {
+        throw new Error("ce dieu ne peut pas vous fournir de carte");
+      }
+      var price = this.god.cardPrice(this.cardBuyCount);
+      if (!price && price !== 0) {
+        throw new Error("il n'y a plus de carte à acheter");
+      }
+      this.spend(price);
+      var currentValue = this.cards[this.god.card.name];
+      if (!currentValue) {
+        this.cards[this.god.card.name] = 0;
+      }
+      this.cards[this.god.card.name]++;
+      this.cardBuyCount++;
+      return this.god.card;
+    } catch(err) {
+      throw new Error("Impossible d'acheter une carte : "+err.message);
+    }
   }
 });
 
