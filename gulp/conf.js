@@ -7,6 +7,7 @@
  */
 
 var gutil = require('gulp-util');
+var path = require("path");
 
 /**
  *  The main paths of your project handle these with care
@@ -15,7 +16,26 @@ exports.paths = {
   src: 'src',
   dist: 'dist',
   tmp: '.tmp',
-  e2e: 'e2e'
+  e2e: 'e2e',
+  js: {
+    included: [
+      '/lib/*.js',
+      '/app/**/*.module.js',
+      '/app/**/*.js'
+    ],
+    excluded: [
+      '/app/**/*.spec.js',
+      '/app/**/*.mock.js'
+    ]
+  },
+  getJsPaths: function() {
+    var self = this;
+    return self.js.included.map(function(relPath) {
+      return path.join(exports.paths.src, relPath);
+    }).concat(self.js.excluded.map(function(relPath) {
+      return path.join('!'+self.src, relPath);
+    }));
+  }
 };
 
 /**
