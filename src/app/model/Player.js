@@ -16,16 +16,21 @@ Player = Meta.declareClass("Player", {
   },
   build: function(territory) {
     if (!this.god) {
-      throw new Error("cannot build : no god associated");
+      throw new Error("Impossible de construire : aucun dieu n'est sélectionné");
     }
     if (!territory.buildSlots) {
-      throw new Error("cannot build : no slot left");
+      throw new Error("Impossible de construire : aucun emplacement libre sur le territoire sélectionné");
     }
     if (!this.god.building) {
-      throw new Error("cannot build : no building associated with the god");
+      throw new Error("Impossible de construire : ce dieu ne peut pas construire ce tour-ci");
     }
+    if (this.gold < 2) {
+      throw new Error("Impossible de construire : pas assez d'or");
+    }
+    this.gold -= 2;
     territory.buildSlots -= 1;
     territory.buildings.push(this.god.building);
+
   }
 });
 
