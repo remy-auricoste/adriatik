@@ -7,7 +7,7 @@ describe('Player class', function () {
   beforeEach(function () {
     player = Player.new();
     player.god = God.Mars;
-    territory = new Territory({owner: player, buildSlots: 4});
+    territory = new Territory({owner: player, buildSlots: 4, type:"earth"});
   });
 
   describe("build method", function() {
@@ -38,7 +38,51 @@ describe('Player class', function () {
     it("should throw an exception if there is not enough gold", function() {
       player.gold = 1;
       // then
-      expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : pas assez d'or"));
+      expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : pas assez de pièces. Cette action coûte 2 pièces"));
     });
   });
+
+  describe("buyUnit method", function() {
+    it("should buy a unit and place it on the territory (Mars)", function() {
+      // given
+      player.god = God.Mars;
+      // when
+      player.buyUnit(territory);
+      // then
+      expect(territory.units.length).toBe(1);
+    });
+    it("should buy a unit and place it on the territory (Neptune)", function() {
+      // given
+      player.god = God.Neptune;
+      territory.type = "sea";
+      // when
+      player.buyUnit(territory);
+      // then
+      expect(territory.units.length).toBe(1);
+    });
+    it("should throw an exception if the territory cannot accept this unit type", function() {
+      // given
+      player.god = God.Neptune;
+      territory.type = "earth";
+      // then
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : impossible de placer ce type d'unité sur ce type de territoire"));
+      expect(player.buyCount).toBe(0);
+    });
+    it("should throw an exception the player does not have enough gold", function() {
+      // given
+      player.god = God.Mars;
+      player.gold = 5;
+      // then
+      player.buyUnit(territory);
+      player.buyUnit(territory);
+      player.buyUnit(territory);
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : pas assez de pièces. Cette action coûte 4 pièces"));
+    });
+    it("should throw an exception the god cannot give units", function() {
+      // given
+      player.god = God.Minerve;
+      // then
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : ce dieu ne peut pas vous fournir d'unité"));
+    });
+  })
 });
