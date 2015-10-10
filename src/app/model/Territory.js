@@ -1,3 +1,4 @@
+var idCount = 0;
 var Territory = Meta.declareClass("Territory", {
   id: "",
   neighbours: [],
@@ -18,7 +19,7 @@ var Territory = Meta.declareClass("Territory", {
       this.neighbours = [];
     }
     if (!this.id) {
-      this.id = Math.random() + "";
+      this.id = idCount++ + "";
     }
     Territory.all[this.id] = this;
   },
