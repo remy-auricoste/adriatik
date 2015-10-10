@@ -10,8 +10,8 @@ var $ = require('gulp-load-plugins')();
 
 gulp.task('scripts', function () {
   return gulp.src(conf.paths.getJsPaths())
-    .pipe($.eslint())
-    .pipe($.eslint.format())
+//    .pipe($.eslint())
+//    .pipe($.eslint.format())
     .pipe(browserSync.reload({ stream: true }))
     .pipe($.size())
 });
