@@ -18,23 +18,29 @@ exports.paths = {
   tmp: '.tmp',
   e2e: 'e2e',
   js: {
-    included: [
+    main: [
       '/lib/*.js',
       '/app/**/*.module.js',
       '/app/**/*.js'
     ],
-    excluded: [
+    test: [
       '/app/**/*.spec.js',
       '/app/**/*.mock.js'
     ]
   },
   getJsPaths: function() {
     var self = this;
-    return self.js.included.map(function(relPath) {
+    return self.js.main.map(function(relPath) {
       return path.join(exports.paths.src, relPath);
-    }).concat(self.js.excluded.map(function(relPath) {
+    }).concat(self.js.test.map(function(relPath) {
       return path.join('!'+self.src, relPath);
     }));
+  },
+  getJsPathsForTest: function() {
+    var self = this;
+    return self.js.main.concat(self.js.test).map(function(relPath) {
+      return path.join(exports.paths.src, relPath);
+    });
   }
 };
 
