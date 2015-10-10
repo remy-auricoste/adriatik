@@ -296,13 +296,6 @@ var Meta = {
         });
         var attributes = partition[0];
         var methods = partition[1];
-        Collections.foreach(attributes, function(valueTemplate, key) {
-            if (typeof valueTemplate === "string" && valueTemplate.length && valueTemplate !== "fct") {
-                Meta.require(!!Meta.classes[valueTemplate], "this class "+name+" depends on "+valueTemplate+" but this dep has not been declared yet");
-            } else if (typeof valueTemplate === "object" && valueTemplate.constructor === Array && typeof valueTemplate[0] === "string" && valueTemplate[0].length) {
-                Meta.require(!!Meta.classes[valueTemplate[0]], "this class "+name+" depends on "+valueTemplate[0]+" but this dep has not been declared yet");
-            }
-        })
 
         var classe = function (params) {
             try {
