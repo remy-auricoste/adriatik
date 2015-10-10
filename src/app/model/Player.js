@@ -19,16 +19,16 @@ Player = Meta.declareClass("Player", {
     }
   },
   build: function(territory) {
-    if (!this.god) {
-      throw new Error("Impossible de construire : aucun dieu n'est sélectionné");
-    }
-    if (!territory.buildSlots) {
-      throw new Error("Impossible de construire : aucun emplacement libre sur le territoire sélectionné");
-    }
-    if (!this.god.building) {
-      throw new Error("Impossible de construire : ce dieu ne peut pas construire ce tour-ci");
-    }
     try {
+      if (!this.god) {
+        throw new Error("aucun dieu n'est sélectionné");
+      }
+      if (!territory.buildSlots) {
+        throw new Error("aucun emplacement libre sur le territoire sélectionné");
+      }
+      if (!this.god.building) {
+        throw new Error("ce dieu ne peut pas construire ce tour-ci");
+      }
       this.spend(2);
     } catch(err) {
       throw new Error("Impossible de construire : "+err.message);
@@ -37,14 +37,17 @@ Player = Meta.declareClass("Player", {
     territory.buildings.push(this.god.building);
   },
   buyUnit: function(territory) {
-    if (!this.god) {
-      throw new Error("Impossible d'acheter une unité : aucun dieu n'est sélectionné");
-    }
-    if (!this.god.unit) {
-      throw new Error("Impossible d'acheter une unité : ce dieu ne peut pas vous fournir d'unité");
-    }
-    var price = this.god.unitPrice(this.buyCount);
     try {
+      if (!this.god) {
+        throw new Error("aucun dieu n'est sélectionné");
+      }
+      if (!this.god.unit) {
+        throw new Error("ce dieu ne peut pas vous fournir d'unité");
+      }
+      var price = this.god.unitPrice(this.buyCount);
+      if (!price && price !== 0) {
+        throw new Error("il n'y a plus d'unité à acheter");
+      }
       this.spend(price);
       territory.placeUnit(this.god.unit);
       this.buyCount++;

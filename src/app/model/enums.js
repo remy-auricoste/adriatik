@@ -14,7 +14,15 @@ God.Jupiter = new God({
 });
 God.Pluton = new God({
   name: "Pluton",
-  color: "black"
+  color: "black",
+  unit: Unit.Elite,
+  unitPrice: function(index) {
+    if (this.index === 0) {
+      return [0, 2][index];
+    } else {
+      return [2][index];
+    }
+  }
 });
 God.Neptune = new God({
   name: "Neptune",

@@ -78,11 +78,38 @@ describe('Player class', function () {
       player.buyUnit(territory);
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : pas assez de pièces. Cette action coûte 4 pièces"));
     });
-    it("should throw an exception the god cannot give units", function() {
+    it("should throw an exception if the god cannot give units", function() {
       // given
       player.god = God.Minerve;
       // then
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : ce dieu ne peut pas vous fournir d'unité"));
+    });
+    it("should throw an exception if there is no more unit to buy", function() {
+      // given
+      player.god = God.Mars;
+      player.gold = 20;
+      // then
+      player.buyUnit(territory);
+      player.buyUnit(territory);
+      player.buyUnit(territory);
+      player.buyUnit(territory);
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
+    });
+    it("should buy 2 elite units", function() {
+      // given
+      player.god = God.Pluton;
+      player.god.index = 0;
+      // then
+      player.buyUnit(territory);
+      player.buyUnit(territory);
+    });
+    it("should buy an elite unit and then throw an exception", function() {
+      // given
+      player.god = God.Pluton;
+      player.god.index = 1;
+      // then
+      player.buyUnit(territory);
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
     });
   })
 });

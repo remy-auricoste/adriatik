@@ -3,5 +3,6 @@ var God = Meta.declareClass("God", {
   color: "",
   building: "Building",
   unit: "Unit",
-  unitPrice: "fct"
+  unitPrice: "fct",
+  index: 1
 });
