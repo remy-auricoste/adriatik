@@ -146,4 +146,16 @@ describe('Player class', function () {
       expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : il n'y a plus de carte à acheter"));
     });
   });
+
+  describe("placeBid method", function() {
+    it("should place a bid", function() {
+      player.placeBid(God.Mars, 3);
+    });
+    it("should throw an exception because not enough gold", function() {
+      // given
+      player.gold = 3;
+      // then
+      expect(function() {player.placeBid(God.Mars, 4);}).toThrow(new Error("Impossible de placer cette enchère : pas assez d'or"));
+    });
+  });
 });

@@ -91,6 +91,17 @@ Player = Meta.declareClass("Player", {
     } catch(err) {
       throw new Error("Impossible d'acheter une carte : "+err.message);
     }
+  },
+  placeBid: function(god, number) {
+    try {
+      var priests = this.cards[GodCard.Priest.name];
+      priests = priests ? priests : 0;
+      if (number > this.gold + priests) {
+        throw new Error("pas assez d'or");
+      }
+    } catch(err) {
+      throw new Error("Impossible de placer cette enchère : "+err.message);
+    }
   }
 });
 
