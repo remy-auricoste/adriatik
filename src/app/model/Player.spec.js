@@ -149,13 +149,54 @@ describe('Player class', function () {
 
   describe("placeBid method", function() {
     it("should place a bid", function() {
+      // given
+      expect(player.bid).toBe(undefined);
+      player.gold = 8;
+      // when
       player.placeBid(God.Mars, 3);
+      // then
+      expect(player.bid).toBeDefined();
+    });
+    it("should place a bid with priests", function() {
+      // given
+      expect(player.bid).toBe(undefined);
+      player.addGodCard(GodCard.Priest);
+      player.addGodCard(GodCard.Priest);
+      player.addGodCard(GodCard.Priest);
+      player.gold = 3;
+      // when
+      player.placeBid(God.Mars, 6);
+      // then
+      expect(player.bid).toBeDefined();
     });
     it("should throw an exception because not enough gold", function() {
       // given
       player.gold = 3;
       // then
       expect(function() {player.placeBid(God.Mars, 4);}).toThrow(new Error("Impossible de placer cette enchère : pas assez d'or"));
+    });
+  });
+
+  describe("payBid method", function() {
+    it("should pay bid", function() {
+      // given
+      player.gold = 4;
+      player.placeBid(God.Mars, 3);
+      // when
+      player.payBid();
+      // then
+      expect(player.gold).toBe(1);
+    });
+    it("should pay 1 gold", function() {
+      // given
+      player.gold = 2;
+      player.addGodCard(GodCard.Priest);
+      player.addGodCard(GodCard.Priest);
+      player.placeBid(God.Mars, 2);
+      // when
+      player.payBid();
+      // then
+      expect(player.gold).toBe(1);
     });
   });
 });

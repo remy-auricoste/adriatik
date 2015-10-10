@@ -70,6 +70,13 @@ Player = Meta.declareClass("Player", {
       throw new Error("aucun dieu n'est sélectionné");
     }
   },
+  addGodCard: function(card) {
+    var currentValue = this.cards[card.name];
+    if (!currentValue) {
+      this.cards[card.name] = 0;
+    }
+    this.cards[card.name]++;
+  },
   buyGodCard: function() {
     try {
       this.requireGod();
@@ -81,27 +88,33 @@ Player = Meta.declareClass("Player", {
         throw new Error("il n'y a plus de carte à acheter");
       }
       this.spend(price);
-      var currentValue = this.cards[this.god.card.name];
-      if (!currentValue) {
-        this.cards[this.god.card.name] = 0;
-      }
-      this.cards[this.god.card.name]++;
+      this.addGodCard(this.god.card);
       this.cardBuyCount++;
       return this.god.card;
     } catch(err) {
       throw new Error("Impossible d'acheter une carte : "+err.message);
     }
   },
+  getPriests: function() {
+    var priests = this.cards[GodCard.Priest.name];
+    priests = priests ? priests : 0;
+    return priests;
+  },
   placeBid: function(god, number) {
     try {
-      var priests = this.cards[GodCard.Priest.name];
-      priests = priests ? priests : 0;
-      if (number > this.gold + priests) {
+      if (number > this.gold + this.getPriests()) {
         throw new Error("pas assez d'or");
       }
+      this.bid = new Bid({god: god, gold: number});
     } catch(err) {
       throw new Error("Impossible de placer cette enchère : "+err.message);
     }
+  },
+  payBid: function() {
+    var goldLeft = this.bid.gold - this.getPriests();
+    var payment = Math.max(1, goldLeft);
+    this.spend(payment);
+    return payment;
   }
 });
 
