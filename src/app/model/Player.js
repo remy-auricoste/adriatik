@@ -57,7 +57,7 @@ Player = Meta.declareClass("Player", {
         throw new Error("il n'y a plus d'unité à acheter");
       }
       this.spend(price);
-      territory.placeUnit(this.god.unit);
+      territory.placeUnit(new Unit({type: this.god.unit, owner: this}));
       this.unitBuyCount++;
     } catch(err) {
       throw new Error("Impossible d'acheter une unité : "+err.message);
@@ -133,7 +133,7 @@ Player = Meta.declareClass("Player", {
         throw new Error("le territoire de destination n'est pas adjacent au territoire de départ");
       }
       var elites = units.filter(function(unit) {
-        return unit === Unit.Elite;
+        return unit.type === UnitType.Elite;
       });
       if (fromTerritory.type === "sea" && this.god === God.Neptune) {
         this.spend(1);
@@ -145,15 +145,46 @@ Player = Meta.declareClass("Player", {
       } else {
         throw new Error("vous n'avez pas les faveurs du dieu correspondant");
       }
-      var destIsEmpty = toTerritorry.isEmpty();
-      fromTerritory.moveUnits(units, toTerritorry);
-      if (destIsEmpty) {
-        toTerritorry.owner = this;
-      } else {
-        // TODO fight
-      }
+      this.resolveMove(units, fromTerritory, toTerritorry);
     } catch(err) {
       throw new Error("Impossible de déplacer des unités : "+err.message);
+    }
+  },
+  resolveMove: function(units, fromTerritory, toTerritorry) {
+    var destIsEmpty = toTerritorry.isEmpty();
+    fromTerritory.moveUnits(units, toTerritorry);
+    if (destIsEmpty) {
+      toTerritorry.owner = this;
+    } else {
+      // TODO fight
+    }
+  },
+  possibleRetreats: function(territory) {
+    var self = this;
+    var neighbours = territory.neighbours.map(function(id) {
+      return Territory.byId(id);
+    });
+    var friendly = neighbours.filter(function(territory) {
+      return territory.isFriendly(self);
+    });
+    // TODO handle retreats using ships
+    return friendly;
+  },
+  retreat: function(fromTerritory, toTerritorry) {
+    var self = this;
+    try {
+      if (fromTerritory.type !== toTerritorry.type) {
+        throw new Error("le territoire de départ et de destination doivent être du même type");
+      }
+      if (this.possibleRetreats(fromTerritory).indexOf(toTerritorry) === -1) {
+        throw new Error("cette retraite n'est pas valide. Veuillez choisir un territoire que vous contrôlez ou inoccupé");
+      }
+      var units = fromTerritory.units.filter(function(unit) {
+        return unit.owner === self;
+      });
+      this.resolveMove(units, fromTerritory, toTerritorry);
+    } catch(err) {
+      throw new Error("Impossible de retraiter : "+err.message);
     }
   }
 });

@@ -20,9 +20,10 @@ var Territory = Meta.declareClass("Territory", {
     if (!this.id) {
       this.id = Math.random() + "";
     }
+    Territory.all[this.id] = this;
   },
   placeUnit: function(unit) {
-    if (unit.territoryType !== this.type) {
+    if (unit.type.territoryType !== this.type) {
       throw new Error("impossible de placer ce type d'unité sur ce type de territoire");
     }
     this.units.push(unit);
@@ -50,5 +51,12 @@ var Territory = Meta.declareClass("Territory", {
   nextTo: function(territory) {
     this.neighbours.push(territory.id);
     territory.neighbours.push(this.id);
+  },
+  isFriendly: function(player) {
+    return !this.owner || this.owner === player;
   }
-})
+});
+Territory.all = {};
+Territory.byId = function(id) {
+  return Territory.all[id];
+}

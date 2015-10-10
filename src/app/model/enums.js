@@ -3,9 +3,9 @@ Building.Port = new Building({name: "port"});
 Building.Universite = new Building({name: "université"});
 Building.Temple = new Building({name: "temple"});
 
-Unit.Troup = new Unit({type: "earth", territoryType: "earth"});
-Unit.Ship = new Unit({type: "sea", territoryType: "sea"});
-Unit.Elite = new Unit({type: "elite", territoryType: "earth"});
+UnitType.Troup = new UnitType({type: "earth", territoryType: "earth"});
+UnitType.Ship = new UnitType({type: "sea", territoryType: "sea"});
+UnitType.Elite = new UnitType({type: "elite", territoryType: "earth"});
 
 GodCard.Priest = new GodCard({name: "prêtre"});
 GodCard.Thinker = new GodCard({name: "philosophe"});
@@ -22,7 +22,7 @@ God.Jupiter = new God({
 God.Pluton = new God({
   name: "Pluton",
   color: "black",
-  unit: Unit.Elite,
+  unit: UnitType.Elite,
   unitPrice: function(index) {
     if (this.index === 0) {
       return [0, 2][index];
@@ -35,7 +35,7 @@ God.Neptune = new God({
   name: "Neptune",
   color: "green",
   building: Building.Port,
-  unit: Unit.Ship,
+  unit: UnitType.Ship,
   unitPrice: function(index) {
     return [0, 1, 2, 3][index];
   }
@@ -53,7 +53,7 @@ God.Mars = new God({
   name: "Mars",
   color: "red",
   building: Building.Fort,
-  unit: Unit.Troup,
+  unit: UnitType.Troup,
   unitPrice: function(index) {
     return [0, 2, 3, 4][index];
   }

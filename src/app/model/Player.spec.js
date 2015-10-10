@@ -5,10 +5,14 @@ describe('Player class', function () {
   var territory;
   var territory2;
   var emptyTerritory;
+  var playerTroup;
+  var playerElite;
 
   beforeEach(function () {
     player = Player.new();
     player.god = God.Mars;
+    playerTroup = new Unit({type: UnitType.Troup, owner: player});
+    playerElite = new Unit({type: UnitType.Elite, owner: player});
     territory = new Territory({owner: player, buildSlots: 4, type:"earth"});
     territory2 = new Territory({owner: player, buildSlots: 4, type:"earth"});
     emptyTerritory = new Territory({buildSlots: 4, type:"earth"});
@@ -210,9 +214,9 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Mars;
-      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(playerTroup);
       // when
-      var units = [Unit.Troup];
+      var units = [playerTroup];
       player.move(units, territory, emptyTerritory);
       // then
       expect(territory.units.length).toBe(0);
@@ -224,11 +228,11 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Mars;
-      territory.placeUnit(Unit.Troup);
-      territory.placeUnit(Unit.Troup);
-      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerTroup);
       // when
-      var units = [Unit.Troup, Unit.Troup];
+      var units = [playerTroup, playerTroup];
       player.move(units, territory, emptyTerritory);
       // then
       expect(territory.units.length).toBe(1);
@@ -240,9 +244,9 @@ describe('Player class', function () {
       // given
       player.gold = 0;
       player.god = God.Mars;
-      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(playerTroup);
       // when
-      var units = [Unit.Troup];
+      var units = [playerTroup];
       // then
       expect(territory.units.length).toBe(1);
       expect(emptyTerritory.units.length).toBe(0);
@@ -253,10 +257,10 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(Unit.Elite);
-      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(playerElite);
+      territory.placeUnit(playerTroup);
       // when
-      var units = [Unit.Troup, Unit.Elite];
+      var units = [playerTroup, playerElite];
       player.move(units, territory, emptyTerritory);
       // then
       expect(territory.units.length).toBe(0);
@@ -268,19 +272,31 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Mars;
-      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(playerTroup);
       // when
-      var units = [Unit.Troup];
+      var units = [playerTroup];
       expect(function() {player.move(units, territory, territory2);}).toThrow(new Error("Impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ"));
     });
     it("should throw an exception because move is not allowed by the god", function() {
       // given
       player.gold = 1;
       player.god = God.Neptune;
-      territory.placeUnit(Unit.Troup);
+      territory.placeUnit(playerTroup);
       // when
-      var units = [Unit.Troup];
+      var units = [playerTroup];
       expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : vous n'avez pas les faveurs du dieu correspondant"));
     });
-  })
+  });
+
+  describe("retreat method", function() {
+    it("should retreat to an adjacent territory", function() {
+      // given
+      territory.placeUnit(playerTroup);
+      // when
+      player.retreat(territory, emptyTerritory);
+      // then
+      expect(territory.units.length).toBe(0);
+      expect(emptyTerritory.units.length).toBe(1);
+    })
+  });
 });
