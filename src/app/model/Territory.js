@@ -6,5 +6,10 @@ var Territory = Meta.declareClass("Territory", {
   troups: ["Unit"],
   buildings: ["Building"],
   buildSlots: 1,
-  owner: "Player"
+  owner: "Player",
+  init: function() {
+    if (!this.buildings) {
+      this.buildings = [];
+    }
+  }
 })

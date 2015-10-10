@@ -1,10 +1,12 @@
 var God = Meta.declareClass("God", {
   name: "",
-  color: ""
+  color: "",
+  building: "Building"
 });
 God.Jupiter = new God({
   name: "Jupiter",
-  color: "white"
+  color: "white",
+  building: Building.Temple
 });
 God.Pluton = new God({
   name: "Pluton",
@@ -12,13 +14,20 @@ God.Pluton = new God({
 });
 God.Neptune = new God({
   name: "Neptune",
-  color: "green"
+  color: "green",
+  building: Building.Port
 });
 God.Minerve = new God({
   name: "Minerve",
-  color: "blue"
+  color: "blue",
+  building: Building.Universite
 });
 God.Mars = new God({
   name: "Mars",
-  color: "red"
+  color: "red",
+  building: Building.Fort
+});
+God.Apollon = new God({
+  name: "Apollon",
+  color: "yellow"
 });

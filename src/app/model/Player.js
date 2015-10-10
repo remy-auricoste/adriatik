@@ -15,8 +15,17 @@ Player = Meta.declareClass("Player", {
     }
   },
   build: function(territory) {
-    // TODO impl
-    throw new Error("not implemented");
+    if (!this.god) {
+      throw new Error("cannot build : no god associated");
+    }
+    if (!territory.buildSlots) {
+      throw new Error("cannot build : no slot left");
+    }
+    if (!this.god.building) {
+      throw new Error("cannot build : no building associated with the god");
+    }
+    territory.buildSlots -= 1;
+    territory.buildings.push(this.god.building);
   }
 });
 

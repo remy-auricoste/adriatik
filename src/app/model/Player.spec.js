@@ -28,7 +28,12 @@ describe('Player class', function () {
       // given
       player.god = God.Apollon;
       // then
-      expect(function() {player.build(territory)}).toThrow(new Error("cannot build : Apollon god cannot build"));
+      expect(function() {player.build(territory)}).toThrow(new Error("cannot build : no building associated with the god"));
+    });
+    it("should throw an exception if there is no slot left on the territory", function() {
+      territory.buildSlots = 0;
+      // then
+      expect(function() {player.build(territory)}).toThrow(new Error("cannot build : no slot left"));
     });
   });
 });
