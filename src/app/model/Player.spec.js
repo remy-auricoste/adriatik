@@ -2,16 +2,35 @@
 
 describe('Player class', function () {
   var player;
+  var player2;
   var territory;
   var territory2;
   var emptyTerritory;
   var playerTroup;
+  var player2Troup;
   var playerElite;
 
+  var randomNumber = 0;
+  var randomFactoryMock = {
+    generate: function(number) {
+      return {
+        then: function(fonction) {
+          var result = [];
+          for (var i=0;i<number;i++) {
+            result.push(randomNumber);
+          }
+          return fonction(result);
+        }
+      }
+    }
+  }
+
   beforeEach(function () {
-    player = Player.new();
+    player = new Player({name: "player", gold: 7, randomFactory: randomFactoryMock});
+    player2 = new Player({name: "player2", gold: 7, randomFactory: randomFactoryMock});
     player.god = God.Mars;
     playerTroup = new Unit({type: UnitType.Troup, owner: player});
+    player2Troup = new Unit({type: UnitType.Troup, owner: player2});
     playerElite = new Unit({type: UnitType.Elite, owner: player});
     territory = new Territory({owner: player, buildSlots: 4, type:"earth"});
     territory2 = new Territory({owner: player, buildSlots: 4, type:"earth"});
@@ -299,4 +318,63 @@ describe('Player class', function () {
       expect(emptyTerritory.units.length).toBe(1);
     })
   });
+
+  describe("move method : fights", function() {
+    it("should remove units for both players", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Mars;
+      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerTroup);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.owner = player2;
+      // when
+      var units = [playerTroup, playerTroup];
+      player.move(units, territory, emptyTerritory);
+      // then
+      expect(emptyTerritory.units.length).toBe(2);
+      expect(emptyTerritory.owner).toBe(player2);
+      expect(player.gold).toBe(0);
+      expect(emptyTerritory.getUnits(player).length).toBe(1);
+      expect(emptyTerritory.getUnits(player2).length).toBe(1);
+    });
+    it("should remove 1 unit for player1", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Mars;
+      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerTroup);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.owner = player2;
+      // when
+      var units = [playerTroup, playerTroup];
+      player.move(units, territory, emptyTerritory);
+      // then
+      expect(emptyTerritory.units.length).toBe(4);
+      expect(emptyTerritory.owner).toBe(player2);
+      expect(emptyTerritory.getUnits(player).length).toBe(1);
+      expect(emptyTerritory.getUnits(player2).length).toBe(3);
+    });
+    it("should not remove units and wait for player1 choice and remove 1 unit for player2", function() {
+      // given
+      player.gold = 1;
+      player.god = God.Mars;
+      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerElite);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.placeUnit(player2Troup);
+      emptyTerritory.owner = player2;
+      // when
+      var units = [playerTroup, playerElite];
+      var result = player.move(units, territory, emptyTerritory);
+      // then
+      expect(emptyTerritory.units.length).toBe(3);
+      expect(emptyTerritory.owner).toBe(player2);
+      expect(emptyTerritory.getUnits(player).length).toBe(2);
+      expect(emptyTerritory.getUnits(player2).length).toBe(1);
+    });
+  })
 });

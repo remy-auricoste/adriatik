@@ -55,6 +55,11 @@ var Territory = Meta.declareClass("Territory", {
   },
   isFriendly: function(player) {
     return !this.owner || this.owner === player;
+  },
+  getUnits: function(player) {
+    return this.units.filter(function(unit) {
+      return unit.owner === player;
+    });
   }
 });
 Territory.all = {};

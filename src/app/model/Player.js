@@ -10,6 +10,7 @@ Player = Meta.declareClass("Player", {
   eliteMoveCount: 1,
   god: "God",
   cards: {},
+  randomFactory: {},
   init: function() {
     if (!this.priests) {
       this.priests = 0;
@@ -145,18 +146,68 @@ Player = Meta.declareClass("Player", {
       } else {
         throw new Error("vous n'avez pas les faveurs du dieu correspondant");
       }
-      this.resolveMove(units, fromTerritory, toTerritorry);
+      return this.resolveMove(units, fromTerritory, toTerritorry);
     } catch(err) {
       throw new Error("Impossible de déplacer des unités : "+err.message);
     }
   },
   resolveMove: function(units, fromTerritory, toTerritorry) {
+    var self = this;
     var destIsEmpty = toTerritorry.isEmpty();
     fromTerritory.moveUnits(units, toTerritorry);
     if (destIsEmpty) {
-      toTerritorry.owner = this;
+      toTerritorry.owner = self;
     } else {
-      // TODO fight
+      return self.randomFactory.generate(2).then(function(randoms) {
+        var otherPlayer = toTerritorry.owner;
+        var fightResult = self.resolveFight(toTerritorry, randoms[0], randoms[1]);
+        var getResult = function(player) {
+          var loss = fightResult[player.name];
+          var lossLeft = loss && player.resolveLoss(toTerritorry) ? (loss-1) : loss;
+          return {
+            loss: loss,
+            lossLeft: lossLeft
+          }
+        }
+        var result = {};
+        result[self.name] = getResult(self);
+        result[otherPlayer.name] = getResult(otherPlayer);
+        return result;
+      });
+    }
+  },
+  resolveFight: function(territory, randomValue1, randomValue2) {
+    var owner1 = territory.units[0].owner;
+    var owner2 = territory.units.filter(function(unit) {
+      return unit.owner !== owner1;
+    })[0].owner;
+    var getStrength = function(owner, randomValue) {
+      return territory.getUnits(owner).length + Dice(randomValue);
+    }
+    var strength1 = getStrength(owner1, randomValue1);
+    var strength2 = getStrength(owner2, randomValue2);
+    var loss1 = strength1 <= strength2 ? 1 : 0;
+    var loss2 = strength2 <= strength1 ? 1 : 0;
+    var result = {};
+    result[owner1.name] = loss1;
+    result[owner2.name] = loss2;
+    return result;
+  },
+  resolveLoss: function(territory) {
+    var self = this;
+    var units = territory.getUnits(self);
+    var hasTroup = units.filter(function(unit) {
+      return unit.type === UnitType.Troup;
+    }).length;
+    var hasElite = units.filter(function(unit) {
+      return unit.type === UnitType.Elite;
+    }).length;
+    if (hasElite && hasTroup) {
+      return false;
+    } else {
+      var unit = units[0];
+      territory.removeUnit(unit);
+      return unit;
     }
   },
   possibleRetreats: function(territory) {
@@ -179,10 +230,8 @@ Player = Meta.declareClass("Player", {
       if (this.possibleRetreats(fromTerritory).indexOf(toTerritorry) === -1) {
         throw new Error("cette retraite n'est pas valide. Veuillez choisir un territoire que vous contrôlez ou inoccupé");
       }
-      var units = fromTerritory.units.filter(function(unit) {
-        return unit.owner === self;
-      });
-      this.resolveMove(units, fromTerritory, toTerritorry);
+      var units = fromTerritory.getUnits(self);
+      return this.resolveMove(units, fromTerritory, toTerritorry);
     } catch(err) {
       throw new Error("Impossible de retraiter : "+err.message);
     }
