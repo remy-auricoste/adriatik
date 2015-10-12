@@ -3,13 +3,15 @@ function randomFactory($http, qPlus) {
   'use strict';
   return {
     generate: function(number) {
-      return qPlus.fcall(function() {
+      var defer = qPlus.defer();
+      window.setTimeout(function() {
         var result = [];
         for (var i=0;i<number;i++) {
           result.push(Math.random());
         }
-        return result;
-      });
+        defer.resolve(result);
+      }, 1000);
+      return defer.promise;
     },
     shuffle: function(array) {
       return this.generate(array.length).then(function(randoms) {
