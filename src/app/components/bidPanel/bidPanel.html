@@ -3,4 +3,6 @@
        class="{{god.name}}"
        style="background-color: {{god.color}}"
     >{{god.name}} {{$index < game.players.length ? '' : '(hidden)'}}</div>
+  <div style="margin-bottom: 20px"></div>
+  <div ng-repeat="player in game.bidPlayers">{{player.name}}</div>
 </div>

@@ -1,5 +1,5 @@
 /** @ngInject */
-function game(randomFactory) {
+function game(randomFactory, qPlus) {
     'use strict';
 
         return {
@@ -9,6 +9,7 @@ function game(randomFactory) {
             scope: {
             },
             link: function(scope, elements, attr) {
+              scope.ready = false;
               var game = new Game({
                 players: [
                   Player.new("Remy", "red"),
@@ -17,10 +18,13 @@ function game(randomFactory) {
                   Player.new("Charles", "black")
                 ],
                 gods: God.all,
-                randomFactory: randomFactory
+                randomFactory: randomFactory,
+                q: qPlus
               });
-              game.startTurn();
-              scope.game = game;
+              game.startTurn().then(function() {
+                scope.ready = true;
+                scope.game = game;
+              });
             }
         };
 }
