@@ -19,7 +19,7 @@ function game(randomFactory) {
                 gods: God.all,
                 randomFactory: randomFactory
               });
-              game.start();
+              game.startTurn();
               scope.game = game;
             }
         };
