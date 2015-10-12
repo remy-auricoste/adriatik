@@ -7,16 +7,9 @@ function bidPanel() {
             templateUrl: "app/components/bidPanel/bidPanel.html",
             replace: true,
             scope: {
+              game: "="
             },
             link: function(scope, elements, attr) {
-              // TODO pass model
-              scope.gods = [
-                God.Jupiter,
-                God.Minerve,
-                God.Mars,
-                God.Neptune,
-                God.Pluton
-              ];
             }
         };
 }

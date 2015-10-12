@@ -1,8 +1,13 @@
 <div class="player-panel">
   <div class="names">
-    <div class="player-name" ng-repeat="player in players" style="background-color: {{player.color}}">{{player.name}}</div>
+    <div class="player-name"
+         ng-repeat="player in players"
+         style="background-color: {{player.color}}"
+         ng-click="setPlayer(player)"
+      >{{player.name}}</div>
   </div>
   <div>
+    <div style="background-color: {{currentPlayer.color}}">current player : {{currentPlayer.name}}</div>
     <div>pieces: {{currentPlayer.gold}}</div>
     <div>pretres : {{currentPlayer.priests}}</div>
     <div>philosophes : {{currentPlayer.thinkers}}</div>

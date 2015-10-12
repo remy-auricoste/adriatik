@@ -9,6 +9,15 @@ function game() {
             scope: {
             },
             link: function(scope, elements, attr) {
+              var game = new Game({
+                players: [
+                  Player.new("Remy", "red"),
+                  Player.new("Alain", "blue"),
+                  Player.new("Alan", "green"),
+                  Player.new("Charles", "black")
+                ]
+              });
+              scope.game = game;
             }
         };
 }
