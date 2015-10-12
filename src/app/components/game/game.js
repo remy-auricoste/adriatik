@@ -15,6 +15,10 @@ function game() {
                   Player.new("Alain", "blue"),
                   Player.new("Alan", "green"),
                   Player.new("Charles", "black")
+                ],
+                gods: [
+                  God.Mars,
+                  God.Neptune
                 ]
               });
               scope.game = game;
