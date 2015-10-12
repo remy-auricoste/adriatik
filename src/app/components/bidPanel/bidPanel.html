@@ -1,5 +1,5 @@
 <div class="bidPanel">
-  <div ng-repeat="god in game.gods"
+  <div ng-repeat="god in game.currentGods"
        class="{{god.name}}"
        style="background-color: {{god.color}}"
     >{{god.name}} {{$index < game.players.length ? '' : '(hidden)'}}</div>
