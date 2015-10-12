@@ -14,16 +14,18 @@
       </path>
     </g>
     <image ng-if="box"
-           ng-attr-x="{{box.left + (box.width-20) / 2}}"
-           ng-attr-y="{{box.top + (box.height-20) / 2}}"
+           ng-attr-x="{{box.x + (box.width-20) / 2}}"
+           ng-attr-y="{{box.y + (box.height-20) / 2}}"
            width="20"
            height="20"
            style="pointer: none;"
-           xlink:href="/favicon.ico"/>
+           xlink:href="/favicon.ico"
+           class="image"
+      />
     <rect ng-attr-width="{{box.width}}"
           ng-attr-height="{{box.height}}"
-          ng-attr-x="{{box.left}}"
-          ng-attr-y="{{box.top}}"
+          ng-attr-x="{{box.x}}"
+          ng-attr-y="{{box.y}}"
           ng-if="box"
           fill="none"
           stroke="red"
