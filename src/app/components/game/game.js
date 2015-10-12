@@ -1,5 +1,5 @@
 /** @ngInject */
-function game() {
+function game(randomFactory) {
     'use strict';
 
         return {
@@ -16,11 +16,10 @@ function game() {
                   Player.new("Alan", "green"),
                   Player.new("Charles", "black")
                 ],
-                gods: [
-                  God.Mars,
-                  God.Neptune
-                ]
+                gods: God.all,
+                randomFactory: randomFactory
               });
+              game.start();
               scope.game = game;
             }
         };

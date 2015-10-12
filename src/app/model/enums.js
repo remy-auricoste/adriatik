@@ -62,3 +62,11 @@ God.Apollon = new God({
   name: "Apollon",
   color: "yellow"
 });
+God.all = [
+  God.Jupiter
+  , God.Pluton
+  , God.Neptune
+  , God.Minerve
+  , God.Mars
+  , God.Apollon
+]

@@ -2,5 +2,5 @@
   <div ng-repeat="god in game.gods"
        class="{{god.name}}"
        style="background-color: {{god.color}}"
-    >{{god.name}}</div>
+    >{{god.name}} {{$index < game.players.length ? '' : '(hidden)'}}</div>
 </div>
