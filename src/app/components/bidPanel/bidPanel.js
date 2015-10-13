@@ -21,6 +21,11 @@ function bidPanel() {
                 console.log("bidding", scope.game.currentPlayer);
                 scope.game.endPlayerTurn();
               }
+              scope.noBidPlayers = function() {
+                return scope.game.players.filter(function(player) {
+                  return !player.bid;
+                })
+              }
             }
         };
 }
