@@ -45,6 +45,14 @@ function france($http) {
               scope.onClick = function(path) {
                 path.color = colors[randomInt(0, colors.length - 1)];
               }
+              var droppedPath;
+              scope.onPress = function(path) {
+                droppedPath = path;
+              }
+              scope.onRelease = function(path) {
+                path.color = droppedPath.color;
+                delete droppedPath.color;
+              }
             }
         };
 }
