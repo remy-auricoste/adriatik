@@ -10,6 +10,7 @@ Player = Meta.declareClass("Player", {
   eliteMoveCount: 1,
   god: "God",
   cards: {},
+  bid: {},
   randomFactory: {},
   init: function() {
     if (!this.priests) {
@@ -110,7 +111,17 @@ Player = Meta.declareClass("Player", {
       if (number > this.gold + this.getPriests()) {
         throw new Error("pas assez d'or");
       }
+      if (god.bid && number <= god.bid.gold) {
+        throw new Error("l'enchère n'est pas assez importante");
+      }
+      if (this.bid && god === this.bid.god) {
+        throw new Error("impossible de surenchérir sur le même dieu");
+      }
+      if (this.bid) {
+        this.bid.god.bid = null;
+      }
       this.bid = new Bid({god: god, gold: number});
+      god.bid = this.bid;
     } catch(err) {
       throw new Error("Impossible de placer cette enchère : "+err.message);
     }

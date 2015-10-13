@@ -6,5 +6,6 @@ var God = Meta.declareClass("God", {
   unitPrice: "fct",
   card: "GodCard",
   cardPrice: "fct",
-  index: 1
+  index: 1,
+  bid: {}
 });

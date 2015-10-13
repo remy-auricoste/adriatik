@@ -36,5 +36,20 @@ var Game = Meta.declareClass("Game", {
       playersPromise = self.randomFactory.shuffle(self.bidPlayers);
     }
     return self.q.all([godPromise, playersPromise]);
+  },
+  endPlayerTurn: function() {
+    var self = this;
+    var index = Meta.findIndex(self.players, function(player) {
+      return player === self.currentPlayer;
+    });
+    if (index < 0) {
+      throw new Error("could not find current player");
+    }
+    index++;
+    if (index >= self.players.length) {
+      // TODO change phase
+    } else {
+      self.currentPlayer = self.players[index];
+    }
   }
 });

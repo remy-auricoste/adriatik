@@ -36,6 +36,9 @@ describe('Player class', function () {
     territory2 = new Territory({owner: player, buildSlots: 4, type:"earth"});
     emptyTerritory = new Territory({buildSlots: 4, type:"earth"});
     emptyTerritory.nextTo(territory);
+    God.all.map(function(god) {
+      god.bid = null;
+    })
   });
 
   describe("build method", function() {
@@ -202,6 +205,13 @@ describe('Player class', function () {
       player.gold = 3;
       // then
       expect(function() {player.placeBid(God.Mars, 4);}).toThrow(new Error("Impossible de placer cette enchère : pas assez d'or"));
+    });
+    it("should throw an exception because bidding twice on the same god", function() {
+      // given
+      player.gold = 3;
+      // then
+      player.placeBid(God.Mars, 2);
+      expect(function() {player.placeBid(God.Mars, 3);}).toThrow(new Error("Impossible de placer cette enchère : impossible de surenchérir sur le même dieu"));
     });
   });
 

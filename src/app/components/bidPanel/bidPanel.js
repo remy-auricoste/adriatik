@@ -10,6 +10,17 @@ function bidPanel() {
               game: "="
             },
             link: function(scope, elements, attr) {
+              scope.getPlayer = function(god) {
+                return scope.game.players.filter(function(player) {
+                  return player.bid && player.bid.god === god;
+                })[0];
+              }
+              scope.onGodClick = function(god) {
+                // TODO UI to choose gold amount
+                scope.game.currentPlayer.placeBid(god, 5);
+                console.log("bidding", scope.game.currentPlayer);
+                scope.game.endPlayerTurn();
+              }
             }
         };
 }
