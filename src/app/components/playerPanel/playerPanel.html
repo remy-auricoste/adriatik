@@ -1,7 +1,7 @@
 <div class="player-panel">
   <div class="names">
     <div class="player-name"
-         ng-repeat="player in players"
+         ng-repeat="player in game.players"
          style="background-color: {{player.color}}"
          ng-click="setPlayer(player)"
       >{{player.name}}</div>

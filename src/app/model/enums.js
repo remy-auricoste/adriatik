@@ -70,3 +70,8 @@ God.all = [
   , God.Mars
   , God.Apollon
 ]
+
+var Phases = {
+  bidding: "Enchères",
+  actions: "Actions"
+}

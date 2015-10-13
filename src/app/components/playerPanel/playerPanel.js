@@ -6,11 +6,9 @@ function playerPanel($window) {
             templateUrl: "app/components/playerPanel/playerPanel.html",
             replace: true,
             scope: {
-              currentPlayer: "=",
-              players: "="
+              game: "="
             },
             link: function(scope) {
-              console.log(scope.currentPlayer);
               scope.setPlayer = function(player) {
                 scope.currentPlayer = player;
               }

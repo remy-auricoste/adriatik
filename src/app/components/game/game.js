@@ -21,9 +21,9 @@ function game(randomFactory, qPlus) {
                 randomFactory: randomFactory,
                 q: qPlus
               });
+              scope.game = game;
               game.startTurn().then(function() {
                 scope.ready = true;
-                scope.game = game;
               });
             }
         };
