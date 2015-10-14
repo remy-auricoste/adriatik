@@ -36,12 +36,16 @@ function france($http) {
               scope.onClick = function(path) {
                 var box = Raphael.pathBBox(path.d);
                 scope.troups.push({
-                  box: box,
                   unit: new Unit({
                     type: UnitType.Troup,
                     owner: scope.game.currentPlayer
-                  })
+                  }),
+                  left: Math.round(box.x + (box.width-20) / 2),
+                  top: Math.round(box.y + (box.height-20) / 2)
                 });
+              }
+              scope.toggleTroup = function(troup) {
+                troup.selected = !troup.selected;
               }
 
 //              var droppedPath;

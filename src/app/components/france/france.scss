@@ -9,5 +9,9 @@
   fill: grey !important;
 }
 .france .image {
-  pointer-events: none;
+  cursor: pointer;
+  position: absolute;
+}
+.france .image.selected {
+  border: solid 1px white;
 }

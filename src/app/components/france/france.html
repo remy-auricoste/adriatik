@@ -15,32 +15,14 @@
         >
       </path>
     </g>
-    <image ng-repeat="troup in troups"
-          ng-attr-x="{{troup.box.x + (troup.box.width-20) / 2}}"
-          ng-attr-y="{{troup.box.y + (troup.box.height-20) / 2}}"
+    <img ng-repeat="troup in troups"
           width="20"
           height="20"
-          style="pointer: none;"
-          xlink:href="/favicon.ico"
+          src="/favicon.ico"
           class="image"
-      ></image>
-    <image ng-if="box"
-           ng-attr-x="{{box.x + (box.width-20) / 2}}"
-           ng-attr-y="{{box.y + (box.height-20) / 2}}"
-           width="20"
-           height="20"
-           style="pointer: none;"
-           xlink:href="/favicon.ico"
-           class="image"
-      ></image>
-    <rect ng-attr-width="{{box.width}}"
-          ng-attr-height="{{box.height}}"
-          ng-attr-x="{{box.x}}"
-          ng-attr-y="{{box.y}}"
-          ng-if="box"
-          fill="none"
-          stroke="red"
-          stroke-width="1"
-      ></rect>
+          ng-class="{selected: troup.selected}"
+          style="left: {{troup.left}}px; top: {{troup.top}}px;"
+          ng-click="toggleTroup(troup)"
+      />
   </svg>
 </div>
