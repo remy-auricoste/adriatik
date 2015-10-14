@@ -122,9 +122,6 @@ Player = Meta.declareClass("Player", {
           throw new Error("impossible de surenchérir sur le même dieu");
         }
       }
-      if (this.bid) {
-        this.bid.god.bid = null;
-      }
       this.bid = new Bid({god: god, gold: number});
       god.bid = this.bid;
     } catch(err) {
