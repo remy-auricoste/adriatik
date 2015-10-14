@@ -108,14 +108,19 @@ Player = Meta.declareClass("Player", {
   },
   placeBid: function(god, number) {
     try {
-      if (number > this.gold + this.getPriests()) {
-        throw new Error("pas assez d'or");
-      }
-      if (god.bid && number <= god.bid.gold) {
-        throw new Error("l'enchère n'est pas assez importante");
-      }
-      if (this.bid && god === this.bid.god) {
-        throw new Error("impossible de surenchérir sur le même dieu");
+      if (god === God.Apollon) {
+        number = 0;
+        god.playerNames.push(this.name);
+      } else {
+        if (number > this.gold + this.getPriests()) {
+          throw new Error("pas assez d'or");
+        }
+        if (god.bid && number <= god.bid.gold) {
+          throw new Error("l'enchère n'est pas assez importante");
+        }
+        if (this.bid && god === this.bid.god) {
+          throw new Error("impossible de surenchérir sur le même dieu");
+        }
       }
       if (this.bid) {
         this.bid.god.bid = null;

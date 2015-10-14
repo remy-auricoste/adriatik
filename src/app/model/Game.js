@@ -51,14 +51,20 @@ var Game = Meta.declareClass("Game", {
         self.currentPlayer = freePlayers[0];
       } else {
         self.phase = Phases.actions;
+        var apollonPlayers = God.Apollon.playerNames.map(function(name) {
+          return Meta.find(self.players, function(player) {
+            return player.name === name;
+          });
+        });
         self.players = self.currentGods.filter(function(god) {
-          return god.bid;
+          return god.bid && god !== God.Apollon;
         }).map(function(god) {
           return self.getPlayer(god);
         });
         self.players.map(function(player) {
           player.payBid();
         });
+        self.players = self.players.concat(apollonPlayers);
         self.currentPlayer = self.players[0];
       }
     } else if (self.phase === Phases.actions) {
@@ -77,6 +83,7 @@ var Game = Meta.declareClass("Game", {
           player.bid = null;
           player.god = null;
         });
+        God.Apollon.playerNames = [];
         return self.startTurn();
       } else {
         self.currentPlayer = self.players[index];
@@ -93,6 +100,10 @@ var Game = Meta.declareClass("Game", {
     return biddingPlayers[0];
   },
   placeBid: function(player, god, amount) {
+    if (god === God.Apollon) {
+      player.placeBid(god, 0);
+      return this.endPlayerTurn();
+    }
     var removedPlayer = this.getPlayer(god);
     player.placeBid(god, amount);
     if (removedPlayer) {

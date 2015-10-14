@@ -8,7 +8,8 @@
        ng-click="onGodClick(god)"
     >
     <div>{{god.name}}</div>
-    <div>joueur : {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}</div>
+    <div ng-show="god !== God.Apollon">joueur : {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}</div>
+    <div ng-show="god === God.Apollon">joueurs : {{god.playerNames.join(', ')}}</div>
   </div>
   <div ng-show="god">
     <div>Valeur d'enchère</div>

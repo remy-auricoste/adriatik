@@ -11,6 +11,10 @@ function bidPanel() {
             },
             link: function(scope, elements, attr) {
               scope.onGodClick = function(god) {
+                if (god === God.Apollon) {
+                  scope.game.placeBid(scope.game.currentPlayer, god, 0);
+                  return;
+                }
                 scope.god = god;
                 scope.customBidValue = god.bid ? (god.bid.gold+1) : 1;
               }
@@ -44,6 +48,7 @@ function bidPanel() {
                 scope.game.endPlayerTurn();
               }
               scope.Phases = Phases;
+              scope.God = God;
             }
         };
 }
