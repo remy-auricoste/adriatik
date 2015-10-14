@@ -24,3 +24,13 @@
   cursor: pointer;
   border: black solid 1px;
 }
+.bidPanel .bid-value.custom {
+  width: 6em;
+  padding: 0 0.5em;
+}
+.bidPanel .bid-value.custom input[type='text'] {
+  width: 2em;
+}
+.bidPanel .bid-value.custom input {
+  margin: 0;
+}

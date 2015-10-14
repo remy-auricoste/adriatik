@@ -10,9 +10,13 @@
     <div>{{god.name}}</div>
     <div>joueur : {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}</div>
   </div>
-  <div ng-if="god">
+  <div ng-show="god">
     <div>Valeur d'enchère</div>
     <div ng-repeat="value in getBidValues()" ng-click="placeBid(value)" class="bid-value">{{value}}</div>
+    <div class="bid-value custom">
+      <input type="text" ng-model="customBidValue" />
+      <input type="button" value="OK" ng-click="placeCustomBid()"/>
+    </div>
   </div>
   <div class="separator"></div>
   <div>Joueur courant : {{game.currentPlayer.name}}</div>

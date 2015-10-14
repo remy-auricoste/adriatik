@@ -12,8 +12,12 @@ function bidPanel() {
             link: function(scope, elements, attr) {
               scope.onGodClick = function(god) {
                 scope.god = god;
+                scope.customBidValue = god.bid ? (god.bid.gold+1) : 1;
               }
               scope.getBidValues = function() {
+                if (!scope.god) {
+                  return [];
+                }
                 var startValue = scope.god.bid ? scope.god.bid.gold+1 : 1;
                 var result = [];
                 for (var i=0;i<5;i++) {
@@ -31,6 +35,10 @@ function bidPanel() {
                 console.log("removed player", removedPlayer);
                 console.log("bidding", scope.game.currentPlayer);
                 scope.god = null;
+              }
+              scope.placeCustomBid = function() {
+                var amount = parseInt(scope.customBidValue);
+                scope.placeBid(amount);
               }
               scope.endTurn = function() {
                 scope.game.endPlayerTurn();
