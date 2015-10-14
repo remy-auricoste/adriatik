@@ -12,7 +12,7 @@
   </div>
   <div ng-if="god">
     <div>Valeur d'enchère</div>
-    <div ng-repeat="value in getBidValues()" ng-click="placeBid(value)">{{value}}</div>
+    <div ng-repeat="value in getBidValues()" ng-click="placeBid(value)" class="bid-value">{{value}}</div>
   </div>
   <div class="separator"></div>
   <div>Joueur courant : {{game.currentPlayer.name}}</div>
