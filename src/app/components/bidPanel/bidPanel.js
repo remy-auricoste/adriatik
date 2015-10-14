@@ -11,6 +11,9 @@ function bidPanel() {
             },
             link: function(scope, elements, attr) {
               scope.onGodClick = function(god) {
+                if (scope.game.phase !== Phases.bidding) {
+                  return;
+                }
                 if (god === God.Apollon) {
                   scope.game.placeBid(scope.game.currentPlayer, god, 0);
                   return;
