@@ -15,6 +15,15 @@
         >
       </path>
     </g>
+    <image ng-repeat="troup in troups"
+          ng-attr-x="{{troup.box.x + (troup.box.width-20) / 2}}"
+          ng-attr-y="{{troup.box.y + (troup.box.height-20) / 2}}"
+          width="20"
+          height="20"
+          style="pointer: none;"
+          xlink:href="/favicon.ico"
+          class="image"
+      ></image>
     <image ng-if="box"
            ng-attr-x="{{box.x + (box.width-20) / 2}}"
            ng-attr-y="{{box.y + (box.height-20) / 2}}"

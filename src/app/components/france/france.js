@@ -7,6 +7,7 @@ function france($http) {
             templateUrl: "app/components/france/france.html",
             replace: true,
             scope: {
+              game: "="
             },
             link: function(scope) {
               scope.paths = [];
@@ -24,35 +25,33 @@ function france($http) {
                 scope.paths = paths;
               });
 
-              var colors = ["red", "blue", "green", "white"];
-              var randomFloat = function(min, max) {
-                return Math.random() * (max - min) + min;
-              }
-              var randomInt = function(min, max) {
-                return Math.floor(randomFloat(min, max+1));
-              }
-
               scope.onMouseOver = function(event, path) {
-                var element = event.srcElement;
-                var box = Raphael.pathBBox(path.d);
-                // it is buggy : cf http://stackoverflow.com/questions/16377186/how-to-get-bounding-box-or-rect-getbbox-for-svg-path-in-jquery
-                scope.box = box;
                 path.over = true;
               }
               scope.onMouseOut = function(path) {
                 path.over = false;
               }
+
+              scope.troups = [];
               scope.onClick = function(path) {
-                path.color = colors[randomInt(0, colors.length - 1)];
+                var box = Raphael.pathBBox(path.d);
+                scope.troups.push({
+                  box: box,
+                  unit: new Unit({
+                    type: UnitType.Troup,
+                    owner: scope.game.currentPlayer
+                  })
+                });
               }
-              var droppedPath;
-              scope.onPress = function(path) {
-                droppedPath = path;
-              }
-              scope.onRelease = function(path) {
-                path.color = droppedPath.color;
-                delete droppedPath.color;
-              }
+
+//              var droppedPath;
+//              scope.onPress = function(path) {
+//                droppedPath = path;
+//              }
+//              scope.onRelease = function(path) {
+//                path.color = droppedPath.color;
+//                delete droppedPath.color;
+//              }
             }
         };
 }
