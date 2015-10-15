@@ -13,11 +13,10 @@ function france($http) {
               scope.unitSize = 20;
 
               scope.paths = [];
-              $http.get("/app/components/france/departements.txt").then(function(res) {
-                var paths = res.data.split("d=\"").filter(function(line) {
-                  return line.length > 3;
-                }).map(function(line) {
-                  var pathValue = line.split("\"")[0];
+              $http.get("/app/components/france/departements.json").then(function(res) {
+                var paths = res.data;
+                paths = paths.map(function(path) {
+                  var pathValue = path.d;
                   return {
                     d: pathValue,
                     over: false,
@@ -32,6 +31,11 @@ function france($http) {
                     }
                   }
                 });
+//                console.log(JSON.stringify(paths.map(function(path) {
+//                  return {
+//                    d: path.d
+//                  }
+//                })));
                 scope.paths = paths;
               });
 
