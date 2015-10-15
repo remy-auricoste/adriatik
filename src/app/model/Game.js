@@ -104,10 +104,10 @@ var Game = Meta.declareClass("Game", {
       }).map(function(god) {
         return self.getPlayer(god);
       });
+      self.players = self.players.concat(apollonPlayers);
       self.players.map(function(player) {
         player.payBid();
       });
-      self.players = self.players.concat(apollonPlayers);
       self.currentPlayer = self.players[0];
     } else if (self.phase === Phases.actions) {
       self.currentPlayer = self.players[0];

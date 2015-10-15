@@ -132,6 +132,7 @@ Player = Meta.declareClass("Player", {
     var goldLeft = this.bid.gold - this.getPriests();
     var payment = Math.max(1, goldLeft);
     this.spend(payment);
+    this.god = this.bid.god;
     return payment;
   },
   move: function(units, fromTerritory, toTerritorry) {
