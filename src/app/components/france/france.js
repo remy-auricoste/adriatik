@@ -10,6 +10,8 @@ function france($http) {
               game: "="
             },
             link: function(scope) {
+              scope.unitSize = 20;
+
               scope.paths = [];
               $http.get("/app/components/france/departements.txt").then(function(res) {
                 var paths = res.data.split("d=\"").filter(function(line) {
@@ -19,7 +21,15 @@ function france($http) {
                   return {
                     d: pathValue,
                     over: false,
-                    color: "lightgrey"
+                    color: "lightgrey",
+                    box: Raphael.pathBBox(pathValue),
+                    units: [],
+                    left: function(index) {
+                      return Math.round(this.box.x + (this.box.width-scope.unitSize) / 2);
+                    },
+                    top: function(index) {
+                      return Math.round(this.box.y + (this.box.height-scope.unitSize) / 2);
+                    }
                   }
                 });
                 scope.paths = paths;
@@ -32,20 +42,26 @@ function france($http) {
                 path.over = false;
               }
 
-              scope.troups = [];
               scope.onClick = function(path) {
-                var box = Raphael.pathBBox(path.d);
-                scope.troups.push({
+                path.units.push({
                   unit: new Unit({
                     type: UnitType.Troup,
                     owner: scope.game.currentPlayer
                   }),
-                  left: Math.round(box.x + (box.width-20) / 2),
-                  top: Math.round(box.y + (box.height-20) / 2)
+                  selected: false
                 });
               }
               scope.toggleTroup = function(troup) {
                 troup.selected = !troup.selected;
+              }
+              scope.troups = function() {
+                return Meta.flatten(scope.paths.map(function(path) {
+                  return path.units.map(function(troup, index) {
+                    troup.left = path.left(index);
+                    troup.top = path.top(index);
+                    return troup;
+                  });
+                }));
               }
 
 //              var droppedPath;
