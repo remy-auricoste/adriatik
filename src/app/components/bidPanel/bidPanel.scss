@@ -1,3 +1,12 @@
+.coin {
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  padding-top: 0.3em;
+  background-color: yellow;
+  border: black solid 1px;
+  border-radius: 3em;
+}
 .bidPanel {
   position: absolute;
   left: 0;
@@ -16,14 +25,7 @@
 }
 .bidPanel .bid-value {
   display: inline-block;
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  padding-top: 0.3em;
-  background-color: yellow;
   cursor: pointer;
-  border: black solid 1px;
-  border-radius: 3em;
 }
 .bidPanel .bid-value.custom {
   width: 6em;

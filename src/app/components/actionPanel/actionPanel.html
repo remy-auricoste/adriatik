@@ -1,0 +1,9 @@
+<div class="action-panel">
+  <item-price price="2" icon-size="{{iconSize}}" ng-show="god().building"></item-price>
+  <div>
+    <item-price ng-repeat="price in god().unitPrice()" price="{{price}}" icon-size="{{iconSize}}"></item-price>
+  </div>
+  <div>
+    <item-price ng-repeat="price in god().cardPrice()" price="{{price}}" icon-size="{{iconSize}}"></item-price>
+  </div>
+</div>
