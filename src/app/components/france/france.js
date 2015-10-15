@@ -63,15 +63,6 @@ function france($http) {
                   });
                 }));
               }
-
-//              var droppedPath;
-//              scope.onPress = function(path) {
-//                droppedPath = path;
-//              }
-//              scope.onRelease = function(path) {
-//                path.color = droppedPath.color;
-//                delete droppedPath.color;
-//              }
             }
         };
 }
