@@ -1,14 +1,14 @@
 Building.Fort = new Building({name: "fort"});
 Building.Port = new Building({name: "port"});
-Building.Universite = new Building({name: "université"});
+Building.Universite = new Building({name: "university"});
 Building.Temple = new Building({name: "temple"});
 
 UnitType.Troup = new UnitType({name: "troup", territoryType: "earth"});
 UnitType.Ship = new UnitType({name: "ship", territoryType: "sea"});
 UnitType.Elite = new UnitType({name: "elite", territoryType: "earth"});
 
-GodCard.Priest = new GodCard({name: "prêtre"});
-GodCard.Thinker = new GodCard({name: "philosophe"});
+GodCard.Priest = new GodCard({name: "priest"});
+GodCard.Thinker = new GodCard({name: "thinker"});
 
 God.Jupiter = new God({
   name: "Jupiter",

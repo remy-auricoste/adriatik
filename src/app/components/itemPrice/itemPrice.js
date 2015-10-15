@@ -1,5 +1,5 @@
 /** @ngInject */
-function itemPrice($http) {
+function itemPrice() {
     'use strict';
 
         return {
@@ -8,6 +8,7 @@ function itemPrice($http) {
             replace: true,
             scope: {
               iconSize: "@",
+              iconName: "@",
               price: "@"
             },
             link: function(scope) {
