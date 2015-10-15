@@ -3,9 +3,9 @@ Building.Port = new Building({name: "port"});
 Building.Universite = new Building({name: "université"});
 Building.Temple = new Building({name: "temple"});
 
-UnitType.Troup = new UnitType({type: "earth", territoryType: "earth"});
-UnitType.Ship = new UnitType({type: "sea", territoryType: "sea"});
-UnitType.Elite = new UnitType({type: "elite", territoryType: "earth"});
+UnitType.Troup = new UnitType({name: "troup", territoryType: "earth"});
+UnitType.Ship = new UnitType({name: "ship", territoryType: "sea"});
+UnitType.Elite = new UnitType({name: "elite", territoryType: "earth"});
 
 GodCard.Priest = new GodCard({name: "prêtre"});
 GodCard.Thinker = new GodCard({name: "philosophe"});
