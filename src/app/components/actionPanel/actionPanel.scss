@@ -10,3 +10,9 @@
   height: 100px;
   border: solid 1px black;
 }
+.action-panel > * {
+  cursor: pointer;
+}
+.action-panel .selected {
+  border: solid 3px blue;
+}
