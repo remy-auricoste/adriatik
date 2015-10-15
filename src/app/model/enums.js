@@ -15,19 +15,19 @@ God.Jupiter = new God({
   color: "white",
   building: Building.Temple,
   card: GodCard.Priest,
-  cardPrice: function(index) {
-    return [0, 4][index];
+  cardPrice: function() {
+    return [0, 4];
   }
 });
 God.Pluton = new God({
   name: "Pluton",
   color: "black",
   unit: UnitType.Elite,
-  unitPrice: function(index) {
+  unitPrice: function() {
     if (this.index === 0) {
-      return [0, 2][index];
+      return [0, 2];
     } else {
-      return [2][index];
+      return [2];
     }
   }
 });
@@ -36,8 +36,8 @@ God.Neptune = new God({
   color: "green",
   building: Building.Port,
   unit: UnitType.Ship,
-  unitPrice: function(index) {
-    return [0, 1, 2, 3][index];
+  unitPrice: function() {
+    return [0, 1, 2, 3];
   }
 });
 God.Minerve = new God({
@@ -45,8 +45,8 @@ God.Minerve = new God({
   color: "blue",
   building: Building.Universite,
   card: GodCard.Thinker,
-  cardPrice: function(index) {
-    return [0, 4][index];
+  cardPrice: function() {
+    return [0, 4];
   }
 });
 God.Mars = new God({
@@ -54,8 +54,8 @@ God.Mars = new God({
   color: "red",
   building: Building.Fort,
   unit: UnitType.Troup,
-  unitPrice: function(index) {
-    return [0, 2, 3, 4][index];
+  unitPrice: function() {
+    return [0, 2, 3, 4];
   }
 });
 God.Apollon = new God({

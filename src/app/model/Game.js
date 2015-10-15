@@ -33,6 +33,9 @@ var Game = Meta.declareClass("Game", {
       shuffled = shuffled.slice(0, self.players.length - 1);
       shuffled.push(God.Apollon);
       self.currentGods = shuffled;
+      shuffled.map(function(god, index) {
+        god.index = index;
+      })
     });
     var playersPromise = self.q.empty();
     if (self.turn === 1) {
