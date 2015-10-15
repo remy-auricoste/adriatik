@@ -51,7 +51,7 @@ Player = Meta.declareClass("Player", {
   buyUnit: function(territory) {
     try {
       this.requireGod();
-      if (!this.god.unit) {
+      if (!this.god.unitType) {
         throw new Error("ce dieu ne peut pas vous fournir d'unité");
       }
       var price = this.god.unitPrice()[this.unitBuyCount];
@@ -59,7 +59,7 @@ Player = Meta.declareClass("Player", {
         throw new Error("il n'y a plus d'unité à acheter");
       }
       this.spend(price);
-      territory.placeUnit(new Unit({type: this.god.unit, owner: this}));
+      territory.placeUnit(new Unit({type: this.god.unitType, owner: this}));
       this.unitBuyCount++;
     } catch(err) {
       throw new Error("Impossible d'acheter une unité : "+err.message);

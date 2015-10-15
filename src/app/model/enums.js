@@ -22,7 +22,7 @@ God.Jupiter = new God({
 God.Pluton = new God({
   name: "Pluton",
   color: "black",
-  unit: UnitType.Elite,
+  unitType: UnitType.Elite,
   unitPrice: function() {
     if (this.index === 0) {
       return [0, 2];
@@ -35,7 +35,7 @@ God.Neptune = new God({
   name: "Neptune",
   color: "green",
   building: Building.Port,
-  unit: UnitType.Ship,
+  unitType: UnitType.Ship,
   unitPrice: function() {
     return [0, 1, 2, 3];
   }
@@ -53,7 +53,7 @@ God.Mars = new God({
   name: "Mars",
   color: "red",
   building: Building.Fort,
-  unit: UnitType.Troup,
+  unitType: UnitType.Troup,
   unitPrice: function() {
     return [0, 2, 3, 4];
   }

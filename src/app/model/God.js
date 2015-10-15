@@ -2,7 +2,7 @@ var God = Meta.declareClass("God", {
   name: "",
   color: "",
   building: "Building",
-  unit: "Unit",
+  unitType: "UnitType",
   unitPrice: "fct",
   card: "GodCard",
   cardPrice: "fct",
