@@ -46,28 +46,18 @@ function france($http, $rootScope) {
                 if (!$rootScope.mode) {
                   return;
                 }
-                switch ($rootScope.mode.name) {
-                  case CommandType.Build.name:
-                    scope.game.currentPlayer.build(path.territory);
-                    break;
-                  case CommandType.BuyUnit.name:
-                    scope.game.currentPlayer.buy
-                  default:
-                    throw new Error("unsupported command : "+JSON.stringify($rootScope.mode));
-                }
-                // TODO handle other commands
-//                path.units.push({
-//                  unit: new Unit({
-//                    type: UnitType.Troup,
-//                    owner: scope.game.currentPlayer
-//                  }),
-//                  selected: false
-//                });
+                var command = new Command({
+                  type: $rootScope.mode,
+                  player: scope.game.currentPlayer,
+                  args: [path.territory]
+                });
+                scope.game.receiveCommand(command);
               }
               scope.toggleTroup = function(troup) {
                 troup.selected = !troup.selected;
               }
               scope.troups = function() {
+                // TODO use model to display troups
                 return Meta.flatten(scope.paths.map(function(path) {
                   return path.units.map(function(troup, index) {
                     troup.left = path.left(index);

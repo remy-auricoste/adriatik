@@ -123,5 +123,31 @@ var Game = Meta.declareClass("Game", {
       God.Apollon.playerNames = [];
       return self.startTurn();
     }
+  },
+  receiveCommand: function(command) {
+    if (!command.player || command.player !== this.currentPlayer) {
+      throw new Error("received command not from currentPlayer"+JSON.stringify(command));
+    }
+    var commandNames = CommandType.all.map(function(commandType) {
+      return commandType.name;
+    });
+    if (commandNames.indexOf(command.type.name) === -1) {
+      throw new Error("unknown command type "+command.type.name);
+    }
+    switch(command.type.argCount) {
+      case 1:
+        this.currentPlayer[command.type.methodName](command.args[0]);
+        break;
+      case 2:
+        if (command.type === CommandType.Bid) {
+          this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
+        } else {
+          this.currentPlayer[command.type.methodName](command.args[0], command.args[1]);
+        }
+        break;
+      case 3:
+        this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
+        break;
+    }
   }
 });
