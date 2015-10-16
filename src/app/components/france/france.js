@@ -1,5 +1,5 @@
 /** @ngInject */
-function france($http) {
+function france($http, $rootScope) {
     'use strict';
 
         return {
@@ -18,6 +18,7 @@ function france($http) {
                 paths = paths.map(function(path) {
                   var pathValue = path.d;
                   return {
+                    territory: new Territory(),
                     d: pathValue,
                     over: false,
                     color: "lightgrey",
@@ -31,11 +32,6 @@ function france($http) {
                     }
                   }
                 });
-//                console.log(JSON.stringify(paths.map(function(path) {
-//                  return {
-//                    d: path.d
-//                  }
-//                })));
                 scope.paths = paths;
               });
 
@@ -47,13 +43,26 @@ function france($http) {
               }
 
               scope.onClick = function(path) {
-                path.units.push({
-                  unit: new Unit({
-                    type: UnitType.Troup,
-                    owner: scope.game.currentPlayer
-                  }),
-                  selected: false
-                });
+                if (!$rootScope.mode) {
+                  return;
+                }
+                switch ($rootScope.mode.name) {
+                  case CommandType.Build.name:
+                    scope.game.currentPlayer.build(path.territory);
+                    break;
+                  case CommandType.BuyUnit.name:
+                    scope.game.currentPlayer.buy
+                  default:
+                    throw new Error("unsupported command : "+JSON.stringify($rootScope.mode));
+                }
+                // TODO handle other commands
+//                path.units.push({
+//                  unit: new Unit({
+//                    type: UnitType.Troup,
+//                    owner: scope.game.currentPlayer
+//                  }),
+//                  selected: false
+//                });
               }
               scope.toggleTroup = function(troup) {
                 troup.selected = !troup.selected;

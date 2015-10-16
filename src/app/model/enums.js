@@ -1,3 +1,8 @@
+CommandType.Build = new CommandType({name: "build"});
+CommandType.BuyUnit = new CommandType({name: "buyUnit"});
+CommandType.BuyCard = new CommandType({name: "buyCard"});
+CommandType.Move = new CommandType({name: "move"});
+
 Building.Fort = new Building({name: "fort"});
 Building.Port = new Building({name: "port"});
 Building.Universite = new Building({name: "university"});
