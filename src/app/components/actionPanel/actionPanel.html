@@ -9,7 +9,7 @@
   <div ng-show="god().unitType"
        ng-class="{selected: mode === CommandType.BuyUnit}"
     >
-    <item-price ng-repeat="price in god().unitPrice()"
+    <item-price ng-repeat="price in god().unitPrice().slice(game.currentPlayer.unitBuyCount)"
                 price="{{price}}"
                 icon-size="{{iconSize}}"
                 icon-name="{{god().unitType.name}}"
@@ -19,7 +19,7 @@
   <div ng-show="god().card"
        ng-class="{selected: mode === CommandType.BuyCard}"
     >
-    <item-price ng-repeat="price in god().cardPrice()"
+    <item-price ng-repeat="price in god().cardPrice().slice(game.currentPlayer.cardBuyCount)"
                 price="{{price}}"
                 icon-size="{{iconSize}}"
                 icon-name="{{god().card.name}}"
