@@ -4,7 +4,7 @@
       <path ng-repeat="path in paths"
             ng-attr-d="{{path.d}}"
             class="departement"
-            ng-class="{over: path.over}"
+            ng-class="{over: path.over, neighbour: path.neighbour}"
             ng-mouseover="onMouseOver($event, path)"
             ng-mouseout="onMouseOut(path)"
             ng-click="onClick(path)"

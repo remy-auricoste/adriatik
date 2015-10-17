@@ -8,6 +8,9 @@
 .france .departement.over {
   fill: grey !important;
 }
+.france .departement.neighbour {
+  fill: green !important;
+}
 .france .image {
   cursor: pointer;
   position: absolute;

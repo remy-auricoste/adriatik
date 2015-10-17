@@ -1,5 +1,5 @@
 /** @ngInject */
-function france($http, $rootScope) {
+function france($http, $rootScope, neighbourFinder) {
     'use strict';
 
         return {
@@ -17,8 +17,10 @@ function france($http, $rootScope) {
                 var paths = res.data;
                 paths = paths.map(function(path) {
                   var pathValue = path.d;
+                  var territory = new Territory();
                   return {
-                    territory: new Territory(),
+                    territory: territory,
+                    id: territory.id,
                     d: pathValue,
                     over: false,
                     color: "lightgrey",
@@ -33,13 +35,40 @@ function france($http, $rootScope) {
                   }
                 });
                 scope.paths = paths;
+                var boxes = {};
+                paths.map(function(path) {
+                  boxes[path.id] = path.box;
+                  path.box.path = path;
+                });
+                for (var key in boxes) {
+                  var box = boxes[key];
+                  var neighbours = neighbourFinder.findNeighboursSimple(box, boxes);
+                  neighbours.map(function(neighbour) {
+                    if (neighbour === key) {
+                      return;
+                    }
+                    boxes[neighbour].path.territory.nextTo(box.path.territory);
+                  })
+                }
               });
 
               scope.onMouseOver = function(event, path) {
                 path.over = true;
+                path.territory.neighbours.map(function(id) {
+                  var path = Meta.find(scope.paths, function(path) {
+                    return path.id === id;
+                  });
+                  path.neighbour = true;
+                })
               }
               scope.onMouseOut = function(path) {
                 path.over = false;
+                path.territory.neighbours.map(function(id) {
+                  var path = Meta.find(scope.paths, function(path) {
+                    return path.id === id;
+                  });
+                  path.neighbour = false;
+                })
               }
 
               scope.onClick = function(path) {
