@@ -24,8 +24,8 @@ exports.paths = {
       '/app/**/*.js'
     ],
     test: [
-      '/app/**/*.spec.js',
-      '/app/**/*.mock.js'
+      '/test/**/*.spec.js',
+      '/test/**/*.mock.js'
     ]
   },
   getJsPaths: function() {
