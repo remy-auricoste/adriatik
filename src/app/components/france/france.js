@@ -17,7 +17,10 @@ function france($http, $rootScope, neighbourFinder) {
                 var paths = res.data;
                 paths = paths.map(function(path) {
                   var pathValue = path.d;
-                  var territory = new Territory();
+                  var territory = new Territory({
+                    type: "earth",
+                    buildSlots: 2
+                  });
                   return {
                     territory: territory,
                     id: territory.id,
