@@ -34,6 +34,9 @@ Player = Meta.declareClass("Player", {
     }
     if (!this.initCount) {
       this.initCount = {};
+      for (var name in UnitType.all) {
+        this.initCount[UnitType.all[name].name] = 0;
+      }
     }
   },
   build: function(territory) {

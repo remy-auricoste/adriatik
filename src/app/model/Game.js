@@ -180,9 +180,6 @@ var Game = Meta.declareClass("Game", {
       var self = player;
       var unitType = territory.type === "earth" ? UnitType.Troup : UnitType.Ship;
       var currentValue = player.initCount[unitType.name];
-      if (!currentValue) {
-        currentValue = 0;
-      }
       var allowedValue = 2 + (player.god.unitType && player.god.unitType === unitType ? 1 : 0);
       if (currentValue === allowedValue) {
         throw new Error("vous ne pouvez pas ajouter d'autres unités de type "+unitType.name);
@@ -201,5 +198,17 @@ var Game = Meta.declareClass("Game", {
     } catch(err) {
       throw new Error("Impossible de placer une unité sur ce territoire : "+err.message);
     }
+  },
+  initHasMoreUnits: function(player) {
+    var unitCount = 0;
+    for (var key in player.initCount) {
+      var value = player.initCount[key];
+      unitCount += value;
+    }
+    var allowedValue = 4 + (player.god.unitType ? 1 : 0);
+    if (player.god === God.Pluton && God.Pluton.index === 0) {
+      allowedValue++;
+    }
+    return unitCount < allowedValue;
   }
 });

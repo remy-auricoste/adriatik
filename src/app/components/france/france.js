@@ -69,10 +69,13 @@ function france($http, $rootScope, neighbourFinder) {
               scope.onClick = function(path) {
                 var command;
                 if (scope.game.turn === 1) {
+                  var hasMoreUnits = scope.game.initHasMoreUnits(scope.game.currentPlayer);
+                  var commandType = hasMoreUnits ? CommandType.InitUnit : CommandType.InitBuilding;
+                  var args = hasMoreUnits ? [path.territory] : [path.territory, scope.game.currentPlayer.god.building];
                   command = new Command({
-                    type: CommandType.InitUnit,
+                    type: commandType,
                     player: scope.game.currentPlayer,
-                    args: [path.territory]
+                    args: args
                   })
                 } else if (!$rootScope.mode) {
                   var fromTerritory;
