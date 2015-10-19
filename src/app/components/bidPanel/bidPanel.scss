@@ -1,27 +1,52 @@
-.coin {
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  padding-top: 0.3em;
-  background-color: yellow;
-  border: black solid 1px;
-  border-radius: 3em;
-}
 .bidPanel {
+  color: white;
   position: absolute;
   left: 0;
   width: 300px;
   height: 100%;
-  border-right: black solid 5px;
-  color: white;
-  background: linear-gradient(to left, $bid-color-1 , $bid-color-2); /* Standard syntax */
+  border-right: #563f39 solid 5px;
+  /*background: linear-gradient(to left, $bid-color-1 , $bid-color-2); /* Standard syntax */
+  background: url(images/map.jpg) top right;
   padding: 10px;
+}
+.bidPanel .god {
+  color: black;
+  cursor: pointer;
+  padding: 10px;
+  height: 100px;
+  margin-top: 10px;
+  border-radius: 50px 50px;
+}
+.bidPanel .god-avatar {
+  height: 80px;
+  width: 80px;
+  background-color:  white;
+  border-radius: 40px;
+  border: 1px solid black;
+  padding: 30px 0 0 0;
+  text-align: center;
+}
+
+.bidPanel .god-white {
+  background-color: #f3f3f3;
+}
+.bidPanel .god-black {
+  background-color: black;
+}
+.bidPanel .god-red {
+  background-color: #b90000;
+}
+.bidPanel .god-green {
+  background-color: #2cb28e;
+}
+.bidPanel .god-blue {
+  background-color: #1e49b4;
+}
+.bidPanel .god-yellow {
+  background-color: #ffc931;
 }
 .bidPanel .god div {
   display: inline-block;
-}
-.bidPanel .god {
-  cursor: pointer;
 }
 .bidPanel .separator {
   margin-bottom: 20px;
@@ -39,4 +64,20 @@
 }
 .bidPanel .bid-value.custom input {
   margin: 0;
+}
+.coin {
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  padding-top: 0.3em;
+  background-color: yellow;
+  border: black solid 1px;
+  border-radius: 3em;
+}
+#adriatik {
+  font-size: 10em;
+  transform: rotate(90deg);
+  transform-origin: right top 0;
+  margin: -500px 0 0 470px;
+  opacity: 0.5;
 }

@@ -3,17 +3,19 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
-$sea: #37b8cb;
-$player-black-1: #7c7c7c;
-$player-black-2: #000000;
-$player-red-1: #ec0000;
+$sea: #dad1ac;
+$ground: #c8c09e;
+$ground-over: #ba9869;
+$player-purple-1: #d63db9;
+$player-purple-2: #9b2c86;
+$player-red-1: #ff0000;
 $player-red-2: #aa0000;
 $player-green-1: #00af00;
 $player-green-2: #006b00;
 $player-blue-1: #2359f4;
-$player-blue-2: #13318c;
-$bid-color-1: #b3b3b3;
-$bid-color-2: #828282;
+$player-blue-2: #1638a1;
+$bid-color-1: #ba9869;
+$bid-color-2: #8a714e;
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 
 @font-face {
@@ -23,7 +25,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 
 body {
   font-family: roman !important;
-  background-color: $sea !important;
+  background: url(images/map.jpg) top left $sea !important;
 }
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject

@@ -1,6 +1,6 @@
 .france {
-  margin: 0 0 0 300px;
-  padding: 0 0 0 -300px;
+  margin: 0 0 0 600px;
+  padding: 0 0 0 -600px;
   position: relative;
 }
 .france svg {
@@ -9,13 +9,13 @@
 }
 
 .france .departement {
-  fill: lightgrey;
+  fill: $ground;
 }
 .france .departement.over {
-  fill: grey !important;
+  fill: $ground-over !important;
 }
 .france .departement.neighbour {
-  fill: green !important;
+  fill: $player-green-1 !important;
 }
 .france .image {
   cursor: pointer;

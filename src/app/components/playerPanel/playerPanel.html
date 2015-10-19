@@ -7,10 +7,12 @@
   </div>
   <div class="infos">
     <div class="player-{{currentPlayer.color}}">
-        <h2>{{currentPlayer.name}}</h2>
-        <div>pieces: {{currentPlayer.gold}}</div>
-        <div>pretres : {{currentPlayer.priests}}</div>
-        <div>philosophes : {{currentPlayer.thinkers}}</div>
+        <h2 class="avatar">{{currentPlayer.name}}</h2>
+        <div class="resources">
+            <div class="money">pieces: {{currentPlayer.gold}}</div>
+            <div class="priest">pretres : {{currentPlayer.priests}}</div>
+            <div clas="philosoph">philosophes : {{currentPlayer.thinkers}}</div>
+        </div>
     </div>
   </div>
 </div>

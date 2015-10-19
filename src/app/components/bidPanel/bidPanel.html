@@ -3,11 +3,10 @@
   <div ng-repeat="player in noBidPlayers()">{{player.name}}</div>
   <div class="separator"></div>
   <div ng-repeat="god in game.currentGods"
-       class="{{god.name}} god"
-       style="background-color: {{god.color}}"
+       class="{{god.name}} god god-{{god.color}}"
        ng-click="onGodClick(god)"
     >
-    <div>{{god.name}}</div>
+    <div class="god-avatar">{{god.name}}</div>
     <div ng-show="god !== God.Apollon">joueur : {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}</div>
     <div ng-show="god === God.Apollon">joueurs : {{god.playerNames.join(', ')}}</div>
   </div>
@@ -24,4 +23,5 @@
   <div ng-show="game.phase === Phases.actions">
     <input type="button" value="Fin de tour" ng-click="endTurn()"/>
   </div>
+  <div id="adriatik">Adriatik</div>
 </div>

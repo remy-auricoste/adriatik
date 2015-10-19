@@ -15,7 +15,7 @@ function game(randomFactory, qPlus) {
                   Player.new("Remy", "red"),
                   Player.new("Alain", "blue"),
                   Player.new("Alan", "green"),
-                  Player.new("Charles", "black")
+                  Player.new("Charles", "purple")
                 ],
                 gods: God.all,
                 randomFactory: randomFactory,

@@ -20,17 +20,33 @@
   margin: 0 5px;
   border-radius: 10px 10px 0 0;
 }
-.player-panel .player-red {
-  background: linear-gradient(to bottom, $player-red-1 , $player-red-2); /* Standard syntax */
+
+.player-panel .names .player-red {
+  background-color: $player-red-2;
 }
-.player-panel .player-blue {
-  background: linear-gradient(to bottom, $player-blue-1 , $player-blue-2); /* Standard syntax */
+.player-panel .infos .player-red {
+  background: linear-gradient(to top, $player-red-1 , $player-red-2); /* Standard syntax */
 }
-.player-panel .player-green {
-  background: linear-gradient(to bottom, $player-green-1 , $player-green-2); /* Standard syntax */
+
+.player-panel .names .player-blue {
+  background-color: $player-blue-2;
 }
-.player-panel .player-black {
-  background: linear-gradient(to bottom, $player-black-1 , $player-black-2); /* Standard syntax */
+.player-panel .infos .player-blue {
+  background: linear-gradient(to top, $player-blue-1 , $player-blue-2); /* Standard syntax */
+}
+
+.player-panel .names .player-green {
+  background-color: $player-green-2;
+}
+.player-panel .infos .player-green {
+  background: linear-gradient(to top, $player-green-1 , $player-green-2); /* Standard syntax */
+}
+
+.player-panel .names .player-purple {
+  background-color: $player-purple-2;
+}
+.player-panel .infos .player-purple {
+  background: linear-gradient(to top, $player-purple-1 , $player-purple-2); /* Standard syntax */
 }
 
 .player-panel .infos {
@@ -39,9 +55,15 @@
 }
 
 .player-panel .infos h2 {
-  color: white;
-  padding: 10px 0 0 30px;
-  margin: 0;
+  float: left;
+  color: black;
+  width: 120px;
+  height: 120px;
+  background: url(images/legionnaire.jpg) 10px 10px white no-repeat;
+  padding: 120px 0 0 0;
+  margin: 15px;
+  border-radius: 60px;
+  text-align: center;
 }
 
 .player-panel .infos div {
@@ -49,9 +71,13 @@
   height: 100%;
 }
 
-.player-panel .infos div div {
+.player-panel .infos div.resources div {
+  float: left;
+  width: 50%;
+  height: 40px;
   color: white;
-  display: table-cell;
-  padding: 10px 30px;
-  margin: 0 50px;
+  font-size: 2em;
+  display: table-row;
+  padding: 30px 0 0 30px;
+  margin: 0;
 }
