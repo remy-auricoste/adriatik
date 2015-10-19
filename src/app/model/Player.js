@@ -58,6 +58,9 @@ Player = Meta.declareClass("Player", {
       if (!price && price !== 0) {
         throw new Error("il n'y a plus d'unité à acheter");
       }
+      if (territory.owner !== this) {
+        throw new Error("vous ne pouvez acheter des unités que sur des territoires que vous contrôlez")
+      }
       this.spend(price);
       territory.placeUnit(new Unit({type: this.god.unitType, owner: this}));
       this.unitBuyCount++;

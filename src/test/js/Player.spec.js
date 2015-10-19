@@ -142,6 +142,12 @@ describe('Player class', function () {
       player.buyUnit(territory);
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
     });
+    it("should throw an exception if the player does not own the territory", function() {
+      // given
+      player.god = God.Mars;
+      // when
+      expect(function() {player.buyUnit(emptyTerritory);}).toThrow(new Error("Impossible d'acheter une unité : vous ne pouvez acheter des unités que sur des territoires que vous contrôlez"));
+    })
   });
 
   describe("buyCard method", function() {
