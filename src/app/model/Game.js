@@ -149,5 +149,52 @@ var Game = Meta.declareClass("Game", {
     } else {
       return this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
     }
+  },
+  initUnit: function(player, territory) {
+    try {
+      if (territory.owner && territory.owner !== player) {
+        throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre");
+      }
+      var playerTerritories = this.territories.filter(function(territory) {
+        return territory.owner === player;
+      });
+      if (!territory.owner) {
+        var sameTypeTerritories = playerTerritories.filter(function(territoryIte) {
+          return territory.type === territoryIte.type;
+        });
+        if (sameTypeTerritories.length === 2) {
+          throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus");
+        }
+        var isAdjacent = !Meta.forall(playerTerritories, function(territoryIte) {
+          return territoryIte.neighbours.indexOf(territory.id) === -1;
+        });
+        if (playerTerritories.length && !isAdjacent) {
+          throw new Error("il n'est pas adjacent aux territoires déjà contrôllés");
+        }
+      }
+      var self = player;
+      var unitType = territory.type === "earth" ? UnitType.Troup : UnitType.Ship;
+      var currentValue = player.initCount[unitType.name];
+      if (!currentValue) {
+        currentValue = 0;
+      }
+      var allowedValue = 2 + (player.god.unitType && player.god.unitType === unitType ? 1 : 0);
+      if (currentValue === allowedValue) {
+        throw new Error("vous ne pouvez pas ajouter d'autres unités de type "+unitType.name);
+      }
+      if (currentValue === allowedValue - 1 && territory.owner === player) {
+        throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus");
+      }
+      currentValue++;
+      player.initCount[unitType.name] = currentValue;
+      var unit = new Unit({
+        type: unitType,
+        owner: self
+      });
+      territory.owner = player;
+      territory.placeUnit(unit);
+    } catch(err) {
+      throw new Error("Impossible de placer une unité sur ce territoire : "+err.message);
+    }
   }
 });

@@ -13,5 +13,8 @@ var God = Meta.declareClass("God", {
     if (!this.playerNames) {
       this.playerNames = [];
     }
+  },
+  canBuild: function(building) {
+    return building === this.building;
   }
 });

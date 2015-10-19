@@ -12,6 +12,7 @@ Player = Meta.declareClass("Player", {
   cards: {},
   bid: {},
   randomFactory: {},
+  initCount: {},
   init: function() {
     if (!this.priests) {
       this.priests = 0;
@@ -30,6 +31,9 @@ Player = Meta.declareClass("Player", {
     }
     if (!this.eliteMoveCount) {
       this.eliteMoveCount = 0;
+    }
+    if (!this.initCount) {
+      this.initCount = {};
     }
   },
   build: function(territory) {
@@ -186,10 +190,12 @@ Player = Meta.declareClass("Player", {
             lossLeft: lossLeft
           }
         }
-        var result = {};
-        result[self.name] = getResult(self);
-        result[otherPlayer.name] = getResult(otherPlayer);
-        return result;
+        var losses = {};
+        losses[self.name] = getResult(self);
+        losses[otherPlayer.name] = getResult(otherPlayer);
+        return {
+          losses: losses
+        };
       });
     }
   },
@@ -251,6 +257,19 @@ Player = Meta.declareClass("Player", {
       return this.resolveMove(units, fromTerritory, toTerritorry);
     } catch(err) {
       throw new Error("Impossible de retraiter : "+err.message);
+    }
+  },
+  initBuilding: function(territory, building) {
+    try {
+      if (!(this.god && this.god.canBuild(building))) {
+        throw new Error("le dieu choisi ne peut pas construire ce bâtiment");
+      }
+      if (territory.owner !== this) {
+        throw new Error("vous devez contrôller le territoire pour y placer un bâtiment");
+      }
+      territory.buildings.push(building);
+    } catch(err) {
+      throw new Error("Impossible de placer ce bâtiment : "+err.message);
     }
   }
 });

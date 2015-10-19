@@ -38,6 +38,9 @@ God.Pluton = new God({
     }
   }
 });
+God.Pluton.canBuild = function() {
+  return true;
+}
 God.Neptune = new God({
   name: "Neptune",
   color: "green",

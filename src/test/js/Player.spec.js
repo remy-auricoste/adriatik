@@ -392,5 +392,39 @@ describe('Player class', function () {
       expect(emptyTerritory.getUnits(player).length).toBe(2);
       expect(emptyTerritory.getUnits(player2).length).toBe(1);
     });
+  });
+
+  describe("initBuilding method", function() {
+    it("should place the building according to the chosen god", function() {
+      // given
+      player.god = God.Mars;
+      territory.owner = player;
+      // when
+      player.initBuilding(territory, Building.Fort);
+      // then
+      expect(territory.buildings.indexOf(Building.Fort)).toBe(0);
+    });
+    it("should throw an exception if the building cannot be built by the chosen god", function() {
+      // given
+      player.god = God.Mars;
+      territory.owner = player;
+      // then
+      expect(function() {player.initBuilding(territory, Building.Port);}).toThrow(new Error("Impossible de placer ce bâtiment : le dieu choisi ne peut pas construire ce bâtiment"));
+    });
+    it("should throw an exception if the building cannot be built by the chosen god (Pluton)", function() {
+      // given
+      player.god = God.Pluton;
+      territory.owner = player;
+      // when
+      player.initBuilding(territory, Building.Port);
+      // then
+      expect(territory.buildings.length).toBe(1);
+    });
+    it("should throw an exception if the territory is not controlled", function() {
+      // given
+      player.god = God.Mars;
+      // when
+      expect(function() {player.initBuilding(emptyTerritory, Building.Fort);}).toThrow(new Error("Impossible de placer ce bâtiment : vous devez contrôller le territoire pour y placer un bâtiment"));
+    });
   })
 });
