@@ -67,15 +67,35 @@ function france($http, $rootScope, neighbourFinder) {
               }
 
               scope.onClick = function(path) {
+                var command;
                 if (!$rootScope.mode) {
-                  return;
+                  var fromTerritory;
+                  var selectedUnits = Meta.flatten(scope.game.territories.map(function(territory) {
+                    var units = territory.units.filter(function(unit) {
+                      return unit.selected;
+                    });
+                    if (units.length) {
+                      fromTerritory = territory;
+                    }
+                    return units;
+                  }));
+                  if (selectedUnits.length && fromTerritory) {
+                    command = new Command({
+                      type: CommandType.Move,
+                      player: scope.game.currentPlayer,
+                      args: [selectedUnits, fromTerritory, path.territory]
+                    });
+                  }
+                } else {
+                  command = new Command({
+                    type: $rootScope.mode,
+                    player: scope.game.currentPlayer,
+                    args: [path.territory]
+                  });
                 }
-                var command = new Command({
-                  type: $rootScope.mode,
-                  player: scope.game.currentPlayer,
-                  args: [path.territory]
-                });
-                scope.game.receiveCommand(command);
+                if (command) {
+                  scope.game.receiveCommand(command);
+                }
               }
               scope.toggleUnit = function(unit) {
                 unit.selected = !unit.selected;
