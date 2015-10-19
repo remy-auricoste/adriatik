@@ -151,6 +151,9 @@ var Game = Meta.declareClass("Game", {
     }
   },
   initUnit: function(player, territory) {
+    if (this.turn !== 1) {
+      throw new Error("dev error: you cannot use this method if it is not turn 1");
+    }
     try {
       if (territory.owner && territory.owner !== player) {
         throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre");

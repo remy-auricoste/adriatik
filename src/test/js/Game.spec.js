@@ -13,7 +13,8 @@ describe("Game class", function() {
     player = new Player();
     player2 = new Player();
     game = new Game({
-      players: [player, player2]
+      players: [player, player2],
+      turn: 1
     });
   });
 
