@@ -16,8 +16,16 @@
 }
 .france .image {
   cursor: pointer;
-  position: absolute;
+  pointer-events: auto;
 }
 .france .image.selected {
   border: solid 1px white;
+}
+.france .icon-container {
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
