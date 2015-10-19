@@ -145,9 +145,9 @@ var Game = Meta.declareClass("Game", {
       throw new Error("got "+command.args.length+" args but needed "+command.type.argCount+" args");
     }
     if (command.type === CommandType.Bid) {
-      this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
+      return this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
     } else {
-      this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
+      return this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
     }
   }
 });
