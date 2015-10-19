@@ -68,7 +68,13 @@ function france($http, $rootScope, neighbourFinder) {
 
               scope.onClick = function(path) {
                 var command;
-                if (!$rootScope.mode) {
+                if (scope.game.turn === 1) {
+                  command = new Command({
+                    type: CommandType.InitUnit,
+                    player: scope.game.currentPlayer,
+                    args: [path.territory]
+                  })
+                } else if (!$rootScope.mode) {
                   var fromTerritory;
                   var selectedUnits = Meta.flatten(scope.game.territories.map(function(territory) {
                     var units = territory.units.filter(function(unit) {
@@ -94,7 +100,15 @@ function france($http, $rootScope, neighbourFinder) {
                   });
                 }
                 if (command) {
-                  scope.game.receiveCommand(command);
+                  var result = scope.game.receiveCommand(command);
+                  if (result !== undefined && typeof result.then === "function") {
+                    result.then(function(battleResult) {
+                      console.log("battle result", battleResult);
+                    }).catch(function(err) {
+                      console.error("error");
+                      console.error(err);
+                    });
+                  }
                 }
               }
               scope.toggleUnit = function(unit) {

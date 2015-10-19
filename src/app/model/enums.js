@@ -4,6 +4,7 @@ CommandType.BuyCard = new CommandType({name: "buyCard", methodName: "buyGodCard"
 CommandType.Move = new CommandType({name: "move", methodName: "move", argCount: 3});
 CommandType.Bid = new CommandType({name: "bid", methodName: "placeBid", argCount: 2});
 CommandType.Retreat = new CommandType({name: "retreat", methodName: "retreat", argCount: 2});
+CommandType.InitUnit = new CommandType({name: "initUnit", methodName: "initUnit", argCount: 1});
 
 Building.Fort = new Building({name: "fort"});
 Building.Port = new Building({name: "port"});
