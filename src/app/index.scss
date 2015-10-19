@@ -3,8 +3,28 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
+$sea: #37b8cb;
+$player-black-1: #7c7c7c;
+$player-black-2: #000000;
+$player-red-1: #ec0000;
+$player-red-2: #aa0000;
+$player-green-1: #00af00;
+$player-green-2: #006b00;
+$player-blue-1: #2359f4;
+$player-blue-2: #13318c;
+$bid-color-1: #b3b3b3;
+$bid-color-2: #828282;
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 
+@font-face {
+  font-family: roman;
+  src: url(fonts/Dalek.tff);
+}
+
+body {
+  font-family: roman !important;
+  background-color: $sea !important;
+}
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
  *  sass dependencies when defined in the bower.json of your dependencies

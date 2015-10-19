@@ -2,7 +2,7 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 20%;
+  height: 200px;
 }
 .player-panel .player-name {
   display: inline-block;
@@ -12,6 +12,46 @@
   width: 100%;
   text-align: center;
 }
+
+.player-panel .player-name {
+  width: 200px;
+  color: white;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 10px 10px 0 0;
+}
+.player-panel .player-red {
+  background: linear-gradient(to bottom, $player-red-1 , $player-red-2); /* Standard syntax */
+}
+.player-panel .player-blue {
+  background: linear-gradient(to bottom, $player-blue-1 , $player-blue-2); /* Standard syntax */
+}
+.player-panel .player-green {
+  background: linear-gradient(to bottom, $player-green-1 , $player-green-2); /* Standard syntax */
+}
+.player-panel .player-black {
+  background: linear-gradient(to bottom, $player-black-1 , $player-black-2); /* Standard syntax */
+}
+
 .player-panel .infos {
-  border: solid black 1px;
+  padding: 0;
+  height: 170px;
+}
+
+.player-panel .infos h2 {
+  color: white;
+  padding: 10px 0 0 30px;
+  margin: 0;
+}
+
+.player-panel .infos div {
+  padding: 0 30px;
+  height: 100%;
+}
+
+.player-panel .infos div div {
+  color: white;
+  display: table-cell;
+  padding: 10px 30px;
+  margin: 0 50px;
 }

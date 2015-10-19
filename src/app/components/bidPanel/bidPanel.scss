@@ -10,9 +10,12 @@
 .bidPanel {
   position: absolute;
   left: 0;
-  width: 200px;
+  width: 300px;
   height: 100%;
-  border: black solid 1px;
+  border-right: black solid 5px;
+  color: white;
+  background: linear-gradient(to left, $bid-color-1 , $bid-color-2); /* Standard syntax */
+  padding: 10px;
 }
 .bidPanel .god div {
   display: inline-block;
