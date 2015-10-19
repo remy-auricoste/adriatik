@@ -22,6 +22,9 @@ var Game = Meta.declareClass("Game", {
     if (!this.phase) {
       this.phase = Phases.bidding;
     }
+    if (!this.territories) {
+      this.territories = [];
+    }
   },
   startTurn: function() {
     var self = this;

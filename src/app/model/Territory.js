@@ -1,6 +1,7 @@
 var idCount = 0;
 var Territory = Meta.declareClass("Territory", {
   id: "",
+  path: "",
   neighbours: [],
   income: 1,
   type: "", // earth / sea

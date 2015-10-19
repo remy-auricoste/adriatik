@@ -2,7 +2,7 @@
   <svg>
     <g>
       <path ng-repeat="path in paths"
-            ng-attr-d="{{path.d}}"
+            ng-attr-d="{{path.path}}"
             class="departement"
             ng-class="{over: path.over, neighbour: path.neighbour}"
             ng-mouseover="onMouseOver($event, path)"
@@ -13,14 +13,16 @@
         >
       </path>
     </g>
-    <img ng-repeat="troup in troups()"
-          width="{{unitSize}}"
-          height="{{unitSize}}"
-          src="/favicon.ico"
-          class="image"
-          ng-class="{selected: troup.selected}"
-          style="left: {{troup.left}}px; top: {{troup.top}}px;"
-          ng-click="toggleTroup(troup)"
-      />
   </svg>
+  <div ng-repeat="path in paths" ng-if="path.territory.units.length">
+    <icon
+          ng-repeat="unit in path.territory.units"
+          size="{{unitSize}}"
+          file-name="{{unit.type.name}}"
+          style="left: {{path.left($index, unitSize)}}px; top: {{path.top($index, unitSize)}}px;"
+          class="image"
+          ng-class="{selected: unit.selected}"
+          ng-click="toggleUnit(unit)"
+      ></icon>
+  </div>
 </div>

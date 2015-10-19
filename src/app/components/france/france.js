@@ -21,26 +21,18 @@ function france($http, $rootScope, neighbourFinder) {
                     type: "earth",
                     buildSlots: 2
                   });
-                  return {
+                  scope.game.territories.push(territory);
+                  return new GraphicTerritory({
                     territory: territory,
                     id: territory.id,
-                    d: pathValue,
-                    over: false,
-                    color: "lightgrey",
-                    box: Raphael.pathBBox(pathValue),
-                    units: [],
-                    left: function(index) {
-                      return Math.round(this.box.x + (this.box.width-scope.unitSize) / 2);
-                    },
-                    top: function(index) {
-                      return Math.round(this.box.y + (this.box.height-scope.unitSize) / 2);
-                    }
-                  }
+                    path: pathValue,
+                    box: Raphael.pathBBox(pathValue)
+                  });
                 });
                 scope.paths = paths;
                 var boxes = {};
                 paths.map(function(path) {
-                  boxes[path.id] = path.box;
+                  boxes[path.territory.id] = path.box;
                   path.box.path = path;
                 });
                 for (var key in boxes) {
@@ -59,7 +51,7 @@ function france($http, $rootScope, neighbourFinder) {
                 path.over = true;
                 path.territory.neighbours.map(function(id) {
                   var path = Meta.find(scope.paths, function(path) {
-                    return path.id === id;
+                    return path.territory.id === id;
                   });
                   path.neighbour = true;
                 })
@@ -68,7 +60,7 @@ function france($http, $rootScope, neighbourFinder) {
                 path.over = false;
                 path.territory.neighbours.map(function(id) {
                   var path = Meta.find(scope.paths, function(path) {
-                    return path.id === id;
+                    return path.territory.id === id;
                   });
                   path.neighbour = false;
                 })
@@ -85,18 +77,8 @@ function france($http, $rootScope, neighbourFinder) {
                 });
                 scope.game.receiveCommand(command);
               }
-              scope.toggleTroup = function(troup) {
-                troup.selected = !troup.selected;
-              }
-              scope.troups = function() {
-                // TODO use model to display troups
-                return Meta.flatten(scope.paths.map(function(path) {
-                  return path.units.map(function(troup, index) {
-                    troup.left = path.left(index);
-                    troup.top = path.top(index);
-                    return troup;
-                  });
-                }));
+              scope.toggleUnit = function(unit) {
+                unit.selected = !unit.selected;
               }
             }
         };
