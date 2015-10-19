@@ -1,8 +1,11 @@
+.france {
+  margin: 0 0 0 300px;
+  padding: 0 0 0 -300px;
+  position: relative;
+}
 .france svg {
   width: 1000px;
   height: 800px;
-  margin: 0 0 0 300px;
-  padding: 0 0 0 -300px;
 }
 
 .france .departement {
