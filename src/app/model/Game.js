@@ -10,6 +10,7 @@ var Game = Meta.declareClass("Game", {
   turn: 1,
   phase: "",
   init: function() {
+    var self = this;
     if (!this.currentPlayer) {
       this.currentPlayer = this.players[0];
     }
@@ -25,6 +26,9 @@ var Game = Meta.declareClass("Game", {
     if (!this.territories) {
       this.territories = [];
     }
+    this.players.map(function(player) {
+      player.randomFactory = self.randomFactory;
+    });
   },
   startTurn: function() {
     var self = this;
