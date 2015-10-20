@@ -51,12 +51,13 @@
 
 .player-panel .infos {
   padding: 0;
+  margin: 0 0 0 300px;
   height: 170px;
 }
 
 .player-panel .infos h2 {
   float: left;
-  color: black;
+  color: white;
   width: 120px;
   height: 120px;
   background: url(images/legionnaire.jpg) 10px 10px white no-repeat;
@@ -67,7 +68,7 @@
 }
 
 .player-panel .infos div {
-  padding: 0 30px;
+  padding: 0 10px;
   height: 100%;
 }
 

@@ -1,27 +1,35 @@
 <div class="bidPanel">
-  <div>phase : {{game.phase}}</div>
-  <div ng-repeat="player in noBidPlayers()">{{player.name}}</div>
-  <div class="separator"></div>
-  <div ng-repeat="god in game.currentGods"
-       class="{{god.name}} god god-{{god.color}}"
-       ng-click="onGodClick(god)"
-    >
-    <div class="god-avatar">{{god.name}}</div>
-    <div ng-show="god !== God.Apollon">joueur : {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}</div>
-    <div ng-show="god === God.Apollon">joueurs : {{god.playerNames.join(', ')}}</div>
-  </div>
-  <div ng-show="god">
-    <div>Valeur d'enchère</div>
-    <div ng-repeat="value in getBidValues()" ng-click="placeBid(value)" class="bid-value coin">{{value}}</div>
-    <div class="bid-value custom coin">
-      <input type="text" ng-model="customBidValue" />
-      <input type="button" value="OK" ng-click="placeCustomBid()"/>
+    <div ng-repeat="god in game.currentGods"
+         class="{{god.name}} god god-{{god.color}}"
+         ng-click="onGodClick(god)"
+            >
+        <div class="god-avatar"></div>
+        <p class="god-name">{{god.name}}</p>
+        <p class="god-bidding" ng-show="god !== God.Apollon">
+            {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}
+        </p>
     </div>
-  </div>
-  <div class="separator"></div>
-  <div>Joueur courant : {{game.currentPlayer.name}}</div>
-  <div ng-show="game.phase === Phases.actions">
-    <input type="button" value="Fin de tour" ng-click="endTurn()"/>
-  </div>
-  <div id="adriatik">Adriatik</div>
+
+    <div>
+        <h2>Phase : {{game.phase}}</h2>
+        <ol>
+            <li ng-repeat="player in noBidPlayers()">{{player.name}}</li>
+        </ol>
+    </div>
+
+    <div ng-show="god === God.Apollon">joueurs : {{god.playerNames.join(', ')}}</div>
+    <div class="bid-form" ng-show="god">
+        <div>Valeur d'enchère</div>
+        <div ng-repeat="value in getBidValues()" ng-click="placeBid(value)" class="bid-value coin">{{value}}</div>
+        <div class="god-bidding-value custom">
+            <input class="god-bidding-value" type="number" min="customBidValue" ng-model="customBidValue"/>
+            <input type="button" value="Enchérir" ng-click="placeCustomBid()"/>
+        </div>
+    </div>
+    <div class="message">
+        <div class="current-player">Au tour de {{game.currentPlayer.name}} de jouer</div>
+        <div ng-show="game.phase === Phases.actions">
+            <input type="button" value="Fin de tour" ng-click="endTurn()"/>
+        </div>
+    </div>
 </div>

@@ -1,16 +1,15 @@
 .bidPanel {
-  color: white;
+  color: black;
   position: absolute;
   left: 0;
   width: 300px;
   height: 100%;
   border-right: #563f39 solid 5px;
-  /*background: linear-gradient(to left, $bid-color-1 , $bid-color-2); /* Standard syntax */
   background: url(images/map.jpg) top right;
   padding: 10px;
 }
 .bidPanel .god {
-  color: black;
+  color: white;
   cursor: pointer;
   padding: 10px;
   height: 100px;
@@ -18,6 +17,7 @@
   border-radius: 50px 50px;
 }
 .bidPanel .god-avatar {
+  float:  left;
   height: 80px;
   width: 80px;
   background-color:  white;
@@ -26,8 +26,8 @@
   padding: 30px 0 0 0;
   text-align: center;
 }
-
 .bidPanel .god-white {
+  color: black;
   background-color: #f3f3f3;
 }
 .bidPanel .god-black {
@@ -46,7 +46,20 @@
   background-color: #ffc931;
 }
 .bidPanel .god div {
-  display: inline-block;
+  display: table-cell;
+  vertical-align: top;
+}
+.bidPanel .god p {
+  float:  left;
+  font-size: 2em;
+  padding: 3px 0 0 10px;
+}
+.bidPanel p.god-bidding {
+  font-size: 1em;
+  padding: 0 0 0 10px;
+}
+.bidPanel .god-bidding-value {
+  width: 40px;
 }
 .bidPanel .separator {
   margin-bottom: 20px;
@@ -70,14 +83,15 @@
   height: 2em;
   text-align: center;
   padding-top: 0.3em;
-  background-color: yellow;
+  background-color: #e3cca0;
   border: black solid 1px;
   border-radius: 3em;
 }
-#adriatik {
-  font-size: 10em;
-  transform: rotate(90deg);
-  transform-origin: right top 0;
-  margin: -500px 0 0 470px;
-  opacity: 0.5;
+.message {
+  width: 280px;
+  height: 100px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 10px;
 }
