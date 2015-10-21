@@ -1,4 +1,4 @@
-.bidPanel {
+.bid-panel {
   color: black;
   position: absolute;
   left: 0;
@@ -6,85 +6,57 @@
   height: 100%;
   border-right: #563f39 solid 5px;
   background: url(images/map.jpg) top right;
-  padding: 10px;
+  padding: 5px;
 }
-.bidPanel .god {
+.bid-panel .god {
   color: white;
+  background-color: #a4865d;
+  border: 6px solid #563f39;
   cursor: pointer;
-  padding: 10px;
   height: 100px;
-  margin-top: 10px;
+  margin: 0 10px 10px 10px;
+  padding: 0 0 10px 0;
   border-radius: 50px 50px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+  0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
 }
-.bidPanel .god-avatar {
-  float:  left;
-  height: 80px;
-  width: 80px;
-  background-color:  white;
-  border-radius: 40px;
-  border: 1px solid black;
-  padding: 30px 0 0 0;
-  text-align: center;
-}
-.bidPanel .god-white {
-  color: black;
-  background-color: #f3f3f3;
-}
-.bidPanel .god-black {
-  background-color: black;
-}
-.bidPanel .god-red {
-  background-color: #b90000;
-}
-.bidPanel .god-green {
-  background-color: #2cb28e;
-}
-.bidPanel .god-blue {
-  background-color: #1e49b4;
-}
-.bidPanel .god-yellow {
-  background-color: #ffc931;
-}
-.bidPanel .god div {
-  vertical-align: top;
-}
-.bidPanel .god p {
+.bid-panel .god p {
   float:  left;
   font-size: 2em;
   padding: 3px 0 0 10px;
 }
-.bidPanel p.god-bidding {
+.bid-panel p.god-name {
+  float: right;
+  font-size: 2.3em;
+  padding: 0 30px 0 0;
+  margin: 0;
+}
+.bid-panel .god div {
+  vertical-align: top;
+}
+.bid-panel p.god-bidding {
   font-size: 1em;
   padding: 0 0 0 10px;
 }
-.bidPanel .god-bidding-value {
+.bid-panel .god-bidding-value {
   width: 40px;
 }
-.bidPanel .separator {
+.bid-panel .separator {
   margin-bottom: 20px;
 }
-.bidPanel .bid-value {
+.bid-panel .bid-value {
   display: inline-block;
   cursor: pointer;
 }
-.bidPanel .bid-value.custom {
+.bid-panel .bid-value.custom {
   width: 6em;
   padding: 0 0.5em;
 }
-.bidPanel .bid-value.custom input[type='text'] {
+.bid-panel .bid-value.custom input[type='text'] {
   width: 2em;
 }
-.bidPanel .bid-value.custom input {
+.bid-panel .bid-value.custom input {
   margin: 0;
-}
-.coin {
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  padding-top: 0.3em;
-  background-color: #e3cca0;
-  border: black solid 1px;
-  border-radius: 3em;
 }
 .message {
   width: 280px;
@@ -94,16 +66,36 @@
   border-radius: 20px;
   padding: 10px;
 }
-.bidPanel .counter-container {
+.bid-panel .counter-container {
   clear: both;
-  width: 300px;
+  width: 200px;
+  margin: 0 0 0 25px
 }
-.bidPanel .counter {
+.bid-panel .counter {
   float: left;
-  width: 2em;
-  height: 2em;
+  width: 1.6em;
+  height: 1.6em;
   border: solid 1px black;
-  border-radius: 3em;
+  border-radius: 2.5em;
   color: black;
-  background-color: #ecff81;
+  background-color: #ffc931;
+  text-align: center;
+  font-size:0.85em;
+}
+
+.bid-panel .player-red {
+  color: white;
+  background-color: $player-red-2;
+}
+.bid-panel .player-blue {
+  color: white;
+  background-color: $player-blue-2;
+}
+.bid-panel .player-green {
+  color: white;
+  background-color: $player-green-2;
+}
+.bid-panel .player-purple {
+  color: white;
+  background-color: $player-purple-2;
 }
