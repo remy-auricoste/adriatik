@@ -1,109 +1,57 @@
-.player-panel {
+section.player-panel {
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   width: 100%;
-  height: 200px;
+  height: 300px;
 }
-.player-panel .player-name {
-  display: inline-block;
-  color: white;
+section.player-panel detail.player {
+  float: right;
+  width: 250px;
+  height: 300px;
+  border-radius: 30px;
+  padding: 5px;
+  margin: 0 20px 0 0;
+  background-color: white;
+  border: 2px solid black;
+  box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.3);
 }
-.player-panel .names {
+
+section.player-panel {
   width: 100%;
   text-align: center;
 }
 
-.player-panel .player-name {
-  width: 200px;
+section.player-panel .player-name {
   color: white;
-  padding: 5px 10px;
-  margin: 0 5px;
-  border-radius: 10px 10px 0 0;
+  font-size: 1.5em;
+  padding: 5px;
+  border-radius: 25px 25px 0 0;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
-.player-panel .names .player-red {
-  background-color: $player-red-2;
-}
-.player-panel .infos .player-red {
-  background: linear-gradient(to top, $player-red-1 , $player-red-2); /* Standard syntax */
+section.player-panel .player-red {
+  background: linear-gradient(to top, $player-red-1, $player-red-2 80%); /* Standard syntax */
 }
 
-.player-panel .names .player-blue {
-  background-color: $player-blue-2;
-}
-.player-panel .infos .player-blue {
-  background: linear-gradient(to top, $player-blue-1 , $player-blue-2); /* Standard syntax */
+section.player-panel .player-blue {
+  background: linear-gradient(to top, $player-blue-1, $player-blue-2 80%); /* Standard syntax */
 }
 
-.player-panel .names .player-green {
-  background-color: $player-green-2;
-}
-.player-panel .infos .player-green {
-  background: linear-gradient(to top, $player-green-1 , $player-green-2); /* Standard syntax */
+section.player-panel .player-green {
+  background: linear-gradient(to top, $player-green-1, $player-green-2 80%); /* Standard syntax */
 }
 
-.player-panel .names .player-purple {
-  background-color: $player-purple-2;
-}
-.player-panel .infos .player-purple {
-  background: linear-gradient(to top, $player-purple-1 , $player-purple-2); /* Standard syntax */
+section.player-panel .player-purple {
+  background: linear-gradient(to top, $player-purple-1, $player-purple-2 80%); /* Standard syntax */
 }
 
-.player-panel .infos {
-  padding: 0;
-  margin: 0 0 0 300px;
-  height: 170px;
+section.player-panel .resources {
+  padding: 0 5px;
 }
-
-.player-panel .infos h2 {
-  float: left;
-  color: white;
-  width: 120px;
-  height: 120px;
-  background: url(images/legionnaire.jpg) 10px 10px white no-repeat;
-  padding: 120px 0 0 0;
-  margin: 15px;
-  border-radius: 60px;
-  text-align: center;
-}
-
-.player-panel .infos div {
-  padding: 0 10px;
-  height: 100%;
-}
-
-.player-panel .infos div.resources div {
-  float: left;
-  width: 50%;
-  height: 40px;
-  color: white;
-  font-size: 2em;
+section.player-panel .resources div {
+  font-size: 1.5em;
   display: table-row;
-  padding: 30px 0 0 30px;
-  margin: 0;
-}
-
-.player-panel .names .player-red {
-  background-color: $player-red-2;
-}
-.player-panel .infos .player-red {
-  background: linear-gradient(to top, $player-red-1 , $player-red-2); /* Standard syntax */
-}
-
-.player-panel .names .player-blue {
-  background-color: $player-blue-2;
-}
-.player-panel .infos .player-blue {
-  background: linear-gradient(to top, $player-blue-1 , $player-blue-2); /* Standard syntax */
-}
-
-.player-panel .names .player-green {
-  background-color: $player-green-2;
-}
-.player-panel .infos .player-green {
-  background: linear-gradient(to top, $player-green-1 , $player-green-2); /* Standard syntax */
-}
-
-.player-panel .names .player-purple {
-  background-color: $player-purple-2;
+  padding: 30px 10px 10px 30px;
+  margin: 5px;
+  text-align: left;
 }

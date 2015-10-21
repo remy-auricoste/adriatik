@@ -7,6 +7,7 @@
   border-right: #563f39 solid 5px;
   background: url(images/map.jpg) top right;
   padding: 5px;
+  box-shadow: 10px 0 8px 0 rgba(0, 0, 0, 0.3);
 }
 .bid-panel .god {
   color: white;
@@ -30,6 +31,7 @@
   font-size: 2.3em;
   padding: 0 30px 0 0;
   margin: 0;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 .bid-panel .god div {
   vertical-align: top;
@@ -69,33 +71,33 @@
 .bid-panel .counter-container {
   clear: both;
   width: 200px;
-  margin: 0 0 0 25px
+  margin: 0 0 0 30px
 }
 .bid-panel .counter {
   float: left;
-  width: 1.6em;
-  height: 1.6em;
+  width: 1.75em;
+  height: 1.75em;
   border: solid 1px black;
   border-radius: 2.5em;
   color: black;
   background-color: #ffc931;
   text-align: center;
-  font-size:0.85em;
+  font-size:0.8em;
 }
 
 .bid-panel .player-red {
   color: white;
-  background-color: $player-red-2;
+  background-color: $player-red-1;
 }
 .bid-panel .player-blue {
   color: white;
-  background-color: $player-blue-2;
+  background-color: $player-blue-1;
 }
 .bid-panel .player-green {
   color: white;
-  background-color: $player-green-2;
+  background-color: $player-green-1;
 }
 .bid-panel .player-purple {
   color: white;
-  background-color: $player-purple-2;
+  background-color: $player-purple-1;
 }
