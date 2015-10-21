@@ -1,13 +1,18 @@
 <div class="bidPanel">
     <div ng-repeat="god in game.currentGods"
          class="{{god.name}} god god-{{god.color}}"
-         ng-click="onGodClick(god)"
             >
         <div class="god-avatar"></div>
         <p class="god-name">{{god.name}}</p>
         <p class="god-bidding" ng-show="god !== God.Apollon">
             {{game.getPlayer(god).name}}{{god.bid ? ', '+god.bid.gold+' pièces' : ''}}
         </p>
+        <div class="counter-container">
+            <div ng-repeat="counter in counters"
+                 class="counter player-{{game.getPlayer(god) && counter <= god.bid.gold ? game.getPlayer(god).color : 'none'}}"
+                 ng-click="placeBid(god, counter)"
+                    >{{counter}}</div>
+        </div>
     </div>
 
     <div>
@@ -18,14 +23,6 @@
     </div>
 
     <div ng-show="god === God.Apollon">joueurs : {{god.playerNames.join(', ')}}</div>
-    <div class="bid-form" ng-show="god">
-        <div>Valeur d'enchère</div>
-        <div ng-repeat="value in getBidValues()" ng-click="placeBid(value)" class="bid-value coin">{{value}}</div>
-        <div class="god-bidding-value custom">
-            <input class="god-bidding-value" type="number" min="customBidValue" ng-model="customBidValue"/>
-            <input type="button" value="Enchérir" ng-click="placeCustomBid()"/>
-        </div>
-    </div>
     <div class="message">
         <div class="current-player">Au tour de {{game.currentPlayer.name}} de jouer</div>
         <div ng-show="game.phase === Phases.actions">

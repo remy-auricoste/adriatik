@@ -46,7 +46,6 @@
   background-color: #ffc931;
 }
 .bidPanel .god div {
-  display: table-cell;
   vertical-align: top;
 }
 .bidPanel .god p {
@@ -94,4 +93,17 @@
   border: 2px solid black;
   border-radius: 20px;
   padding: 10px;
+}
+.bidPanel .counter-container {
+  clear: both;
+  width: 300px;
+}
+.bidPanel .counter {
+  float: left;
+  width: 2em;
+  height: 2em;
+  border: solid 1px black;
+  border-radius: 3em;
+  color: black;
+  background-color: #ecff81;
 }
