@@ -1,29 +1,40 @@
 <div class="action-panel">
-  <item-price price="2"
-              ng-show="god().building"
-              icon-size="{{iconSize}}"
-              icon-name="{{god().building.name}}"
-              ng-click="selectMode(CommandType.Build)"
-              ng-class="{selected: mode === CommandType.Build}"
+  <div class="action-title">Actions</div>
+  <div ng-show=""
+       ng-class="{selected: mode === CommandType.BuyBuilding}"
+       class="action-building"
+     >
+     <div class="action-type">Batiments</div>
+     <item-price price="2"
+       ng-show="god().building"
+       icon-size="{{iconSize}}"
+       icon-name="{{god().building.name}}"
+       ng-click="selectMode(CommandType.Build)"
+       ng-class="{selected: mode === CommandType.Build}"
     ></item-price>
+  </div>
   <div ng-show="god().unitType"
        ng-class="{selected: mode === CommandType.BuyUnit}"
+       class="action-unit"
     >
+    <div class="action-type">Unités</div>
     <item-price ng-repeat="price in god().unitPrice().slice(game.currentPlayer.unitBuyCount)"
-                price="{{price}}"
-                icon-size="{{iconSize}}"
-                icon-name="{{god().unitType.name}}"
-                ng-click="selectMode(CommandType.BuyUnit)"
+       price="{{price}}"
+       icon-size="{{iconSize}}"
+       icon-name="{{god().unitType.name}}"
+       ng-click="selectMode(CommandType.BuyUnit)"
       ></item-price>
   </div>
   <div ng-show="god().card"
        ng-class="{selected: mode === CommandType.BuyCard}"
+       class="action-card"
     >
+    <div class="action-type">Cartes</div>
     <item-price ng-repeat="price in god().cardPrice().slice(game.currentPlayer.cardBuyCount)"
-                price="{{price}}"
-                icon-size="{{iconSize}}"
-                icon-name="{{god().card.name}}"
-                ng-click="selectMode(CommandType.BuyCard)"
+       price="{{price}}"
+       icon-size="{{iconSize}}"
+       icon-name="{{god().card.name}}"
+       ng-click="selectMode(CommandType.BuyCard)"
       ></item-price>
   </div>
 </div>

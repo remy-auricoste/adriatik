@@ -1,17 +1,48 @@
 .action-panel {
-  display: flex;
-  justify-content: space-around;
-}
-.action-panel {
   position: absolute;
   top: 0;
   right: 0;
-  width: 500px;
-  height: 100px;
-  border: solid 1px black;
+  width: 400px;
+  height: 200px;
+  border-radius: 30px;
+  padding: 5px;
+  margin: 10px 10px 0 0;
+  background-color: white;
+  border: 2px solid black;
+  box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.3);
+  font-size: 2em;
 }
 .action-panel > * {
   cursor: pointer;
+}
+.action-panel .action-title {
+  color: white;
+  background: linear-gradient(to top, $bid-color-1, $bid-color-2 80%); /* Standard syntax */
+  font-size: 0.8em;
+  text-align: center;
+  padding: 5px;
+  border-radius: 25px 25px 0 0;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.action-panel .action-type {
+  float: left;
+  color: white;
+  background-color: #3266d0;
+  width: 90px;
+  font-size: 0.6em;
+  padding: 5px 5px 5px 10px;
+  margin: 5px 0 0 0;
+  border-radius: 0 20px 20px 0;
+}
+.action-panel .item-price {
+  float: left;
+}
+.action-panel .action-building,
+.action-panel .action-unit,
+.action-panel .action-card {
+  float: left;
+  width: 100%;
+  margin: 5px 5px 5px 0;
 }
 .action-panel .selected {
   border: solid 3px blue;

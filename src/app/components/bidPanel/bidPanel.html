@@ -1,6 +1,6 @@
 <div class="bid-panel">
     <div ng-repeat="god in game.currentGods"
-         class="{{god.name}} god"
+         class="{{god.name}} god player-{{game.getPlayer(god).color}}"
             >
         <p class="god-name">{{god.name}}</p>
         <div class="counter-container">
