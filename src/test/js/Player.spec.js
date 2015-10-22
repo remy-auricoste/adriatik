@@ -28,7 +28,7 @@ describe('Player class', function () {
   beforeEach(function () {
     player = new Player({name: "player", gold: 7, randomFactory: randomFactoryMock});
     player2 = new Player({name: "player2", gold: 7, randomFactory: randomFactoryMock});
-    player.god = God.Mars;
+    player.god = God.Minerve;
     playerTroup = new Unit({type: UnitType.Troup, owner: player});
     player2Troup = new Unit({type: UnitType.Troup, owner: player2});
     playerElite = new Unit({type: UnitType.Elite, owner: player});
@@ -55,9 +55,9 @@ describe('Player class', function () {
       // then
       expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : aucun dieu n'est sélectionné"));
     });
-    it("should throw an exception if Apollon god is currently associated with the player", function() {
+    it("should throw an exception if Ceres god is currently associated with the player", function() {
       // given
-      player.god = God.Apollon;
+      player.god = God.Ceres;
       // then
       expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : ce dieu ne peut pas construire ce tour-ci"));
     });
@@ -74,9 +74,9 @@ describe('Player class', function () {
   });
 
   describe("buyUnit method", function() {
-    it("should buy a unit and place it on the territory (Mars)", function() {
+    it("should buy a unit and place it on the territory (Minerve)", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       // when
       player.buyUnit(territory);
       // then
@@ -101,7 +101,7 @@ describe('Player class', function () {
     });
     it("should throw an exception the player does not have enough gold", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       player.gold = 5;
       // then
       player.buyUnit(territory);
@@ -111,13 +111,13 @@ describe('Player class', function () {
     });
     it("should throw an exception if the god cannot give units", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       // then
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : ce dieu ne peut pas vous fournir d'unité"));
     });
     it("should throw an exception if there is no more unit to buy", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       player.gold = 20;
       // then
       player.buyUnit(territory);
@@ -144,7 +144,7 @@ describe('Player class', function () {
     });
     it("should throw an exception if the player does not own the territory", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       // when
       expect(function() {player.buyUnit(emptyTerritory);}).toThrow(new Error("Impossible d'acheter une unité : vous ne pouvez acheter des unités que sur des territoires que vous contrôlez"));
     })
@@ -169,13 +169,13 @@ describe('Player class', function () {
     });
     it("should throw an exception if the god cannot give cards", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       // then
       expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : ce dieu ne peut pas vous fournir de carte"));
     });
     it("should throw an exception if there is no more card to buy", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       player.gold = 20;
       // then
       player.buyGodCard();
@@ -190,7 +190,7 @@ describe('Player class', function () {
       expect(player.bid).toBe(undefined);
       player.gold = 8;
       // when
-      player.placeBid(God.Mars, 3);
+      player.placeBid(God.Minerve, 3);
       // then
       expect(player.bid).toBeDefined();
     });
@@ -202,7 +202,7 @@ describe('Player class', function () {
       player.addGodCard(GodCard.Priest);
       player.gold = 3;
       // when
-      player.placeBid(God.Mars, 6);
+      player.placeBid(God.Minerve, 6);
       // then
       expect(player.bid).toBeDefined();
     });
@@ -210,14 +210,14 @@ describe('Player class', function () {
       // given
       player.gold = 3;
       // then
-      expect(function() {player.placeBid(God.Mars, 4);}).toThrow(new Error("Impossible de placer cette enchère : pas assez d'or"));
+      expect(function() {player.placeBid(God.Minerve, 4);}).toThrow(new Error("Impossible de placer cette enchère : pas assez d'or"));
     });
     it("should throw an exception because bidding twice on the same god", function() {
       // given
       player.gold = 3;
       // then
-      player.placeBid(God.Mars, 2);
-      expect(function() {player.placeBid(God.Mars, 3);}).toThrow(new Error("Impossible de placer cette enchère : impossible de surenchérir sur le même dieu"));
+      player.placeBid(God.Minerve, 2);
+      expect(function() {player.placeBid(God.Minerve, 3);}).toThrow(new Error("Impossible de placer cette enchère : impossible de surenchérir sur le même dieu"));
     });
   });
 
@@ -225,7 +225,7 @@ describe('Player class', function () {
     it("should pay bid", function() {
       // given
       player.gold = 4;
-      player.placeBid(God.Mars, 3);
+      player.placeBid(God.Minerve, 3);
       // when
       player.payBid();
       // then
@@ -236,7 +236,7 @@ describe('Player class', function () {
       player.gold = 2;
       player.addGodCard(GodCard.Priest);
       player.addGodCard(GodCard.Priest);
-      player.placeBid(God.Mars, 2);
+      player.placeBid(God.Minerve, 2);
       // when
       player.payBid();
       // then
@@ -245,10 +245,10 @@ describe('Player class', function () {
   });
 
   describe("move method", function() {
-    it("should take control of dest empty territory (Mars)", function() {
+    it("should take control of dest empty territory (Minerve)", function() {
       // given
       player.gold = 1;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       // when
       var units = [playerTroup];
@@ -259,10 +259,10 @@ describe('Player class', function () {
       expect(emptyTerritory.owner).toBe(player);
       expect(player.gold).toBe(0);
     });
-    it("should take control of dest empty territory (Mars) (more units)", function() {
+    it("should take control of dest empty territory (Minerve) (more units)", function() {
       // given
       player.gold = 1;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       territory.placeUnit(playerTroup);
       territory.placeUnit(playerTroup);
@@ -278,7 +278,7 @@ describe('Player class', function () {
     it("should throw an exception because there is not enough gold", function() {
       // given
       player.gold = 0;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       // when
       var units = [playerTroup];
@@ -291,7 +291,7 @@ describe('Player class', function () {
     it("should take control of dest empty territory (elite troups)", function() {
       // given
       player.gold = 1;
-      player.god = God.Minerve;
+      player.god = God.Junon;
       territory.placeUnit(playerElite);
       territory.placeUnit(playerTroup);
       // when
@@ -306,7 +306,7 @@ describe('Player class', function () {
     it("should throw an exception because destination is not next to source", function() {
       // given
       player.gold = 1;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       // when
       var units = [playerTroup];
@@ -339,7 +339,7 @@ describe('Player class', function () {
     it("should remove units for both players", function() {
       // given
       player.gold = 1;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       territory.placeUnit(playerTroup);
       emptyTerritory.placeUnit(player2Troup);
@@ -358,7 +358,7 @@ describe('Player class', function () {
     it("should remove 1 unit for player1", function() {
       // given
       player.gold = 1;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       territory.placeUnit(playerTroup);
       emptyTerritory.placeUnit(player2Troup);
@@ -377,7 +377,7 @@ describe('Player class', function () {
     it("should not remove units and wait for player1 choice and remove 1 unit for player2", function() {
       // given
       player.gold = 1;
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.placeUnit(playerTroup);
       territory.placeUnit(playerElite);
       emptyTerritory.placeUnit(player2Troup);
@@ -397,7 +397,7 @@ describe('Player class', function () {
   describe("initBuilding method", function() {
     it("should place the building according to the chosen god", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.owner = player;
       // when
       player.initBuilding(territory, Building.Fort);
@@ -406,7 +406,7 @@ describe('Player class', function () {
     });
     it("should throw an exception if the building cannot be built by the chosen god", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       territory.owner = player;
       // then
       expect(function() {player.initBuilding(territory, Building.Port);}).toThrow(new Error("Impossible de placer ce bâtiment : le dieu choisi ne peut pas construire ce bâtiment"));
@@ -422,7 +422,7 @@ describe('Player class', function () {
     });
     it("should throw an exception if the territory is not controlled", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       // when
       expect(function() {player.initBuilding(emptyTerritory, Building.Fort);}).toThrow(new Error("Impossible de placer ce bâtiment : vous devez contrôller le territoire pour y placer un bâtiment"));
     });

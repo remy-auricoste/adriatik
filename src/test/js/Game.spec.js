@@ -36,7 +36,7 @@ describe("Game class", function() {
   describe("initUnit method", function() {
     it("should place a unit on 2 empty territories", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       var territory = newTerritory();
       var territory2 = newTerritory();
       territory.nextTo(territory2);
@@ -51,8 +51,8 @@ describe("Game class", function() {
     });
     it("should throw an exception if the territory is already controlled by another player", function() {
       //given
-      player.god = God.Mars;
-      player2.god = God.Minerve;
+      player.god = God.Minerve;
+      player2.god = God.Junon;
       var territory = newTerritory();
       game.initUnit(player2, territory);
       // then
@@ -60,7 +60,7 @@ describe("Game class", function() {
     });
     it("should throw an exception if trying to place unit on a 3rd territory", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       var territory1 = newTerritory();
       var territory2 = newTerritory();
       var territory3 = newTerritory();
@@ -74,14 +74,14 @@ describe("Game class", function() {
     });
     it("should throw an exception if trying to place unit on non-adjacent territories", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       game.initUnit(player, newTerritory());
       // then
       expect(function() {game.initUnit(player, newTerritory());}).toThrow(new Error("Impossible de placer une unité sur ce territoire : il n'est pas adjacent aux territoires déjà contrôllés"));
     });
-    it("should place 3 troups with Mars", function() {
+    it("should place 3 troups with Minerve", function() {
       // given
-      player.god = God.Mars;
+      player.god = God.Minerve;
       var territory1 = newTerritory();
       var territory2 = newTerritory();
       territory1.nextTo(territory2);
@@ -95,9 +95,9 @@ describe("Game class", function() {
       expect(territory1.units.length).toBe(2);
       expect(territory2.units.length).toBe(1);
     })
-    it("should throw an exception if trying to place 3 troups with Minerve", function() {
+    it("should throw an exception if trying to place 3 troups with Junon", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       var territory1 = newTerritory();
       var territory2 = newTerritory();
       territory1.nextTo(territory2);
@@ -107,9 +107,9 @@ describe("Game class", function() {
       // then
       expect(function() {game.initUnit(player, territory1);}).toThrow(new Error("Impossible de placer une unité sur ce territoire : vous ne pouvez pas ajouter d'autres unités de type troup"));
     });
-    it("should throw an exception if trying to place 2 troups on the same territory with Minerve", function() {
+    it("should throw an exception if trying to place 2 troups on the same territory with Junon", function() {
       // given
-      player.god = God.Minerve;
+      player.god = God.Junon;
       var territory1 = newTerritory();
       // when
       game.initUnit(player, territory1);

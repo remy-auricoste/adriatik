@@ -26,6 +26,24 @@ body {
   font-family: roman !important;
   background: url(images/map.jpg) top left transparent;
 }
+
+.rounded-box {
+  background-color: white;
+  margin: 10px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 25px;
+  box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.3);
+}
+.rounded-box .title {
+  color: white;
+  background: linear-gradient(to top, $bid-color-1, $bid-color-2 80%); /* Standard syntax */
+  font-size: 1em;
+  text-align: center;
+  padding: 5px;
+  border-radius: 20px 20px 0 0;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
  *  sass dependencies when defined in the bower.json of your dependencies

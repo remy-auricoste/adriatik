@@ -52,8 +52,8 @@ God.Neptune = new God({
     return [0, 1, 2, 3];
   }
 });
-God.Minerve = new God({
-  name: "Minerve",
+God.Junon = new God({
+  name: "Junon",
   color: "blue",
   building: Building.Universite,
   card: GodCard.Thinker,
@@ -61,8 +61,8 @@ God.Minerve = new God({
     return [0, 4];
   }
 });
-God.Mars = new God({
-  name: "Mars",
+God.Minerve = new God({
+  name: "Minerve",
   color: "red",
   building: Building.Fort,
   unitType: UnitType.Troup,
@@ -70,17 +70,17 @@ God.Mars = new God({
     return [0, 2, 3, 4];
   }
 });
-God.Apollon = new God({
-  name: "Apollon",
+God.Ceres = new God({
+  name: "Ceres",
   color: "yellow"
 });
 God.all = [
   God.Jupiter
   , God.Pluton
   , God.Neptune
+  , God.Junon
   , God.Minerve
-  , God.Mars
-  , God.Apollon
+  , God.Ceres
 ]
 
 var Phases = {

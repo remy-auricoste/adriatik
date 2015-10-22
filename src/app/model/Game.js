@@ -34,11 +34,11 @@ var Game = Meta.declareClass("Game", {
     var self = this;
     self.turn++;
     var normalGods = self.gods.filter(function(god) {
-      return god !== God.Apollon;
+      return god !== God.Ceres;
     });
     var godPromise = self.randomFactory.shuffle(normalGods).then(function(shuffled) {
       shuffled = shuffled.slice(0, self.players.length - 1);
-      shuffled.push(God.Apollon);
+      shuffled.push(God.Ceres);
       self.currentGods = shuffled;
       shuffled.map(function(god, index) {
         god.index = index;
@@ -87,7 +87,7 @@ var Game = Meta.declareClass("Game", {
     return biddingPlayers[0];
   },
   placeBid: function(player, god, amount) {
-    if (god === God.Apollon) {
+    if (god === God.Ceres) {
       player.placeBid(god, 0);
       return this.endPlayerTurn();
     }
@@ -104,17 +104,17 @@ var Game = Meta.declareClass("Game", {
     var self = this;
     if (self.phase === Phases.bidding) {
       self.phase = Phases.actions;
-      var apollonPlayers = God.Apollon.playerNames.map(function(name) {
+      var CeresPlayers = God.Ceres.playerNames.map(function(name) {
         return Meta.find(self.players, function(player) {
           return player.name === name;
         });
       });
       self.players = self.currentGods.filter(function(god) {
-        return god.bid && god !== God.Apollon;
+        return god.bid && god !== God.Ceres;
       }).map(function(god) {
         return self.getPlayer(god);
       });
-      self.players = self.players.concat(apollonPlayers);
+      self.players = self.players.concat(CeresPlayers);
       self.players.map(function(player) {
         player.payBid();
       });
@@ -127,7 +127,7 @@ var Game = Meta.declareClass("Game", {
         player.bid = null;
         player.god = null;
       });
-      God.Apollon.playerNames = [];
+      God.Ceres.playerNames = [];
       return self.startTurn();
     }
   },

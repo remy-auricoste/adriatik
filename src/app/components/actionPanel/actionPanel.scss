@@ -4,25 +4,10 @@
   right: 0;
   width: 400px;
   height: 200px;
-  border-radius: 30px;
-  padding: 5px;
-  margin: 10px 10px 0 0;
-  background-color: white;
-  border: 2px solid black;
-  box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.3);
   font-size: 2em;
 }
 .action-panel > * {
   cursor: pointer;
-}
-.action-panel .action-title {
-  color: white;
-  background: linear-gradient(to top, $bid-color-1, $bid-color-2 80%); /* Standard syntax */
-  font-size: 0.8em;
-  text-align: center;
-  padding: 5px;
-  border-radius: 25px 25px 0 0;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 .action-panel .action-type {
   float: left;

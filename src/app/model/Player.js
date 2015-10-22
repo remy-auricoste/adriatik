@@ -118,7 +118,7 @@ Player = Meta.declareClass("Player", {
   },
   placeBid: function(god, number) {
     try {
-      if (god === God.Apollon) {
+      if (god === God.Ceres) {
         number = 0;
         god.playerNames.push(this.name);
       } else {
@@ -151,8 +151,8 @@ Player = Meta.declareClass("Player", {
         throw new Error("aucune unité sélectionnée");
       }
       this.requireGod();
-      if (this.god === God.Apollon) {
-        throw new Error("Apollon ne peut pas déplacer d'unité");
+      if (this.god === God.Ceres) {
+        throw new Error("Ceres ne peut pas déplacer d'unité");
       }
       if (fromTerritory.neighbours.indexOf(toTerritorry.id) === -1) {
         throw new Error("le territoire de destination n'est pas adjacent au territoire de départ");
@@ -162,7 +162,7 @@ Player = Meta.declareClass("Player", {
       });
       if (fromTerritory.type === "sea" && this.god === God.Neptune) {
         this.spend(1);
-      } else if (fromTerritory.type === "earth" && this.god === God.Mars) {
+      } else if (fromTerritory.type === "earth" && this.god === God.Minerve) {
         this.spend(1);
       } else if (fromTerritory.type === "earth" && elites.length) {
         this.eliteMoveCount++;

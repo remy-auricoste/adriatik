@@ -1,9 +1,9 @@
 <section class="player-panel">
-  <detail class="player"
+  <detail class="player rounded-box"
       ng-repeat="player in game.players"
       ng-click="setPlayer(player)"
     >
-    <div class="player-name player-{{player.color}}">{{player.name}}</div>
+    <div class="player-name player-{{player.color}} title">{{player.name}}</div>
       <div class="resources">
           <div class="money">pieces: {{player.gold}}</div>
           <div class="priest">pretres : {{player.priests}}</div>
