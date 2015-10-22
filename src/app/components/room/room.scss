@@ -1,0 +1,31 @@
+.room .messages {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+}
+.room .message div:first-child {
+  width: 200px;
+  text-align: right;
+}
+.room .message div {
+  display: inline-block;
+}
+.room .text {
+  width: 70%;
+}
+.room .messages .user {
+  text-align: right;
+  width: 200px;
+}
+.room .users {
+  position: absolute;
+  width: 20%;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 1em;
+}
