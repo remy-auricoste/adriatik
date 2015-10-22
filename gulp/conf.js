@@ -65,3 +65,10 @@ exports.errorHandler = function(title) {
     this.emit('end');
   };
 };
+
+exports.npm = {
+  export: {
+    Meta: "rauricoste-meta",
+    Socket: "rauricoste-websocket-room-client"
+  }
+}
