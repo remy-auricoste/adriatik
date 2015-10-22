@@ -12,10 +12,10 @@
   fill: $ground;
 }
 .france .departement.over {
-  fill: $ground-over !important;
+  fill: $ground-over-2;
 }
 .france .departement.neighbour {
-  fill: $player-green-1 !important;
+  fill: $ground-over;
 }
 .france .image {
   cursor: pointer;

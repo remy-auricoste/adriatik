@@ -1,5 +1,5 @@
 <section class="player-panel">
-  <detail class="player rounded-box"
+  <detail class="player {{ player.name === game.currentPlayer.name ? 'current' : '' }} rounded-box"
       ng-repeat="player in game.players"
       ng-click="setPlayer(player)"
     >
