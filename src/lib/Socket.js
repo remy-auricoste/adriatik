@@ -2502,6 +2502,7 @@ SocketBus.prototype.openRoom = function(roomName) {
     var self = this;
     self.joinRoom(roomName);
     var result = {
+        getId: function() {return self.id},
         listeners: [],
         nicknames: {},
         send: function(message) {

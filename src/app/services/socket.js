@@ -10,7 +10,7 @@ function socket() {
       host: ["websocket-room-http.herokuapp.com"]
 //      host: ["localhost:8001"]
   });
-  return socket;
+  return socket.openRoom("adriatik");
 }
 angular.module("adriatik").service("socket", socket);
 
