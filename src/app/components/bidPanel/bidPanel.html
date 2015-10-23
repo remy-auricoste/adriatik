@@ -2,8 +2,11 @@
     <div ng-repeat="god in game.currentGods"
          class="{{god.name}} god player-{{game.getPlayer(god).color}}"
             >
+        <div class="god-avatar"><img src="app/images/gods/jupiter.png" /></div>
         <p class="god-name">{{god.name}}</p>
-        <div class="counter-container">
+        <div class="counter-container"
+             ng-show="game.phase === Phases.bidding"
+            >
             <div ng-repeat="counter in counters"
                  class="counter player-{{game.getPlayer(god) && counter <= god.bid.gold ? game.getPlayer(god).color : 'none'}}"
                  ng-click="placeBid(god, counter)"
@@ -19,7 +22,7 @@
     </div>
 
     <div ng-show="god === God.Ceres">joueurs : {{god.playerNames.join(', ')}}</div>
-    <div id="message" class="rounded-box">
+    <div id="message" class="message rounded-box">
         <div class="current-player">Au tour de {{game.currentPlayer.name}} de jouer</div>
         <div ng-show="game.phase === Phases.actions">
             <input type="button" value="Fin de tour" ng-click="endTurn()"/>

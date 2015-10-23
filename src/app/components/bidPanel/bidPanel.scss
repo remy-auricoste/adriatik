@@ -13,9 +13,8 @@
   color: white;
   background-color: #a4865d;
   border: 4px solid #563f39;
-  cursor: pointer;
   height: 100px;
-  margin: 0 10px 10px 10px;
+  margin: 30px 10px 10px 10px;
   padding: 0 0 10px 0;
   border-radius: 50px 50px;
   box-shadow: 5px 5px 8px  0px rgba(0, 0, 0, 0.4),
@@ -25,6 +24,18 @@
   float:  left;
   font-size: 2em;
   padding: 3px 0 0 10px;
+}
+.bid-panel .god .god-avatar {
+  float:  left;
+  width: 90px;
+  margin: -20px 0 0 -10px;
+  transform: rotate(-5deg);
+}
+.bid-panel .god .god-avatar img {
+  width: 100%;
+  border:3px solid white;
+  border-radius: 10px;
+  box-shadow: 5px 5px 8px  0px rgba(0, 0, 0, 0.4);
 }
 .bid-panel p.god-name {
   float: right;
@@ -36,17 +47,12 @@
 .bid-panel .god div {
   vertical-align: top;
 }
-#phase {
-  min-height: 100px;
-}
-#message {
-  height: 100px;
-  padding: 10px;
-}
 .bid-panel .counter-container {
-  clear: both;
-  width: 200px;
-  margin: 0 0 0 30px
+  position: absolute;
+  width: 140px;
+  margin: 45px 0 0 90px;
+  border-radius: 15px;
+  opacity: 0.95;
 }
 .bid-panel .counter {
   float: left;
@@ -58,6 +64,7 @@
   background-color: #ffc931;
   text-align: center;
   font-size:0.8em;
+  cursor: pointer;
 }
 
 .bid-panel .player-red {
@@ -75,4 +82,36 @@
 .bid-panel .player-purple {
   color: white;
   background-color: $player-purple-1;
+}
+
+/**
+ *  Phase box
+ **/
+#phase {
+  min-height: 100px;
+}
+
+/**
+ *  Message box
+ **/
+#message {
+  position: absolute;
+  bottom: 100px;
+  height: 85px;
+  width: 260px;
+  padding: 10px;
+  border: none;
+}
+#message:after {
+  border-left: solid transparent 10px;
+  border-right: solid transparent 10px;
+  border-top: solid white 10px;
+  bottom: -10px;
+  content: " ";
+  height: 0;
+  left: 50%;
+  margin-left: -60px;
+  position: absolute;
+  width: 0;
+  box-shadow: 0 2x 2px 0 rgba(0, 0, 0, 0.3);
 }

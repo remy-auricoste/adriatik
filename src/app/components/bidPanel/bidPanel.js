@@ -11,7 +11,7 @@ function bidPanel() {
             },
             link: function(scope, elements, attr) {
               scope.counters = [];
-              for (var i=1;i<=20;i++) {
+              for (var i=1;i<=14;i++) {
                   scope.counters.push(i);
               }
               scope.noBidPlayers = function() {
