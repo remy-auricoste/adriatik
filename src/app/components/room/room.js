@@ -11,7 +11,7 @@ function room(gameFinder, socket) {
         scope: {
         },
         link: function (scope, elements, attr) {
-            var roomSocket = socket;
+            var roomSocket = socket.openRoom("adriatik");
             scope.users = roomSocket.getRoomUsers();
             scope.user = "unknown";
             scope.search = function () {
