@@ -9,9 +9,9 @@
              ng-show="game.phase === Phases.bidding"
                 >
             <div ng-repeat="gold in golds"
-                 class="gold player-{{game.getPlayer(god) && gold <= god.bid.gold ? game.getPlayer(god).color : 'none'}}"
+                 class="gold"
                  ng-click="placeBid(god, gold)"
-                    >{{gold}}
+                    ><img src="app/images/sesterce.png" class="{{ game.getPlayer(god) && gold <= god.bid.gold ? 'bidden' : '' }}" title="Miser {{gold}} pièce(s)" width="20">
             </div>
             <div ng-show="god === God.Ceres">
                 {{god.playerNames.join(', ')}}
@@ -20,12 +20,14 @@
     </div>
 
     <div id="phase" class="rounded-box shadowed-box">
-        <div class="title">
-            [{{game.phase}}] - <span>{{game.currentPlayer.gold}} pièce(s)</span>
+        <div class="title">Sesterces</div>
+        <span>{{game.phase}}: {{game.currentPlayer.gold}} pièce(s)</span><br/>
+        <div class="purse">
+            <div ng-repeat="piece in purse"
+                 class="purse-piece"
+                    ><img src="app/images/sesterce.png">
+            </div>
         </div>
-        <ol compact type="I">
-            <li ng-repeat="player in noBidPlayers()">{{player.name}}</li>
-        </ol>
     </div>
 
     <div id="message" class="message rounded-box shadowed-box">

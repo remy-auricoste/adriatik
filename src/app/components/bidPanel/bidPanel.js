@@ -14,6 +14,10 @@ function bidPanel() {
             for (var i = 1; i <= 14; i++) {
                 scope.golds.push(i);
             }
+            scope.purse = [];
+            for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
+                scope.purse.push(i);
+            }
             scope.noBidPlayers = function () {
                 return scope.game.players.filter(function (player) {
                     return !player.bid;
@@ -31,6 +35,7 @@ function bidPanel() {
             scope.endTurn = function () {
                 scope.game.endPlayerTurn();
             }
+console.log(scope.purse);
             scope.Phases = Phases;
             scope.God = God;
         }

@@ -6,7 +6,7 @@
   height: 100%;
   border-right: #563f39 solid 5px;
   background: url(images/map.jpg) top right;
-  padding: 5px;
+  padding: 0 0 0 10px;
   box-shadow: 10px 0 8px 0 rgba(0, 0, 0, 0.3);
 
   .god {
@@ -30,7 +30,7 @@
     .god-avatar {
       float: left;
       width: 90px;
-      margin: -20px 0 0 -10px;
+      margin: -20px 0 0 -15px;
       transform: rotate(-5deg);
 
       img {
@@ -45,33 +45,33 @@
       float: left;
       font-size: 2.3em;
       padding: 0 0 0 10px;
-      margin: 0;
+      margin: -5px 0 0 0;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     }
     /* Money counter */
     .gold-container {
       position: absolute;
-      width: 140px;
-      margin: 47px 0 0 90px;
-      border-radius: 15px;
-      opacity: 0.95;
+      width: 170px;
+      margin: 40px 0 0 85px;
     }
     .gold {
       float: left;
-      width: 1.75em;
-      height: 1.75em;
-      border: solid 1px black;
+      width: 22px;
+      height: 22px;
+      border: solid 1px #656565;
       border-radius: 2.5em;
-      color: black;
-      background-color: #edab1a;
-      text-align: center;
-      font-size: 0.8em;
       cursor: pointer;
+
+      img.bidden {
+        opacity: 0.4;
+        cursor: none;
+      }
     }
     .gold:hover {
       color: #f5e385;
     }
   }
+
   /* Player background*/
   .player-red {
     color: white;
@@ -95,7 +95,26 @@
  *  Phase box
  **/
 #phase {
+  float: left;
   min-height: 100px;
+  width: 260px;
+  padding-bottom: 5px;
+  span {
+    float: left;
+  }
+  .purse {
+    width: 230px;
+    padding: 0 5px;
+    .purse-piece {
+      float: left;
+      width: 35px;
+      height: 35px;
+      margin: 0 -14px 0 0;
+      padding: 0;
+      border: solid 1px #656565;
+      border-radius: 50%;
+    }
+  }
 }
 
 /**
@@ -109,7 +128,6 @@
   padding: 10px;
   border: none;
 }
-
 #message:after {
   border-left: solid transparent 10px;
   border-right: solid transparent 10px;
