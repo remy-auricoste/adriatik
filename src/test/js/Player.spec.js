@@ -6,9 +6,9 @@ describe('Player class', function () {
   var territory;
   var territory2;
   var emptyTerritory;
-  var playerTroup;
-  var player2Troup;
-  var playerElite;
+  var playerLegionnaire;
+  var player2Legionnaire;
+  var playerGladiator;
 
   var randomNumber = 0;
   var randomFactoryMock = {
@@ -29,9 +29,9 @@ describe('Player class', function () {
     player = new Player({name: "player", gold: 7, randomFactory: randomFactoryMock});
     player2 = new Player({name: "player2", gold: 7, randomFactory: randomFactoryMock});
     player.god = God.Minerve;
-    playerTroup = new Unit({type: UnitType.Troup, owner: player});
-    player2Troup = new Unit({type: UnitType.Troup, owner: player2});
-    playerElite = new Unit({type: UnitType.Elite, owner: player});
+    playerLegionnaire = new Unit({type: UnitType.Legionnaire, owner: player});
+    player2Legionnaire = new Unit({type: UnitType.Legionnaire, owner: player2});
+    playerGladiator = new Unit({type: UnitType.Gladiator, owner: player});
     territory = new Territory({owner: player, buildSlots: 4, type:"earth"});
     territory2 = new Territory({owner: player, buildSlots: 4, type:"earth"});
     emptyTerritory = new Territory({buildSlots: 4, type:"earth"});
@@ -126,7 +126,7 @@ describe('Player class', function () {
       player.buyUnit(territory);
       expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
     });
-    it("should buy 2 elite units", function() {
+    it("should buy 2 gladiator units", function() {
       // given
       player.god = God.Pluton;
       player.god.index = 0;
@@ -134,7 +134,7 @@ describe('Player class', function () {
       player.buyUnit(territory);
       player.buyUnit(territory);
     });
-    it("should buy an elite unit and then throw an exception", function() {
+    it("should buy an gladiator unit and then throw an exception", function() {
       // given
       player.god = God.Pluton;
       player.god.index = 1;
@@ -249,9 +249,9 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerLegionnaire);
       // when
-      var units = [playerTroup];
+      var units = [playerLegionnaire];
       player.move(units, territory, emptyTerritory);
       // then
       expect(territory.units.length).toBe(0);
@@ -263,11 +263,11 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
-      territory.placeUnit(playerTroup);
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerLegionnaire);
+      territory.placeUnit(playerLegionnaire);
+      territory.placeUnit(playerLegionnaire);
       // when
-      var units = [playerTroup, playerTroup];
+      var units = [playerLegionnaire, playerLegionnaire];
       player.move(units, territory, emptyTerritory);
       // then
       expect(territory.units.length).toBe(1);
@@ -279,23 +279,23 @@ describe('Player class', function () {
       // given
       player.gold = 0;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerLegionnaire);
       // when
-      var units = [playerTroup];
+      var units = [playerLegionnaire];
       // then
       expect(territory.units.length).toBe(1);
       expect(emptyTerritory.units.length).toBe(0);
       expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : pas assez de pièces. Cette action coûte 1 pièces"));
       expect(player.gold).toBe(0);
     });
-    it("should take control of dest empty territory (elite troups)", function() {
+    it("should take control of dest empty territory (gladiator legionnaires)", function() {
       // given
       player.gold = 1;
       player.god = God.Junon;
-      territory.placeUnit(playerElite);
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerGladiator);
+      territory.placeUnit(playerLegionnaire);
       // when
-      var units = [playerTroup, playerElite];
+      var units = [playerLegionnaire, playerGladiator];
       player.move(units, territory, emptyTerritory);
       // then
       expect(territory.units.length).toBe(0);
@@ -307,18 +307,18 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerLegionnaire);
       // when
-      var units = [playerTroup];
+      var units = [playerLegionnaire];
       expect(function() {player.move(units, territory, territory2);}).toThrow(new Error("Impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ"));
     });
     it("should throw an exception because move is not allowed by the god", function() {
       // given
       player.gold = 1;
       player.god = God.Neptune;
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerLegionnaire);
       // when
-      var units = [playerTroup];
+      var units = [playerLegionnaire];
       expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : vous n'avez pas les faveurs du dieu correspondant"));
     });
   });
@@ -326,7 +326,7 @@ describe('Player class', function () {
   describe("retreat method", function() {
     it("should retreat to an adjacent territory", function() {
       // given
-      territory.placeUnit(playerTroup);
+      territory.placeUnit(playerLegionnaire);
       // when
       player.retreat(territory, emptyTerritory);
       // then
@@ -340,13 +340,13 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
-      territory.placeUnit(playerTroup);
-      emptyTerritory.placeUnit(player2Troup);
-      emptyTerritory.placeUnit(player2Troup);
+      territory.placeUnit(playerLegionnaire);
+      territory.placeUnit(playerLegionnaire);
+      emptyTerritory.placeUnit(player2Legionnaire);
+      emptyTerritory.placeUnit(player2Legionnaire);
       emptyTerritory.owner = player2;
       // when
-      var units = [playerTroup, playerTroup];
+      var units = [playerLegionnaire, playerLegionnaire];
       player.move(units, territory, emptyTerritory);
       // then
       expect(emptyTerritory.units.length).toBe(2);
@@ -359,14 +359,14 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
-      territory.placeUnit(playerTroup);
-      emptyTerritory.placeUnit(player2Troup);
-      emptyTerritory.placeUnit(player2Troup);
-      emptyTerritory.placeUnit(player2Troup);
+      territory.placeUnit(playerLegionnaire);
+      territory.placeUnit(playerLegionnaire);
+      emptyTerritory.placeUnit(player2Legionnaire);
+      emptyTerritory.placeUnit(player2Legionnaire);
+      emptyTerritory.placeUnit(player2Legionnaire);
       emptyTerritory.owner = player2;
       // when
-      var units = [playerTroup, playerTroup];
+      var units = [playerLegionnaire, playerLegionnaire];
       player.move(units, territory, emptyTerritory);
       // then
       expect(emptyTerritory.units.length).toBe(4);
@@ -378,13 +378,13 @@ describe('Player class', function () {
       // given
       player.gold = 1;
       player.god = God.Minerve;
-      territory.placeUnit(playerTroup);
-      territory.placeUnit(playerElite);
-      emptyTerritory.placeUnit(player2Troup);
-      emptyTerritory.placeUnit(player2Troup);
+      territory.placeUnit(playerLegionnaire);
+      territory.placeUnit(playerGladiator);
+      emptyTerritory.placeUnit(player2Legionnaire);
+      emptyTerritory.placeUnit(player2Legionnaire);
       emptyTerritory.owner = player2;
       // when
-      var units = [playerTroup, playerElite];
+      var units = [playerLegionnaire, playerGladiator];
       var result = player.move(units, territory, emptyTerritory);
       // then
       expect(emptyTerritory.units.length).toBe(3);

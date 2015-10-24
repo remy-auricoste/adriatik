@@ -9,15 +9,15 @@ CommandType.InitBuilding = new CommandType({name: "initBuilding", methodName: "i
 
 Building.Fort = new Building({name: "fort"});
 Building.Port = new Building({name: "port"});
-Building.Universite = new Building({name: "university"});
+Building.University = new Building({name: "university"});
 Building.Temple = new Building({name: "temple"});
 
-UnitType.Troup = new UnitType({name: "troup", territoryType: "earth"});
+UnitType.Legionnaire = new UnitType({name: "legionnaire", territoryType: "earth"});
 UnitType.Ship = new UnitType({name: "ship", territoryType: "sea"});
-UnitType.Elite = new UnitType({name: "elite", territoryType: "earth"});
+UnitType.Gladiator = new UnitType({name: "gladiator", territoryType: "earth"});
 
 GodCard.Priest = new GodCard({name: "priest"});
-GodCard.Thinker = new GodCard({name: "thinker"});
+GodCard.Thinker = new GodCard({name: "philosopher"});
 
 God.Jupiter = new God({
     name: "Jupiter",
@@ -31,7 +31,7 @@ God.Jupiter = new God({
 God.Pluton = new God({
     name: "Pluton",
     color: "black",
-    unitType: UnitType.Elite,
+    unitType: UnitType.Gladiator,
     unitPrice: function () {
         if (this.index === 0) {
             return [0, 2];
@@ -55,7 +55,7 @@ God.Neptune = new God({
 God.Junon = new God({
     name: "Junon",
     color: "blue",
-    building: Building.Universite,
+    building: Building.University,
     card: GodCard.Thinker,
     cardPrice: function () {
         return [0, 4];
@@ -65,7 +65,7 @@ God.Minerve = new God({
     name: "Minerve",
     color: "red",
     building: Building.Fort,
-    unitType: UnitType.Troup,
+    unitType: UnitType.Legionnaire,
     unitPrice: function () {
         return [0, 2, 3, 4];
     }

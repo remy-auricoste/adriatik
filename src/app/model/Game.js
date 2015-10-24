@@ -174,11 +174,11 @@ var Game = Meta.declareClass("Game", {
                     return territoryIte.neighbours.indexOf(territory.id) === -1;
                 });
                 if (playerTerritories.length && !isAdjacent) {
-                    throw new Error("il n'est pas adjacent aux territoires déjà contrôllés");
+                    throw new Error("il n'est pas adjacent aux territoires déjà contrôlés");
                 }
             }
             var self = player;
-            var unitType = territory.type === "earth" ? UnitType.Troup : UnitType.Ship;
+            var unitType = territory.type === "earth" ? UnitType.Legionnaire : UnitType.Ship;
             var currentValue = player.initCount[unitType.name];
             var allowedValue = 2 + (player.god.unitType && player.god.unitType === unitType ? 1 : 0);
             if (currentValue === allowedValue) {

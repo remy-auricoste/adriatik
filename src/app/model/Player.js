@@ -3,12 +3,12 @@ Player = Meta.declareClass("Player", {
     avatar: "",
     gold: 1,
     priests: 1,
-    thinkers: 1,
+    philosophers: 1,
     color: "",
     unitsLeft: {},
     unitBuyCount: 1,
     cardBuyCount: 1,
-    eliteMoveCount: 1,
+    gladiatorMoveCount: 1,
     god: "God",
     cards: {},
     bid: {},
@@ -18,8 +18,8 @@ Player = Meta.declareClass("Player", {
         if (!this.priests) {
             this.priests = 0;
         }
-        if (!this.thinkers) {
-            this.thinkers = 0;
+        if (!this.philosophers) {
+            this.philosophers = 0;
         }
         if (!this.unitBuyCount) {
             this.unitBuyCount = 0;
@@ -30,8 +30,8 @@ Player = Meta.declareClass("Player", {
         if (!this.cards) {
             this.cards = {};
         }
-        if (!this.eliteMoveCount) {
-            this.eliteMoveCount = 0;
+        if (!this.gladiatorMoveCount) {
+            this.gladiatorMoveCount = 0;
         }
         if (!this.initCount) {
             this.initCount = {};
@@ -158,16 +158,16 @@ Player = Meta.declareClass("Player", {
             if (fromTerritory.neighbours.indexOf(toTerritorry.id) === -1) {
                 throw new Error("Le territoire de destination n'est pas adjacent au territoire de départ");
             }
-            var elites = units.filter(function (unit) {
-                return unit.type === UnitType.Elite;
+            var gladiators = units.filter(function (unit) {
+                return unit.type === UnitType.Gladiator;
             });
             if (fromTerritory.type === "sea" && this.god === God.Neptune) {
                 this.spend(1);
             } else if (fromTerritory.type === "earth" && this.god === God.Minerve) {
                 this.spend(1);
-            } else if (fromTerritory.type === "earth" && elites.length) {
-                this.eliteMoveCount++;
-                this.spend(this.eliteMoveCount);
+            } else if (fromTerritory.type === "earth" && gladiators.length) {
+                this.gladiatorMoveCount++;
+                this.spend(this.gladiatorMoveCount);
             } else {
                 throw new Error("Vous n'avez pas les faveurs du dieu correspondant");
             }
@@ -223,13 +223,13 @@ Player = Meta.declareClass("Player", {
     resolveLoss: function (territory) {
         var self = this;
         var units = territory.getUnits(self);
-        var hasTroup = units.filter(function (unit) {
-            return unit.type === UnitType.Troup;
+        var hasLegionnaire = units.filter(function (unit) {
+            return unit.type === UnitType.Legionnaire;
         }).length;
-        var hasElite = units.filter(function (unit) {
-            return unit.type === UnitType.Elite;
+        var hasGladiator = units.filter(function (unit) {
+            return unit.type === UnitType.Gladiator;
         }).length;
-        if (hasElite && hasTroup) {
+        if (hasGladiator && hasLegionnaire) {
             return false;
         } else {
             var unit = units[0];
@@ -288,7 +288,7 @@ Player.new = function (name, hash, color) {
         unitsLeft: {
             earth: 7,
             sea: 7,
-            elite: 3
+            gladiator: 3
         }
     })
 }

@@ -14,7 +14,7 @@
     background-color: #a4865d;
     border: 4px solid #563f39;
     height: 100px;
-    margin: 30px 10px 10px 10px;
+    margin: 30px 10px 10px 5px;
     padding: 0 0 10px 0;
     border-radius: 50px 50px;
     box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
@@ -30,7 +30,7 @@
     .god-avatar {
       float: left;
       width: 90px;
-      margin: -20px 0 0 -15px;
+      margin: -20px 0 0 -10px;
       transform: rotate(-5deg);
 
       img {
@@ -52,7 +52,7 @@
     .gold-container {
       position: absolute;
       width: 170px;
-      margin: 40px 0 0 85px;
+      margin: 40px 0 0 70px;
     }
     .gold {
       float: left;
@@ -61,6 +61,7 @@
       border: solid 1px #656565;
       border-radius: 2.5em;
       cursor: pointer;
+      margin: 2px 2px 0 0;
 
       img.bidden {
         opacity: 0.4;
