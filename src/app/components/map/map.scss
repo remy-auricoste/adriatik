@@ -3,6 +3,7 @@
   padding: 0 0 0 -600px;
   position: relative;
 }
+
 .map svg {
   width: 1000px;
   height: 800px;
@@ -11,19 +12,24 @@
 .map .departement {
   fill: $ground;
 }
+
 .map .departement.over {
   fill: $ground-over-2;
 }
+
 .map .departement.neighbour {
   fill: $ground-over;
 }
+
 .map .image {
   cursor: pointer;
   pointer-events: auto;
 }
+
 .map .image.selected {
   border: solid 1px white;
 }
+
 .map .icon-container {
   position: absolute;
   pointer-events: none;

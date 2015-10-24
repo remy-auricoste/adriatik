@@ -25,7 +25,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 
 body {
   font-family: roman !important;
-  background: url(images/map.jpg) top left transparent;
+  background-image: url(images/map.jpg);
 }
 
 /**
@@ -37,8 +37,8 @@ body {
   padding: 3px;
   border: 2px solid black;
   border-radius: 25px;
-  box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.3);
 }
+
 .rounded-box .title {
   color: white;
   background: linear-gradient(to top, $bid-color-1, $bid-color-2 80%); /* Standard syntax */
@@ -48,6 +48,14 @@ body {
   border-radius: 20px 20px 0 0;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
+
+/**
+ * Box shadoed css
+ */
+.shadowed-box {
+  box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
+}
+
 /**
  * Tooltip css
  **/

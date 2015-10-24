@@ -1,13 +1,13 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-    .module('adriatik')
-    .run(runBlock);
+    angular
+        .module('adriatik')
+        .run(runBlock);
 
-  /** @ngInject */
-  function runBlock($log) {
-    $log.debug('runBlock end');
-  }
+    /** @ngInject */
+    function runBlock($log) {
+        $log.debug('runBlock end');
+    }
 
 })();

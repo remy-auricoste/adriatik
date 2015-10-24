@@ -1,9 +1,9 @@
 /* global moment:false */
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-    .module('adriatik')
-    .constant('moment', moment);
+    angular
+        .module('adriatik')
+        .constant('moment', moment);
 
 })();

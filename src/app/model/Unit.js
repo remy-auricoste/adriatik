@@ -1,4 +1,4 @@
 var Unit = Meta.declareClass("Unit", {
-  type: "UnitType",
-  owner: "Player"
+    type: "UnitType",
+    owner: "Player"
 });

@@ -1,20 +1,20 @@
 var God = Meta.declareClass("God", {
-  name: "",
-  color: "",
-  building: "Building",
-  unitType: "UnitType",
-  unitPrice: "fct",
-  card: "GodCard",
-  cardPrice: "fct",
-  index: 1,
-  bid: {},
-  playerNames: [],
-  init: function() {
-    if (!this.playerNames) {
-      this.playerNames = [];
+    name: "",
+    color: "",
+    building: "Building",
+    unitType: "UnitType",
+    unitPrice: "fct",
+    card: "GodCard",
+    cardPrice: "fct",
+    index: 1,
+    bid: {},
+    playerNames: [],
+    init: function () {
+        if (!this.playerNames) {
+            this.playerNames = [];
+        }
+    },
+    canBuild: function (building) {
+        return building === this.building;
     }
-  },
-  canBuild: function(building) {
-    return building === this.building;
-  }
 });

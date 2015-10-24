@@ -1,14 +1,14 @@
 <section class="player-panel">
-  <detail class="player {{ player.name === game.currentPlayer.name ? 'current' : '' }} rounded-box"
-      ng-repeat="player in game.players"
-      ng-click="setPlayer(player)"
-    >
-    <div class="player-name player-{{player.color}} title">{{player.name}}</div>
-      <div class="resources">
-          <div class="money">pieces: {{player.gold}}</div>
-          <div class="priest">pretres : {{player.priests}}</div>
-          <div class="philosoph">philosophes : {{player.thinkers}}</div>
-      </div>
-    </div>
-  </detail>
+    <detail class="player {{ player.name === game.currentPlayer.name ? 'current' : '' }} rounded-box shadowed-box"
+            ng-repeat="player in game.players"
+            ng-click="setPlayer(player)"
+            >
+        <div class="player-name player-{{player.color}} title">{{player.name}}</div>
+        <div class="player-avatar"><img src="{{player.avatar}}"></div>
+        <div class="resources">
+            <div class="priest">pretres {{player.priests}}</div>
+            <div class="philosoph">philosophe {{player.thinkers}}</div>
+        </div>
+        </div>
+    </detail>
 </section>

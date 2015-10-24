@@ -20,70 +20,70 @@ GodCard.Priest = new GodCard({name: "priest"});
 GodCard.Thinker = new GodCard({name: "thinker"});
 
 God.Jupiter = new God({
-  name: "Jupiter",
-  color: "white",
-  building: Building.Temple,
-  card: GodCard.Priest,
-  cardPrice: function() {
-    return [0, 4];
-  }
+    name: "Jupiter",
+    color: "white",
+    building: Building.Temple,
+    card: GodCard.Priest,
+    cardPrice: function () {
+        return [0, 4];
+    }
 });
 God.Pluton = new God({
-  name: "Pluton",
-  color: "black",
-  unitType: UnitType.Elite,
-  unitPrice: function() {
-    if (this.index === 0) {
-      return [0, 2];
-    } else {
-      return [2];
+    name: "Pluton",
+    color: "black",
+    unitType: UnitType.Elite,
+    unitPrice: function () {
+        if (this.index === 0) {
+            return [0, 2];
+        } else {
+            return [2];
+        }
     }
-  }
 });
-God.Pluton.canBuild = function() {
-  return true;
+God.Pluton.canBuild = function () {
+    return true;
 }
 God.Neptune = new God({
-  name: "Neptune",
-  color: "green",
-  building: Building.Port,
-  unitType: UnitType.Ship,
-  unitPrice: function() {
-    return [0, 1, 2, 3];
-  }
+    name: "Neptune",
+    color: "green",
+    building: Building.Port,
+    unitType: UnitType.Ship,
+    unitPrice: function () {
+        return [0, 1, 2, 3];
+    }
 });
 God.Junon = new God({
-  name: "Junon",
-  color: "blue",
-  building: Building.Universite,
-  card: GodCard.Thinker,
-  cardPrice: function() {
-    return [0, 4];
-  }
+    name: "Junon",
+    color: "blue",
+    building: Building.Universite,
+    card: GodCard.Thinker,
+    cardPrice: function () {
+        return [0, 4];
+    }
 });
 God.Minerve = new God({
-  name: "Minerve",
-  color: "red",
-  building: Building.Fort,
-  unitType: UnitType.Troup,
-  unitPrice: function() {
-    return [0, 2, 3, 4];
-  }
+    name: "Minerve",
+    color: "red",
+    building: Building.Fort,
+    unitType: UnitType.Troup,
+    unitPrice: function () {
+        return [0, 2, 3, 4];
+    }
 });
 God.Ceres = new God({
-  name: "Ceres",
-  color: "yellow"
+    name: "Ceres",
+    color: "yellow"
 });
 God.all = [
-  God.Jupiter
-  , God.Pluton
-  , God.Neptune
-  , God.Junon
-  , God.Minerve
-  , God.Ceres
+    God.Jupiter
+    , God.Pluton
+    , God.Neptune
+    , God.Junon
+    , God.Minerve
+    , God.Ceres
 ]
 
 var Phases = {
-  bidding: "Enchères",
-  actions: "Actions"
+    bidding: "Enchères",
+    actions: "Actions"
 }

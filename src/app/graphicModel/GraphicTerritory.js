@@ -1,5 +1,5 @@
 var GraphicTerritory = Meta.createClass("GraphicTerritory", {
-  path: "",
-  territory: "Territory",
-  box: {}
+    path: "",
+    territory: "Territory",
+    box: {}
 });

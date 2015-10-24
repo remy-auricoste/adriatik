@@ -1,16 +1,16 @@
 /** @ngInject */
 function socket() {
-  'use strict';
+    'use strict';
 
-  var addWindowCloseListener = function(fonction) {
-    window.onbeforeunload = fonction;
-  }
+    var addWindowCloseListener = function (fonction) {
+        window.onbeforeunload = fonction;
+    }
 
-  var socket = new Socket({
-      host: ["websocket-room-http.herokuapp.com"]
+    var socket = new Socket({
+        host: ["websocket-room-http.herokuapp.com"]
 //      host: ["localhost:8001"]
-  });
-  return socket.openRoom("adriatik");
+    });
+    return socket.openRoom("adriatik");
 }
 angular.module("adriatik").service("socket", socket);
 

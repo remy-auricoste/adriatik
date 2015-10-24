@@ -8,20 +8,25 @@
   justify-content: flex-end;
   margin-bottom: 1em;
 }
+
 .room .message div:first-child {
   width: 200px;
   text-align: right;
 }
+
 .room .message div {
   display: inline-block;
 }
+
 .room .text {
   width: 70%;
 }
+
 .room .messages .user {
   text-align: right;
   width: 200px;
 }
+
 .room .users {
   position: absolute;
   width: 20%;

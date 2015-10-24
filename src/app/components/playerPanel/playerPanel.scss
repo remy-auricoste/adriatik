@@ -2,52 +2,55 @@ section.player-panel {
   position: absolute;
   bottom: 0;
   right: 5px;
-  width: 600px;
+  width: 700px;
   height: 200px;
-}
-section.player-panel detail.player {
-  float: left;
-  width: 130px;
-  height: 180px;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out; /** Chrome & Safari **/
-  -moz-transition: all 0.3s ease-in-out; /** Firefox **/
-  -o-transition: all 0.3s ease-in-out; /** Opera **/
-}
-section.player-panel detail.player.current {
-  transform: translate(0, -50px);
-  -webkit-transform: translate(0, -50px); /** Chrome & Safari **/
-  -o-transform: translate(0, -50px); /** Opera **/
-  -moz-transform: translate(0, -50px); /** Firefox **/
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out; /** Chrome & Safari **/
-  -moz-transition: all 0.3s ease-in-out; /** Firefox **/
-  -o-transition: all 0.3s ease-in-out; /** Opera **/
+
+  detail.player {
+    float: left;
+    width: 130px;
+    height: 180px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out; /** Chrome & Safari **/
+    -moz-transition: all 0.3s ease-in-out; /** Firefox **/
+    -o-transition: all 0.3s ease-in-out; /** Opera **/
+
+    .player-avatar img {
+      border-radius: 50%;
+      margin: 6px 3px 3px 3px;
+      border: 1px solid black;
+    }
+    .player-red {
+      background: linear-gradient(to top, $player-red-1, $player-red-2 80%); /* Standard syntax */
+    }
+    .player-blue {
+      background: linear-gradient(to top, $player-blue-1, $player-blue-2 80%); /* Standard syntax */
+    }
+    .player-green {
+      background: linear-gradient(to top, $player-green-1, $player-green-2 80%); /* Standard syntax */
+    }
+    .player-purple {
+      background: linear-gradient(to top, $player-purple-1, $player-purple-2 80%); /* Standard syntax */
+    }
+    .resources {
+      padding: 0 5px;
+    }
+    .resources div {
+      font-size: 1.2em;
+      display: table-row;
+      padding: 30px 10px 10px 30px;
+      margin: 5px;
+      text-align: left;
+    }
+  }
+  detail.player.current {
+    transform: translate(0, -50px);
+    -webkit-transform: translate(0, -50px); /** Chrome & Safari **/
+    -o-transform: translate(0, -50px); /** Opera **/
+    -moz-transform: translate(0, -50px); /** Firefox **/
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out; /** Chrome & Safari **/
+    -moz-transition: all 0.3s ease-in-out; /** Firefox **/
+    -o-transition: all 0.3s ease-in-out; /** Opera **/
+  }
 }
 
-section.player-panel .player-red {
-  background: linear-gradient(to top, $player-red-1, $player-red-2 80%); /* Standard syntax */
-}
-
-section.player-panel .player-blue {
-  background: linear-gradient(to top, $player-blue-1, $player-blue-2 80%); /* Standard syntax */
-}
-
-section.player-panel .player-green {
-  background: linear-gradient(to top, $player-green-1, $player-green-2 80%); /* Standard syntax */
-}
-
-section.player-panel .player-purple {
-  background: linear-gradient(to top, $player-purple-1, $player-purple-2 80%); /* Standard syntax */
-}
-
-section.player-panel .resources {
-  padding: 0 5px;
-}
-section.player-panel .resources div {
-  font-size: 1.2em;
-  display: table-row;
-  padding: 30px 10px 10px 30px;
-  margin: 5px;
-  text-align: left;
-}
