@@ -11,13 +11,10 @@ function bidPanel() {
         },
         link: function (scope, elements, attr) {
             scope.golds = [];
-            for (var i = 1; i <= 14; i++) {
+            for (var i = 1; i <= 7; i++) {
                 scope.golds.push(i);
             }
-            scope.purse = [];
-            for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
-                scope.purse.push(i);
-            }
+
             scope.noBidPlayers = function () {
                 return scope.game.players.filter(function (player) {
                     return !player.bid;
@@ -25,6 +22,16 @@ function bidPanel() {
             }
             scope.placeBid = function (god, value) {
                 var removedPlayer = scope.game.placeBid(scope.game.currentPlayer, god, value);
+
+                scope.golds = [];
+                for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
+                    scope.golds.push(i);
+                }
+
+                scope.purse = [];
+                for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
+                    scope.purse.push(i);
+                }
                 console.log("removed player", removedPlayer);
                 console.log("bidding", scope.game.currentPlayer);
             }
@@ -35,7 +42,6 @@ function bidPanel() {
             scope.endTurn = function () {
                 scope.game.endPlayerTurn();
             }
-console.log(scope.purse);
             scope.Phases = Phases;
             scope.God = God;
         }

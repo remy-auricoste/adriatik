@@ -2,7 +2,7 @@
   color: black;
   position: absolute;
   left: 0;
-  width: 300px;
+  width: 310px;
   height: 100%;
   border-right: #563f39 solid 5px;
   background: url(/app/images/map.jpg) top right;
@@ -52,7 +52,7 @@
     .gold-container {
       position: absolute;
       width: 170px;
-      margin: 40px 0 0 70px;
+      margin: 38px 0 0 85px;
     }
     .gold {
       float: left;
@@ -61,7 +61,7 @@
       border: solid 1px #656565;
       border-radius: 2.5em;
       cursor: pointer;
-      margin: 2px 2px 0 0;
+      margin: 1px;
 
       img.bidden {
         opacity: 0.4;
