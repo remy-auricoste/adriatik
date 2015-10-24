@@ -1,30 +1,30 @@
-.france {
+.map {
   margin: 0 0 0 600px;
   padding: 0 0 0 -600px;
   position: relative;
 }
-.france svg {
+.map svg {
   width: 1000px;
   height: 800px;
 }
 
-.france .departement {
+.map .departement {
   fill: $ground;
 }
-.france .departement.over {
+.map .departement.over {
   fill: $ground-over-2;
 }
-.france .departement.neighbour {
+.map .departement.neighbour {
   fill: $ground-over;
 }
-.france .image {
+.map .image {
   cursor: pointer;
   pointer-events: auto;
 }
-.france .image.selected {
+.map .image.selected {
   border: solid 1px white;
 }
-.france .icon-container {
+.map .icon-container {
   position: absolute;
   pointer-events: none;
   display: flex;

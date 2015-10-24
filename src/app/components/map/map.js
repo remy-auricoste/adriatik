@@ -1,10 +1,10 @@
 /** @ngInject */
-function france($http, $rootScope, neighbourFinder) {
+function map($http, $rootScope, neighbourFinder) {
     'use strict';
 
         return {
             restrict: 'E',
-            templateUrl: "app/components/france/france.html",
+            templateUrl: "app/components/map/map.html",
             replace: true,
             scope: {
               game: "="
@@ -13,7 +13,7 @@ function france($http, $rootScope, neighbourFinder) {
               scope.unitSize = 20;
 
               scope.paths = [];
-              $http.get("/app/components/france/departements.json").then(function(res) {
+              $http.get("/app/components/map/area.json").then(function(res) {
                 var paths = res.data;
                 paths = paths.map(function(path) {
                   var pathValue = path.d;
@@ -121,4 +121,4 @@ function france($http, $rootScope, neighbourFinder) {
         };
 }
 
-angular.module("adriatik").directive("france", france);
+angular.module("adriatik").directive("map", map);
