@@ -7,8 +7,8 @@ function socket() {
   }
 
   var socket = new Socket({
-//      host: ["websocket-room-http.herokuapp.com"]
-      host: ["localhost:8001"]
+      host: ["websocket-room-http.herokuapp.com"]
+//      host: ["localhost:8001"]
   });
   return socket;
 }
