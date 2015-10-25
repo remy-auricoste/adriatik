@@ -16,6 +16,8 @@ $player-blue-1: #2359f4;
 $player-blue-2: #1638a1;
 $bid-color-1: #ba9869;
 $bid-color-2: #8a714e;
+$border-color-1: #7d6647;
+$border-color-2: #a58763;
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 
 @font-face {
@@ -54,6 +56,19 @@ body {
  */
 .shadowed-box {
   box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
+}
+
+/**
+ * Overlay
+ **/
+.overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 1999;
 }
 
 /**

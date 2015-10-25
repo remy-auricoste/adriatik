@@ -3,7 +3,7 @@
         <g>
             <path ng-repeat="path in paths"
                   ng-attr-d="{{path.path}}"
-                  class="departement"
+                  class="area"
                   ng-class="{over: path.over, neighbour: path.neighbour}"
                   ng-mouseover="onMouseOver($event, path)"
                   ng-mouseout="onMouseOut(path)"

@@ -10,7 +10,6 @@ function game(randomFactory, qPlus, md5) {
         },
         link: function (scope, elements, attr) {
             scope.ready = false;
-
             var game = new Game({
                 players: [
                     Player.new("Alain", md5.createHash("adoanhuu@gmail.com"), "red"),
@@ -20,6 +19,8 @@ function game(randomFactory, qPlus, md5) {
                 ],
                 gods: God.all,
                 randomFactory: randomFactory,
+                showNotificationBox: false,
+                message: "",
                 q: qPlus
             });
             scope.game = game;

@@ -9,15 +9,15 @@
   height: 800px;
 }
 
-.map .departement {
+.map .area {
   fill: $ground;
 }
 
-.map .departement.over {
+.map .area.over {
   fill: $ground-over-2;
 }
 
-.map .departement.neighbour {
+.map .area.neighbour {
   fill: $ground-over;
 }
 

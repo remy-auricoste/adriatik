@@ -6,6 +6,8 @@ var Game = Meta.declareClass("Game", {
     bidPlayers: ["Player"],
     currentPlayer: "Player",
     randomFactory: {},
+    showNotificationBox: false,
+    message: "",
     q: "fct",
     turn: 1,
     phase: "",
@@ -32,6 +34,7 @@ var Game = Meta.declareClass("Game", {
     },
     startTurn: function () {
         var self = this;
+console.log(self);
         self.turn++;
         var normalGods = self.gods.filter(function (god) {
             return god !== God.Ceres;
@@ -102,8 +105,10 @@ var Game = Meta.declareClass("Game", {
     },
     nextPhase: function () {
         var self = this;
+
         if (self.phase === Phases.bidding) {
             self.phase = Phases.actions;
+
             var CeresPlayers = God.Ceres.playerNames.map(function (name) {
                 return Meta.find(self.players, function (player) {
                     return player.name === name;
@@ -122,12 +127,14 @@ var Game = Meta.declareClass("Game", {
         } else if (self.phase === Phases.actions) {
             self.currentPlayer = self.players[0];
             self.phase = Phases.bidding;
+
             self.players.map(function (player) {
                 player.bid.god.bid = null;
                 player.bid = null;
                 player.god = null;
             });
             God.Ceres.playerNames = [];
+
             return self.startTurn();
         }
     },
