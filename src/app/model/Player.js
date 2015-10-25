@@ -44,14 +44,14 @@ Player = Meta.declareClass("Player", {
         try {
             this.requireGod();
             if (!territory.buildSlots) {
-                throw new Error("aucun emplacement libre sur le territoire sélectionné.");
+                throw new Error("Il n'y a aucun emplacement libre sur le territoire sélectionné.");
             }
             if (!this.god.building) {
-                throw new Error("ce dieu ne peut pas construire ce tour-ci.");
+                throw new Error("Ce dieu ne peut pas construire ce tour-ci.");
             }
             this.spend(2);
         } catch (err) {
-            throw new Error("Impossible de construire : " + err.message);
+            throw new Error("Il est impossible de construire : " + err.message);
         }
         territory.buildSlots -= 1;
         territory.buildings.push(this.god.building);
@@ -73,18 +73,18 @@ Player = Meta.declareClass("Player", {
             territory.placeUnit(new Unit({type: this.god.unitType, owner: this}));
             this.unitBuyCount++;
         } catch (err) {
-            throw new Error("Impossible d'acheter une unité : " + err.message);
+            throw new Error("Il est impossible d'acheter une unité : " + err.message);
         }
     },
     spend: function (number) {
         if (this.gold < number) {
-            throw new Error("Pas assez de pièces. Cette action coûte " + number + " pièces.");
+            throw new Error("Vous n'avez pas assez de pièces. Cette action coûte " + number + " pièces.");
         }
         this.gold -= number;
     },
     requireGod: function () {
         if (!this.god) {
-            throw new Error("Aucun dieu n'est sélectionné.");
+            throw new Error("Vous n'avez sélectionné aucun dieu.");
         }
     },
     addGodCard: function (card) {
@@ -124,19 +124,19 @@ Player = Meta.declareClass("Player", {
                 god.playerNames.push(this.name);
             } else {
                 if (number > this.gold + this.getPriests()) {
-                    throw new Error("Pas assez d'or.");
+                    throw new Error("Vous n'avez pas assez d'or.");
                 }
                 if (god.bid && number <= god.bid.gold) {
-                    throw new Error("L'enchère n'est pas assez importante.");
+                    throw new Error("Votre enchère n'est pas assez importante.");
                 }
                 if (this.bid && god === this.bid.god) {
-                    throw new Error("Impossible de surenchérir sur le même dieu.");
+                    throw new Error("Il est mpossible de surenchérir sur le même dieu.");
                 }
             }
             this.bid = new Bid({god: god, gold: number});
             god.bid = this.bid;
         } catch (err) {
-            throw new Error("Impossible de placer cette enchère : " + err.message);
+            throw new Error("Il est impossible de placer cette enchère : " + err.message);
         }
     },
     payBid: function () {
@@ -149,7 +149,7 @@ Player = Meta.declareClass("Player", {
     move: function (units, fromTerritory, toTerritorry) {
         try {
             if (!units || !units.length) {
-                throw new Error("Aucune unité sélectionnée.");
+                throw new Error("Il n'y a aucune unité sélectionnée.");
             }
             this.requireGod();
             if (this.god === God.Ceres) {
@@ -173,7 +173,7 @@ Player = Meta.declareClass("Player", {
             }
             return this.resolveMove(units, fromTerritory, toTerritorry);
         } catch (err) {
-            throw new Error("Impossible de déplacer des unités : " + err.message);
+            throw new Error("Il est impossible de déplacer des unités : " + err.message);
         }
     },
     resolveMove: function (units, fromTerritory, toTerritorry) {
@@ -273,7 +273,7 @@ Player = Meta.declareClass("Player", {
             }
             territory.buildings.push(building);
         } catch (err) {
-            throw new Error("Impossible de placer ce bâtiment : " + err.message);
+            throw new Error("Il est impossible de placer ce bâtiment : " + err.message);
         }
     }
 });

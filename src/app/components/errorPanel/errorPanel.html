@@ -1,8 +1,8 @@
-<div class="error-panel shadowed-box">
+<div class="error-panel shadowed-box" >
   <div ng-repeat="message in errors.getItems() track by $index"
        class="message"
+       ng-click="close(message)"
     >
       {{message}}
-    <div class="close" ng-click="close(message)">x</div>
   </div>
 </div>

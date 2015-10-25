@@ -70,7 +70,7 @@ var Game = Meta.declareClass("Game", {
                 return player === self.currentPlayer;
             });
             if (index < 0) {
-                throw new Error("could not find current player");
+                throw new Error("Il est impossible de trouver le joueur.");
             }
             index++;
             if (index >= self.players.length) {
@@ -146,10 +146,10 @@ var Game = Meta.declareClass("Game", {
             return commandType.name;
         });
         if (commandNames.indexOf(command.type.name) === -1) {
-            throw new Error("unknown command type " + command.type.name);
+            throw new Error("Type de commande inconnu " + command.type.name + ".");
         }
         if (command.type.argCount !== command.args.length) {
-            throw new Error("got " + command.args.length + " args but needed " + command.type.argCount + " args");
+            throw new Error("got " + command.args.length + " args but needed " + command.type.argCount + " args.");
         }
         if (command.type === CommandType.Bid) {
             return this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
@@ -161,11 +161,11 @@ var Game = Meta.declareClass("Game", {
     },
     initUnit: function (player, territory) {
         if (this.turn !== 1) {
-            throw new Error("dev error: you cannot use this method if it is not turn 1");
+            throw new Error("dev error: you cannot use this method if it is not turn 1.");
         }
         try {
             if (territory.owner && territory.owner !== player) {
-                throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre");
+                throw new Error("Vous devez contrôler le territoire ou le territoire doit être neutre.");
             }
             var playerTerritories = this.territories.filter(function (territory) {
                 return territory.owner === player;
@@ -175,13 +175,13 @@ var Game = Meta.declareClass("Game", {
                     return territory.type === territoryIte.type;
                 });
                 if (sameTypeTerritories.length === 2) {
-                    throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus");
+                    throw new Error("Vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
                 }
                 var isAdjacent = !Meta.forall(playerTerritories, function (territoryIte) {
                     return territoryIte.neighbours.indexOf(territory.id) === -1;
                 });
                 if (playerTerritories.length && !isAdjacent) {
-                    throw new Error("il n'est pas adjacent aux territoires déjà contrôlés");
+                    throw new Error("Il n'est pas adjacent aux territoires déjà contrôlés.");
                 }
             }
             var self = player;
@@ -189,10 +189,10 @@ var Game = Meta.declareClass("Game", {
             var currentValue = player.initCount[unitType.name];
             var allowedValue = 2 + (player.god.unitType && player.god.unitType === unitType ? 1 : 0);
             if (currentValue === allowedValue) {
-                throw new Error("vous ne pouvez pas ajouter d'autres unités de type " + unitType.name);
+                throw new Error("Vous ne pouvez pas ajouter d'autres unités de type " + unitType.name);
             }
             if (currentValue === allowedValue - 1 && territory.owner === player) {
-                throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus");
+                throw new Error("Vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
             }
             currentValue++;
             player.initCount[unitType.name] = currentValue;
@@ -203,7 +203,7 @@ var Game = Meta.declareClass("Game", {
             territory.owner = player;
             territory.placeUnit(unit);
         } catch (err) {
-            throw new Error("Impossible de placer une unité sur ce territoire : " + err.message);
+            throw new Error("Il est impossible de placer une unité sur ce territoire : " + err.message);
         }
     },
     initHasMoreUnits: function (player) {

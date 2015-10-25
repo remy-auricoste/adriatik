@@ -26,14 +26,14 @@ var Territory = Meta.declareClass("Territory", {
     },
     placeUnit: function (unit) {
         if (unit.type.territoryType !== this.type) {
-            throw new Error("impossible de placer ce type d'unité sur ce type de territoire");
+            throw new Error("Impossible de placer ce type d'unité sur ce type de territoire.");
         }
         this.units.push(unit);
     },
     removeUnit: function (unit) {
         var index = this.units.indexOf(unit);
         if (index === -1) {
-            throw new Error("there is no unit of type " + unit.type);
+            throw new Error("Pas d'unité de ce type " + unit.type);
         }
         this.units.splice(index, 1);
     },
