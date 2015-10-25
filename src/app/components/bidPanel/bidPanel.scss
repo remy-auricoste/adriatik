@@ -30,9 +30,13 @@
     .god-avatar {
       float: left;
       width: 90px;
-      margin: -10px 0 0 -10px;
+      margin-left: -10px;
       transform: rotate(-5deg);
       z-index: 100;
+      transition: all $tooltip-transition-delay ease-in-out;
+      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
+      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
+      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
 
       img {
         width: 100%;
@@ -41,9 +45,17 @@
         box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
       }
     }
+    .god-avatar:hover {
+      transform: rotate(0);
+      transition: all $tooltip-transition-delay ease-in-out;
+      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
+      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
+      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
+    }
     .god-avatar:hover div.adk-tooltip {
       visibility: visible;
       opacity: 0.9;
+      margin: -100px 0 0 110px;
       transition: all $tooltip-transition-delay ease-in-out;
       -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
       -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/

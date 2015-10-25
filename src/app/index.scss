@@ -82,11 +82,10 @@ body {
 .adk-tooltip {
   visibility: hidden;
   opacity: 0;
-  transform: rotate(5deg);
   position: relative;
   min-width: $tooltip-width;
   height: $tooltip-height;
-  margin: -100px 0 0 110px;
+  margin: -100px 0 0 -130px;
   padding: 0px 16px 0px 12px;
   font-size: 16px;
   line-height: 45px;
