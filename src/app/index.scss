@@ -3,8 +3,8 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
-$tooltip-bg: #000000;
-$tooltip-shadow: #000000;
+$tooltip-bg: #263c68;
+$tooltip-shadow: #1a2947;
 $tooltip-width: 180px;
 $tooltip-height: 96px;
 $tooltip-transition-delay: 0.3s;
@@ -117,7 +117,7 @@ body {
   height: 0;
   border-width: 24px;
   border-style: solid;
-  border-color: transparent black transparent transparent;
+  border-color: transparent $tooltip-bg transparent transparent;
 }
 
 /**
