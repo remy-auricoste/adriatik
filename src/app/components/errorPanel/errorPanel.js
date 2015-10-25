@@ -10,7 +10,6 @@ function errorPanel($exceptionHandler, cron) {
         },
         link: function (scope) {
           scope.errors = new TimedArray({ttl: 10000});
-          scope.errors.push("ceci est un test d'erreur");
           $exceptionHandler.$onError(function(exception) {
             scope.errors.push(exception.message);
           })
