@@ -6,8 +6,12 @@
         <div class="player-name player-{{player.color}} title">{{player.name}}</div>
         <div class="player-avatar"><img src="{{player.avatar}}"></div>
         <div class="resources">
-            <div class="priest">Pretres {{player.priests}}</div>
-            <div class="philosoph">Philosophes {{player.philosophers}}</div>
+            <div class="priest adk-tooltip" title="{{player.priests}} pretre(s)">
+                <span title=""><img ng-repeat="priest in [] | range:player.priests" src="app/images/priest.png" /></span>
+            </div>
+            <div class="philosopher adk-tooltip" title="{{player.philosophers}} philosophe(s)">
+                <img ng-repeat="philosopher in [] | range:player.philosophers" src="app/images/philosopher.png">
+            </div>
         </div>
         </div>
     </detail>

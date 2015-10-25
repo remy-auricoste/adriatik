@@ -285,6 +285,8 @@ Player.new = function (name, hash, color) {
         avatar: "http://www.gravatar.com/avatar/" + hash + "?s=50",
         color: color,
         gold: 7,
+        priests: 5,
+        philosophers: 5,
         unitsLeft: {
             earth: 7,
             sea: 7,

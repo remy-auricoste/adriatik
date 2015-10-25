@@ -3,9 +3,9 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
-$tooltip-bg: #263c68;
-$tooltip-shadow: #1a2947;
-$tooltip-width: 180px;
+$tooltip-bg: #f5f8ff;
+$tooltip-shadow: #daddd8;
+$tooltip-width: 200px;
 $tooltip-height: 96px;
 $tooltip-transition-delay: 0.3s;
 $ground: #c8c09e;
@@ -80,45 +80,42 @@ body {
  * Tooltip css
  **/
 .adk-tooltip {
-  visibility: hidden;
-  opacity: 0;
+  display: inline;
   position: relative;
-  min-width: $tooltip-width;
-  height: $tooltip-height;
-  margin: -100px 0 0 -130px;
-  padding: 0px 16px 0px 12px;
-  font-size: 16px;
-  line-height: 45px;
-  color: white;
-  background: $tooltip-bg;
-  border: 0px 0px 0px 0px none none none none white $tooltip-bg white white;
-  border-radius: 15px;
+}
+.adk-tooltip:hover:after{
+  background: #f5f8ff;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  bottom: 40px;
+  color: black;
+  content: attr(title);
+  left: -75px;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 1098;
+  width: 220px;
   box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
-              $tooltip-shadow -15px 0px 15px 5px inset;
+  $tooltip-shadow -15px 0px 15px 5px inset;
   transition: all $tooltip-transition-delay ease-in-out;
   -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
   -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
   -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
 }
-.adk-tooltip img {
-  width: 30px !important;
-  border: 1px solid black !important;
-  background-color: white !important;
-  border-radius: 50% !important;
-  margin-right: 10px;
-  box-shadow: none !important;
-}
-.adk-tooltip:after {
+.adk-tooltip:hover:before{
+  border: solid;
+  border-color: white transparent;
+  border-width: 6px 6px 0 6px;
+  bottom: 34px;
   content: "";
+  left: 45%;
   position: absolute;
-  top: 24px;
-  left: -48px;
-  width: 0;
-  height: 0;
-  border-width: 24px;
-  border-style: solid;
-  border-color: transparent $tooltip-bg transparent transparent;
+  z-index: 1099;
 }
+
+
+
+
 
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject

@@ -4,12 +4,12 @@
             >
         <div class="god-avatar">
             <img src="app/images/gods/jupiter.png" />
-            <div class="adk-tooltip" >
+            <div class="god-tooltip" >
                 <div ng-show="god.building.label"><img src="app/images/{{ god.building.name }}.png">{{ god.building.label }}</div>
                 <div ng-show="god.unitType.label"><img src="app/images/{{ god.unitType.name }}.png">{{ god.unitType.label }}</div>
                 <div ng-show="god.playerNames">
-                    <span ng-repeat="player in god.playerNames">
-                        {{ player }}
+                    <span>
+                        {{god.playerNames.join(', ')}}
                     </span>
                 </div>
             </div>
@@ -22,10 +22,7 @@
             <div ng-repeat="gold in golds"
                  class="gold"
                  ng-click="placeBid(god, gold)"
-                    ><img src="app/images/sesterce.png" class="{{ game.getPlayer(god) && gold <= god.bid.gold ? 'bidden' : '' }}" title="Miser {{gold}} pièce(s)" width="20">
-            </div>
-            <div ng-show="god === God.Ceres">
-                {{god.playerNames.join(', ')}}
+                    ><span class="adk-tooltip" title="Miser {{gold}} pièce(s)"><span title=""><img src="app/images/sesterce.png" class="{{ game.getPlayer(god) && gold <= god.bid.gold ? 'bidden' : '' }}" ></span></span>
             </div>
         </div>
     </div>
@@ -36,7 +33,7 @@
         <div class="purse">
             <div ng-repeat="piece in purse"
                  class="purse-piece"
-                    ><img src="app/images/sesterce.png">
+                 ><img src="app/images/sesterce.png">
             </div>
         </div>
     </div>
