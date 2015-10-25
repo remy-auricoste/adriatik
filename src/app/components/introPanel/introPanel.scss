@@ -1,4 +1,4 @@
-.intro-box-container {
+.intro-panel-container {
   position: absolute;
   top: 0;
   left: 50%;
@@ -36,7 +36,17 @@
       opacity: 1;
     }
   }
-  .close-link {
+  form input[type=text],
+  form input[type=email] {
+    color: #323232;
+    width: 150px;
+  }
+  form input[type=submit] {
+    background-color: #25406b;
+    border-radius: 10px;
+    padding: 2px 5px;
+  }
+  .connect-link {
     position: absolute;
     bottom: 0;
     right: 0;

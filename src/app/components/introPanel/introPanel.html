@@ -1,17 +1,20 @@
-<div class="intro-box"
+<div class="intro-panel"
      ng-show="showIntroBox == true"
     >
     <div class="overlay"></div>
-    <div class="intro-box-container rounded-box">
+    <div class="intro-panel-container rounded-box">
         <h1>Adriatik</h1>
         <h2>Veni, vidi, vici</h2>
         <div class="authors">
             <span class="adk-tooltip" title="Rémy AURICOSTE"><span title=""><img src="http://www.gravatar.com/avatar/f4f4a333469c8b98c154057577be040a?s=50"/></span></span>
             <span class="adk-tooltip" title="Alain DOAN-HUU"><span title=""><img src="http://www.gravatar.com/avatar/67e9a59bf0ff662b936ad25d483e112f?s=50" /></span></span>
         </div>
-        <div class="close-link adk-tooltip"
-            title="Fermer la fenetre"
-            ng-click="closeIntroBox()"
-            ><span title="">Fermer</span></div>
+        <div class="connect-link">
+            <form>
+                <input type="text" name="name" placeholder="Votre prénom" />
+                <input type="email" name="email" placeholder="Votre email Gavatar" />
+                <input type="submit" ng-click="submitConnexion()" value="Se connecter" />
+            </form>
+        </div>
     </div>
 </div>

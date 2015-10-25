@@ -1,10 +1,10 @@
 /** @ngInject */
-function notificationBox($timeout) {
+function notificationPanel($timeout) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/notificationBox/notificationBox.html",
+        templateUrl: "app/components/notificationPanel/notificationPanel.html",
         replace: true,
         scope: {
             game: "="
@@ -30,4 +30,4 @@ function notificationBox($timeout) {
     };
 }
 
-angular.module("adriatik").directive("notificationBox", notificationBox);
+angular.module("adriatik").directive("notificationPanel", notificationPanel);

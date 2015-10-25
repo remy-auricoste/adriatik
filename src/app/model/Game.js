@@ -34,7 +34,7 @@ var Game = Meta.declareClass("Game", {
     },
     startTurn: function () {
         var self = this;
-console.log(self);
+
         self.turn++;
         var normalGods = self.gods.filter(function (god) {
             return god !== God.Ceres;

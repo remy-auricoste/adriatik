@@ -1,10 +1,10 @@
 /** @ngInject */
-function introBox($rootScope) {
+function introPanel($rootScope) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/introBox/introBox.html",
+        templateUrl: "app/components/introPanel/introPanel.html",
         replace: true,
         scope: {
             game: "="
@@ -12,11 +12,11 @@ function introBox($rootScope) {
         link: function (scope) {
             scope.showIntroBox = true;
 
-            scope.closeIntroBox = function () {
+            scope.submitConnexion = function () {
                 scope.showIntroBox = false;
             }
         }
     };
 }
 
-angular.module("adriatik").directive("introBox", introBox);
+angular.module("adriatik").directive("introPanel", introPanel);

@@ -1,7 +1,10 @@
 <div class="bid-panel">
+    <div class="phase">{{ game.phase }}: {{ game.turn }}</div>
+
     <div ng-repeat="god in game.currentGods"
          class="{{god.name}} god player-{{game.getPlayer(god).color}}"
             >
+
         <div class="god-avatar">
             <img src="app/images/gods/jupiter.png" />
             <div class="god-tooltip" >
@@ -14,7 +17,8 @@
                 </div>
             </div>
         </div>
-        <p class="god-name">{{god.name}}</p>
+
+        <div class="god-name">{{god.name}}</div>
 
         <div class="gold-container"
              ng-show="game.phase === Phases.bidding"
@@ -27,18 +31,15 @@
         </div>
     </div>
 
-    <div id="phase" class="rounded-box shadowed-box">
-        <div class="title">Sesterces</div>
-        <span>{{game.phase}}: {{game.currentPlayer.gold}} pièce(s)</span><br/>
+    <div class="sesterce-box rounded-box shadowed-box">
+        <div class="title">{{game.currentPlayer.gold}} sesterce(s)</div>
+
         <div class="purse">
-            <div ng-repeat="piece in purse"
-                 class="purse-piece"
-                 ><img src="app/images/sesterce.png">
-            </div>
+            <img class="purse-sesterce" ng-repeat="piece in purse" src="app/images/sesterce.png">
         </div>
     </div>
 
-    <div id="message" class="message rounded-box shadowed-box">
+    <div class="message-box rounded-box shadowed-box">
         <div class="current-player">Au tour de {{game.currentPlayer.name}} de jouer</div>
         <div ng-show="game.phase === Phases.actions">
             <input type="button" value="Fin de tour" ng-click="endTurn()"/>
