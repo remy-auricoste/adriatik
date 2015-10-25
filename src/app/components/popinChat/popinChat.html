@@ -1,0 +1,8 @@
+<div class="popin-chat" ng-class="{closed: closed}">
+  <div class="header" ng-click="toggle()">Chat</div>
+  <div ng-show="!closed">
+    <div ng-repeat="message in messages.getItems()"
+      >{{message.source}} > {{message.message}}</div>
+    <input type="text" ng-model="text" class="text" ng-keydown="onKeyDown($event)" />
+  </div>
+</div>
