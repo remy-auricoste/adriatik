@@ -9,12 +9,14 @@ function popinChat(gameSocket) {
         scope: {
         },
         link: function (scope, elements, attr) {
+            var elem = elements[0];
+            var messagesEl = elem.getElementsByClassName("messages")[0];
             scope.messages = new Fifo({size: 20});
             gameSocket.addListener(function(messageObj) {
                 scope.messages.push(messageObj);
                 scope.$apply();
+                messagesEl.scrollTop = messagesEl.scrollHeight;
             });
-            gameSocket.send("salut");
             scope.toggle = function() {
               scope.closed = !scope.closed;
             }

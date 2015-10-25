@@ -10,6 +10,15 @@
     height: auto;
   }
 
+  .content {
+    display: flex;
+    flex-direction: column;
+    .messages {
+      height: 140px;
+      overflow: scroll;
+    }
+  }
+
   .header {
     height: 2em;
     background-color: lightblue;
