@@ -36,6 +36,21 @@ body {
 }
 
 /**
+ * Submit button
+ **/
+input[type=button] {
+  color: white;
+  background-color: #34538f;
+  border-radius: 5px;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-top-color: #375897;
+  border-left-color: #375897;
+  border-bottom-color: #34538f;
+  border-right-color: #34538f;
+}
+
+/**
  * Rounded box css
  **/
 .rounded-box {

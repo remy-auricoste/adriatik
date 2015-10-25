@@ -1,0 +1,39 @@
+.chat-panel {
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+  width: 260px;
+  height: 220px;
+  background-color: white;
+
+  .title {
+    cursor: ns-resize;
+  }
+  &.closed {
+    height: auto;
+
+    .title {
+      border-radius: 20px;
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 3px;
+
+    .messages {
+      height: 140px;
+      overflow: scroll;
+      overflow-x: hidden;
+    }
+  }
+  .text {
+    width: 92%;
+    margin: 1%;
+    position: absolute;
+    bottom: 5px;
+    padding: 0 0.3em;
+    border-radius: 8px;
+    border: 1px solid black;
+  }
+}

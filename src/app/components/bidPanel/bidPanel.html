@@ -35,14 +35,8 @@
         <div class="title">{{game.currentPlayer.gold}} sesterce(s)</div>
 
         <div class="purse">
-            <img class="purse-sesterce" ng-repeat="piece in purse" src="app/images/sesterce.png">
+            <img class="purse-sesterce" ng-repeat="piece in [] | range:game.currentPlayer.gold" src="app/images/sesterce.png">
         </div>
     </div>
 
-    <div class="message-box rounded-box shadowed-box">
-        <div class="current-player">Au tour de {{game.currentPlayer.name}} de jouer</div>
-        <div ng-show="game.phase === Phases.actions">
-            <input type="button" value="Fin de tour" ng-click="endTurn()"/>
-        </div>
-    </div>
 </div>

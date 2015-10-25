@@ -21,6 +21,10 @@ function actionPanel($rootScope) {
                 $rootScope.mode = selected ? mode : null;
                 scope.mode = $rootScope.mode;
             }
+            scope.endTurn = function () {
+                scope.game.endPlayerTurn();
+            }
+            scope.Phases = Phases;
         }
     };
 }

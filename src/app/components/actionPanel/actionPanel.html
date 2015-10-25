@@ -37,4 +37,9 @@
                     ng-click="selectMode(CommandType.BuyCard)"
                 ></item-price>
     </div>
+
+    <div class="action-end-turn" ng-show="game.phase === Phases.actions">
+        <input type="button" value="Fin de tour" ng-click="endTurn()"/>
+    </div>
+
 </div>

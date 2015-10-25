@@ -1,10 +1,10 @@
 /** @ngInject */
-function popinChat(gameSocket) {
+function chatPanel(gameSocket) {
     'use strict';
     var KEY_ENTER = 13;
     return {
         restrict: 'E',
-        templateUrl: "app/components/popinChat/popinChat.html",
+        templateUrl: "app/components/chatPanel/chatPanel.html",
         replace: true,
         scope: {
         },
@@ -33,4 +33,4 @@ function popinChat(gameSocket) {
     };
 }
 
-angular.module("adriatik").directive("popinChat", popinChat);
+angular.module("adriatik").directive("chatPanel", chatPanel);

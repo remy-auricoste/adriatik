@@ -39,9 +39,6 @@ function bidPanel() {
                 var amount = parseInt(scope.customBidValue);
                 scope.placeBid(god, amount);
             }
-            scope.endTurn = function () {
-                scope.game.endPlayerTurn();
-            }
             scope.Phases = Phases;
             scope.God = God;
         }

@@ -4,34 +4,37 @@
   left: 320px;
   width: 270px;
   height: 180px;
+
+  .action-type {
+    float: left;
+    color: white;
+    background-color: #3266d0;
+    width: 90px;
+    padding: 5px 5px 5px 10px;
+    margin: 5px 0 0 0;
+    border-radius: 0 20px 20px 0;
+  }
+  .item-price {
+    float: left;
+  }
+  .action-building,
+  .action-unit,
+  .action-card {
+    float: left;
+    width: 100%;
+    margin: 5px 5px 5px 0;
+  }
+  .selected {
+    border: solid 3px blue;
+  }
+  .action-end-turn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+  }
 }
 
 .action-panel > * {
   cursor: pointer;
 }
 
-.action-panel .action-type {
-  float: left;
-  color: white;
-  background-color: #3266d0;
-  width: 90px;
-  padding: 5px 5px 5px 10px;
-  margin: 5px 0 0 0;
-  border-radius: 0 20px 20px 0;
-}
-
-.action-panel .item-price {
-  float: left;
-}
-
-.action-panel .action-building,
-.action-panel .action-unit,
-.action-panel .action-card {
-  float: left;
-  width: 100%;
-  margin: 5px 5px 5px 0;
-}
-
-.action-panel .selected {
-  border: solid 3px blue;
-}
