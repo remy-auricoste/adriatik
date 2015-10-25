@@ -10,9 +10,10 @@ function introBox($rootScope) {
             game: "="
         },
         link: function (scope) {
-            scope.HideIntroBox = false;
+            scope.showIntroBox = true;
+
             scope.closeIntroBox = function () {
-                scope.HideIntroBox = true;
+                scope.showIntroBox = false;
             }
         }
     };
