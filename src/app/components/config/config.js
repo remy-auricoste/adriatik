@@ -10,7 +10,7 @@ function config() {
         },
         link: function (scope) {
           scope.open = function() {
-            window.open("/config", '_blank');
+            window.open("/account", '_blank');
           }
         }
     };
