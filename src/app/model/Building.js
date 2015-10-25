@@ -1,3 +1,4 @@
 var Building = Meta.declareClass("Building", {
-    name: ""
+    name: "",
+    label: ""
 });

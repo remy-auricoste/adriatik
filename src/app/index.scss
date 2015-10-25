@@ -3,17 +3,22 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
+$tooltip-bg: #000000;
+$tooltip-shadow: #000000;
+$tooltip-width: 180px;
+$tooltip-height: 96px;
+$tooltip-transition-delay: 0.3s;
 $ground: #c8c09e;
 $ground-over: #ba9869;
 $ground-over-2: #8a714e;
 $player-purple-1: #9b2c86;
 $player-purple-2: #7b236a;
-$player-red-1: #b90000;
+$player-red-1: #ab0000;
 $player-red-2: #8c0000;
-$player-green-1: #009600;
+$player-green-1: #007c00;
 $player-green-2: #005d00;
-$player-blue-1: #2359f4;
-$player-blue-2: #1638a1;
+$player-blue-1: #3d61a8;
+$player-blue-2: #32508a;
 $bid-color-1: #ba9869;
 $bid-color-2: #8a714e;
 $border-color-1: #7d6647;
@@ -69,6 +74,51 @@ body {
   background-color: black;
   opacity: 0.6;
   z-index: 1999;
+}
+
+/**
+ * Tooltip css
+ **/
+.adk-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transform: rotate(5deg);
+  position: relative;
+  min-width: $tooltip-width;
+  height: $tooltip-height;
+  margin: -100px 0 0 110px;
+  padding: 0px 16px 0px 12px;
+  font-size: 16px;
+  line-height: 45px;
+  color: white;
+  background: $tooltip-bg;
+  border: 0px 0px 0px 0px none none none none white $tooltip-bg white white;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
+              $tooltip-shadow -15px 0px 15px 5px inset;
+  transition: all $tooltip-transition-delay ease-in-out;
+  -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
+  -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
+  -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
+}
+.adk-tooltip img {
+  width: 30px !important;
+  border: 1px solid black !important;
+  background-color: white !important;
+  border-radius: 50% !important;
+  margin-right: 10px;
+  box-shadow: none !important;
+}
+.adk-tooltip:after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: -48px;
+  width: 0;
+  height: 0;
+  border-width: 24px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
 }
 
 /**

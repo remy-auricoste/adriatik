@@ -2,7 +2,18 @@
     <div ng-repeat="god in game.currentGods"
          class="{{god.name}} god player-{{game.getPlayer(god).color}}"
             >
-        <div class="god-avatar"><img src="app/images/gods/jupiter.png"/></div>
+        <div class="god-avatar">
+            <img src="app/images/gods/jupiter.png" />
+            <div class="adk-tooltip" >
+                <div ng-show="god.building.label"><img src="app/images/{{ god.building.name }}.png">{{ god.building.label }}</div>
+                <div ng-show="god.unitType.label"><img src="app/images/{{ god.unitType.name }}.png">{{ god.unitType.label }}</div>
+                <div ng-show="god.playerNames">
+                    <span ng-repeat="player in god.playerNames">
+                        {{ player }}
+                    </span>
+                </div>
+            </div>
+        </div>
         <p class="god-name">{{god.name}}</p>
 
         <div class="gold-container"

@@ -7,14 +7,14 @@ CommandType.Retreat = new CommandType({name: "retreat", methodName: "retreat", a
 CommandType.InitUnit = new CommandType({name: "initUnit", methodName: "initUnit", argCount: 1});
 CommandType.InitBuilding = new CommandType({name: "initBuilding", methodName: "initBuilding", argCount: 2});
 
-Building.Fort = new Building({name: "fort"});
-Building.Port = new Building({name: "port"});
-Building.University = new Building({name: "university"});
-Building.Temple = new Building({name: "temple"});
+Building.Fort = new Building({name: "fort", label: "Fort"});
+Building.Port = new Building({name: "port", label: "Port"});
+Building.University = new Building({name: "university", label: "Université"});
+Building.Temple = new Building({name: "temple", label: "Temple"});
 
-UnitType.Legionnaire = new UnitType({name: "legionnaire", territoryType: "earth"});
-UnitType.Ship = new UnitType({name: "ship", territoryType: "sea"});
-UnitType.Gladiator = new UnitType({name: "gladiator", territoryType: "earth"});
+UnitType.Legionnaire = new UnitType({name: "legionnaire", label: "Légionnaire", territoryType: "earth"});
+UnitType.Ship = new UnitType({name: "ship", label: "Trièreme", territoryType: "sea"});
+UnitType.Gladiator = new UnitType({name: "gladiator", label: "Gladiateur", territoryType: "earth"});
 
 GodCard.Priest = new GodCard({name: "priest"});
 GodCard.Thinker = new GodCard({name: "philosopher"});

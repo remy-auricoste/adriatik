@@ -30,8 +30,9 @@
     .god-avatar {
       float: left;
       width: 90px;
-      margin: -20px 0 0 -10px;
+      margin: -10px 0 0 -10px;
       transform: rotate(-5deg);
+      z-index: 100;
 
       img {
         width: 100%;
@@ -39,6 +40,14 @@
         border-radius: 10px;
         box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
       }
+    }
+    .god-avatar:hover div.adk-tooltip {
+      visibility: visible;
+      opacity: 0.9;
+      transition: all $tooltip-transition-delay ease-in-out;
+      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
+      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
+      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
     }
 
     .god-name {
