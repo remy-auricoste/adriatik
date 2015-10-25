@@ -1,5 +1,5 @@
 /** @ngInject */
-function accountPage() {
+function accountPage(accountService) {
     'use strict';
 
     return {
@@ -9,17 +9,9 @@ function accountPage() {
         scope: {
         },
         link: function (scope) {
-          var keys = ["email"];
-          keys.map(function(key) {
-            var storageValue = window.localStorage[key];
-            if (storageValue !== undefined) {
-              scope[key] = storageValue;
-            }
-          });
+          scope.account = accountService.getData();
           scope.save = function() {
-            keys.map(function(key) {
-              window.localStorage[key] = scope[key];
-            });
+            accountService.save(scope.account);
           }
         }
     };
