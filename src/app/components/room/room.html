@@ -3,19 +3,5 @@
     <input type="text" ng-model="playerSize"/>
     <input type="button" value="Chercher" ng-click="search()"/>
 
-    <div class="messages">
-        <div ng-repeat="message in messages"
-             class="message"
-                >
-            <div>{{message.user}} :</div>
-            <div>{{message.text}}</div>
-        </div>
-        <div class="entry">
-            <input type="text" class="user" ng-model="user"/>
-            <input type="text" class="text" ng-model="text" ng-keydown="onKeyDown($event)"/>
-        </div>
-    </div>
-    <div class="users">
-        <div ng-repeat="user in users" class="user">{{user}}</div>
-    </div>
+    <popin-chat></popin-chat>
 </div>

@@ -16,6 +16,14 @@ var TimedArray = Meta.createClass("TimedArray", {
       death: new Date().getTime() + self.ttl
     });
   },
+  remove: function(item) {
+    var index = Meta.findIndex(this.items, function(object) {
+      return object.item === item;
+    });
+    if (index >= 0) {
+      this.items.splice(index, 1);
+    }
+  },
   getItems: function() {
     var now = new Date().getTime();
     var filtered = this.items.filter(function(object) {

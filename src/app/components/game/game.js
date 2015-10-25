@@ -1,5 +1,5 @@
 /** @ngInject */
-function game(randomFactory, qPlus, md5) {
+function game(randomFactory, qPlus, md5, gameSocket) {
     'use strict';
 
     return {
