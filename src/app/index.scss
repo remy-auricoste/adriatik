@@ -27,7 +27,8 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 
 @font-face {
   font-family: roman;
-  src: url(/app/fonts/Dalek.ttf);
+  font-size: 10px !important;
+  src: url(/app/fonts/RomanSD.ttf);
 }
 
 body {

@@ -12,13 +12,13 @@
   /* Phase box */
   .phase {
     color: white;
-    font-size: 2em;
+    font-size: 1.8em;
     text-align: center;
     background-color: #563f39;
     border: 4px solid #44322d;
     height: 50px;
     margin: 3px 10px 15px 5px;
-    padding: 0 0 10px 0;
+    padding: 5px 0 10px 0;
     border-radius: 50px 50px;
     box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
   }
@@ -78,9 +78,9 @@
 
     .god-name {
       float: left;
-      font-size: 2.3em;
+      font-size: 2em;
       padding: 0 0 0 10px;
-      margin: -5px 0 0 0;
+      margin: 0;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     }
     /* Money counter */
@@ -102,7 +102,7 @@
         width: 20px;
       }
       img.bidden {
-        opacity: 0.4;
+        opacity: 0.8;
         cursor: none;
       }
 

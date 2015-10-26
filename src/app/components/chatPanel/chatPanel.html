@@ -1,5 +1,5 @@
-<div class="chat-panel rounded-box shadowed-box" ng-class="{closed: closed}">
-  <div class="title" ng-click="toggle()">Mercure</div>
+<section class="chat-panel rounded-box shadowed-box" ng-class="{closed: closed}">
+  <div class="title" ng-click="toggle()">Agora</div>
   <div ng-show="!closed" class="content">
     <div class="messages">
       <div ng-repeat="message in messages.getItems()"
@@ -8,4 +8,4 @@
     </div>
     <input type="text" ng-model="text" class="text" ng-keydown="onKeyDown($event)" />
   </div>
-</div>
+</section>
