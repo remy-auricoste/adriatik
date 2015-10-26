@@ -13,7 +13,8 @@ npm install -g bower
 ```
 npm install
 bower install
-bower install angular-md5 --save
+bower install --save angular-md5
+bower install --save angular-animate
 ```
 
 Si vous avez un proxy, il faut le configurer dans npm :

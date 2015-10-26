@@ -11,8 +11,8 @@ function dicePanel() {
             scope.random = "show-front";
             scope.throwDice = function() {
                 var index = Math.round(Math.random() * 5) + 1;
-                var dice = ["front", "back", "top", "bottom", "right", "left"];
-                scope.random = "show-" + (dice[index]);
+                var dice = ["show-front", "show-back", "show-top", "show-bottom", "show-right", "show-left"];
+                scope.random = dice[index];
             }
         }
     };
