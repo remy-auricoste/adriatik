@@ -9,7 +9,7 @@
         $routeProvider
             .when('/', {template: '<game></game>'})
             .when('/search', {template: '<room></room>'})
-            .when('/game/:id', {template: '<game></game>'})
+            .when('/game/:playerSize/:id', {template: '<game></game>'})
             .when('/account', {template: '<account-page></account-page>'})
             .otherwise({
                 redirectTo: '/'

@@ -23,7 +23,7 @@ function gameFinder($window, socket, $location) {
             var gameId = Meta.sum(items.map(function(id) {
               return id.hashCode();
             }));
-            window.location.href = "/game/"+gameId;
+            window.location.href = "/game/"+playerSize+"/"+gameId;
           }
         }
       });

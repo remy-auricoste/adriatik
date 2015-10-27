@@ -3,10 +3,8 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
   'use strict';
 
   return {
-    init: function() {
+    init: function(playerSize) {
       var self = this;
-      // TODO read from url
-      var playerSize = 4;
       var accounts = {};
       var defer = qPlus.defer();
 
@@ -28,15 +26,19 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
     },
     createGame: function(accounts) {
       var players = Object.keys(accounts).map(function(id) {
+        var account = accounts[id];
         account.id = id;
         return Player.new(account);
       });
-      return new Game({
+      var game = new Game({
         players: players,
         gods: God.all,
         randomFactory: randomFactory,
         q: qPlus
-      }).startTurn();
+      });
+      return game.startTurn().then(function() {
+        return game;
+      });
     }
   }
 }
