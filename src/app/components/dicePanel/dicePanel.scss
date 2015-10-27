@@ -1,10 +1,10 @@
 .dice-panel {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 10px;
+  left: 880px;
   width: 150px;
   height: 150px;
-  margin: 0 auto 40px;
+  margin: 0 auto 20px;
   border: 8px solid #b10000;
   -webkit-perspective: 1000px;
   -moz-perspective: 1000px;
@@ -15,10 +15,43 @@
   box-shadow: rgba(0, 0, 0, 0.3) -15px 0px 15px 25px inset;
   cursor: pointer;
 
+  .alea {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    left: 20px;
+
+    span {
+      position: absolute;
+      height: 65px;
+      width: 20px;
+      left: 57px;
+      top: 0;
+      transform-origin: bottom center;
+      opacity: 0.6;
+    }
+
+    .char1 { transform: rotate(-80deg) }; // a
+    .char2 { transform: rotate(-60deg) }; // l
+    .char3 { transform: rotate(-48deg) }; // e
+    .char4 { transform: rotate(-35deg) }; // a
+    .char5 { transform: rotate(-20deg) }; //
+    .char6 { transform: rotate(-5deg) };  // j
+    .char7 { transform: rotate(2deg) };  // a
+    .char8 { transform: rotate(18deg) };     // c
+    .char9 { transform: rotate(30deg) };  // t
+    .char10 { transform: rotate(40deg) }; // a
+    .char11 { transform: rotate(50deg) }; //
+    .char12 { transform: rotate(66deg) }; // e
+    .char13 { transform: rotate(80deg) }; // s
+    .char14 { transform: rotate(92deg) }; // t
+  }
+
   .dice {
     position: absolute;
     width: 100%;
     height: 100%;
+    margin: 18px;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     -o-transform-style: preserve-3d;
@@ -68,56 +101,56 @@
     figure {
       display: block;
       position: absolute;
-      width: 70px;
-      height: 70px;
-      margin: 35px;
-      border: 1px solid black;
-      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      margin: 30px;
+      border: 1px solid #6f6f6f;
+      border-radius: 6px;
       font-weight: bold;
       background-color: white;
 
-      &.front  { background: url(/app/images/dice/dice_1.png) white 9px 9px no-repeat; }
-      &.back   { background: url(/app/images/dice/dice_2.png) white 9px 9px no-repeat; }
-      &.right  { background: url(/app/images/dice/dice_3.png) white 9px 9px no-repeat; }
-      &.left   { background: url(/app/images/dice/dice_4.png) white 9px 9px no-repeat; }
-      &.top    { background: url(/app/images/dice/dice_5.png) white 9px 9px no-repeat; }
-      &.bottom { background: url(/app/images/dice/dice_6.png) white 9px 9px no-repeat; }
+      &.front  { background: url(/app/images/dice/dice_1.png) white 4px 4px no-repeat; }
+      &.back   { background: url(/app/images/dice/dice_2.png) white 4px 4px no-repeat; }
+      &.right  { background: url(/app/images/dice/dice_3.png) white 4px 4px no-repeat; }
+      &.left   { background: url(/app/images/dice/dice_4.png) white 4px 4px no-repeat; }
+      &.top    { background: url(/app/images/dice/dice_5.png) white 4px 4px no-repeat; }
+      &.bottom { background: url(/app/images/dice/dice_6.png) white 4px 4px no-repeat; }
 
       &.front  {
-        -webkit-transform: translateZ( 35px );
-        -moz-transform: translateZ( 35px );
-        -o-transform: translateZ( 35px );
-        transform: translateZ( 35px );
+        -webkit-transform: translateZ( 20px );
+        -moz-transform: translateZ( 20px );
+        -o-transform: translateZ( 20px );
+        transform: translateZ( 20px );
       }
       &.back   {
-        -webkit-transform: rotateX( -180deg ) translateZ( 35px );
-        -moz-transform: rotateX( -180deg ) translateZ( 35px );
-        -o-transform: rotateX( -180deg ) translateZ( 35px );
-        transform: rotateX( -180deg ) translateZ( 35px );
+        -webkit-transform: rotateX( -180deg ) translateZ( 20px );
+        -moz-transform: rotateX( -180deg ) translateZ( 20px );
+        -o-transform: rotateX( -180deg ) translateZ( 20px );
+        transform: rotateX( -180deg ) translateZ( 20px );
       }
       &.right {
-        -webkit-transform: rotateY(   90deg ) translateZ( 35px );
-        -moz-transform: rotateY(   90deg ) translateZ( 35px );
-        -o-transform: rotateY(   90deg ) translateZ( 35px );
-        transform: rotateY(   90deg ) translateZ( 35px );
+        -webkit-transform: rotateY(   90deg ) translateZ( 20px );
+        -moz-transform: rotateY(   90deg ) translateZ( 20px );
+        -o-transform: rotateY(   90deg ) translateZ( 20px );
+        transform: rotateY(   90deg ) translateZ( 20px );
       }
       &.left {
-        -webkit-transform: rotateY(  -90deg ) translateZ( 35px );
-        -moz-transform: rotateY(  -90deg ) translateZ( 35px );
-        -o-transform: rotateY(  -90deg ) translateZ( 35px );
-        transform: rotateY(  -90deg ) translateZ( 35px );
+        -webkit-transform: rotateY(  -90deg ) translateZ( 20px );
+        -moz-transform: rotateY(  -90deg ) translateZ( 20px );
+        -o-transform: rotateY(  -90deg ) translateZ( 20px );
+        transform: rotateY(  -90deg ) translateZ( 20px );
       }
       &.top {
-        -webkit-transform: rotateX(   90deg ) translateZ( 35px );
-        -moz-transform: rotateX(   90deg ) translateZ( 35px );
-        -o-transform: rotateX(   90deg ) translateZ( 35px );
-        transform: rotateX(   90deg ) translateZ( 35px );
+        -webkit-transform: rotateX(   90deg ) translateZ( 20px );
+        -moz-transform: rotateX(   90deg ) translateZ( 20px );
+        -o-transform: rotateX(   90deg ) translateZ( 20px );
+        transform: rotateX(   90deg ) translateZ( 20px );
       }
       &.bottom {
-        -webkit-transform: rotateX(  -90deg ) translateZ( 35px );
-        -moz-transform: rotateX(  -90deg ) translateZ( 35px );
-        -o-transform: rotateX(  -90deg ) translateZ( 35px );
-        transform: rotateX(  -90deg ) translateZ( 35px );
+        -webkit-transform: rotateX(  -90deg ) translateZ( 20px );
+        -moz-transform: rotateX(  -90deg ) translateZ( 20px );
+        -o-transform: rotateX(  -90deg ) translateZ( 20px );
+        transform: rotateX(  -90deg ) translateZ( 20px );
       }
     }
 
