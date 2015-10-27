@@ -44,10 +44,10 @@ Player = Meta.declareClass("Player", {
         try {
             this.requireGod();
             if (!territory.buildSlots) {
-                throw new Error("Il n'y a aucun emplacement libre sur le territoire sélectionné.");
+                throw new Error("il n'y a aucun emplacement libre sur le territoire sélectionné.");
             }
             if (!this.god.building) {
-                throw new Error("Ce dieu ne peut pas construire ce tour-ci.");
+                throw new Error("ce dieu ne peut pas construire ce tour-ci.");
             }
             this.spend(2);
         } catch (err) {
@@ -60,14 +60,14 @@ Player = Meta.declareClass("Player", {
         try {
             this.requireGod();
             if (!this.god.unitType) {
-                throw new Error("Ce dieu ne peut pas vous fournir d'unité.");
+                throw new Error("ce dieu ne peut pas vous fournir d'unité.");
             }
             var price = this.god.unitPrice()[this.unitBuyCount];
             if (!price && price !== 0) {
-                throw new Error("Il n'y a plus d'unité à acheter.");
+                throw new Error("il n'y a plus d'unité à acheter.");
             }
             if (territory.owner !== this) {
-                throw new Error("Vous ne pouvez acheter des unités que sur des territoires que vous contrôlez")
+                throw new Error("vous ne pouvez acheter des unités que sur des territoires que vous contrôlez")
             }
             this.spend(price);
             territory.placeUnit(new Unit({type: this.god.unitType, owner: this}));
@@ -78,13 +78,13 @@ Player = Meta.declareClass("Player", {
     },
     spend: function (number) {
         if (this.gold < number) {
-            throw new Error("Vous n'avez pas assez de pièces. Cette action coûte " + number + " pièces.");
+            throw new Error("vous n'avez pas assez de sesterces. Cette action coûte " + number + " sesterce(s).");
         }
         this.gold -= number;
     },
     requireGod: function () {
         if (!this.god) {
-            throw new Error("Vous n'avez sélectionné aucun dieu.");
+            throw new Error("vous n'avez sélectionné aucun dieu.");
         }
     },
     addGodCard: function (card) {
@@ -98,18 +98,18 @@ Player = Meta.declareClass("Player", {
         try {
             this.requireGod();
             if (!this.god.card) {
-                throw new Error("Ce dieu ne peut pas vous fournir de carte.");
+                throw new Error("ce dieu ne peut pas vous fournir de carte.");
             }
             var price = this.god.cardPrice()[this.cardBuyCount];
             if (!price && price !== 0) {
-                throw new Error("Il n'y a plus de carte à acheter.");
+                throw new Error("il n'y a plus de carte à acheter.");
             }
             this.spend(price);
             this.addGodCard(this.god.card);
             this.cardBuyCount++;
             return this.god.card;
         } catch (err) {
-            throw new Error("Impossible d'acheter une carte : " + err.message);
+            throw new Error("Il est impossible d'acheter une carte : " + err.message);
         }
     },
     getPriests: function () {
@@ -124,13 +124,13 @@ Player = Meta.declareClass("Player", {
                 god.playerNames.push(this.name);
             } else {
                 if (number > this.gold + this.getPriests()) {
-                    throw new Error("Vous n'avez pas assez d'or.");
+                    throw new Error("vous n'avez pas assez de sesterces.");
                 }
                 if (god.bid && number <= god.bid.gold) {
-                    throw new Error("Votre enchère n'est pas assez importante.");
+                    throw new Error("votre enchère n'est pas assez importante.");
                 }
                 if (this.bid && god === this.bid.god) {
-                    throw new Error("Il est mpossible de surenchérir sur le même dieu.");
+                    throw new Error("il est mpossible de surenchérir sur le même dieu.");
                 }
             }
             this.bid = new Bid({god: god, gold: number});
@@ -149,14 +149,14 @@ Player = Meta.declareClass("Player", {
     move: function (units, fromTerritory, toTerritorry) {
         try {
             if (!units || !units.length) {
-                throw new Error("Il n'y a aucune unité sélectionnée.");
+                throw new Error("il n'y a aucune unité sélectionnée.");
             }
             this.requireGod();
             if (this.god === God.Ceres) {
                 throw new Error("Ceres ne peut pas déplacer d'unité.");
             }
             if (fromTerritory.neighbours.indexOf(toTerritorry.id) === -1) {
-                throw new Error("Le territoire de destination n'est pas adjacent au territoire de départ.");
+                throw new Error("le territoire de destination n'est pas adjacent au territoire de départ.");
             }
             var gladiators = units.filter(function (unit) {
                 return unit.type === UnitType.Gladiator;
@@ -169,7 +169,7 @@ Player = Meta.declareClass("Player", {
                 this.gladiatorMoveCount++;
                 this.spend(this.gladiatorMoveCount);
             } else {
-                throw new Error("Vous n'avez pas les faveurs du dieu correspondant.");
+                throw new Error("vous n'avez pas les faveurs du dieu correspondant.");
             }
             return this.resolveMove(units, fromTerritory, toTerritorry);
         } catch (err) {
@@ -252,24 +252,24 @@ Player = Meta.declareClass("Player", {
         var self = this;
         try {
             if (fromTerritory.type !== toTerritorry.type) {
-                throw new Error("Le territoire de départ et de destination doivent être du même type.");
+                throw new Error("le territoire de départ et de destination doivent être du même type.");
             }
             if (this.possibleRetreats(fromTerritory).indexOf(toTerritorry) === -1) {
-                throw new Error("Cette retraite n'est pas valide. Veuillez choisir un territoire que vous contrôlez ou inoccupé.");
+                throw new Error("cette retraite n'est pas valide. Veuillez choisir un territoire que vous contrôlez ou inoccupé.");
             }
             var units = fromTerritory.getUnits(self);
             return this.resolveMove(units, fromTerritory, toTerritorry);
         } catch (err) {
-            throw new Error("Impossible de retraiter : " + err.message);
+            throw new Error("Il est impossible de retraiter : " + err.message);
         }
     },
     initBuilding: function (territory, building) {
         try {
             if (!(this.god && this.god.canBuild(building))) {
-                throw new Error("Le dieu choisi ne peut pas construire ce bâtiment.");
+                throw new Error("le dieu choisi ne peut pas construire ce bâtiment.");
             }
             if (territory.owner !== this) {
-                throw new Error("Vous devez contrôller le territoire pour y placer un bâtiment.");
+                throw new Error("vous devez contrôller le territoire pour y placer un bâtiment.");
             }
             territory.buildings.push(building);
         } catch (err) {

@@ -56,7 +56,7 @@ describe("Game class", function() {
       var territory = newTerritory();
       game.initUnit(player2, territory);
       // then
-      expect(function() {game.initUnit(player, territory)}).toThrow(new Error("Impossible de placer une unité sur ce territoire : vous devez contrôler le territoire ou le territoire doit être neutre"));
+      expect(function() {game.initUnit(player, territory)}).toThrow(new Error("Il est impossible de placer une unité sur ce territoire : vous devez contrôler le territoire ou le territoire doit être neutre."));
     });
     it("should throw an exception if trying to place unit on a 3rd territory", function() {
       // given
@@ -70,14 +70,14 @@ describe("Game class", function() {
       game.initUnit(player, territory1);
       game.initUnit(player, territory2);
       // then
-      expect(function() {game.initUnit(player, territory3);}).toThrow(new Error("Impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus"));
+      expect(function() {game.initUnit(player, territory3);}).toThrow(new Error("Il est impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."));
     });
     it("should throw an exception if trying to place unit on non-adjacent territories", function() {
       // given
       player.god = God.Junon;
       game.initUnit(player, newTerritory());
       // then
-      expect(function() {game.initUnit(player, newTerritory());}).toThrow(new Error("Impossible de placer une unité sur ce territoire : il n'est pas adjacent aux territoires déjà contrôlés"));
+      expect(function() {game.initUnit(player, newTerritory());}).toThrow(new Error("Il est impossible de placer une unité sur ce territoire : il n'est pas adjacent aux territoires déjà contrôlés."));
     });
     it("should place 3 legionnaires with Minerve", function() {
       // given
@@ -105,7 +105,7 @@ describe("Game class", function() {
       game.initUnit(player, territory1);
       game.initUnit(player, territory2);
       // then
-      expect(function() {game.initUnit(player, territory1);}).toThrow(new Error("Impossible de placer une unité sur ce territoire : vous ne pouvez pas ajouter d'autres unités de type legionnaire"));
+      expect(function() {game.initUnit(player, territory1);}).toThrow(new Error("Il est impossible de placer une unité sur ce territoire : vous ne pouvez pas ajouter d'autres unités de type legionnaire."));
     });
     it("should throw an exception if trying to place 2 legionnaires on the same territory with Junon", function() {
       // given
@@ -114,7 +114,7 @@ describe("Game class", function() {
       // when
       game.initUnit(player, territory1);
       // then
-      expect(function() {game.initUnit(player, territory1);}).toThrow(new Error("Impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus"));
+      expect(function() {game.initUnit(player, territory1);}).toThrow(new Error("Il est impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."));
     });
   });
 })

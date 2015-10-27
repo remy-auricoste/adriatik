@@ -165,7 +165,7 @@ var Game = Meta.declareClass("Game", {
         }
         try {
             if (territory.owner && territory.owner !== player) {
-                throw new Error("Vous devez contrôler le territoire ou le territoire doit être neutre.");
+                throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre.");
             }
             var playerTerritories = this.territories.filter(function (territory) {
                 return territory.owner === player;
@@ -175,13 +175,13 @@ var Game = Meta.declareClass("Game", {
                     return territory.type === territoryIte.type;
                 });
                 if (sameTypeTerritories.length === 2) {
-                    throw new Error("Vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
+                    throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
                 }
                 var isAdjacent = !Meta.forall(playerTerritories, function (territoryIte) {
                     return territoryIte.neighbours.indexOf(territory.id) === -1;
                 });
                 if (playerTerritories.length && !isAdjacent) {
-                    throw new Error("Il n'est pas adjacent aux territoires déjà contrôlés.");
+                    throw new Error("il n'est pas adjacent aux territoires déjà contrôlés.");
                 }
             }
             var self = player;
@@ -189,10 +189,10 @@ var Game = Meta.declareClass("Game", {
             var currentValue = player.initCount[unitType.name];
             var allowedValue = 2 + (player.god.unitType && player.god.unitType === unitType ? 1 : 0);
             if (currentValue === allowedValue) {
-                throw new Error("Vous ne pouvez pas ajouter d'autres unités de type " + unitType.name);
+                throw new Error("vous ne pouvez pas ajouter d'autres unités de type " + unitType.name + ".");
             }
             if (currentValue === allowedValue - 1 && territory.owner === player) {
-                throw new Error("Vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
+                throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
             }
             currentValue++;
             player.initCount[unitType.name] = currentValue;

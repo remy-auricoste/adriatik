@@ -53,23 +53,23 @@ describe('Player class', function () {
       // given
       player.god = null;
       // then
-      expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : aucun dieu n'est sélectionné"));
+      expect(function() {player.build(territory)}).toThrow(new Error("Il est impossible de construire : vous n'avez sélectionné aucun dieu."));
     });
     it("should throw an exception if Ceres god is currently associated with the player", function() {
       // given
       player.god = God.Ceres;
       // then
-      expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : ce dieu ne peut pas construire ce tour-ci"));
+      expect(function() {player.build(territory)}).toThrow(new Error("Il est impossible de construire : ce dieu ne peut pas construire ce tour-ci."));
     });
     it("should throw an exception if there is no slot left on the territory", function() {
       territory.buildSlots = 0;
       // then
-      expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : aucun emplacement libre sur le territoire sélectionné"));
+      expect(function() {player.build(territory)}).toThrow(new Error("Il est impossible de construire : il n'y a aucun emplacement libre sur le territoire sélectionné."));
     });
     it("should throw an exception if there is not enough gold", function() {
       player.gold = 1;
       // then
-      expect(function() {player.build(territory)}).toThrow(new Error("Impossible de construire : pas assez de pièces. Cette action coûte 2 pièces"));
+      expect(function() {player.build(territory)}).toThrow(new Error("Il est impossible de construire : vous n'avez pas assez de sesterces. Cette action coûte 2 sesterce(s)."));
     });
   });
 
@@ -96,7 +96,7 @@ describe('Player class', function () {
       player.god = God.Neptune;
       territory.type = "earth";
       // then
-      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : impossible de placer ce type d'unité sur ce type de territoire"));
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Il est impossible d'acheter une unité : il est impossible de placer ce type d'unité sur ce type de territoire."));
       expect(player.unitBuyCount).toBe(0);
     });
     it("should throw an exception the player does not have enough gold", function() {
@@ -107,13 +107,13 @@ describe('Player class', function () {
       player.buyUnit(territory);
       player.buyUnit(territory);
       player.buyUnit(territory);
-      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : pas assez de pièces. Cette action coûte 4 pièces"));
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Il est impossible d'acheter une unité : vous n'avez pas assez de sesterces. Cette action coûte 4 sesterce(s)."));
     });
     it("should throw an exception if the god cannot give units", function() {
       // given
       player.god = God.Junon;
       // then
-      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : ce dieu ne peut pas vous fournir d'unité"));
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Il est impossible d'acheter une unité : ce dieu ne peut pas vous fournir d'unité."));
     });
     it("should throw an exception if there is no more unit to buy", function() {
       // given
@@ -124,7 +124,7 @@ describe('Player class', function () {
       player.buyUnit(territory);
       player.buyUnit(territory);
       player.buyUnit(territory);
-      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Il est impossible d'acheter une unité : il n'y a plus d'unité à acheter."));
     });
     it("should buy 2 gladiator units", function() {
       // given
@@ -140,13 +140,13 @@ describe('Player class', function () {
       player.god.index = 1;
       // then
       player.buyUnit(territory);
-      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Impossible d'acheter une unité : il n'y a plus d'unité à acheter"));
+      expect(function() {player.buyUnit(territory);}).toThrow(new Error("Il est impossible d'acheter une unité : il n'y a plus d'unité à acheter."));
     });
     it("should throw an exception if the player does not own the territory", function() {
       // given
       player.god = God.Minerve;
       // when
-      expect(function() {player.buyUnit(emptyTerritory);}).toThrow(new Error("Impossible d'acheter une unité : vous ne pouvez acheter des unités que sur des territoires que vous contrôlez"));
+      expect(function() {player.buyUnit(emptyTerritory);}).toThrow(new Error("Il est impossible d'acheter une unité : vous ne pouvez acheter des unités que sur des territoires que vous contrôlez"));
     })
   });
 
@@ -165,13 +165,13 @@ describe('Player class', function () {
       player.gold = 1;
       // then
       player.buyGodCard();
-      expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : pas assez de pièces. Cette action coûte 4 pièces"));
+      expect(function() {player.buyGodCard();}).toThrow(new Error("Il est impossible d'acheter une carte : vous n'avez pas assez de sesterces. Cette action coûte 4 sesterce(s)."));
     });
     it("should throw an exception if the god cannot give cards", function() {
       // given
       player.god = God.Minerve;
       // then
-      expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : ce dieu ne peut pas vous fournir de carte"));
+      expect(function() {player.buyGodCard();}).toThrow(new Error("Il est impossible d'acheter une carte : ce dieu ne peut pas vous fournir de carte."));
     });
     it("should throw an exception if there is no more card to buy", function() {
       // given
@@ -180,7 +180,7 @@ describe('Player class', function () {
       // then
       player.buyGodCard();
       player.buyGodCard();
-      expect(function() {player.buyGodCard();}).toThrow(new Error("Impossible d'acheter une carte : il n'y a plus de carte à acheter"));
+      expect(function() {player.buyGodCard();}).toThrow(new Error("Il est impossible d'acheter une carte : il n'y a plus de carte à acheter."));
     });
   });
 
@@ -210,14 +210,14 @@ describe('Player class', function () {
       // given
       player.gold = 3;
       // then
-      expect(function() {player.placeBid(God.Minerve, 4);}).toThrow(new Error("Impossible de placer cette enchère : pas assez d'or"));
+      expect(function() {player.placeBid(God.Minerve, 4);}).toThrow(new Error("Il est impossible de placer cette enchère : vous n'avez pas assez de sesterces."));
     });
     it("should throw an exception because bidding twice on the same god", function() {
       // given
       player.gold = 3;
       // then
       player.placeBid(God.Minerve, 2);
-      expect(function() {player.placeBid(God.Minerve, 3);}).toThrow(new Error("Impossible de placer cette enchère : impossible de surenchérir sur le même dieu"));
+      expect(function() {player.placeBid(God.Minerve, 3);}).toThrow(new Error("Il est impossible de placer cette enchère : il est mpossible de surenchérir sur le même dieu."));
     });
   });
 
@@ -285,7 +285,7 @@ describe('Player class', function () {
       // then
       expect(territory.units.length).toBe(1);
       expect(emptyTerritory.units.length).toBe(0);
-      expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : pas assez de pièces. Cette action coûte 1 pièces"));
+      expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Il est impossible de déplacer des unités : vous n'avez pas assez de sesterces. Cette action coûte 1 sesterce(s)."));
       expect(player.gold).toBe(0);
     });
     it("should take control of dest empty territory (gladiator legionnaires)", function() {
@@ -310,7 +310,7 @@ describe('Player class', function () {
       territory.placeUnit(playerLegionnaire);
       // when
       var units = [playerLegionnaire];
-      expect(function() {player.move(units, territory, territory2);}).toThrow(new Error("Impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ"));
+      expect(function() {player.move(units, territory, territory2);}).toThrow(new Error("Il est impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ."));
     });
     it("should throw an exception because move is not allowed by the god", function() {
       // given
@@ -319,7 +319,7 @@ describe('Player class', function () {
       territory.placeUnit(playerLegionnaire);
       // when
       var units = [playerLegionnaire];
-      expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Impossible de déplacer des unités : vous n'avez pas les faveurs du dieu correspondant"));
+      expect(function() {player.move(units, territory, emptyTerritory);}).toThrow(new Error("Il est impossible de déplacer des unités : vous n'avez pas les faveurs du dieu correspondant."));
     });
   });
 
@@ -409,7 +409,7 @@ describe('Player class', function () {
       player.god = God.Minerve;
       territory.owner = player;
       // then
-      expect(function() {player.initBuilding(territory, Building.Port);}).toThrow(new Error("Impossible de placer ce bâtiment : le dieu choisi ne peut pas construire ce bâtiment"));
+      expect(function() {player.initBuilding(territory, Building.Port);}).toThrow(new Error("Il est impossible de placer ce bâtiment : le dieu choisi ne peut pas construire ce bâtiment."));
     });
     it("should throw an exception if the building cannot be built by the chosen god (Pluton)", function() {
       // given
@@ -424,7 +424,7 @@ describe('Player class', function () {
       // given
       player.god = God.Minerve;
       // when
-      expect(function() {player.initBuilding(emptyTerritory, Building.Fort);}).toThrow(new Error("Impossible de placer ce bâtiment : vous devez contrôller le territoire pour y placer un bâtiment"));
+      expect(function() {player.initBuilding(emptyTerritory, Building.Fort);}).toThrow(new Error("Il est impossible de placer ce bâtiment : vous devez contrôller le territoire pour y placer un bâtiment."));
     });
   })
 });

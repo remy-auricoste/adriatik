@@ -26,7 +26,7 @@ var Territory = Meta.declareClass("Territory", {
     },
     placeUnit: function (unit) {
         if (unit.type.territoryType !== this.type) {
-            throw new Error("Impossible de placer ce type d'unité sur ce type de territoire.");
+            throw new Error("il est impossible de placer ce type d'unité sur ce type de territoire.");
         }
         this.units.push(unit);
     },
