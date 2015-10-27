@@ -2252,8 +2252,12 @@ var Socket = function(receiver) {
 Socket.prototype.connect = function(url) {
     var self = this;
     self.connected = false;
-    self.wrapped = new WebSocket(url);
     var defer = Q.defer();
+    try {
+        self.wrapped = new WebSocket(url);
+    } catch(err) {
+        defer.reject(err);
+    }
     self.wrapped.onopen = function() {
         self.connected = true;
         defer.resolve();
