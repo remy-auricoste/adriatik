@@ -2,7 +2,7 @@
     <div class="phase">{{ game.phase }}: {{ game.turn }}</div>
 
     <div ng-repeat="god in game.currentGods"
-         class="{{god.name}} god player-{{game.getPlayer(god).color}}"
+         class="{{god.name}} god"
             >
 
         <div class="god-avatar">
@@ -24,9 +24,16 @@
              ng-show="game.phase === Phases.bidding"
                 >
             <div ng-repeat="gold in golds"
-                 class="gold"
+                 class="gold {{game.getPlayer(god) && gold <= god.bid.gold ? 'bidden player-'+game.getPlayer(god).color : ''}}"
                  ng-click="placeBid(god, gold)"
-                    ><span class="adk-tooltip" title="Miser {{gold}} pièce(s)"><span title=""><img src="app/images/sesterce.png" class="{{ game.getPlayer(god) && gold <= god.bid.gold ? 'bidden' : '' }}" ></span></span>
+                 >
+                <span class="adk-tooltip" title="Miser {{gold}} pièce(s)">
+                    <span title="">
+                        <img src="app/images/sesterce.png"
+                         ng-hide="game.getPlayer(god) && gold <= god.bid.gold"
+                            >
+                    </span>
+                </span>
             </div>
         </div>
     </div>
