@@ -76,12 +76,12 @@
       font-weight: bold;
       background-color: white;
 
-      &.front  { background: url(./images/dice/dice_1.png) white 9px 9px no-repeat; }
-      &.back   { background: url(./images/dice/dice_2.png) white 9px 9px no-repeat; }
-      &.right  { background: url(./images/dice/dice_3.png) white 9px 9px no-repeat; }
-      &.left   { background: url(./images/dice/dice_4.png) white 9px 9px no-repeat; }
-      &.top    { background: url(./images/dice/dice_5.png) white 9px 9px no-repeat; }
-      &.bottom { background: url(./images/dice/dice_6.png) white 9px 9px no-repeat; }
+      &.front  { background: url(/app/images/dice/dice_1.png) white 9px 9px no-repeat; }
+      &.back   { background: url(/app/images/dice/dice_2.png) white 9px 9px no-repeat; }
+      &.right  { background: url(/app/images/dice/dice_3.png) white 9px 9px no-repeat; }
+      &.left   { background: url(/app/images/dice/dice_4.png) white 9px 9px no-repeat; }
+      &.top    { background: url(/app/images/dice/dice_5.png) white 9px 9px no-repeat; }
+      &.bottom { background: url(/app/images/dice/dice_6.png) white 9px 9px no-repeat; }
 
       &.front  {
         -webkit-transform: translateZ( 35px );
