@@ -9,6 +9,15 @@ Pour installer le projet :
 npm install -g gulp
 npm install -g bower
 ```
+
+Si vous avez des problèmes d'installation de gulp lié aux droits d'accès, ce peut être dû à un conflit lié à la version de nodejs installé.
+Pour cela, installez nvm :
+
+`curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash`
+
+et seléctionnez si besoin la version de node à utiliser (via `nvm ls` puis `nvm use <version de node>`)
+
+
 * Puis allez dans le répertoire du projet et tapez :
 ```
 npm install
