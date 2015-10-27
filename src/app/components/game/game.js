@@ -14,7 +14,7 @@ function game(randomFactory, qPlus, md5, gameSocket) {
                 players: [
                     Player.new("Alain", md5.createHash("adoanhuu@gmail.com"), "red"),
                     Player.new("Alan", md5.createHash("alan.leruyet@free.fr"), "blue"),
-                    Player.new("Charles", md5.createHash("chales.lescot@gmail.com"), "green"),
+                    Player.new("Charles", md5.createHash("lescot.charles@gmail.com"), "green"),
                     Player.new("Rémy", md5.createHash("remy.auricoste@gmail.com"), "purple")
                 ],
                 gods: God.all,
