@@ -2634,6 +2634,11 @@ Socket.prototype.poll = function() {
     }).then(function(result) {
         var body = result.body;
         var message = JSON.parse(body);
+        if (message.newId) {
+          console.log("newId", self.id, message.newId);
+          self.id = message.newId;
+          return;
+        }
         if (message.error) {
             throw new Error(message.error);
         }
