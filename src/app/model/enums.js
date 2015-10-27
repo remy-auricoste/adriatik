@@ -87,3 +87,81 @@ var Phases = {
     bidding: "Enchères",
     actions: "Actions"
 }
+
+new CreatureCard({
+  name: "Pégase",
+  targetCount: 2,
+  action: function(game, player, units, territory) {
+
+  }
+});
+new CreatureCard({
+  name: "armée des morts",
+  targetCount: 0,
+  action: function(game, player) {
+
+  }
+});
+new CreatureCard({
+  name: "Griffon",
+  targetCount: 1,
+  action: function(game, player, stolenPlayer) {
+    var initGold = stolenPlayer.gold;
+    var stolenGold = Math.floor(initGold / 2);
+    player.gold += stolenGold;
+    stolenPlayer.gold -= stolenGold;
+    // TODO emit message command
+  }
+});
+new CreatureCard({
+  name: "Kraken",
+  targetCount: 1,
+  action: function(game, player, territory) {
+
+  }
+});
+new CreatureCard({
+  name: "Harpie",
+  targetCount: 1,
+  action: function(game, player, territory) {
+    var units = territory.units.filter(function(unit) {
+      return unit.type === UnitType.Legionnaire && unit.owner !== player;
+    });
+    if (units.length) {
+      territory.units.splice(territory.units.indexOf(units[0]), 1);
+    }
+    // TODO message
+  }
+});
+new CreatureCard({
+  name: "Minotaure",
+  targetCount: 1,
+  action: function(game, player, territory) {
+
+  }
+});
+new CreatureCard({
+  name: "Méduse",
+  targetCount: 1,
+  action: function(game, player, territory) {
+  }
+});
+new CreatureCard({
+  name: "Cyclope",
+  targetCount: 1,
+  action: function(game, player, territory) {
+  }
+});
+new CreatureCard({
+  name: "Centaure",
+  targetCount: 1,
+  action: function(game, player, territory) {
+  }
+});
+new CreatureCard({
+  name: "Sphinx",
+  targetCount: 0,
+  action: function(game, player) {
+    // TODO activate state on player so that he can trade cards / units for 2 gold
+  }
+});
