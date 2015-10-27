@@ -7,7 +7,6 @@ function introPanel($rootScope) {
         templateUrl: "app/components/introPanel/introPanel.html",
         replace: true,
         scope: {
-            game: "="
         },
         link: function (scope) {
             scope.showIntroBox = true;
