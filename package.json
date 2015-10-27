@@ -46,7 +46,7 @@
     "main-bower-files": "~2.9.0",
     "node-static": "x",
     "rauricoste-meta": "^0.1.x",
-    "rauricoste-websocket-room-client": "0.0.x",
+    "rauricoste-websocket-room-client": "0.x",
     "uglify-save-license": "~0.4.1",
     "wiredep": "~2.2.2",
     "wrench": "~1.5.8"

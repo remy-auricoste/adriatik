@@ -2206,7 +2206,7 @@ module.exports = {
             }
             var splittedHost = parsedUrl.host.split(":");
             var host = splittedHost[0];
-            var port = splittedHost.length === 2 ? splittedHost[1] : 80;
+            var port = splittedHost.length === 2 ? splittedHost[1] : (parsedUrl.protocol === "https:" ? 443 : 80);
             var post_options = {
                 host: host,
                 port: port,
@@ -2243,6 +2243,7 @@ module.exports = {
     },
     buildParams: buildParams
 };
+
 },{"http":14,"https":18,"q":1,"url":39}],6:[function(require,module,exports){
 var Q = require("q");
 
@@ -2361,12 +2362,10 @@ var SocketBus = function(host, onReceive) {
         }
     };
     Q.traverse(self.host, function(host) {
-        self.socket = new Socket(receiveFct);
+        var socketFactory = host.substring(0, 2) === "ws" ? Socket : XhrSocket;
+        self.socket = new socketFactory(receiveFct);
         self.usedHost = host;
-        return self.socket.connect("ws://"+host).catch(function(err) {
-            self.socket = new XhrSocket(receiveFct);
-            return self.socket.connect("http://"+host+"/socket");
-        }).then(function() {
+        return self.socket.connect(host).then(function() {
             throw "connected";
         }).catch(function(err) {
             if (err !== "connected") {
