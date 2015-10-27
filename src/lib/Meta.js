@@ -306,10 +306,15 @@ var Meta = {
                 Collections.foreach(attributes, function (valueTemplate, key) {
                     var value = params[key];
                     if (value !== undefined) {
-                        if (typeof valueTemplate === "string" && valueTemplate.length && valueTemplate !== "fct") {
-                            Meta.requireType(value, "object");
-                        } else {
-                            Meta.requireType(value, valueTemplate == "fct" ? "function" : typeof valueTemplate);
+                        try {
+                            if (typeof valueTemplate === "string" && valueTemplate.length && valueTemplate !== "fct") {
+                                Meta.requireType(value, "object");
+                            } else {
+                                Meta.requireType(value, valueTemplate == "fct" ? "function" : typeof valueTemplate);
+                            }
+                        } catch(err) {
+                            err.message = "error in type of field "+key+" : "+err.message;
+                            throw err;
                         }
                         Meta.addAttribute(self, key, value);
                     }
@@ -318,8 +323,7 @@ var Meta = {
                     self.init();
                 }
             } catch(e) {
-                console.log("error when creating new instance of "+name+" with params "+Meta.format(params)+". template="+Meta.format(template));
-                console.log(e);
+                e.message = "error when creating new instance of "+name+". template="+Meta.format(template)+" : "+e.message;
                 throw e;
             }
         };
@@ -410,7 +414,7 @@ var Meta = {
         }
     },
     requireType: function(object, type) {
-        Meta.require(typeof object == type, function() {Meta.format(object) + " should be a "+type+". found "+typeof object});
+        Meta.require(typeof object == type, function() {return "typeof exception. expected "+type+". found "+typeof object});
     },
     format: function(object) {
         try {
