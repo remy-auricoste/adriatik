@@ -13,9 +13,11 @@ function chatPanel(gameSocket) {
             var messagesEl = elem.getElementsByClassName("messages")[0];
             scope.messages = new Fifo({size: 20});
             gameSocket.addListener(function(messageObj) {
-                scope.messages.push(messageObj);
-                scope.$apply();
-                messagesEl.scrollTop = messagesEl.scrollHeight;
+                if (typeof messageObj.message === "string") {
+                  scope.messages.push(messageObj);
+                  scope.$apply();
+                  messagesEl.scrollTop = messagesEl.scrollHeight;
+                }
             });
             scope.toggle = function() {
               scope.closed = !scope.closed;
