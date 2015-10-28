@@ -1,5 +1,5 @@
 /** @ngInject */
-function game(randomFactory, qPlus, md5, gameSocket) {
+function game(gameInitializer, $route) {
     'use strict';
 
     return {
@@ -10,22 +10,14 @@ function game(randomFactory, qPlus, md5, gameSocket) {
         },
         link: function (scope, elements, attr) {
             scope.ready = false;
-            var game = new Game({
-                players: [
-                    Player.new("Alain", md5.createHash("adoanhuu@gmail.com"), "red"),
-                    Player.new("Alan", md5.createHash("alan.leruyet@free.fr"), "blue"),
-                    Player.new("Charles", md5.createHash("lescot.charles@gmail.com"), "green"),
-                    Player.new("Rémy", md5.createHash("remy.auricoste@gmail.com"), "purple")
-                ],
-                gods: God.all,
-                randomFactory: randomFactory,
-                showNotificationBox: false,
-                message: "",
-                q: qPlus
-            });
-            scope.game = game;
-            game.startTurn().then(function () {
-                scope.ready = true;
+            var playerSize = $route.current.params.playerSize;
+            playerSize = parseInt(playerSize);
+            gameInitializer.init(playerSize).then(function(game) {
+              console.log("ready", game);
+              scope.game = game;
+              scope.ready = true;
+            }).catch(function(err) {
+              console.error(err);
             });
         }
     };

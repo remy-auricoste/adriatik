@@ -1,19 +1,21 @@
-<div ng-show="ready">
-    <intro-panel game="game"></intro-panel>
+<div>
+  <div custom-if="game">
+      <intro-panel></intro-panel>
 
-    <bid-panel game="game"></bid-panel>
+      <bid-panel game="game"></bid-panel>
 
-    <map game="game"></map>
+      <map game="game"></map>
 
-    <action-panel game="game"></action-panel>
+      <action-panel game="game"></action-panel>
 
-    <player-panel game="game"></player-panel>
+      <player-panel game="game"></player-panel>
 
-    <dice-panel game="game"></dice-panel>
+      <dice-panel game="game"></dice-panel>
 
-    <chat-panel></chat-panel>
+      <chat-panel></chat-panel>
 
-    <error-panel></error-panel>
+      <error-panel></error-panel>
 
-    <config></config>
+      <config></config>
+  </div>
 </div>

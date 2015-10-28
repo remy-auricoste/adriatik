@@ -1,10 +1,8 @@
 Player = Meta.declareClass("Player", {
     name: "",
-    avatar: "",
     gold: 1,
     priests: 1,
     philosophers: 1,
-    color: "",
     unitsLeft: {},
     unitBuyCount: 1,
     cardBuyCount: 1,
@@ -278,12 +276,10 @@ Player = Meta.declareClass("Player", {
     }
 });
 
-Player.new = function (name, hash, color) {
+Player.new = function (name) {
 
     return new Player({
         name: name,
-        avatar: "http://www.gravatar.com/avatar/" + hash + "?s=50",
-        color: color,
         gold: 7,
         priests: 5,
         philosophers: 5,

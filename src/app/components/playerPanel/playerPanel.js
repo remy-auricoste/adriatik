@@ -1,5 +1,5 @@
 /** @ngInject */
-function playerPanel() {
+function playerPanel(gravatarService) {
     'use strict';
 
     return {
@@ -10,6 +10,7 @@ function playerPanel() {
             game: "="
         },
         link: function (scope) {
+            scope.gravatarService = gravatarService;
             scope.setPlayer = function (player) {
                 scope.currentPlayer = player;
             }

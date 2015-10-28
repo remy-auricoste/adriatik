@@ -2,6 +2,8 @@
 function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
   'use strict';
 
+  var colors = ["red", "blue", "green", "purple"];
+
   return {
     init: function(playerSize) {
       var self = this;
@@ -28,13 +30,15 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
       var players = Object.keys(accounts).map(function(id) {
         var account = accounts[id];
         account.id = id;
-        return Player.new(account);
+        var player = angular.extend(Player.new(account.name), new GraphicPlayer({account: account}));
+        return player;
       });
       var game = new Game({
         players: players,
         gods: God.all,
         randomFactory: randomFactory,
-        q: qPlus
+        q: qPlus,
+        colors: colors
       });
       return game.startTurn().then(function() {
         return game;

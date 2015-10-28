@@ -28,8 +28,7 @@ function gravatarService(md5, $http) {
       });
     },
     getPictureUrl: function(email) {
-      // TODO check if we can get the url from json
-      return "http://www.gravatar.com/"+md5.createHash(email)+"?s=50";
+      return "http://www.gravatar.com/avatar/"+md5.createHash(email)+"?s=50";
     }
   }
 }

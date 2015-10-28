@@ -11,6 +11,7 @@ var Game = Meta.declareClass("Game", {
     q: "fct",
     turn: 1,
     phase: "",
+    colors: [],
     init: function () {
         var self = this;
         if (!this.currentPlayer) {
@@ -28,8 +29,9 @@ var Game = Meta.declareClass("Game", {
         if (!this.territories) {
             this.territories = [];
         }
-        this.players.map(function (player) {
+        this.players.map(function (player, index) {
             player.randomFactory = self.randomFactory;
+            player.color = self.colors[index];
         });
     },
     startTurn: function () {
