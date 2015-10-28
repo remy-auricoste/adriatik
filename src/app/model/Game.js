@@ -29,6 +29,9 @@ var Game = Meta.declareClass("Game", {
         if (!this.territories) {
             this.territories = [];
         }
+        if (!this.colors) {
+          this.colors = ["red", "blue", "green", "purple"];
+        }
         this.players.map(function (player, index) {
             player.randomFactory = self.randomFactory;
             player.color = self.colors[index];

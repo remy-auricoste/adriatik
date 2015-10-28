@@ -2,8 +2,6 @@
 function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
   'use strict';
 
-  var colors = ["red", "blue", "green", "purple"];
-
   return {
     init: function(playerSize) {
       var self = this;
@@ -37,8 +35,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
         players: players,
         gods: God.all,
         randomFactory: randomFactory,
-        q: qPlus,
-        colors: colors
+        q: qPlus
       });
       return game.startTurn().then(function() {
         return game;
