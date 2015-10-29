@@ -104,6 +104,7 @@ function map($http, $rootScope, neighbourFinder) {
                 }
                 if (command) {
                     var result = scope.game.receiveCommand(command);
+                    // TODO command
                     if (result !== undefined && typeof result.then === "function") {
                         result.then(function (battleResult) {
                             console.log("battle result", battleResult);

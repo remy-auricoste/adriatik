@@ -1,5 +1,5 @@
 /** @ngInject */
-function bidPanel() {
+function bidPanel($rootScope, $timeout) {
     'use strict';
 
     return {
@@ -21,7 +21,8 @@ function bidPanel() {
                 })
             }
             scope.placeBid = function (god, value) {
-                var removedPlayer = scope.game.placeBid(scope.game.currentPlayer, god, value);
+                var command = new Command({type: CommandType.Bid, player: scope.game.currentPlayer, args: [god, value]})
+                $rootScope.$emit("command",  command);
 
                 scope.golds = [];
                 for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
@@ -32,12 +33,6 @@ function bidPanel() {
                 for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
                     scope.purse.push(i);
                 }
-                console.log("removed player", removedPlayer);
-                console.log("bidding", scope.game.currentPlayer);
-            }
-            scope.placeCustomBid = function (god) {
-                var amount = parseInt(scope.customBidValue);
-                scope.placeBid(god, amount);
             }
             scope.Phases = Phases;
             scope.God = God;

@@ -1,5 +1,5 @@
 /** @ngInject */
-function game(gameInitializer, $route, randomFactory, qPlus) {
+function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootScope) {
     'use strict';
 
     return {
@@ -42,6 +42,11 @@ function game(gameInitializer, $route, randomFactory, qPlus) {
                 scope.game = game;
               });
             }
+
+            $rootScope.$on("command", function(event, command) {
+              scope.game.receiveCommand(command);
+              //gameStorage.save(command);
+            });
         }
     };
 }
