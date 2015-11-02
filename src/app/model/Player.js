@@ -127,11 +127,11 @@ Player = Meta.declareClass("Player", {
                 if (god.bid && number <= god.bid.gold) {
                     throw new Error("votre enchère n'est pas assez importante.");
                 }
-                if (this.bid && god === this.bid.god) {
+                if (this.bid && god.name === this.bid.godName) {
                     throw new Error("il est mpossible de surenchérir sur le même dieu.");
                 }
             }
-            this.bid = new Bid({god: god, gold: number});
+            this.bid = new Bid({godName: god.name, gold: number});
             god.bid = this.bid;
         } catch (err) {
             throw new Error("Il est impossible de placer cette enchère : " + err.message);
@@ -141,7 +141,7 @@ Player = Meta.declareClass("Player", {
         var goldLeft = this.bid.gold - this.getPriests();
         var payment = Math.max(1, goldLeft);
         this.spend(payment);
-        this.god = this.bid.god;
+        this.god = this.bid.getGod();
         return payment;
     },
     move: function (units, fromTerritory, toTerritorry) {

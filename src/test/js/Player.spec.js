@@ -36,7 +36,7 @@ describe('Player class', function () {
     territory2 = new Territory({owner: player, buildSlots: 4, type:"earth"});
     emptyTerritory = new Territory({buildSlots: 4, type:"earth"});
     emptyTerritory.nextTo(territory);
-    God.all.map(function(god) {
+    God.allArray().map(function(god) {
       god.bid = null;
     })
   });

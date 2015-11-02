@@ -34,7 +34,7 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
                       playerFactory({name: "Charles", email:"chales.lescot@gmail.com"}),
                       playerFactory({name: "Rémy", email:"remy.auricoste@gmail.com"})
                   ],
-                  gods: God.all,
+                  gods: God.allArray(),
                   randomFactory: randomFactory,
                   q: qPlus
               });
@@ -45,7 +45,7 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
 
             $rootScope.$on("command", function(event, command) {
               scope.game.receiveCommand(command);
-              //gameStorage.save(command);
+              //gameStorage.save(scope.game);
             });
         }
     };

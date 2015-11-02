@@ -33,7 +33,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory) {
       });
       var game = new Game({
         players: players,
-        gods: God.all,
+        gods: God.allArray(),
         randomFactory: randomFactory,
         q: qPlus
       });

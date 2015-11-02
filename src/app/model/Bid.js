@@ -1,4 +1,7 @@
 var Bid = Meta.declareClass("Bid", {
-    god: "God",
-    gold: 1
+    godName: "",
+    gold: 1,
+    getGod: function() {
+      return God.byName(this.godName);
+    }
 });

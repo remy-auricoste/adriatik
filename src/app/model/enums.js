@@ -74,14 +74,6 @@ God.Ceres = new God({
     name: "Ceres",
     color: "yellow"
 });
-God.all = [
-    God.Jupiter
-    , God.Pluton
-    , God.Neptune
-    , God.Junon
-    , God.Minerve
-    , God.Ceres
-]
 
 var Phases = {
     bidding: "Enchères",

@@ -87,7 +87,7 @@ var Game = Meta.declareClass("Game", {
     },
     getPlayer: function (god) {
         var biddingPlayers = this.players.filter(function (player) {
-            return player.bid && player.bid.god === god;
+            return player.bid && player.bid.godName === god.name;
         });
         biddingPlayers.sort(function (a, b) {
             return b.bid.gold - a.bid.gold;
@@ -134,7 +134,7 @@ var Game = Meta.declareClass("Game", {
             self.phase = Phases.bidding;
 
             self.players.map(function (player) {
-                player.bid.god.bid = null;
+                player.bid.godName = null;
                 player.bid = null;
                 player.god = null;
             });
