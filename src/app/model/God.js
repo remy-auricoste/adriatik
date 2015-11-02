@@ -1,4 +1,5 @@
 var God = Meta.declareClass("God", {
+    _primary: "name",
     name: "",
     color: "",
     building: "Building",

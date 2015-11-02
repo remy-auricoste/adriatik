@@ -1,4 +1,5 @@
 var CreatureCard = Meta.declareClass("CreatureCard", {
+    _primary: "name",
     name: "",
     action: "fct",
     targetCount: 1,
