@@ -45,7 +45,7 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
 
             $rootScope.$on("command", function(event, command) {
               scope.game.receiveCommand(command);
-              //gameStorage.save(scope.game);
+              gameStorage.save(scope.game);
             });
         }
     };

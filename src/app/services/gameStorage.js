@@ -7,12 +7,16 @@ function gameStorage() {
         save: function(object) {
           console.log("saved", object);
           var saved = JSON.stringify(object);
-          console.log("saved", saved);
           localStorage[key] = saved;
         },
         load: function() {
           var value = localStorage[key];
-          return value ? JSON.parse(value) : value;
+          if (!value) {
+            return null;
+          }
+          value = JSON.parse(value);
+          value = Game.fromObject(value);
+          return value;
         }
     }
 }
