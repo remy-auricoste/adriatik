@@ -322,6 +322,10 @@ var Meta = {
                 if (template.init && typeof template.init === "function") {
                     self.init();
                 }
+                if (classe.template._primary !== undefined) {
+                  var key = self[classe.template._primary];
+                  classe._all[key] = self;
+                }
             } catch(e) {
                 e.message = "error when creating new instance of "+name+". template="+Meta.format(template)+" : "+e.message;
                 throw e;
@@ -342,7 +346,15 @@ var Meta = {
             result[attName] = value;
             return result;
         });
+        classe._all = {};
         classe.fromObject = function (object) {
+            if (classe.template._primary !== undefined) {
+              var key = object[classe.template._primary];
+              var instance = classe._all[key];
+              if (instance) {
+                return instance;
+              }
+            }
             var instance = new classe(object);
             Meta.foreach(attributes, function(templateValue, key) {
                 if (!instance[key]) {
