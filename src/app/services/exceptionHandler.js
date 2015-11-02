@@ -4,7 +4,7 @@ function exceptionHandler($log) {
     result.listeners.map(function(listener) {
       listener(exception);
     });
-    throw exception;
+    $log.error(exception);
   };
   result.listeners = [];
   result.$onError = function(fonction) {
