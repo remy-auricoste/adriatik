@@ -23,7 +23,6 @@ var Territory = Meta.declareClass("Territory", {
         if (!this.id) {
             this.id = idCount++ + "";
         }
-        Territory.all[this.id] = this;
     },
     placeUnit: function (unit) {
         if (unit.type.territoryType !== this.type) {
@@ -64,7 +63,6 @@ var Territory = Meta.declareClass("Territory", {
         });
     }
 });
-Territory.all = {};
 Territory.byId = function (id) {
-    return Territory.all[id];
+    return Territory._all[id];
 }

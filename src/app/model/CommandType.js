@@ -1,9 +1,6 @@
 var CommandType = Meta.createClass("CommandType", {
+    _primary: "name",
     name: "",
     methodName: "",
-    argCount: 1,
-    init: function () {
-        CommandType.all.push(this);
-    }
+    argCount: 1
 });
-CommandType.all = [];

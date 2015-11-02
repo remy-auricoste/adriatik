@@ -147,9 +147,7 @@ var Game = Meta.declareClass("Game", {
         if (!command.player || command.player !== this.currentPlayer) {
             throw new Error("received command not from currentPlayer" + JSON.stringify(command));
         }
-        var commandNames = CommandType.all.map(function (commandType) {
-            return commandType.name;
-        });
+        var commandNames = Object.keys(CommandType._all);
         if (commandNames.indexOf(command.type.name) === -1) {
             throw new Error("Type de commande inconnu " + command.type.name + ".");
         }
