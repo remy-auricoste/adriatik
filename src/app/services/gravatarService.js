@@ -28,6 +28,9 @@ function gravatarService(md5, $http) {
       });
     },
     getPictureUrl: function(email) {
+      if (!email) {
+        return null;
+      }
       return "http://www.gravatar.com/avatar/"+md5.createHash(email)+"?s=50";
     }
   }
