@@ -28,11 +28,6 @@ function bidPanel($rootScope, $timeout) {
                 for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
                     scope.golds.push(i);
                 }
-
-                scope.purse = [];
-                for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
-                    scope.purse.push(i);
-                }
             }
             scope.Phases = Phases;
             scope.God = God;
