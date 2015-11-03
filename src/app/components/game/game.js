@@ -24,8 +24,11 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
             });
 
             $rootScope.$on("command", function(event, command) {
-              scope.game.receiveCommand(command);
+              var result = scope.game.receiveCommand(command);
               gameStorage.save(scope.game);
+              if (typeof command.callback === "function") {
+                command.callback(result);
+              }
             });
         }
     };
