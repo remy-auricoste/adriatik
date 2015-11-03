@@ -38,7 +38,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       if (loaded) {
         loaded.randomFactory = randomFactory;
         loaded.q = qPlus;
-        return loaded;
+        return new Game(loaded);
       }
 
       var players = Object.keys(accounts).map(function(id) {
