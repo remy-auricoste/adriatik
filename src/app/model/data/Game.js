@@ -156,6 +156,8 @@ var Game = Meta.declareClass("Game", {
             return this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
         } else if (command.type === CommandType.InitUnit) {
             return this.initUnit(this.currentPlayer, command.args[0]);
+        } else if (command.type === CommandType.EndTurn) {
+            return this.endPlayerTurn();
         } else {
             return this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
         }

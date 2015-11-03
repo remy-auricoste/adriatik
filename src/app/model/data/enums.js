@@ -6,6 +6,7 @@ CommandType.Bid = new CommandType({name: "bid", methodName: "placeBid", argCount
 CommandType.Retreat = new CommandType({name: "retreat", methodName: "retreat", argCount: 2});
 CommandType.InitUnit = new CommandType({name: "initUnit", methodName: "initUnit", argCount: 1});
 CommandType.InitBuilding = new CommandType({name: "initBuilding", methodName: "initBuilding", argCount: 2});
+CommandType.EndTurn = new CommandType({name: "endTurn", methodName: "endTurn", argCount: 0});
 
 Building.Fort = new Building({name: "fort", label: "Fort"});
 Building.Port = new Building({name: "port", label: "Port"});

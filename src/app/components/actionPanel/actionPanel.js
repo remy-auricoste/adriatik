@@ -22,8 +22,7 @@ function actionPanel($rootScope) {
                 scope.mode = $rootScope.mode;
             }
             scope.endTurn = function () {
-            // TODO command
-                scope.game.endPlayerTurn();
+                $rootScope.$emit("command", new Command({type: CommandType.EndTurn, player: scope.game.currentPlayer, args: []}));
             }
             scope.Phases = Phases;
         }
