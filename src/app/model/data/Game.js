@@ -132,9 +132,11 @@ var Game = Meta.declareClass("Game", {
             self.phase = Phases.bidding;
 
             self.players.map(function (player) {
-                player.bid.godName = null;
                 player.bid = null;
                 player.god = null;
+            });
+            self.gods.map(function(god) {
+              god.bid = null;
             });
             God.Ceres.playerNames = [];
 
