@@ -151,6 +151,12 @@ Player = Meta.declareClass("Player", {
             if (!units || !units.length) {
                 throw new Error("il n'y a aucune unité sélectionnée.");
             }
+            var allInTerritory = Meta.forall(units, function(unit) {
+              return fromTerritory.units.indexOf(unit) !== -1;
+            });
+            if (!allInTerritory) {
+              throw new Error("toutes les unités doivent partir du même territoire et arriver sur le même territoire");
+            }
             this.requireGod();
             if (this.god === God.Ceres) {
                 throw new Error("Ceres ne peut pas déplacer d'unité.");
