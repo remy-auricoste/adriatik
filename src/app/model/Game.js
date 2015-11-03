@@ -6,8 +6,6 @@ var Game = Meta.declareClass("Game", {
     bidPlayers: ["Player"],
     currentPlayer: "Player",
     randomFactory: {},
-    showNotificationBox: false,
-    message: "",
     q: "fct",
     turn: 1,
     phase: "",
