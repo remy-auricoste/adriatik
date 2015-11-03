@@ -5,7 +5,6 @@ function gameStorage() {
 
     return {
         save: function(object) {
-          console.log("saved", object);
           var saved = JSON.stringify(object);
           localStorage[key] = saved;
         },
