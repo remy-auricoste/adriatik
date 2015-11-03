@@ -3,6 +3,7 @@ var Territory = Meta.declareClass("Territory", {
     _primary: "id",
     id: "",
     path: "",
+    box: {},
     neighbours: [],
     income: 1,
     type: "", // earth / sea

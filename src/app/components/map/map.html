@@ -1,26 +1,26 @@
 <section class="map">
     <svg>
         <g>
-            <path ng-repeat="path in paths"
-                  ng-attr-d="{{path.path}}"
+            <path ng-repeat="territory in game.territories track by territory.id"
+                  ng-attr-d="{{territory.path}}"
                   class="area"
-                  ng-class="{over: path.over, neighbour: path.neighbour}"
-                  ng-mouseover="onMouseOver($event, path)"
-                  ng-mouseout="onMouseOut(path)"
-                  ng-click="onClick(path)"
-                  style="{{path.territory.owner ? 'fill: '+path.territory.owner.color+';' : ''}};"
+                  ng-class="{over: territory.over, neighbour: territory.isNeighbour}"
+                  ng-mouseover="onMouseOver($event, territory)"
+                  ng-mouseout="onMouseOut(territory)"
+                  ng-click="onClick(territory)"
+                  style="{{territory.owner ? 'fill: '+territory.owner.color+';' : ''}};"
                   stroke="black"
                     >
             </path>
         </g>
     </svg>
-    <div ng-repeat="path in paths"
-         ng-if="path.territory.units.length"
+    <div ng-repeat="territory in game.territories track by territory.id"
+         ng-if="territory.units.length"
          class="icon-container"
-         style="left: {{path.box.x}}px; top: {{path.box.y}}px; width: {{path.box.width}}px; height: {{path.box.height}}px;"
+         style="left: {{territory.box.x}}px; top: {{territory.box.y}}px; width: {{territory.box.width}}px; height: {{territory.box.height}}px;"
             >
         <icon
-                ng-repeat="unit in path.territory.units"
+                ng-repeat="unit in territory.units"
                 size="{{unitSize}}"
                 file-name="{{unit.type.name}}"
                 class="image"

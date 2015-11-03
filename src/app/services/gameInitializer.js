@@ -1,5 +1,5 @@
 /** @ngInject */
-function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage) {
+function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder) {
   'use strict';
 
   return {
@@ -52,7 +52,42 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
         randomFactory: randomFactory,
         q: qPlus
       });
-      return game.startTurn().then(function() {
+
+      return $http.get("/app/components/map/area.json").then(function (res) {
+          var paths = res.data;
+          var territories = paths.map(function (path) {
+              var pathValue = path.d;
+              var territory = new Territory({
+                  type: "earth",
+                  buildSlots: 2,
+                  path: pathValue
+              });
+              territory.box = Raphael.pathBBox(pathValue);
+              return territory;
+          });
+          var boxes = {};
+          territories.map(function (territory) {
+              boxes[territory.id] = territory.box;
+              territory.box.territory = territory;
+          });
+          for (var key in boxes) {
+              var box = boxes[key];
+              var neighbours = neighbourFinder.findNeighboursSimple(box, boxes);
+              neighbours.map(function (neighbour) {
+                  if (neighbour === key) {
+                      return;
+                  }
+                  boxes[neighbour].territory.nextTo(box.territory);
+              })
+          }
+          territories.map(function(territory) {
+            territory.box.territory = null;
+          })
+          return territories;
+      }).then(function(territories) {
+        game.territories = territories;
+        return game.startTurn();
+      }).then(function() {
         return game;
       });
     },
