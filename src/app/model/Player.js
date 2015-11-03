@@ -10,9 +10,10 @@ Player = Meta.declareClass("Player", {
     gladiatorMoveCount: 1,
     god: "God",
     cards: {},
-    bid: {},
+    bid: "Bid",
     randomFactory: {},
     initCount: {},
+    account: {},
     init: function () {
         if (!this.priests) {
             this.priests = 0;

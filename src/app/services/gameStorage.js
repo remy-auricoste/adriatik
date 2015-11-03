@@ -1,7 +1,7 @@
 /** @ngInject */
 function gameStorage() {
     'use strict';
-    var key = window.location.path;
+    var key = window.location.pathname;
 
     return {
         save: function(object) {
@@ -15,8 +15,21 @@ function gameStorage() {
             return null;
           }
           value = JSON.parse(value);
-          value = Game.fromObject(value);
-          return value;
+          var game = Game.fromObject(value);
+          // fix bids on gods
+          game.players.map(function(player) {
+            if (!player.bid) {
+              return;
+            }
+            var god = God.byName(player.bid.godName);
+            if (!god) {
+              return;
+            }
+            if (!god.bid || god.bid.gold < player.bid.gold) {
+              god.bid = player.bid;
+            }
+          })
+          return game;
         }
     }
 }

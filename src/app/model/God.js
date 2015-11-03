@@ -8,7 +8,7 @@ var God = Meta.declareClass("God", {
     card: "GodCard",
     cardPrice: "fct",
     index: 1,
-    bid: {},
+    bid: "Bid",
     playerNames: [],
     init: function () {
         if (!this.playerNames) {

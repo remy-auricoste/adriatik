@@ -10,10 +10,7 @@ function bidPanel($rootScope, $timeout) {
             game: "="
         },
         link: function (scope, elements, attr) {
-            scope.golds = [];
-            for (var i = 1; i <= 7; i++) {
-                scope.golds.push(i);
-            }
+            scope.golds = Array.seq(1, 7);
 
             scope.noBidPlayers = function () {
                 return scope.game.players.filter(function (player) {
@@ -24,10 +21,7 @@ function bidPanel($rootScope, $timeout) {
                 var command = new Command({type: CommandType.Bid, player: scope.game.currentPlayer, args: [god, value]})
                 $rootScope.$emit("command",  command);
 
-                scope.golds = [];
-                for (var i = 1; i <= scope.game.currentPlayer.gold; i++) {
-                    scope.golds.push(i);
-                }
+                scope.golds = Array.seq(1, scope.game.currentPlayer.gold);
             }
             scope.Phases = Phases;
             scope.God = God;
