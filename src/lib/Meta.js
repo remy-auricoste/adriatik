@@ -370,7 +370,7 @@ var Meta = {
                     });
                 }
             })
-            return instance;
+            return new classe(instance);
         };
         if (name) {
             classe.prototype.className = name;
