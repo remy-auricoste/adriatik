@@ -2,39 +2,37 @@
   margin: 0 0 0 600px;
   padding: 0 0 0 -600px;
   position: relative;
-}
 
-.map svg {
-  width: 1000px;
-  height: 800px;
-}
+  svg {
+    width: 1000px;
+    height: 800px;
+  }
 
-.map .area {
-  fill: $ground;
-}
+  .area {
+    fill: $ground;
+    &.over {
+      fill: $ground-over-2;
+    }
+    &.neighbour {
+      fill: $ground-over;
+    }
+  }
 
-.map .area.over {
-  fill: $ground-over-2;
-}
+  .image {
+    cursor: pointer;
+    pointer-events: auto;
+    &.selected {
+      border: solid 1px black;
 
-.map .area.neighbour {
-  fill: $ground-over;
-}
+    }
+  }
 
-.map .image {
-  cursor: pointer;
-  pointer-events: auto;
-}
-
-.map .image.selected {
-  border: solid 1px white;
-}
-
-.map .icon-container {
-  position: absolute;
-  pointer-events: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  .icon-container {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
 }
