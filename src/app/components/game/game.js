@@ -25,9 +25,19 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
 
             $rootScope.$on("command", function(event, command) {
               var result = scope.game.receiveCommand(command);
-              gameStorage.save(scope.game);
-              if (typeof command.callback === "function") {
-                command.callback(result);
+              var thenFct = function(result) {
+                gameStorage.save(scope.game);
+                if (typeof command.callback === "function") {
+                  command.callback(result);
+                }
+              }
+              if (result && typeof result.then === "function") {
+                result.then(thenFct).catch(function(err) {
+                  console.error("error");
+                  console.error(err);
+                });
+              } else {
+                thenFct(result);
               }
             });
         }

@@ -65,13 +65,8 @@ function map($http, $rootScope) {
                 }
                 if (command) {
                     command.callback = function(result) {
-                      if (result !== undefined && typeof result.then === "function") {
-                          result.then(function (battleResult) {
-                              console.log("battle result", battleResult);
-                          }).catch(function (err) {
-                              console.error("error");
-                              console.error(err);
-                          });
+                      if (result) {
+                        console.log("battle result", result);
                       }
                     }
                     $rootScope.$emit("command", command);
