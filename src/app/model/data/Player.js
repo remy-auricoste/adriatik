@@ -190,57 +190,12 @@ Player = Meta.declareClass("Player", {
             toTerritorry.owner = self;
         } else {
             return self.randomFactory.generate(2).then(function (randoms) {
-                var otherPlayer = toTerritorry.owner;
-                var fightResult = self.resolveFight(toTerritorry, randoms[0], randoms[1]);
-                var getResult = function (player) {
-                    var loss = fightResult[player.name];
-                    var lossLeft = loss && player.resolveLoss(toTerritorry) ? (loss - 1) : loss;
-                    return {
-                        loss: loss,
-                        lossLeft: lossLeft
-                    }
-                }
-                var losses = {};
-                losses[self.name] = getResult(self);
-                losses[otherPlayer.name] = getResult(otherPlayer);
-                return {
-                    losses: losses
-                };
+                var battle = new Battle({
+                  randoms: randoms,
+                  territory: toTerritorry
+                });
+                return battle;
             });
-        }
-    },
-    resolveFight: function (territory, randomValue1, randomValue2) {
-        var owner1 = territory.units[0].owner;
-        var owner2 = territory.units.filter(function (unit) {
-            return unit.owner !== owner1;
-        })[0].owner;
-        var getStrength = function (owner, randomValue) {
-            return territory.getUnits(owner).length + Dice(randomValue);
-        }
-        var strength1 = getStrength(owner1, randomValue1);
-        var strength2 = getStrength(owner2, randomValue2);
-        var loss1 = strength1 <= strength2 ? 1 : 0;
-        var loss2 = strength2 <= strength1 ? 1 : 0;
-        var result = {};
-        result[owner1.name] = loss1;
-        result[owner2.name] = loss2;
-        return result;
-    },
-    resolveLoss: function (territory) {
-        var self = this;
-        var units = territory.getUnits(self);
-        var hasLegionnaire = units.filter(function (unit) {
-            return unit.type === UnitType.Legionnaire;
-        }).length;
-        var hasGladiator = units.filter(function (unit) {
-            return unit.type === UnitType.Gladiator;
-        }).length;
-        if (hasGladiator && hasLegionnaire) {
-            return false;
-        } else {
-            var unit = units[0];
-            territory.removeUnit(unit);
-            return unit;
         }
     },
     possibleRetreats: function (territory) {

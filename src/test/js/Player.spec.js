@@ -347,13 +347,10 @@ describe('Player class', function () {
       emptyTerritory.owner = player2;
       // when
       var units = [playerLegionnaire, playerLegionnaire];
-      player.move(units, territory, emptyTerritory);
+      var result = player.move(units, territory, emptyTerritory);
       // then
-      expect(emptyTerritory.units.length).toBe(2);
-      expect(emptyTerritory.owner).toBe(player2);
-      expect(player.gold).toBe(0);
-      expect(emptyTerritory.getUnits(player).length).toBe(1);
-      expect(emptyTerritory.getUnits(player2).length).toBe(1);
+      expect(result.getLoosers()).toEqual([player2, player]);
+      expect(result.getDices()).toEqual([0, 0]);
     });
     it("should remove 1 unit for player1", function() {
       // given
@@ -367,12 +364,9 @@ describe('Player class', function () {
       emptyTerritory.owner = player2;
       // when
       var units = [playerLegionnaire, playerLegionnaire];
-      player.move(units, territory, emptyTerritory);
+      var result = player.move(units, territory, emptyTerritory);
       // then
-      expect(emptyTerritory.units.length).toBe(4);
-      expect(emptyTerritory.owner).toBe(player2);
-      expect(emptyTerritory.getUnits(player).length).toBe(1);
-      expect(emptyTerritory.getUnits(player2).length).toBe(3);
+      expect(result.getLoosers()).toEqual([player]);
     });
     it("should not remove units and wait for player1 choice and remove 1 unit for player2", function() {
       // given
@@ -387,10 +381,7 @@ describe('Player class', function () {
       var units = [playerLegionnaire, playerGladiator];
       var result = player.move(units, territory, emptyTerritory);
       // then
-      expect(emptyTerritory.units.length).toBe(3);
-      expect(emptyTerritory.owner).toBe(player2);
-      expect(emptyTerritory.getUnits(player).length).toBe(2);
-      expect(emptyTerritory.getUnits(player2).length).toBe(1);
+      expect(result.getLoosers()).toEqual([player2, player]);
     });
   });
 
