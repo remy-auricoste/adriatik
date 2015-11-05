@@ -3,11 +3,11 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
   'use strict';
 
   return {
-    init: function(playerSize) {
+    init: function (playerSize) {
       var self = this;
       var path = window.location.pathname;
       if (path.startsWith("/dev/")) {
-        return qPlus.fcall(function() {
+        return qPlus.fcall(function () {
           return self.createGame(self.devAccounts(playerSize));
         });
       }
@@ -16,12 +16,12 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       var accounts = {};
       var defer = qPlus.defer();
 
-      gameSocket.addRoomListener(function(messageObj) {
+      gameSocket.addRoomListener(function (messageObj) {
         if (messageObj.members.length >= playerSize) {
           gameSocket.send({account: accountService.getData()});
         }
       });
-      gameSocket.addListener(function(messageObj) {
+      gameSocket.addListener(function (messageObj) {
         var account = messageObj.message.account;
         if (account) {
           accounts[messageObj.source] = account;
@@ -32,7 +32,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       });
       return defer.promise;
     },
-    createGame: function(accounts) {
+    createGame: function (accounts) {
       var loaded = gameStorage.load();
       console.log("loaded", loaded);
       if (loaded) {
@@ -41,7 +41,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
         return new Game(loaded);
       }
 
-      var players = Object.keys(accounts).map(function(id) {
+      var players = Object.keys(accounts).map(function (id) {
         var account = accounts[id];
         account.id = id;
         var player = Player.new(account.name);
@@ -56,53 +56,49 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       });
 
       return $http.get("/app/components/map/area.json").then(function (res) {
-          var paths = res.data;
-          var territories = paths.map(function (path) {
-              var pathValue = path.d;
-              var territory = new Territory({
-                  type: "earth",
-                  buildSlots: 2,
-                  path: pathValue
-              });
-              territory.box = Raphael.pathBBox(pathValue);
-              return territory;
+        var paths = res.data;
+        var territories = paths.map(function (path) {
+          var pathValue = path.d;
+          var territory = new Territory({
+            type: "earth",
+            buildSlots: 2,
+            path: pathValue
           });
-          var boxes = {};
-          territories.map(function (territory) {
-              boxes[territory.id] = territory.box;
-              territory.box.territory = territory;
-          });
-          for (var key in boxes) {
-              var box = boxes[key];
-              var neighbours = neighbourFinder.findNeighboursSimple(box, boxes);
-              neighbours.map(function (neighbour) {
-                  if (neighbour === key) {
-                      return;
-                  }
-                  boxes[neighbour].territory.nextTo(box.territory);
-              })
-          }
-          territories.map(function(territory) {
-            territory.box.territory = null;
+          territory.box = Raphael.pathBBox(pathValue);
+          return territory;
+        });
+        var boxes = {};
+        //territories.map(function (territory) {
+        //    boxes[territory.id] = territory.box;
+        //    territory.box.territory = territory;
+        //});
+        territories.map(function (territory) {
+          var neighbours = neighbourFinder.findNeighboursSimple(territory, territories);
+          neighbours.map(function (neighbour) {
+            if (neighbour === territory) {
+              return;
+            }
+            territory.nextTo(neighbour);
           })
-          return territories;
-      }).then(function(territories) {
+        });
+        return territories;
+      }).then(function (territories) {
         game.territories = territories;
         return game.startTurn();
-      }).then(function() {
+      }).then(function () {
         return game;
       });
     },
-    devAccounts: function(playerSize) {
+    devAccounts: function (playerSize) {
       var accounts = [
-        {name: "Alain", email:"adoanhuu@gmail.com"},
-        {name: "Alan", email:"alan.leruyet@free.fr"},
-        {name: "Charles", email:"chales.lescot@gmail.com"},
-        {name: "Rémy", email:"remy.auricoste@gmail.com"}
+        {name: "Alain", email: "adoanhuu@gmail.com"},
+        {name: "Alan", email: "alan.leruyet@free.fr"},
+        {name: "Charles", email: "chales.lescot@gmail.com"},
+        {name: "Rémy", email: "remy.auricoste@gmail.com"}
       ];
       accounts = accounts.slice(0, playerSize);
       var result = {};
-      accounts.map(function(account) {
+      accounts.map(function (account) {
         result[account.name] = account;
       });
       return result;

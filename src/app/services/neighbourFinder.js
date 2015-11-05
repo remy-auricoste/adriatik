@@ -13,20 +13,16 @@ function neighbourFinder() {
         isInside: function (point, box) {
             return box.x <= point.x && point.x <= (box.x + box.width) && box.y <= point.y && point.y <= (box.y + box.height);
         },
-        findNeighboursSimple: function (box, otherBoxes) {
+        findNeighboursSimple: function (territory, territories) {
             var self = this;
-            var corners = self.getCorners(box);
-            var result = [];
-            for (var key in otherBoxes) {
-                var otherBox = otherBoxes[key];
+            var corners = self.getCorners(territory.box);
+            return territories.filter(function(territoryIt) {
+                var otherBox = territoryIt.box;
                 var isOut = Meta.forall(corners, function (corner) {
                     return !self.isInside(corner, otherBox);
                 });
-                if (!isOut) {
-                    result.push(key);
-                }
-            }
-            return result;
+                return !isOut;
+            })
         }
     }
 }
