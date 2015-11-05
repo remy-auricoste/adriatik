@@ -67,13 +67,8 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
           territory.box = Raphael.pathBBox(pathValue);
           return territory;
         });
-        var boxes = {};
-        //territories.map(function (territory) {
-        //    boxes[territory.id] = territory.box;
-        //    territory.box.territory = territory;
-        //});
         territories.map(function (territory) {
-          var neighbours = neighbourFinder.findNeighboursSimple(territory, territories);
+          var neighbours = neighbourFinder.findRealNeighbours(territory, territories);
           neighbours.map(function (neighbour) {
             if (neighbour === territory) {
               return;
