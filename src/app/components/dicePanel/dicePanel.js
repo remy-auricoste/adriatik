@@ -8,11 +8,11 @@ function dicePanel() {
         scope: {
         },
         link: function (scope, elements, attr) {
+            scope.dice = ['show-front', 'show-back', 'show-top', 'show-bottom', 'show-right', 'show-left'];
             scope.random = "show-front";
             scope.throwDice = function() {
                 var index = Math.round(Math.random() * 5) + 1;
-                var dice = ["show-front", "show-back", "show-top", "show-bottom", "show-right", "show-left"];
-                scope.random = dice[index];
+                scope.random = scope.dice[index];
             }
         }
     };
