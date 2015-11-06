@@ -50,26 +50,7 @@
     height: 100%;
     padding: 18px;
     transform-style: preserve-3d;
-    transition: transform 1s;
-
-    &.show-front {
-      transform: translateZ( -100px );
-    }
-    &.show-back {
-      transform: translateZ( -100px ) rotateX( -180deg );
-    }
-    &.show-right {
-      transform: translateZ( -100px ) rotateY(  -90deg );
-    }
-    &.show-left {
-      transform: translateZ( -100px ) rotateY(   90deg );
-    }
-    &.show-top {
-      transform: translateZ( -100px ) rotateX(  -90deg );
-    }
-    &.show-bottom {
-      transform: translateZ( -100px ) rotateX(   90deg );
-    }
+    transition: transform 0.7s;
 
     figure {
       display: block;
@@ -85,9 +66,10 @@
       &.front  { background: url(/app/images/dice/dice_1.png) white 4px 4px no-repeat; }
       &.back   { background: url(/app/images/dice/dice_2.png) white 4px 4px no-repeat; }
       &.right  { background: url(/app/images/dice/dice_3.png) white 4px 4px no-repeat; }
-      &.left   { background: url(/app/images/dice/dice_4.png) white 4px 4px no-repeat; }
-      &.top    { background: url(/app/images/dice/dice_5.png) white 4px 4px no-repeat; }
+      &.left   { background: url(/app/images/dice/dice_1.png) white 4px 4px no-repeat; }
+      &.top    { background: url(/app/images/dice/dice_2.png) white 4px 4px no-repeat; }
       &.bottom { background: url(/app/images/dice/dice_6.png) white 4px 4px no-repeat; }
+      // TODO replace bottom by image of 0 value
 
       &.front  {
         transform: translateZ( 20px );
