@@ -5,4 +5,28 @@
   width: 200px;
   height: 400px;
   border: solid black 1px;
+
+  &.debug * {
+    border: solid black 1px;
+  }
+
+  .creature-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .creature {
+      padding: 12px;
+
+      .card {
+        height: 80px;
+        width: 60px;
+      }
+      .cost {
+        height: 1em;
+
+      }
+    }
+  }
 }

@@ -4,6 +4,7 @@ var Game = Meta.declareClass("Game", {
     currentGods: ["God"],
     players: ["Player"],
     bidPlayers: ["Player"],
+    creatures: ["CreatureCard"],
     currentPlayer: "Player",
     randomFactory: {},
     q: "fct",

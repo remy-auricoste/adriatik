@@ -8,6 +8,10 @@ function creaturePanel() {
         scope: {
         },
         link: function (scope, elements, attr) {
+          //scope.CreatureCard = CreatureCard;
+          scope.creatures = Object.keys(CreatureCard._all).slice(0, 3).map(function(key) {
+            return CreatureCard._all[key];
+          });
         }
     };
 }
