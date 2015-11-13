@@ -7,7 +7,11 @@ function randomFactory($http, qPlus, gameSocket) {
     generate: function (number) {
       var defer = qPlus.defer();
       window.setTimeout(function () {
-        generateMultiRandom(number, defer);
+        var result = [];
+        for (var i = 0; i < number; i++) {
+          result.push(Math.random());
+        }
+        defer.resolve(result);
       }, 1000);
       return defer.promise;
     },
@@ -26,8 +30,7 @@ function randomFactory($http, qPlus, gameSocket) {
       var cleanedString = string.split('').filter(function (character) {
         return !isNaN(parseInt(character))
       }).join('');
-      var float = parseFloat("0." + cleanedString);
-      return float;
+      return parseFloat("0." + cleanedString);
     },
     getHash: function (number) {
       return this.sha1(number);
