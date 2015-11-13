@@ -135,6 +135,7 @@ var Game = Meta.declareClass("Game", {
             self.players.map(function (player) {
                 player.bid = null;
                 player.god = null;
+                player.templeUsed = 0;
             });
             self.gods.map(function(god) {
               god.bid = null;
@@ -223,5 +224,28 @@ var Game = Meta.declareClass("Game", {
             allowedValue++;
         }
         return unitCount < allowedValue;
+    },
+    getTemples: function(player) {
+      return Meta.sum(this.territories.filter(function(territory) {
+        return territory.owner === player;
+      }).map(function(territory) {
+        return territory.buildings.filter(function(building) {
+          return building === Building.Temple || building === Building.Cite;
+        }).length;
+      }));
+    },
+    buyCreature: function(player, creature, args) {
+      var index = this.creatures.indexOf(creature);
+      if (index >= 0) {
+        var cost = [4, 3, 2][index];
+        var discount = this.getTemples(player) - player.templeUsed;
+        var finalCost = Math.max(1, cost - discount);
+        var discountUsed = cost - finalCost;
+        player.spend(finalCost);
+        creature.apply(game, player, args);
+        player.templeUsed += discountUsed;
+      } else {
+        throw new Error("could not find creature "+creature.name);
+      }
     }
 });

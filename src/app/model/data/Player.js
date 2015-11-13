@@ -14,6 +14,7 @@ Player = Meta.declareClass("Player", {
     randomFactory: {},
     initCount: {},
     account: {},
+    templeUsed: 1,
     init: function () {
         if (!this.priests) {
             this.priests = 0;
@@ -38,6 +39,9 @@ Player = Meta.declareClass("Player", {
             for (var name in UnitType.all) {
                 this.initCount[UnitType.all[name].name] = 0;
             }
+        }
+        if (!this.templeUsed) {
+          this.templeUsed = 0;
         }
     },
     build: function (territory) {

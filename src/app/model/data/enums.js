@@ -12,6 +12,7 @@ Building.Fort = new Building({name: "fort", label: "Fort"});
 Building.Port = new Building({name: "port", label: "Port"});
 Building.University = new Building({name: "university", label: "Université"});
 Building.Temple = new Building({name: "temple", label: "Temple"});
+Building.Cite = new Building({name: "cite", label: "Cité"});
 
 UnitType.Legionnaire = new UnitType({name: "legionnaire", label: "Légionnaire", territoryType: "earth"});
 UnitType.Ship = new UnitType({name: "ship", label: "Trièreme", territoryType: "sea"});

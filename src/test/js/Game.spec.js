@@ -117,4 +117,46 @@ describe("Game class", function() {
       expect(function() {game.initUnit(player, territory1);}).toThrow(new Error("Il est impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."));
     });
   });
+
+  describe("getTemples method", function() {
+    it("should return the number of temples for a given player", function() {
+      // given
+      var territory = newTerritory();
+      territory.buildings.push(Building.Temple);
+      territory.buildings.push(Building.Temple);
+
+      var territory2 = newTerritory();
+      territory2.buildings.push(Building.Cite);
+
+      territory.owner = player;
+      territory2.owner = player;
+      // then
+      expect(game.getTemples(player)).toBe(3);
+    });
+  });
+
+  describe("buyCreature method", function() {
+    it("should buy the creatures for player. Temples should be used only once", function() {
+      // given
+      player = player.withAtt("gold", 7);
+
+      var territory = newTerritory();
+      territory.buildings.push(Building.Temple);
+      territory.owner = player;
+
+      var creature = CreatureCard._all.Sphinx;
+      var creature2 = CreatureCard._all.Méduse;
+
+      game.creatures = [creature, creature2, null];
+      // when
+      game.buyCreature(player, creature, []);
+      // then
+      expect(player.gold).toBe(7 - 3);
+
+      // when
+      game.buyCreature(player, creature2, [territory]);
+      // then
+      expect(player.gold).toBe(7 - 3 - 3);
+    });
+  })
 })
