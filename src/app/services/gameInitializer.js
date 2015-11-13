@@ -34,7 +34,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
     },
     createGame: function (accounts) {
       var loaded = gameStorage.load();
-      randomFactory.calculateDice(6,4);
+      //randomFactory.calculateDice(6,4);
       console.log("loaded", loaded);
       if (loaded) {
         loaded.randomFactory = randomFactory;
