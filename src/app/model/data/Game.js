@@ -5,6 +5,8 @@ var Game = Meta.declareClass("Game", {
     players: ["Player"],
     bidPlayers: ["Player"],
     creatures: ["CreatureCard"],
+    creaturesUsed: ["CreatureCard"],
+    creaturesLeft: ["CreatureCard"],
     currentPlayer: "Player",
     randomFactory: {},
     q: "fct",
@@ -31,6 +33,17 @@ var Game = Meta.declareClass("Game", {
         if (!this.colors) {
           this.colors = ["red", "blue", "green", "purple"];
         }
+        if (!this.creatures) {
+          this.creatures = [];
+        }
+        if (!this.creaturesUsed) {
+          this.creaturesUsed = [];
+        }
+        if (!this.creaturesLeft) {
+          this.creaturesLeft = Object.keys(CreatureCard._all).map(function(key) {
+            return CreatureCard._all[key];
+          });
+        }
         this.players.map(function (player, index) {
             player.randomFactory = self.randomFactory;
             player.color = self.colors[index];
@@ -56,7 +69,8 @@ var Game = Meta.declareClass("Game", {
             self.bidPlayers = self.players.concat([]);
             playersPromise = self.randomFactory.shuffle(self.bidPlayers);
         }
-        return self.q.all([godPromise, playersPromise]);
+        var creaturesPromise = self.pushCreatures();
+        return self.q.all([godPromise, playersPromise, creaturesPromise]);
     },
     endPlayerTurn: function () {
         var self = this;
@@ -160,6 +174,8 @@ var Game = Meta.declareClass("Game", {
             return this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
         } else if (command.type === CommandType.InitUnit) {
             return this.initUnit(this.currentPlayer, command.args[0]);
+        } else if (command.type === CommandType.BuyCreature) {
+            return this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
         } else if (command.type === CommandType.EndTurn) {
             return this.endPlayerTurn();
         } else {
@@ -244,8 +260,20 @@ var Game = Meta.declareClass("Game", {
         player.spend(finalCost);
         creature.apply(game, player, args);
         player.templeUsed += discountUsed;
+        this.creatures[index] = null;
       } else {
         throw new Error("could not find creature "+creature.name);
       }
+    },
+    pushCreatures: function() {
+      var self = this;
+      this.creatures[2] = null;
+      this.creatures = this.creatures.filter(function(creature) {
+        return creature;
+      });
+      return this.randomFactory.shuffle(self.creaturesLeft).then(function() {
+        var missingCard = 3 - self.creatures.length;
+        self.creatures = self.creaturesLeft.slice(0, missingCard).concat(self.creatures);
+      });
     }
 });

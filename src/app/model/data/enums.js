@@ -1,6 +1,7 @@
 CommandType.Build = new CommandType({name: "build", methodName: "build", argCount: 1});
 CommandType.BuyUnit = new CommandType({name: "buyUnit", methodName: "buyUnit", argCount: 1});
 CommandType.BuyCard = new CommandType({name: "buyCard", methodName: "buyGodCard", argCount: 1});
+CommandType.BuyCreature = new CommandType({name: "buyCreature", methodName: "buyCreature", argCount: 2});
 CommandType.Move = new CommandType({name: "move", methodName: "move", argCount: 3});
 CommandType.Bid = new CommandType({name: "bid", methodName: "placeBid", argCount: 2});
 CommandType.Retreat = new CommandType({name: "retreat", methodName: "retreat", argCount: 2});

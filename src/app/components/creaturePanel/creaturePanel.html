@@ -1,11 +1,12 @@
 <div class="creature-panel rounded-box shadowed-box debug">
   <div class="title">Créatures</div>
   <div class="creature-container">
-    <div ng-repeat="creature in creatures"
+    <div ng-repeat="creature in game.creatures"
          class="creature"
+         ng-click="onClick(creature)"
       >
-      <div class="card">card</div>
-      <div class="cost">cost</div>
+      <div class="card">{{creature.name}}</div>
+      <div class="cost">{{4 - $index}}</div>
     </div>
   </div>
 </div>

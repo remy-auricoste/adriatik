@@ -1,17 +1,23 @@
 /** @ngInject */
-function creaturePanel() {
+function creaturePanel($rootScope) {
     'use strict';
     return {
         restrict: 'E',
         templateUrl: "app/components/creaturePanel/creaturePanel.html",
         replace: true,
         scope: {
+          game: "="
         },
         link: function (scope, elements, attr) {
-          //scope.CreatureCard = CreatureCard;
-          scope.creatures = Object.keys(CreatureCard._all).slice(0, 3).map(function(key) {
-            return CreatureCard._all[key];
-          });
+          scope.onClick = function(creature) {
+            var creatureArgs = []; // TODO get the creature card targets
+            var command = new Command({
+              type: CommandType.BuyCreature,
+              player: scope.game.currentPlayer,
+              args: [creature, creatureArgs]
+            });
+            $rootScope.$emit("command", command);
+          }
         }
     };
 }

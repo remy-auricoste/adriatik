@@ -9,11 +9,32 @@ describe("Game class", function() {
     game.territories.push(territory);
     return territory;
   }
+  var fakePromise = function(value) {
+    return {
+      then: function(fonction) {
+        var newValue = fonction(value);
+        return fakePromise(newValue);
+      }
+    }
+  }
+
+  var fakeRandomFactory = function(qPlus) {
+    var result = randomFactory();
+    result.generate = function(size) {
+      var randoms = Array.seq(0, size).map(function() {
+        return Math.random();
+      });
+      return fakePromise(randoms);
+    }
+    return result;
+  }
+
   beforeEach(function() {
     player = new Player();
     player2 = new Player();
     game = new Game({
       players: [player, player2],
+      randomFactory: fakeRandomFactory(),
       turn: 1
     });
   });
@@ -158,5 +179,79 @@ describe("Game class", function() {
       // then
       expect(player.gold).toBe(7 - 3 - 3);
     });
-  })
+  });
+
+  describe("pushCreatures method", function() {
+    var creature = CreatureCard._all.Sphinx;
+
+    it("should push the creatures [X, X, 0]", function() {
+      game.creatures = [creature, creature, null];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBe(creature);
+        expect(game.creatures[2]).toBe(creature);
+      });
+    });
+
+    it("should push the creatures [X, 0, X]", function() {
+      game.creatures = [creature, null, creature];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBeDefined();
+        expect(game.creatures[2]).toBe(creature);
+      });
+    });
+
+    it("should push the creatures [0, X, X]", function() {
+      game.creatures = [null, creature, creature];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBeDefined();
+        expect(game.creatures[2]).toBe(creature);
+      });
+    });
+
+    it("should push the creatures [0, 0, X]", function() {
+      game.creatures = [null, null, creature];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBeDefined();
+        expect(game.creatures[2]).toBeDefined();
+      });
+    });
+
+    it("should push the creatures [0, X, 0]", function() {
+      game.creatures = [null, creature, null];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBeDefined();
+        expect(game.creatures[2]).toBe(creature);
+      });
+    });
+
+    it("should push the creatures [X, 0, 0]", function() {
+      game.creatures = [creature, null, null];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBeDefined();
+        expect(game.creatures[2]).toBe(creature);
+      });
+    });
+
+    it("should push the creatures [0, 0, 0]", function() {
+      game.creatures = [null, null, null];
+      game.pushCreatures().then(function() {
+        expect(game.creatures.length).toBe(3);
+        expect(game.creatures[0]).toBeDefined();
+        expect(game.creatures[1]).toBeDefined();
+        expect(game.creatures[2]).toBeDefined();
+      });
+    });
+  });
 })
