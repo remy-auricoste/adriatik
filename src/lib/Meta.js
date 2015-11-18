@@ -78,9 +78,10 @@ var Collections = {
         return result;
     },
     sum: function(object) {
-        return Collections.reduce(object, function(value1, value2) {
+        var result = Collections.reduce(object, function(value1, value2) {
             return value1 + value2;
         });
+        return result === undefined ? 0 : result;
     },
     filter: function (object, fonction) {
         var isArray = Collections.isArray(object);
