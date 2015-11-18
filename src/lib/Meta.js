@@ -349,6 +349,9 @@ var Meta = {
         });
         classe._all = {};
         classe.fromObject = function (object) {
+            if (!object) {
+              return object;
+            }
             if (classe.template._primary !== undefined) {
               var key = object[classe.template._primary];
               var instance = classe._all[key];
