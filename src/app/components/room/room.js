@@ -1,5 +1,5 @@
 /** @ngInject */
-function room(gameFinder, gameSocket) {
+function room(gameFinder) {
     'use strict';
     return {
         restrict: 'E',
