@@ -2531,6 +2531,9 @@ SocketBus.prototype.openRoom = function(roomName) {
     self.joinRoom(roomName);
     return new RoomSocket(roomName, this);
 }
+SocketBus.prototype.getId = function() {
+    return this.id;
+}
 module.exports = SocketBus;
 
 },{"./Q":4,"./RoomSocket":6,"./Socket":7,"./SubSocket":9,"./XhrSocket":10,"rauricoste-random":2}],9:[function(require,module,exports){
