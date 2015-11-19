@@ -85,14 +85,14 @@ var Phases = {
 
 new CreatureCard({
   name: "Pégase",
-  targetCount: 2,
+  targetTypes: [["Unit"], "Territory"],
   action: function(game, player, units, territory) {
 
   }
 });
 new CreatureCard({
   name: "armée des morts",
-  targetCount: 0,
+  targetTypes: [],
   action: function(game, player) {
     var income = player.lastIncome;
     player.gold += income;
@@ -101,7 +101,7 @@ new CreatureCard({
 });
 new CreatureCard({
   name: "Griffon",
-  targetCount: 1,
+  targetTypes: ["Player"],
   action: function(game, player, stolenPlayer) {
     var initGold = stolenPlayer.gold;
     var stolenGold = Math.floor(initGold / 2);
@@ -112,14 +112,14 @@ new CreatureCard({
 });
 new CreatureCard({
   name: "Kraken",
-  targetCount: 1,
+  targetTypes: ["Territory"],
   action: function(game, player, territory) {
 
   }
 });
 new CreatureCard({
   name: "Harpie",
-  targetCount: 1,
+  targetTypes: ["Territory"],
   action: function(game, player, territory) {
     var units = territory.units.filter(function(unit) {
       return unit.type === UnitType.Legionnaire && unit.owner !== player;
@@ -132,32 +132,32 @@ new CreatureCard({
 });
 new CreatureCard({
   name: "Minotaure",
-  targetCount: 1,
+  targetTypes: ["Territory"],
   action: function(game, player, territory) {
 
   }
 });
 new CreatureCard({
   name: "Méduse",
-  targetCount: 1,
+  targetTypes: ["Territory"],
   action: function(game, player, territory) {
   }
 });
 new CreatureCard({
   name: "Cyclope",
-  targetCount: 1,
+  targetTypes: ["Territory"],
   action: function(game, player, territory) {
   }
 });
 new CreatureCard({
   name: "Centaure",
-  targetCount: 1,
+  targetTypes: ["Territory"],
   action: function(game, player, territory) {
   }
 });
 new CreatureCard({
   name: "Sphinx",
-  targetCount: 0,
+  targetTypes: [],
   action: function(game, player) {
     // TODO activate state on player so that he can trade cards / units for 2 gold
   }
