@@ -1,5 +1,5 @@
 /** @ngInject */
-function bidPanel($rootScope, $timeout) {
+function bidPanel($rootScope, $timeout, gameStorage) {
     'use strict';
 
     return {
@@ -10,6 +10,7 @@ function bidPanel($rootScope, $timeout) {
             game: "="
         },
         link: function (scope, elements, attr) {
+            scope.gameStorage = gameStorage;
             scope.golds = Array.seq(1, 7);
 
             scope.noBidPlayers = function () {
@@ -25,6 +26,7 @@ function bidPanel($rootScope, $timeout) {
             }
             scope.Phases = Phases;
             scope.God = God;
+            scope.rootScope = $rootScope;
         }
     };
 }

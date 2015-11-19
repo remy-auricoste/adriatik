@@ -1,4 +1,6 @@
 <section class="bid-panel">
+    <div style="font-family: normal;">mode : {{rootScope.mode}}</div>
+    <input type="button" ng-click="gameStorage.delete()" value="Reset" />
     <div class="phase">{{ game.phase }}: {{ game.turn }}</div>
 
     <div ng-repeat="god in game.currentGods"
