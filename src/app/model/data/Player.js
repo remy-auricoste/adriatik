@@ -1,6 +1,7 @@
 Player = Meta.declareClass("Player", {
     _primary: "name",
     name: "",
+    lastIncome: 1,
     gold: 1,
     priests: 1,
     philosophers: 1,

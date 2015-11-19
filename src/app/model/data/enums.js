@@ -94,7 +94,9 @@ new CreatureCard({
   name: "armée des morts",
   targetCount: 0,
   action: function(game, player) {
-
+    var income = player.lastIncome;
+    player.gold += income;
+    // TODO message
   }
 });
 new CreatureCard({

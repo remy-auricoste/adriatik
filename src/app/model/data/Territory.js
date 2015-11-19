@@ -6,6 +6,7 @@ var Territory = Meta.declareClass("Territory", {
     box: {},
     neighbours: [],
     income: 1,
+    addedIncome: 1,
     type: "", // earth / sea
     units: ["Unit"],
     buildings: ["Building"],
@@ -23,6 +24,9 @@ var Territory = Meta.declareClass("Territory", {
         }
         if (!this.id) {
             this.id = idCount++ + "";
+        }
+        if (!this.addedIncome) {
+          this.addedIncome = 0;
         }
     },
     placeUnit: function (unit) {
@@ -62,6 +66,9 @@ var Territory = Meta.declareClass("Territory", {
         return this.units.filter(function (unit) {
             return unit.owner === player;
         });
+    },
+    getIncome: function() {
+      return this.income + this.addedIncome;
     }
 });
 Territory.byId = function (id) {

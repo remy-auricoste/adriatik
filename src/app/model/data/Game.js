@@ -68,6 +68,12 @@ var Game = Meta.declareClass("Game", {
         if (self.turn === 1) {
             self.bidPlayers = self.players.concat([]);
             playersPromise = self.randomFactory.shuffle(self.bidPlayers);
+        } else {
+            self.players.forEach(function(player) {
+              var income = self.getIncome(player);
+              player.lastIncome = income;
+              player.gold += income;
+            })
         }
         var creaturesPromise = self.pushCreatures();
         return self.q.all([godPromise, playersPromise, creaturesPromise]);
@@ -280,5 +286,12 @@ var Game = Meta.declareClass("Game", {
         var missingCard = 3 - self.creatures.length;
         self.creatures = self.creaturesLeft.slice(0, missingCard).concat(self.creatures);
       });
+    },
+    getIncome: function(player) {
+      return Meta.sum(this.territories.filter(function(territory) {
+        return territory.owner === player;
+      }).map(function(territory) {
+        return territory.getIncome();
+      }));
     }
 });
