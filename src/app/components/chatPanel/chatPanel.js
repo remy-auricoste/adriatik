@@ -9,6 +9,8 @@ function chatPanel(gameSocket) {
         scope: {
         },
         link: function (scope, elements, attr) {
+            scope.closed = true;
+
             var elem = elements[0];
             var messagesEl = elem.getElementsByClassName("messages")[0];
             scope.messages = new Fifo({size: 20});
