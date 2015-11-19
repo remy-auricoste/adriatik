@@ -258,7 +258,12 @@ var Game = Meta.declareClass("Game", {
         var finalCost = Math.max(1, cost - discount);
         var discountUsed = cost - finalCost;
         player.spend(finalCost);
-        creature.apply(game, player, args);
+        try {
+          creature.apply(game, player, args);
+        } catch(err) {
+          player.gold += finalCost;
+          throw err;
+        }
         player.templeUsed += discountUsed;
         this.creatures[index] = null;
       } else {
