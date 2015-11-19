@@ -13,11 +13,6 @@ function bidPanel($rootScope, $timeout, gameStorage) {
             scope.gameStorage = gameStorage;
             scope.golds = Array.seq(1, 7);
 
-            scope.noBidPlayers = function () {
-                return scope.game.players.filter(function (player) {
-                    return !player.bid;
-                })
-            }
             scope.placeBid = function (god, value) {
                 var command = new Command({type: CommandType.Bid, player: scope.game.currentPlayer, args: [god, value]})
                 $rootScope.$emit("command",  command);
