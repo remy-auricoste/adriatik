@@ -30,6 +30,10 @@ function gameStorage() {
             }
           })
           return game;
+        },
+        delete: function() {
+          delete localStorage[key];
+          window.location.reload(true);
         }
     }
 }
