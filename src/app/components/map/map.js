@@ -29,7 +29,7 @@ function map($http, $rootScope) {
 
             scope.onClick = function (territory) {
                 var command;
-                if (scope.game.turn === 1) {
+                if (scope.game.turn === 1 && scope.game.phase === Phases.actions && !$rootScope.mode) {
                     var hasMoreUnits = scope.game.initHasMoreUnits(scope.game.currentPlayer);
                     var commandType = hasMoreUnits ? CommandType.InitUnit : CommandType.InitBuilding;
                     var args = hasMoreUnits ? [territory] : [territory, scope.game.currentPlayer.god.building];
@@ -56,12 +56,14 @@ function map($http, $rootScope) {
                             args: [selectedUnits, fromTerritory, territory]
                         });
                     }
-                } else {
+                } else if($rootScope.mode && $rootScope.mode.constructor === CommandType) {
                     command = new Command({
                         type: $rootScope.mode,
                         player: scope.game.currentPlayer,
                         args: [territory]
                     });
+                } else {
+                  $rootScope.$emit("select", territory);
                 }
                 if (command) {
                     command.callback = function(result) {
