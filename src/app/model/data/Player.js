@@ -59,7 +59,7 @@ Player = Meta.declareClass("Player", {
             }
             this.spend(2);
         } catch (err) {
-            throw new Error("Il est impossible de construire : " + err.message);
+            throw err.prefix("Il est impossible de construire : ");
         }
         territory.buildSlots -= 1;
         territory.buildings.push(this.god.building);
@@ -81,7 +81,7 @@ Player = Meta.declareClass("Player", {
             territory.placeUnit(new Unit({type: this.god.unitType, owner: this}));
             this.unitBuyCount++;
         } catch (err) {
-            throw new Error("Il est impossible d'acheter une unité : " + err.message);
+            throw err.prefix("Il est impossible d'acheter une unité : ")
         }
     },
     spend: function (number) {
@@ -117,7 +117,7 @@ Player = Meta.declareClass("Player", {
             this.cardBuyCount++;
             return this.god.card;
         } catch (err) {
-            throw new Error("Il est impossible d'acheter une carte : " + err.message);
+            throw err.prefix("Il est impossible d'acheter une carte : ");
         }
     },
     getPriests: function () {
@@ -187,7 +187,7 @@ Player = Meta.declareClass("Player", {
             }
             return this.resolveMove(units, fromTerritory, toTerritorry);
         } catch (err) {
-            throw new Error("Il est impossible de déplacer des unités : " + err.message);
+            throw err.prefix("Il est impossible de déplacer des unités : ");
         }
     },
     resolveMove: function (units, fromTerritory, toTerritorry) {
@@ -229,7 +229,7 @@ Player = Meta.declareClass("Player", {
             var units = fromTerritory.getUnits(self);
             return this.resolveMove(units, fromTerritory, toTerritorry);
         } catch (err) {
-            throw new Error("Il est impossible de retraiter : " + err.message);
+            throw err.prefix("Il est impossible de retraiter : ");
         }
     },
     initBuilding: function (territory, building) {
@@ -242,7 +242,7 @@ Player = Meta.declareClass("Player", {
             }
             territory.buildings.push(building);
         } catch (err) {
-            throw new Error("Il est impossible de placer ce bâtiment : " + err.message);
+            throw err.prefix("Il est impossible de placer ce bâtiment : ");
         }
     }
 });

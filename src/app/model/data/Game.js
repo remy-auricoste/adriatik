@@ -232,7 +232,7 @@ var Game = Meta.declareClass("Game", {
             territory.owner = player;
             territory.placeUnit(unit);
         } catch (err) {
-            throw new Error("Il est impossible de placer une unité sur ce territoire : " + err.message);
+            throw err.prefix("Il est impossible de placer une unité sur ce territoire : ");
         }
     },
     initHasMoreUnits: function (player) {
