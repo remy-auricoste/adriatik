@@ -14,6 +14,7 @@ function gameStorage() {
             return null;
           }
           value = JSON.parse(value);
+          console.log("json game", value);
           var game = Game.fromObject(value);
           // fix bids on gods
           game.players.map(function(player) {
