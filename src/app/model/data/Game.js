@@ -3,7 +3,6 @@ var Game = Meta.declareClass("Game", {
     gods: ["God"],
     currentGods: ["God"],
     players: ["Player"],
-    bidPlayers: ["Player"],
     creatures: ["CreatureCard"],
     creaturesUsed: ["CreatureCard"],
     creaturesLeft: ["CreatureCard"],
@@ -66,8 +65,9 @@ var Game = Meta.declareClass("Game", {
         });
         var playersPromise = self.q.empty();
         if (self.turn === 1) {
-            self.bidPlayers = self.players.concat([]);
-            playersPromise = self.randomFactory.shuffle(self.bidPlayers);
+            playersPromise = self.randomFactory.shuffle(self.players).then(function() {
+              self.currentPlayer = self.players[0];
+            });
         } else {
             self.players.forEach(function(player) {
               var income = self.getIncome(player);
