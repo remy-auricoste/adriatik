@@ -11,9 +11,6 @@ function playerPanel(gravatarService) {
         },
         link: function (scope) {
             scope.gravatarService = gravatarService;
-            scope.setPlayer = function (player) {
-                scope.currentPlayer = player;
-            }
         }
     };
 }
