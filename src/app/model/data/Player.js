@@ -35,6 +35,9 @@ Player = Meta.declareClass("Player", {
         if (!this.gladiatorMoveCount) {
             this.gladiatorMoveCount = 0;
         }
+        if (!this.lastIncome) {
+          this.lastIncome = 0;
+        }
         if (!this.initCount) {
             this.initCount = {};
             for (var name in UnitType.all) {
