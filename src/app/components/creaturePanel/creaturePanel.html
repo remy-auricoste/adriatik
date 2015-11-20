@@ -1,9 +1,10 @@
 <div class="creature-panel rounded-box shadowed-box debug">
   <div class="title">Créatures</div>
   <div class="creature-container">
-    <div ng-repeat="creature in game.creatures"
+    <div ng-repeat="creature in game.creatures track by $index"
          class="creature"
-         ng-click="onClick(creature)"
+         ng-class="{selected: selectedCreature && creature === selectedCreature}"
+         ng-click="selectCreature(creature)"
       >
       <div class="card">{{creature.name}}</div>
       <div class="cost">{{4 - $index}}</div>

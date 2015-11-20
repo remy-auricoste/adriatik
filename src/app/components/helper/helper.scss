@@ -1,0 +1,17 @@
+.helper {
+  position: fixed;
+  z-index: 100;
+  top: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .content {
+    text-align: center;
+    width: 600px;
+    border: solid 1px black;
+    background-color: white;
+    border-radius: 3em;
+    padding: 1em 0;
+  }
+}

@@ -1,5 +1,5 @@
 /** @ngInject */
-function playerPanel(gravatarService) {
+function playerPanel(gravatarService, $rootScope) {
     'use strict';
 
     return {
@@ -11,6 +11,9 @@ function playerPanel(gravatarService) {
         },
         link: function (scope) {
             scope.gravatarService = gravatarService;
+            scope.selectPlayer = function(player) {
+              $rootScope.$emit("select", player);
+            }
         }
     };
 }

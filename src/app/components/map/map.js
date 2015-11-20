@@ -76,6 +76,11 @@ function map($http, $rootScope) {
             }
             scope.toggleUnit = function (unit) {
                 unit.selected = !unit.selected;
+                $rootScope.selectedUnits = Meta.flatten(scope.game.territories.map(function(territory) {
+                  return territory.units.filter(function(unit) {
+                    return unit.selected;
+                  });
+                }));
             }
         }
     };
