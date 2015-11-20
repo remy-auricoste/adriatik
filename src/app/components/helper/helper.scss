@@ -5,6 +5,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  pointer-events: none;
 
   .content {
     text-align: center;
@@ -13,5 +14,6 @@
     background-color: white;
     border-radius: 3em;
     padding: 1em 0;
+    pointer-events: auto;
   }
 }
