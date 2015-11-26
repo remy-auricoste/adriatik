@@ -115,9 +115,6 @@ input[type=button] {
   box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
   $tooltip-shadow -15px 0px 15px 5px inset;
   transition: all $tooltip-transition-delay ease-in-out;
-  -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
-  -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
-  -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
 }
 .adk-tooltip:hover:before{
   border: solid;

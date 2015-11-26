@@ -11,9 +11,6 @@ section.player-panel {
     height: 180px;
     margin: 0 5px 0 0;
     transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out; /** Chrome & Safari **/
-    -moz-transition: all 0.3s ease-in-out; /** Firefox **/
-    -o-transition: all 0.3s ease-in-out; /** Opera **/
 
     .player-avatar img {
       border-radius: 50%;
@@ -55,13 +52,7 @@ section.player-panel {
   }
   detail.player.current {
     transform: translate(0, -50px);
-    -webkit-transform: translate(0, -50px); /** Chrome & Safari **/
-    -o-transform: translate(0, -50px); /** Opera **/
-    -moz-transform: translate(0, -50px); /** Firefox **/
     transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out; /** Chrome & Safari **/
-    -moz-transition: all 0.3s ease-in-out; /** Firefox **/
-    -o-transition: all 0.3s ease-in-out; /** Opera **/
   }
 }
 
