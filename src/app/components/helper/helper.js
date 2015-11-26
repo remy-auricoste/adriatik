@@ -7,31 +7,40 @@ function helper($rootScope) {
         templateUrl: "app/components/helper/helper.html",
         replace: true,
         scope: {
+          game: "="
         },
         link: function (scope, elements, attr) {
           scope.isDisplayed = function() {
+            return scope.isSelection() || scope.isPlacement();
+          }
+          scope.isSelection = function() {
             var mode = $rootScope.mode;
             return mode && mode.select;
           }
-          var messages = {
-            Unit: "Veuillez sélectionner une unité",
-            Territory: "Veuillez sélectionner un territoire",
-            Player: "Veuillez sélectionner un joueur"
-          }
-          var messagesMulti = {
-            Unit: "Veuillez sélectionner un groupe d'unités"
+          scope.isPlacement = function() {
+            return scope.game.phase === Phases.actions && scope.game.turn === 1;
           }
           scope.getMessage = function() {
             if (!scope.isDisplayed()) {
               return "";
             }
-            var mode = $rootScope.mode;
-            if (mode.select.constructor === Array) {
-              return messagesMulti[mode.select[0]];
-            } else if (mode.select.constructor === String) {
-              return messages[mode.select];
+            if (scope.isSelection()) {
+              return scope.getSelectMessage();
+            }
+            if (scope.isPlacement()) {
+              return messageGetter("placement");
             }
           }
+          scope.getSelectMessage = function() {
+            var mode = $rootScope.mode;
+            var messageKey = "select.";
+            if (mode.select.constructor === Array) {
+              return messageGetter(messageKey+"multi."+mode.select[0]);
+            } else if (mode.select.constructor === String) {
+              return messageGetter(messageKey+"single."+mode.select);
+            }
+          }
+
           scope.isMulti = function() {
             var mode = $rootScope.mode;
             return mode && mode.select && mode.select.constructor === Array;
