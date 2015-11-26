@@ -30,23 +30,23 @@ section.player-panel {
       background: linear-gradient(to top, $player-purple-1, $player-purple-2 80%); /* Standard syntax */
     }
     .resources {
-      padding: 0 5px 0 15px;
-    }
-    .resources div {
-      display: table-row;
-      padding: 30px 10px 10px 30px;
-      margin: 5px 5px 5px 15px;
-      text-align: left;
+      .priest,.philosopher {
+        display: flex;
+        img {
+          float: left;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 1px solid black;
+          background-color: white;
+          margin-top: 5px;
+          margin-right: -10px;
+          vertical-align: middle;
 
-      img {
-        float: left;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        border: 1px solid black;
-        background-color: white;
-        margin: 5px 0 0 -10px;
-        vertical-align: middle;
+          &:first-of-type {
+            margin-left: 5px;
+          }
+        }
       }
     }
   }

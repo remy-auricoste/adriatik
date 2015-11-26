@@ -99,32 +99,47 @@ input[type=button] {
 .adk-tooltip {
   display: inline;
   position: relative;
-}
-.adk-tooltip:hover:after{
-  background: #f5f8ff;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
-  bottom: 40px;
-  color: black;
-  content: attr(title);
-  left: -75px;
-  padding: 5px 15px;
-  position: absolute;
-  z-index: 1098;
-  width: 220px;
-  box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
-  $tooltip-shadow -15px 0px 15px 5px inset;
-  transition: all $tooltip-transition-delay ease-in-out;
-}
-.adk-tooltip:hover:before{
-  border: solid;
-  border-color: white transparent;
-  border-width: 6px 6px 0 6px;
-  bottom: 34px;
-  content: "";
-  left: 45%;
-  position: absolute;
-  z-index: 1099;
+  &:after {
+    background: #f5f8ff;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    color: black;
+    content: attr(title);
+    left: -75px;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 1098;
+    width: 220px;
+    box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
+    $tooltip-shadow -15px 0px 15px 5px inset;
+    bottom: 30px;
+  }
+  &:hover:after {
+    bottom: 40px;
+  }
+  &:hover:before, &:hover:after {
+    opacity: 1;
+    margin-top: 0px;
+  }
+  &:before, &:after {
+    transition: all $tooltip-transition-delay ease-out;
+    pointer-events: none;
+    opacity: 0;
+    margin-top: -10px;
+  }
+  &:before {
+    border: solid;
+    border-color: white transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 24px;
+    content: "";
+    left: 45%;
+    position: absolute;
+    z-index: 1099;
+  }
+  &:hover:before {
+    bottom: 34px;
+  }
 }
 
 
