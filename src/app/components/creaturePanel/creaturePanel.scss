@@ -18,9 +18,12 @@
 
     .creature {
       padding: 12px;
-      cursor: pointer;
+      border: none;
       &.selected {
         border: solid red 3px;
+      }
+      div {
+        cursor: pointer;
       }
 
       .card {
