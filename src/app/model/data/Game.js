@@ -75,7 +75,7 @@ var Game = Meta.declareClass("Game", {
               player.gold += income;
             })
         }
-        var creaturesPromise = self.pushCreatures();
+        var creaturesPromise = this.turn === 1 ? this.q.empty() : self.pushCreatures(this.turn === 2 ? 1 : 3);
         return self.q.all([godPromise, playersPromise, creaturesPromise]);
     },
     endPlayerTurn: function () {
@@ -276,14 +276,17 @@ var Game = Meta.declareClass("Game", {
         throw new Error("could not find creature "+creature.name);
       }
     },
-    pushCreatures: function() {
+    pushCreatures: function(count) {
+      if (!count) {
+        count = 3;
+      }
       var self = this;
       this.creatures[2] = null;
       this.creatures = this.creatures.filter(function(creature) {
         return creature;
       });
       return this.randomFactory.shuffle(self.creaturesLeft).then(function() {
-        var missingCard = 3 - self.creatures.length;
+        var missingCard = count - self.creatures.length;
         self.creatures = self.creaturesLeft.slice(0, missingCard).concat(self.creatures);
       });
     },
