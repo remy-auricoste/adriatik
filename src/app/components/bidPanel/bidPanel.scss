@@ -49,9 +49,6 @@
       transform: rotate(-5deg);
       z-index: 100;
       transition: all $tooltip-transition-delay ease-in-out;
-      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
-      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
-      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
 
       img {
         width: 100%;
@@ -63,18 +60,12 @@
     .god-avatar:hover {
       transform: rotate(0);
       transition: all $tooltip-transition-delay ease-in-out;
-      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
-      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
-      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
     }
     .god-avatar:hover div.god-tooltip {
       visibility: visible;
       opacity: 0.95;
       margin: -110px 0 0 85px;
       transition: all $tooltip-transition-delay ease-in-out;
-      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
-      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
-      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
     }
 
     .god-name {
@@ -127,9 +118,6 @@
       box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
       $tooltip-shadow -15px 0px 15px 5px inset;
       transition: all $tooltip-transition-delay ease-in-out;
-      -webkit-transition: all $tooltip-transition-delay ease-in-out; /** Chrome & Safari **/
-      -moz-transition: all $tooltip-transition-delay ease-in-out; /** Firefox **/
-      -o-transition: all $tooltip-transition-delay ease-in-out; /** Opera **/
     }
     .god-tooltip img {
       width: 40px !important;
