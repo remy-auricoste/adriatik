@@ -31,11 +31,9 @@
                  ng-if="gold === 1 || god !== God.Ceres"
                  >
                 <span class="adk-tooltip" title="{{ god.name === 'Ceres' ? 'Gagner' : 'Miser' }} {{gold}} sesterce(s)">
-                    <span title="">
-                        <img src="app/images/sesterce.png"
-                         ng-hide="game.getPlayer(god) && gold <= god.bid.gold"
-                            >
-                    </span>
+                    <img src="app/images/sesterce.png"
+                     ng-hide="game.getPlayer(god) && gold <= god.bid.gold"
+                        >
                 </span>
             </div>
         </div>
