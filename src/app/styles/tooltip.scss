@@ -1,3 +1,4 @@
+$tooltip-color: rgba(255, 255, 255, 0.9);
 
 /**
  * Tooltip css
@@ -6,8 +7,7 @@
   display: inline;
   position: relative;
   &:after {
-    background: #f5f8ff;
-    background: rgba(255, 255, 255, 0.9);
+    background: $tooltip-color;
     border-radius: 5px;
     color: black;
     content: attr(title);
@@ -35,7 +35,7 @@
   }
   &:before {
     border: solid;
-    border-color: white transparent;
+    border-color: $tooltip-color transparent;
     border-width: 6px 6px 0 6px;
     bottom: 24px;
     content: "";
