@@ -7,8 +7,10 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       var self = this;
       var path = window.location.pathname;
       if (path.startsWith("/dev/")) {
+        randomFactory.setNetworkSize(1);
         return qPlus.value(self.createGame(self.devAccounts(playerSize)));
       }
+      randomFactory.setNetworkSize(playerSize);
 
       var self = this;
       var accounts = {};
@@ -32,7 +34,6 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
     },
     createGame: function (accounts) {
       var loaded = gameStorage.load();
-      //randomFactory.calculateDice(6,4);
       console.log("loaded", loaded);
       if (loaded) {
         loaded.randomFactory = randomFactory;

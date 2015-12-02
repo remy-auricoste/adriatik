@@ -3,19 +3,19 @@ function randomFactory(qPlus, randomSocket, hashService) {
   'use strict';
 
   if (randomSocket) {
-    var lastHashes = null;
-    var lastGenerated = null;
-    var lastDefer = null;
-    var isAsking = false;
+    var hashesMap = {};
+    var generatedMap = {};
+    var deferMap = {};
 
     var hashSync = new StateSync(randomSocket.hashSocket);
     hashSync.syncListener(function(id, size, randomAsk) {
-      lastGenerated = service.generateLocal(randomAsk.number);
-      hashSync.send(id, size, {hash: lastGenerated.hash});
+      var generated = service.generateLocal(randomAsk.number);
+      generatedMap[id] = generated;
+      hashSync.send(id, size, {hash: generated.hash});
     }, function(stored) {
-      lastHashes = stored.values;
-      if (isAsking) {
-        valueSync.send(stored.id, stored.size, lastGenerated);
+      hashesMap[stored.id] = stored.values;
+      if (stored.starter === randomSocket.hashSocket.getId()) {
+        valueSync.send(stored.id, stored.size, generatedMap[stored.id]);
       }
     });
 
@@ -24,7 +24,7 @@ function randomFactory(qPlus, randomSocket, hashService) {
     }, function(stored) {
       Object.keys(stored.values).map(function(source) {
         var randomValue = stored.values[source];
-        var storedHash = lastHashes[source].hash;
+        var storedHash = hashesMap[stored.id][source].hash;
         var calculatedHash = hashService(randomValue.salt+""+randomValue.values);
         if (calculatedHash !== storedHash) {
           throw new Error("received hash "+storedHash+" is not equal to calculated hash "+calculatedHash+" for command "+stored.id+" and socket source "+source);
@@ -38,8 +38,10 @@ function randomFactory(qPlus, randomSocket, hashService) {
         });
         return service.multRandom(array);
       });
-      isAsking = false;
-      return lastDefer && lastDefer.resolve(randoms);
+      delete hashesMap[stored.id];
+      delete generatedMap[stored.id];
+      deferMap[stored.id].resolve(randoms);
+      delete deferMap[stored.id];
     });
   }
 
@@ -56,16 +58,20 @@ function randomFactory(qPlus, randomSocket, hashService) {
         hash: hashService(salt+""+values)
       }
     },
-    generate: function(number, size, id) {
+    generate: function(number, networkSize, id) {
       var self = this;
-      isAsking = true;
-      lastDefer = qPlus.defer();
       if (!id) {
         id = Math.random() + "";
       }
-      lastGenerated = this.generateLocal(number);
-      hashSync.send(id, size, {hash: lastGenerated.hash});
-      return lastDefer.promise;
+      if (!networkSize) {
+        networkSize = self.networkSize;
+      }
+      var defer = qPlus.defer();
+      deferMap[id] = defer;
+      var generated = this.generateLocal(number);
+      generatedMap[id] = generated;
+      hashSync.send(id, networkSize, {hash: generated.hash});
+      return defer.promise;
     },
     shuffle: function (array) {
       return this.generate(array.length).then(function (randoms) {
@@ -82,13 +88,9 @@ function randomFactory(qPlus, randomSocket, hashService) {
         return !isNaN(parseInt(character))
       }).join('');
       return parseFloat("0." + cleanedString);
-    }
-  }
-
-  var path = window.location.pathname;
-  if (path.startsWith("/dev/")) {
-    service.generate = function(size) {
-      return qPlus.value(service.generateLocal(size).values);
+    },
+    setNetworkSize: function(size) {
+      this.networkSize = size;
     }
   }
   return service;

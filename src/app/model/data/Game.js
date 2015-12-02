@@ -55,7 +55,7 @@ var Game = Meta.declareClass("Game", {
         var normalGods = self.gods.filter(function (god) {
             return god !== God.Ceres;
         });
-        var godPromise = self.randomFactory.shuffle(normalGods).then(function (shuffled) {
+        var godPromise = self.shuffle(normalGods).then(function (shuffled) {
             shuffled = shuffled.slice(0, self.players.length - 1);
             shuffled.push(God.Ceres);
             self.currentGods = shuffled;
@@ -65,7 +65,7 @@ var Game = Meta.declareClass("Game", {
         });
         var playersPromise = self.q.empty();
         if (self.turn === 1) {
-            playersPromise = self.randomFactory.shuffle(self.players).then(function() {
+            playersPromise = self.shuffle(self.players).then(function() {
               self.currentPlayer = self.players[0];
             });
         } else {
@@ -296,5 +296,8 @@ var Game = Meta.declareClass("Game", {
       }).map(function(territory) {
         return territory.getIncome();
       }));
+    },
+    shuffle: function(array) {
+      return this.randomFactory.shuffle(array);
     }
 });
