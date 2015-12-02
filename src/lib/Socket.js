@@ -2294,6 +2294,9 @@ RoomSocket.prototype.addListener = function(fonction) {
 RoomSocket.prototype.getId = function() {
     return this.rootSocket.id;
 }
+RoomSocket.prototype.subSocket = function(name) {
+    return new SubSocket(this, name);
+}
 
 module.exports = RoomSocket;
 
@@ -2576,7 +2579,6 @@ SubSocket.prototype.getId = function() {
 }
 
 module.exports = SubSocket;
-
 },{}],10:[function(require,module,exports){
 var Q = require("q");
 var Request = require("./Request");
