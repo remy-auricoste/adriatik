@@ -1,0 +1,2 @@
+
+var qPlusInstance = qPlus(Q);

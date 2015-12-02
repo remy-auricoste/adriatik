@@ -24,6 +24,7 @@ exports.paths = {
       '/app/**/*.js'
     ],
     test: [
+      '/test/lib/*.js',
       '/test/**/*.mock.js',
       '/test/**/*.spec.js'
     ]

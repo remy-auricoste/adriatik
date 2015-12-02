@@ -45,6 +45,7 @@
     "lodash": "~3.10.1",
     "main-bower-files": "~2.9.0",
     "node-static": "x",
+    "q": "^1.4.1",
     "rauricoste-meta": "^0.1.x",
     "rauricoste-websocket-room-client": "0.x",
     "uglify-save-license": "~0.4.1",
