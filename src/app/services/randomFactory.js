@@ -1,5 +1,5 @@
 /** @ngInject */
-function randomFactory(qPlus, randomSocket, hashService, StateSync) {
+function randomFactory(qPlus, randomSocket, hashService) {
   'use strict';
 
   if (randomSocket) {
@@ -79,6 +79,13 @@ function randomFactory(qPlus, randomSocket, hashService, StateSync) {
         return !isNaN(parseInt(character))
       }).join('');
       return parseFloat("0." + cleanedString);
+    }
+  }
+
+  var path = window.location.pathname;
+  if (path.startsWith("/dev/")) {
+    service.generate = function(size) {
+      return qPlus.value(service.generateLocal(size).values);
     }
   }
   return service;

@@ -28,4 +28,4 @@
   }
 
   var randomSocketMock = randomSocketMockFactory("default");
-  var randomFactoryInstance = randomFactory(qPlusInstance, randomSocketMock, hashServiceMock, StateSync);
+  var randomFactoryInstance = randomFactory(qPlusInstance, randomSocketMock, hashServiceMock);

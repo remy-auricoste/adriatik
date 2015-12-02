@@ -7,9 +7,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       var self = this;
       var path = window.location.pathname;
       if (path.startsWith("/dev/")) {
-        return qPlus.fcall(function () {
-          return self.createGame(self.devAccounts(playerSize));
-        });
+        return qPlus.value(self.createGame(self.devAccounts(playerSize)));
       }
 
       var self = this;

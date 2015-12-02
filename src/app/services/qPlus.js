@@ -15,6 +15,11 @@ function qPlus($q) {
         return $q.fcall(function () {
         });
     }
+    $q.value = function(value) {
+      return $q.fcall(function() {
+        return value;
+      });
+    }
     return $q;
 }
 
