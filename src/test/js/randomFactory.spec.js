@@ -34,7 +34,7 @@ describe('random factory object', function () {
       Object.keys(buckets).sort(function(a,b) {
         return buckets[a] - buckets[b];
       }).map(function(bucketKey) {
-        console.log(bucketKey, buckets[bucketKey])
+        //console.log(bucketKey, buckets[bucketKey])
       });
 
 
