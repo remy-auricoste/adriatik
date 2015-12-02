@@ -56,10 +56,13 @@ function randomFactory(qPlus, randomSocket, hashService) {
         hash: hashService(salt+""+values)
       }
     },
-    generate: function(number, id, size) {
+    generate: function(number, size, id) {
       var self = this;
       isAsking = true;
       lastDefer = qPlus.defer();
+      if (!id) {
+        id = Math.random() + "";
+      }
       lastGenerated = this.generateLocal(number);
       hashSync.send(id, size, {hash: lastGenerated.hash});
       return lastDefer.promise;

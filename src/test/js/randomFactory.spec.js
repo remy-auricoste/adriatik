@@ -42,7 +42,7 @@ describe('random factory object', function () {
       var arrayLength = 2;
       var networkNodes = 3;
       var id = "myId";
-      var result = randomFactoryInstance.generate(arrayLength, id, networkNodes);
+      var result = randomFactoryInstance.generate(arrayLength, networkNodes, id);
       randomSocketMock.hashSocket.mockReceive("source2", {
         id: id,
         size: networkNodes,
