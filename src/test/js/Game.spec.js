@@ -18,7 +18,7 @@ describe("Game class", function() {
     }
   }
 
-  var fakeRandomFactory = function(qPlus) {
+  var fakeRandomFactory = function() {
     var result = randomFactory();
     result.generate = function(size) {
       var randoms = Array.seq(0, size).map(function() {
