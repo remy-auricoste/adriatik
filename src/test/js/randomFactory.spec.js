@@ -43,25 +43,37 @@ describe('random factory object', function () {
       var networkNodes = 3;
       var id = "myId";
       var result = randomFactoryInstance.generate(arrayLength, networkNodes, id);
+      var values2 = [0.1, 0.2];
+      var randomObj2 = {
+        values: values2,
+        salt: "salt2",
+        hash: hashService()("salt2"+values2)
+      }
+      var values3 = [0.5, 0.9];
+      var randomObj3 = {
+        values: values3,
+        salt: "salt3",
+        hash: hashService()("salt3"+values3)
+      }
       randomSocketMock.hashSocket.mockReceive("source2", {
         id: id,
         size: networkNodes,
-        value: {hash: "salt2value2"}
+        value: {hash: randomObj2.hash}
       });
       randomSocketMock.hashSocket.mockReceive("source3", {
         id: id,
         size: networkNodes,
-        value: {hash: "salt3value3"}
+        value: {hash: randomObj3.hash}
       });
       randomSocketMock.valueSocket.mockReceive("source2", {
         id: id,
         size: networkNodes,
-        value: {hash: "salt2value2", salt: "salt2", values: "value2"}
+        value: randomObj2
       });
       randomSocketMock.valueSocket.mockReceive("source3", {
         id: id,
         size: networkNodes,
-        value: {hash: "salt3va", salt: "salt3", values: "value3"}
+        value: randomObj3
       });
 
       return result.then(function(result) {

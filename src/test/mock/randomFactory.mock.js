@@ -23,9 +23,6 @@
       valueSocket: socketMockFactory(source)
     }
   }
-  var hashServiceMock = function(value) {
-    return value+"";
-  }
 
   var randomSocketMock = randomSocketMockFactory("default");
-  var randomFactoryInstance = randomFactory(qPlusInstance, randomSocketMock, hashServiceMock);
+  var randomFactoryInstance = randomFactory(qPlusInstance, randomSocketMock, hashService());
