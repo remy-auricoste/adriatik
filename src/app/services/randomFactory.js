@@ -67,7 +67,7 @@ function randomFactory(qPlus, randomSocket, hashService) {
       }
       var defer = deferMap[id];
       if (defer) {
-        //delete deferMap[id];
+        //delete deferMap[id]; // might be useful later
         return defer.promise;
       }
       defer = qPlus.defer();
