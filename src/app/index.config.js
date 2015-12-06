@@ -10,7 +10,8 @@
         // Enable log
         $logProvider.debugEnabled(true);
 
-        $locationProvider.html5Mode(true);
+        // if activated, replace /#/... routes by removing /#. Not interesting if reload does not work.
+        //$locationProvider.html5Mode(true);
     }
 
 })();

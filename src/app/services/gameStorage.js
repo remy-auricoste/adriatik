@@ -1,7 +1,7 @@
 /** @ngInject */
-function gameStorage() {
+function gameStorage($location) {
     'use strict';
-    var key = window.location.pathname;
+    var key = $location.path();
 
     return {
         save: function(object) {

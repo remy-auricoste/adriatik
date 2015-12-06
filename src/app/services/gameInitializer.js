@@ -1,11 +1,12 @@
 /** @ngInject */
-function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder) {
+function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder, $location) {
   'use strict';
+  var initSocket = gameSocket.subSocket("init");
 
   return {
     init: function (playerSize) {
       var self = this;
-      var path = window.location.pathname;
+      var path = $location.path();
       if (path.startsWith("/dev/")) {
         randomFactory.setNetworkSize(1);
         return qPlus.value(self.createGame(self.devAccounts(playerSize)));
@@ -15,21 +16,19 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       var self = this;
       var accounts = {};
       var defer = qPlus.defer();
-
+      var initSync = new StateSync(initSocket);
+      var id = "init";
       gameSocket.addRoomListener(function (messageObj) {
-        if (messageObj.members.length >= playerSize) {
-          gameSocket.send({account: accountService.getData()});
+        if (messageObj.members.length === playerSize) {
+          console.log("all players connected => sending account data");
+          initSync.send(id, playerSize, accountService.getData());
         }
       });
-      gameSocket.addListener(function (messageObj) {
-        var account = messageObj.message.account;
-        if (account) {
-          accounts[messageObj.source] = account;
-          if (Object.keys(accounts).length === playerSize) {
-            defer.resolve(self.createGame(accounts));
-          }
-        }
-      });
+      initSync.syncListener(function(id, size, value) {
+      }, function(stored) {
+        var accounts = stored.values;
+        defer.resolve(self.createGame(accounts));
+      })
       return defer.promise;
     },
     createGame: function (accounts) {
