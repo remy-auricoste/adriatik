@@ -1,17 +1,19 @@
-var static = require('node-static');
+var express = require('express');
+var app = express();
+var urlTool = require("url");
 
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 3000;
 
-var fileServer = new static.Server('./dist', {
-    cache: 1
-});
 
 String.prototype.startsWith = function(start) {
     return start.length <= this.length && this.substring(0, start.length) === start;
 }
 
-require('http').createServer(function (request, response) {
-    request.addListener('end', function () {
-      fileServer.serve(request, response);
-    }).resume();
-}).listen(port);
+app.use("/", express.static("dist"));
+
+var server = app.listen(port, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log('Example app listening at http://%s:%s', host, port);
+});
