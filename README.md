@@ -35,6 +35,6 @@ npm config set proxy http://xxxx
 Voici ensuite quelques commandes :
 * ```gulp serve``` pour démarrer un server statique. Attention, il faut le redémarrer lorsqu'on ajoute des fichiers
 * ```gulp test``` pour lancer les tests
-* ```gulp dist``` pour créer une version compilée (minifiée, uglify, etc...)
+* ```gulp build``` pour créer une version compilée (minifiée, uglify, etc...)
 * ```gulp test``` pour lancer 1 fois les tests
 * ```gulp test:auto``` pour lancer les tests en continu avec un watch sur les fichiers
