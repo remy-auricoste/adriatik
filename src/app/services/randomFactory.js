@@ -11,12 +11,11 @@ function randomFactory(qPlus, randomSocket, hashService) {
     hashSync.syncListener(function(id, size, randomAsk) {
       var generated = service.generateLocal(randomAsk.number);
       generatedMap[id] = generated;
-      hashSync.send(id, size, {hash: generated.hash});
+      deferMap[id] = qPlus.defer();
+      hashSync.send(id, size, {hash: generated.hash, number: randomAsk.number});
     }, function(stored) {
       hashesMap[stored.id] = stored.values;
-      if (stored.starter === randomSocket.hashSocket.getId()) {
-        valueSync.send(stored.id, stored.size, generatedMap[stored.id]);
-      }
+      valueSync.send(stored.id, stored.size, generatedMap[stored.id]);
     });
 
     var valueSync = new StateSync(randomSocket.valueSocket);
@@ -41,7 +40,6 @@ function randomFactory(qPlus, randomSocket, hashService) {
       delete hashesMap[stored.id];
       delete generatedMap[stored.id];
       deferMap[stored.id].resolve(randoms);
-      delete deferMap[stored.id];
     });
   }
 
@@ -59,6 +57,7 @@ function randomFactory(qPlus, randomSocket, hashService) {
       }
     },
     generate: function(number, networkSize, id) {
+      console.log("generate", number, id);
       var self = this;
       if (!id) {
         id = Math.random() + "";
@@ -66,11 +65,16 @@ function randomFactory(qPlus, randomSocket, hashService) {
       if (!networkSize) {
         networkSize = self.networkSize;
       }
-      var defer = qPlus.defer();
+      var defer = deferMap[id];
+      if (defer) {
+        //delete deferMap[id];
+        return defer.promise;
+      }
+      defer = qPlus.defer();
       deferMap[id] = defer;
       var generated = this.generateLocal(number);
       generatedMap[id] = generated;
-      hashSync.send(id, networkSize, {hash: generated.hash});
+      hashSync.send(id, networkSize, {hash: generated.hash, number: number});
       return defer.promise;
     },
     shuffle: function (array) {
