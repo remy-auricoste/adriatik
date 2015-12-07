@@ -36,6 +36,16 @@ StateSync.prototype.syncListener = function(onStart, onSync) {
 }
 StateSync.prototype.send = function(id, size, value) {
   var self = this;
+  var stored = this.syncMap[id];
+  if (!stored) {
+    stored = {
+      starter: self.socket.getId(),
+      id: id,
+      size: size,
+      values: {}
+    }
+    this.syncMap[id] = stored;
+  }
   return this.socket.send({
     id: id,
     size: size,
