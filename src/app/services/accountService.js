@@ -5,11 +5,14 @@ function accountService() {
   return {
     keys: ["email"],
     getData: function() {
-      var result = {};
+      var account = {};
       this.keys.map(function(key) {
-        result[key] = window.localStorage["account."+key];
+        account[key] = window.localStorage["account."+key];
       });
-      return result;
+      if (!account.name) {
+        account.name = "random"+Math.random();
+      }
+      return account;
     },
     save: function(account) {
       this.keys.map(function(key) {
