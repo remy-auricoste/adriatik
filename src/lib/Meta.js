@@ -327,6 +327,7 @@ var Meta = {
                   var key = self[classe.template._primary];
                   classe._all[key] = self;
                 }
+                self._type = name;
             } catch(e) {
                 e.message = "error when creating new instance of "+name+". template="+Meta.format(template)+" : "+e.message;
                 throw e;
@@ -372,6 +373,10 @@ var Meta = {
                     instance[key] = Collections.map(instance[key], function(item) {
                         return subClass.fromObject(item);
                     });
+                } else if (templateValue.constructor === Array) {
+                  instance[key] = Collections.map(instance[key], function(item) {
+                    return item._type ? Meta.fromObject(item) : item;
+                  });
                 }
             })
             return new classe(instance);
@@ -385,6 +390,16 @@ var Meta = {
             Meta.addAttribute(classe.prototype, key, value);
         });
         return classe;
+    },
+    fromObject: function(object) {
+      if (!object._type) {
+        throw new Error("object has no field _type");
+      }
+      var classe = Meta.classes[object._type];
+      if (!classe) {
+        throw new Error("there is no class named "+object._type);
+      }
+      return classe.fromObject(object);
     },
     mixObjects: function(object1, object2) {
         var result = {};
