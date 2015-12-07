@@ -1,5 +1,5 @@
 /** @ngInject */
-function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootScope) {
+function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootScope, commandSocket) {
     'use strict';
 
     return {
@@ -23,13 +23,12 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
               console.error(err);
             });
 
-            $rootScope.$on("command", function(event, command) {
+            commandSocket.addListener(function(messageObj) {
+              var command = Command.fromObject(messageObj.message);
+              console.log("commandSocket received", command);
               var result = scope.game.receiveCommand(command);
               var thenFct = function(result) {
                 gameStorage.save(scope.game);
-                if (typeof command.callback === "function") {
-                  command.callback(result);
-                }
               }
               if (result && typeof result.then === "function") {
                 result.then(thenFct).catch(function(err) {
@@ -39,6 +38,15 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
               } else {
                 thenFct(result);
               }
+              scope.$apply();
+            });
+
+            $rootScope.$on("command", function(event, command) {
+              var id = Math.random() + "";
+              command.id = id;
+              randomFactory.setGlobalId(id);
+              console.log("sending command", command);
+              commandSocket.send(JSON.parse(JSON.stringify(command)));
             });
         }
     };

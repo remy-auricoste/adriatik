@@ -1,7 +1,7 @@
 /** @ngInject */
 function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder, $location) {
   'use strict';
-  var initSocket = gameSocket.subSocket("init");
+    var initSocket = gameSocket.subSocket("init");
 
   return {
     init: function (playerSize) {
@@ -27,6 +27,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       initSync.syncListener(function(id, size, value) {
       }, function(stored) {
         var accounts = stored.values;
+        console.log("accounts", accounts);
         defer.resolve(self.createGame(accounts));
       })
       return defer.promise;

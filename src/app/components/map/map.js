@@ -66,12 +66,7 @@ function map($http, $rootScope) {
                   $rootScope.$emit("select", territory);
                 }
                 if (command) {
-                    command.callback = function(result) {
-                      if (result) {
-                        console.log("battle result", result);
-                      }
-                    }
-                    $rootScope.$emit("command", command);
+                  $rootScope.$emit("command", command);
                 }
             }
             scope.toggleUnit = function (unit) {
