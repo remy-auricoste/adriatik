@@ -38,6 +38,15 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
       if (loaded) {
         loaded.randomFactory = randomFactory;
         loaded.q = qPlus;
+        Object.keys(accounts).map(function(id) {
+          var account = accounts[id];
+          account.id = id;
+          // use account.email as the key to retrieve account. Is it the right way to do it ?
+          var player = Meta.find(loaded.players, function(player) {
+            return player.account.email === account.email;
+          });
+          player.account = account;
+        });
         return new Game(loaded);
       }
 

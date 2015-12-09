@@ -24,8 +24,14 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
             });
 
             commandSocket.addListener(function(messageObj) {
+              var source = messageObj.source;
               var command = Command.fromObject(messageObj.message);
-              console.log("commandSocket received", command);
+              console.log("commandSocket received", command, "source", source);
+              var playerSocketId = command.player.account.id;
+              if (playerSocketId !== source) {
+                throw new Error("received a command not from the actual player. source="+source+". player id="+playerSocketId);
+              }
+              randomFactory.setGlobalId(command.id);
               var result = scope.game.receiveCommand(command);
               var thenFct = function(result) {
                 gameStorage.save(scope.game);
@@ -42,9 +48,12 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
             });
 
             $rootScope.$on("command", function(event, command) {
+              if (commandSocket.getId() !== command.player.account.id) {
+                throw new Error("Ce n'est pas à votre tour de jouer");
+              }
+
               var id = Math.random() + "";
               command.id = id;
-              randomFactory.setGlobalId(id);
               console.log("sending command", command);
               commandSocket.send(JSON.parse(JSON.stringify(command)));
             });

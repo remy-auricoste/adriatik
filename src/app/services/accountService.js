@@ -12,6 +12,9 @@ function accountService() {
       if (!account.name) {
         account.name = "random"+Math.random();
       }
+      if (!account.email || !account.email.length) {
+        throw new Error("Veuillez renseigner votre email sur la page /#/account");
+      }
       return account;
     },
     save: function(account) {
