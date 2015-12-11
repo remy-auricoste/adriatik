@@ -64,7 +64,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
         q: qPlus
       });
 
-      return $http.get("/app/components/map/area.json").then(function (res) {
+      return $http.get("/app/maps/france.json").then(function (res) {
         var paths = res.data;
         var territories = paths.map(function (path) {
           var pathValue = path.d;
