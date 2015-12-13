@@ -4,10 +4,11 @@
             <path ng-repeat="territory in game.territories track by territory.id"
                   ng-attr-d="{{territory.path}}"
                   class="area"
-                  ng-class="{over: territory.over, neighbour: territory.isNeighbour, sea: territory.type === 'sea'}"
+                  ng-class="{over: territory.over, neighbour: territory.isNeighbour, sea: territory.type === 'sea', owned: territory.owner}"
                   ng-mouseover="onMouseOver($event, territory)"
                   ng-mouseout="onMouseOut(territory)"
                   ng-click="onClick(territory)"
+                  style="{{territory.owner ? 'stroke: '+territory.owner.color : ''}}"
                   stroke="black"
                     >
             </path>
