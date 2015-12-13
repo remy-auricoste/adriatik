@@ -1,5 +1,5 @@
 /** @ngInject */
-function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootScope, commandSocket) {
+function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootScope, commandSocket, config) {
     'use strict';
 
     return {
@@ -28,7 +28,7 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
               var command = Command.fromObject(messageObj.message);
               console.log("commandSocket received", command, "source", source);
               var playerSocketId = command.player.account.id;
-              if (playerSocketId !== source) {
+              if (!config.isDev() && playerSocketId !== source) {
                 throw new Error("received a command not from the actual player. source="+source+". player id="+playerSocketId);
               }
               randomFactory.setGlobalId(command.id);
@@ -48,7 +48,7 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
             });
 
             $rootScope.$on("command", function(event, command) {
-              if (commandSocket.getId() !== command.player.account.id) {
+              if (!config.isDev() && commandSocket.getId() !== command.player.account.id) {
                 throw new Error("Ce n'est pas à votre tour de jouer");
               }
 

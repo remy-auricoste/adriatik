@@ -1,13 +1,12 @@
 /** @ngInject */
-function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder, $location, mapGenerator) {
+function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder, config, mapGenerator) {
   'use strict';
     var initSocket = gameSocket.subSocket("init");
 
   return {
     init: function (playerSize) {
       var self = this;
-      var path = $location.path();
-      if (path.startsWith("/dev/")) {
+      if (config.isDev()) {
         randomFactory.setNetworkSize(1);
         return qPlus.value(self.createGame(self.devAccounts(playerSize)));
       }
