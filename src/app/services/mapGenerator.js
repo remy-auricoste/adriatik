@@ -77,13 +77,12 @@ function mapGenerator($http) {
       var xs = points.map(function(point) {return point.x});
       var ys = points.map(function(point) {return point.y});
       var barycentre = {x: xs.mean(), y: ys.mean()};
-      var line = [points[0]];
-      points.splice(0, 1);
+      var line = [];
       while (points.length) {
         var lastPoint = line[line.length - 1];
         points.sort(function(a, b) {
-          var distA = self.distance(a, lastPoint);
-          var distB = self.distance(b, lastPoint);
+          var distA = lastPoint ? self.distance(a, lastPoint) : 0;
+          var distB = lastPoint ? self.distance(b, lastPoint) : 0;
           if (Math.abs(distA - distB) <= 3) {
             var distA2 = self.distance(a, barycentre);
             var distB2 = self.distance(b, barycentre);
