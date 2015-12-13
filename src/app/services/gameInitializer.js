@@ -1,5 +1,5 @@
 /** @ngInject */
-function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder, $location) {
+function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameStorage, $http, neighbourFinder, $location, mapGenerator) {
   'use strict';
     var initSocket = gameSocket.subSocket("init");
 
@@ -64,18 +64,7 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
         q: qPlus
       });
 
-      return $http.get("/app/maps/france.json").then(function (res) {
-        var paths = res.data;
-        var territories = paths.map(function (path) {
-          var pathValue = path.d;
-          var territory = new Territory({
-            type: "earth",
-            buildSlots: 2,
-            path: pathValue
-          });
-          territory.box = Raphael.pathBBox(pathValue);
-          return territory;
-        });
+      return mapGenerator.getTerritories("standard").then(function(territories) {
         territories.map(function (territory) {
           var neighbours = neighbourFinder.findRealNeighbours(territory, territories);
           neighbours.map(function (neighbour) {

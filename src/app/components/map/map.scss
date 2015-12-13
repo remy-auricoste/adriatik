@@ -1,3 +1,14 @@
+$darken1: 15%;
+$darken2: 30%;
+
+$earth: #c8c09e;
+$earth-over: darken($earth, $darken2);
+$earth-over-neighbour: darken($earth, $darken1);
+
+$sea: lightblue;
+$sea-over: darken($sea, $darken2);
+$sea-over-neighbour: darken($sea, $darken1);
+
 .map {
   margin: 0 0 0 600px;
   padding: 0 0 0 -600px;
@@ -9,12 +20,22 @@
   }
 
   .area {
-    fill: $ground;
+    fill: $earth;
     &.over {
-      fill: $ground-over-2;
+      fill: $earth-over;
     }
     &.neighbour {
-      fill: $ground-over;
+      fill: $earth-over-neighbour;
+    }
+
+    &.sea {
+      fill: $sea;
+      &.over {
+        fill: $sea-over;
+      }
+      &.neighbour {
+        fill: $sea-over-neighbour;
+      }
     }
   }
 
