@@ -20,7 +20,7 @@ function mapGenerator($http) {
             if (code === "1") {
               code = Math.random()+"";
             }
-            var tile = new Tile(id, code, {x: tileIndex, y: lineIndex});
+            var tile = new Tile(id, code, [tileIndex, lineIndex]);
             if (lastTile) {
               lastTile.nextTo(tile);
             }
@@ -50,22 +50,22 @@ function mapGenerator($http) {
         return tiles;
       });
     },
-    getTilePoints: function(pos) {
+    getTilePoints: function(position) {
       var xSize = tileSize;
       var ySize = tileSize * 2 / Math.sqrt(3);
       var yStep = ySize / 4;
       var xStep = xSize / 2;
-      var pixelPos = {x: pos.x * xSize, y: pos.y * (yStep*3)};
-      if (pos.y % 2 === 1) {
-        pixelPos.x += xStep;
+      var pixelPos = [position[0] * xSize, position[1] * (yStep*3)];
+      if (position[1] % 2 === 1) {
+        pixelPos[0] += xStep;
       }
       return [
-        [pixelPos.x+xStep, pixelPos.y],
-        [pixelPos.x, pixelPos.y+yStep],
-        [pixelPos.x, pixelPos.y+yStep*3],
-        [pixelPos.x+xStep, pixelPos.y+yStep*4],
-        [pixelPos.x+xStep*2, pixelPos.y+yStep*3],
-        [pixelPos.x+xStep*2, pixelPos.y+yStep]
+        pixelPos.addVector([xStep, 0]),
+        pixelPos.addVector([0, yStep]),
+        pixelPos.addVector([0, yStep*3]),
+        pixelPos.addVector([xStep, yStep*4]),
+        pixelPos.addVector([xStep*2, yStep*3]),
+        pixelPos.addVector([xStep*2, yStep])
       ]
     },
     getSegments: function(points) {
