@@ -2,6 +2,7 @@
 function mapGenerator($http) {
   'use strict';
   var tileSize = 60;
+  var distEpsilon = 0.5;
 
   var service = {
     getTiles: function(name) {
@@ -59,54 +60,68 @@ function mapGenerator($http) {
         pixelPos.x += xStep;
       }
       return [
-        {x: pixelPos.x+xStep, y: pixelPos.y},
-        {x: pixelPos.x, y: pixelPos.y+yStep},
-        {x: pixelPos.x, y: pixelPos.y+yStep*3},
-        {x: pixelPos.x+xStep, y: pixelPos.y+yStep*4},
-        {x: pixelPos.x+xStep*2, y: pixelPos.y+yStep*3},
-        {x: pixelPos.x+xStep*2, y: pixelPos.y+yStep}
+        [pixelPos.x+xStep, pixelPos.y],
+        [pixelPos.x, pixelPos.y+yStep],
+        [pixelPos.x, pixelPos.y+yStep*3],
+        [pixelPos.x+xStep, pixelPos.y+yStep*4],
+        [pixelPos.x+xStep*2, pixelPos.y+yStep*3],
+        [pixelPos.x+xStep*2, pixelPos.y+yStep]
       ]
     },
-    distance: function(point1, point2) {
-      var diffX = point1.x - point2.x;
-      var diffY = point1.y - point2.y;
-      return Math.sqrt(diffX * diffX + diffY * diffY);
-    },
-    getAroundLine: function(points) {
-      var self = this;
-      var xs = points.map(function(point) {return point.x});
-      var ys = points.map(function(point) {return point.y});
-      var barycentre = {x: xs.mean(), y: ys.mean()};
-      var line = [];
-      while (points.length) {
-        var lastPoint = line[line.length - 1];
-        points.sort(function(a, b) {
-          var distA = lastPoint ? self.distance(a, lastPoint) : 0;
-          var distB = lastPoint ? self.distance(b, lastPoint) : 0;
-          if (Math.abs(distA - distB) <= 3) {
-            var distA2 = self.distance(a, barycentre);
-            var distB2 = self.distance(b, barycentre);
-            return distA2 < distB2 ? 1 : -1;
-          } else {
-            return distA < distB ? -1 : 1;
-          }
+    getSegments: function(points) {
+      return points.map(function(point, index) {
+        var nextIndex = (index + 1) % points.length;
+        return [point, points[nextIndex]].sort(function(a,b) {
+          return a[0] < b[0] ? -1 : (a[0] > b[0] ? 1 : (a[1] < b[1] ? -1 : 1));
         });
-        line.push(points[0]);
-        points.splice(0, 1);
+      });
+    },
+    getAroundLine: function(segments) {
+      segments = segments.concat([]);
+      var self = this;
+      var line = segments.splice(0, 1)[0].concat([]);
+      while(segments.length) {
+        var lastPoint = line[line.length - 1];
+        var segmentIndex = Meta.findIndex(segments, function(segment) {
+          return Meta.find(segment, function(point, index) {
+            return point.distance(lastPoint) < distEpsilon;
+          });
+        });
+        var segment = segments[segmentIndex];
+        !segment && console.error("could not find segment", lastPoint, line, segments);
+        var nextPoint = Meta.find(segment, function(point) {
+          return point.distance(lastPoint) > distEpsilon;
+        });
+        !nextPoint && console.error("could not find next point", lastPoint, segment);
+        line.push(nextPoint);
+        segments.splice(segmentIndex, 1);
       }
       return line;
     },
-    removeDuplicates: function(points) {
+    removeDuplicates: function(segments) {
+      segments = segments.concat([]);
       var self = this;
-      var result = [points[0]];
-      points.splice(0, 1);
-      points.forEach(function(point) {
-        var isNew = Meta.forall(result, function(otherPoint) {
-          var dist = self.distance(point, otherPoint);
-          return dist > 5;
+      var result = [segments[0]];
+      segments.splice(0, 1);
+      segments.forEach(function(segment) {
+        var isNew = Meta.forall(result, function(otherSegment) {
+          var dists = segment.map(function(point, index) {
+            return point.distance(otherSegment[index]);
+          });
+          return dists.sum() > distEpsilon;
         });
         if (isNew) {
-          result.push(point);
+          result.push(segment);
+        } else {
+          var found = Meta.findIndex(result, function(otherSegment) {
+            var dists = segment.map(function(point, index) {
+              return point.distance(otherSegment[index]);
+            });
+            return dists.sum() < distEpsilon;
+          });
+          if (found >=0) {
+            result.splice(found, 1);
+          }
         }
       });
       return result;
@@ -122,13 +137,13 @@ function mapGenerator($http) {
         });
         return Object.keys(blocks).map(function(key) {
           var block = blocks[key];
-          var points = Meta.flatten(block.map(function(tile) {
-            return self.getTilePoints(tile.pos);
-          }));
-          points = self.removeDuplicates(points);
-          points = self.getAroundLine(points);
+          var segments = block.flatMap(function(tile) {
+            return self.getSegments(self.getTilePoints(tile.pos));
+          });
+          segments = self.removeDuplicates(segments);
+          var points = self.getAroundLine(segments);
           var contents = points.map(function(point) {
-            return point.x+","+point.y;
+            return point[0]+","+point[1];
           })
           var pathValue = "M"+contents.join(",")+"Z";
 
@@ -144,7 +159,6 @@ function mapGenerator($http) {
     }
 
   };
-//  service.getMap("standard");
   return service;
 }
 angular.module("adriatik").service("mapGenerator", mapGenerator);
