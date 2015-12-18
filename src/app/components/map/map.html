@@ -1,6 +1,6 @@
 <section class="map">
     <svg>
-        <g>
+        <g transform="translate(100, 100)">
             <path ng-repeat="territory in game.territories track by territory.id"
                   ng-attr-d="{{territory.path}}"
                   class="area"
