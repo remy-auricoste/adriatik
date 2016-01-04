@@ -2443,7 +2443,7 @@ var SocketBus = function(host, onReceive) {
     });
     this.connectPromise = defer.promise;
     this.connectPromise.then(function() {
-        cron(40000, function() {
+        cron(10000, function() {
             self.sendCommand("PING");
             return self.connected;
         });
@@ -4581,7 +4581,7 @@ http.request = function (params, cb) {
         params.host = params.host.split(':')[0];
     }
     if (!params.port) params.port = params.protocol == 'https:' ? 443 : 80;
-    
+
     var req = new Request(new xhrHttp, params);
     if (cb) req.on('response', cb);
     return req;
@@ -4702,23 +4702,23 @@ var Request = module.exports = function (xhr, params) {
     self.writable = true;
     self.xhr = xhr;
     self.body = [];
-    
+
     self.uri = (params.protocol || 'http:') + '//'
         + params.host
         + (params.port ? ':' + params.port : '')
         + (params.path || '/')
     ;
-    
+
     if (typeof params.withCredentials === 'undefined') {
         params.withCredentials = true;
     }
 
     try { xhr.withCredentials = params.withCredentials }
     catch (e) {}
-    
+
     if (params.responseType) try { xhr.responseType = params.responseType }
     catch (e) {}
-    
+
     xhr.open(
         params.method || 'GET',
         self.uri,
@@ -4730,7 +4730,7 @@ var Request = module.exports = function (xhr, params) {
     };
 
     self._headers = {};
-    
+
     if (params.headers) {
         var keys = objectKeys(params.headers);
         for (var i = 0; i < keys.length; i++) {
@@ -4740,7 +4740,7 @@ var Request = module.exports = function (xhr, params) {
             self.setHeader(key, value);
         }
     }
-    
+
     if (params.auth) {
         //basic auth
         this.setHeader('Authorization', 'Basic ' + Base64.btoa(params.auth));
@@ -4750,7 +4750,7 @@ var Request = module.exports = function (xhr, params) {
     res.on('close', function () {
         self.emit('close');
     });
-    
+
     res.on('ready', function () {
         self.emit('response', res);
     });
@@ -4758,7 +4758,7 @@ var Request = module.exports = function (xhr, params) {
     res.on('error', function (err) {
         self.emit('error', err);
     });
-    
+
     xhr.onreadystatechange = function () {
         // Fix for IE9 bug
         // SCRIPT575: Could not complete the operation due to error c00c023f
@@ -4827,7 +4827,7 @@ Request.prototype.end = function (s) {
         }
         var body = new(this.body[0].constructor)(len);
         var k = 0;
-        
+
         for (var i = 0; i < this.body.length; i++) {
             var b = this.body[i];
             for (var j = 0; j < b.length; j++) {
@@ -4924,13 +4924,13 @@ function parseHeaders (res) {
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         if (line === '') continue;
-        
+
         var m = line.match(/^([^:]+):\s*(.*)/);
         if (m) {
             var key = m[1].toLowerCase(), value = m[2];
-            
+
             if (headers[key] !== undefined) {
-            
+
                 if (isArray(headers[key])) {
                     headers[key].push(value);
                 }
@@ -4969,7 +4969,7 @@ Response.prototype.handle = function (res) {
         catch (err) {
             capable.status2 = false;
         }
-        
+
         if (capable.status2) {
             this.emit('ready');
         }
@@ -4983,7 +4983,7 @@ Response.prototype.handle = function (res) {
             }
         }
         catch (err) {}
-        
+
         try {
             this._emitData(res);
         }
@@ -4997,12 +4997,12 @@ Response.prototype.handle = function (res) {
             this.emit('ready');
         }
         this._emitData(res);
-        
+
         if (res.error) {
             this.emit('error', this.getResponse(res));
         }
         else this.emit('end');
-        
+
         this.emit('close');
     }
 };
