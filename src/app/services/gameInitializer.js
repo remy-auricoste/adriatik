@@ -60,7 +60,8 @@ function gameInitializer(gameSocket, accountService, qPlus, randomFactory, gameS
         players: players,
         gods: God.allArray(),
         randomFactory: randomFactory,
-        q: qPlus
+        q: qPlus,
+        warMode: false
       });
 
       return mapGenerator.getTerritories("standard").then(function(territories) {

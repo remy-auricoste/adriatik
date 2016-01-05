@@ -12,6 +12,7 @@ var Game = Meta.declareClass("Game", {
     turn: 1,
     phase: "",
     colors: [],
+    warMode: true,
     init: function () {
         var self = this;
         if (!this.currentPlayer) {
@@ -196,21 +197,31 @@ var Game = Meta.declareClass("Game", {
             if (territory.owner && territory.owner !== player) {
                 throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre.");
             }
-            var playerTerritories = this.territories.filter(function (territory) {
-                return territory.owner === player;
-            });
             if (!territory.owner) {
-                var sameTypeTerritories = playerTerritories.filter(function (territoryIte) {
-                    return territory.type === territoryIte.type;
+                var playerTerritories = this.territories.filter(function (territory) {
+                    return territory.owner === player;
                 });
-                if (sameTypeTerritories.length === 2) {
-                    throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
+                if (territory.type === "sea") {
+                  var isAdjacentEarth = !!Meta.find(playerTerritories, function(territoryIte) {
+                    return territoryIte.type === "earth";
+                  });
+                  if (!isAdjacentEarth) {
+                    throw new Error("vous devez placer vos bateaux sur des territoires adjacents à vos territoires terrestres");
+                  }
                 }
-                var isAdjacent = !Meta.forall(playerTerritories, function (territoryIte) {
-                    return territoryIte.neighbours.indexOf(territory.id) === -1;
-                });
-                if (playerTerritories.length && !isAdjacent) {
-                    throw new Error("il n'est pas adjacent aux territoires déjà contrôlés.");
+                if (this.warMode) {
+                  var sameTypeTerritories = playerTerritories.filter(function (territoryIte) {
+                      return territory.type === territoryIte.type;
+                  });
+                  if (sameTypeTerritories.length === 2) {
+                      throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
+                  }
+                  var isAdjacent = !Meta.forall(playerTerritories, function (territoryIte) {
+                      return territoryIte.neighbours.indexOf(territory.id) === -1;
+                  });
+                  if (playerTerritories.length && !isAdjacent) {
+                      throw new Error("il n'est pas adjacent aux territoires déjà contrôlés.");
+                  }
                 }
             }
             var self = player;

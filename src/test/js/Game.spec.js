@@ -35,7 +35,8 @@ describe("Game class", function() {
     game = new Game({
       players: [player, player2],
       randomFactory: fakeRandomFactory(),
-      turn: 1
+      turn: 1,
+      warMode: true
     });
   });
 
