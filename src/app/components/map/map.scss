@@ -12,6 +12,8 @@ $sea-over-neighbour: darken($sea, $darken1);
 .map {
   margin-left: $bid-panel-width;
   position: relative;
+  top: 100px;
+  left: 50px;
 
   svg {
     width: 1000px;
