@@ -15,7 +15,7 @@ function actionPanel($rootScope) {
             scope.god = function () {
                 return scope.game.currentPlayer.god;
             }
-            scope.selectMode = function (mode) {
+            scope.selectMode = function(mode) {
                 var selected = mode !== $rootScope.mode;
                 console.log("mode", mode, selected);
                 $rootScope.mode = selected ? mode : null;
