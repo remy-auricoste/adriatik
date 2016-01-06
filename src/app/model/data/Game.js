@@ -157,6 +157,8 @@ var Game = Meta.declareClass("Game", {
                 player.bid = null;
                 player.god = null;
                 player.templeUsed = 0;
+                player.unitBuyCount = 0;
+                player.cardBuyCount = 0;
             });
             self.gods.map(function(god) {
               god.bid = null;
