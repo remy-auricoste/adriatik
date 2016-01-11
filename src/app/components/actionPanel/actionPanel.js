@@ -26,9 +26,9 @@ function actionPanel($rootScope) {
                     player: scope.game.currentPlayer,
                     args: []
                   }));
+                  scope.mode = null;
+                  $rootScope.mode = null;
                 }
-                scope.mode = null;
-                $rootScope.mode = null;
             }
             scope.endTurn = function () {
                 $rootScope.$emit("command", new Command({type: CommandType.EndTurn, player: scope.game.currentPlayer, args: []}));
