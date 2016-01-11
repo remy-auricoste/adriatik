@@ -152,24 +152,54 @@ Player = Meta.declareClass("Player", {
         this.god = this.bid.getGod();
         return payment;
     },
+    findPathBySea: function(fromTerritory, toTerritorry, currentPath, passedTerritories) {
+      var self = this;
+      if (!passedTerritories) {
+        passedTerritories = [];
+      }
+      if (!currentPath) {
+        currentPath = [];
+      }
+      if (fromTerritory.neighbours.indexOf(toTerritorry.id) !== -1) {
+        return currentPath.concat([toTerritorry]);
+      }
+      var neighbourIdsLeft = fromTerritory.neighbours.diff(passedTerritories.map(function(territory) {return territory.id}));
+      if (neighbourIdsLeft.length === 0) {
+        return null;
+      }
+      var possibleNeighbours = neighbourIdsLeft.map(function(id) {
+        return Territory.byId(id);
+      }).filter(function(territory) {
+        return territory && territory.type === "sea" && territory.owner === self;
+      });
+      passedTerritories.push(fromTerritory);
+      console.log("passed territories", passedTerritories.length);
+      return Meta.find(possibleNeighbours, function(territory) {
+        return self.findPathBySea(territory, toTerritorry, currentPath.concat([territory]), passedTerritories);
+      });
+    },
+    checkValidMove: function(units, fromTerritory, toTerritorry) {
+        if (!units || !units.length) {
+            throw new Error("il n'y a aucune unité sélectionnée.");
+        }
+        var allInTerritory = Meta.forall(units, function(unit) {
+          return fromTerritory.units.indexOf(unit) !== -1;
+        });
+        if (!allInTerritory) {
+          throw new Error("toutes les unités doivent partir du même territoire et arriver sur le même territoire");
+        }
+        this.requireGod();
+        if (!this.findPathBySea(fromTerritory, toTerritorry)) {
+            throw new Error("le territoire de destination n'est pas adjacent au territoire de départ.");
+        }
+    },
     move: function (units, fromTerritory, toTerritorry) {
         try {
-            if (!units || !units.length) {
-                throw new Error("il n'y a aucune unité sélectionnée.");
-            }
-            var allInTerritory = Meta.forall(units, function(unit) {
-              return fromTerritory.units.indexOf(unit) !== -1;
-            });
-            if (!allInTerritory) {
-              throw new Error("toutes les unités doivent partir du même territoire et arriver sur le même territoire");
-            }
-            this.requireGod();
+            this.checkValidMove(units, fromTerritory, toTerritorry);
             if (this.god === God.Ceres) {
                 throw new Error("Ceres ne peut pas déplacer d'unité.");
             }
-            if (fromTerritory.neighbours.indexOf(toTerritorry.id) === -1) {
-                throw new Error("le territoire de destination n'est pas adjacent au territoire de départ.");
-            }
+
             var gladiators = units.filter(function (unit) {
                 return unit.type === UnitType.Gladiator;
             });
