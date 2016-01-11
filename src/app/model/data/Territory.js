@@ -31,6 +31,9 @@ var Territory = Meta.declareClass("Territory", {
         if (!this.income) {
           this.income = 0;
         }
+        if (!this.buildSlots) {
+          this.buildSlots = 0;
+        }
     },
     placeUnit: function (unit) {
         if (unit.type.territoryType !== this.type) {

@@ -149,9 +149,12 @@ function mapGenerator($http) {
 
           var territory = new Territory({
             type: block[0].id !== "1" ? "earth" : "sea",
-            buildSlots: Math.max(4, block.length + 1),
             path: pathValue
           });
+          if (territory.type === "earth") {
+            territory.buildSlots = Math.min(4, block.length);
+            territory.income = 4 - territory.buildSlots;
+          }
           territory.box = Raphael.pathBBox(pathValue);
           return territory;
         });

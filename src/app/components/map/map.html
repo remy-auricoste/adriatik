@@ -15,17 +15,26 @@
         </g>
     </svg>
     <div ng-repeat="territory in game.territories track by territory.id"
-         ng-if="territory.units.length"
          class="icon-container"
          style="left: {{territory.box.x}}px; top: {{territory.box.y}}px; width: {{territory.box.width}}px; height: {{territory.box.height}}px;"
             >
-        <icon
-                ng-repeat="unit in territory.units"
+      <div>
+        <icon ng-repeat="unit in territory.units"
                 size="{{unitSize}}"
                 file-name="{{unit.type.name}}"
                 class="image"
                 ng-class="{selected: unit.selected}"
                 ng-click="toggleUnit(unit)"
-                ></icon>
+                ></icon><icon ng-repeat="building in territory.buildings track by $index"
+              size="{{unitSize}}"
+              file-name="{{building.name}}"
+              class="image"
+              ng-click="selectBuilding(building)"
+              ></icon><icon ng-repeat="i in [] | range:territory.getIncome()"
+              size="{{unitSize}}"
+              file-name="sesterce"
+              class="image"
+              ></icon>
+      </div>
     </div>
 </section>
