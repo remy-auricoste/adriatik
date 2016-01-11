@@ -1,0 +1,16 @@
+<div class="sesterces">
+  <div ng-if="number > 0">
+    <div style="width: {{size / 2}}px;"></div>
+    <icon file-name="sesterce"
+          size="{{size}}"
+          ng-repeat="piece in [] | range:number"
+          style="margin-left: {{size / -2}}px"></icon>
+  </div>
+  <div ng-if="number == 0">
+    <icon file-name="sesterce"
+          size="{{size}}"
+          class="empty"
+          ></icon>
+    <div class="zero">0</div>
+  </div>
+</div>
