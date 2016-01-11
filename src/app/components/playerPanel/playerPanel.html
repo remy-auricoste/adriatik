@@ -7,11 +7,11 @@
         <div class="player-name player-{{player.color}} title">{{player.name}}</div>
         <div class="player-avatar"><img src="{{gravatarService.getPictureUrl(player.account.email)}}"></div>
         <div class="resources">
-            <div class="priest adk-tooltip" title="{{player.priests}} prêtre(s)">
-                <img ng-repeat="priest in [] | range:player.priests" src="app/images/priest.png" />
+            <div class="priest adk-tooltip" title="{{player.getPriests()}} prêtre(s)">
+                <img ng-repeat="priest in [] | range:player.getPriests()" src="app/images/priest.png" />
             </div>
-            <div class="philosopher adk-tooltip" title="{{player.philosophers}} philosophe(s)">
-                <img ng-repeat="philosopher in [] | range:player.philosophers" src="app/images/philosopher.png">
+            <div class="philosopher adk-tooltip" title="{{player.getPhilosophers()}} philosophe(s)">
+                <img ng-repeat="philosopher in [] | range:player.getPhilosophers()" src="app/images/philosopher.png">
             </div>
         </div>
         </div>

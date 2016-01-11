@@ -20,6 +20,15 @@ function actionPanel($rootScope) {
                 console.log("mode", mode, selected);
                 $rootScope.mode = selected ? mode : null;
                 scope.mode = $rootScope.mode;
+                if (scope.mode === CommandType.BuyCard) {
+                  $rootScope.$emit("command", new Command({
+                    type: scope.mode,
+                    player: scope.game.currentPlayer,
+                    args: []
+                  }));
+                }
+                scope.mode = null;
+                $rootScope.mode = null;
             }
             scope.endTurn = function () {
                 $rootScope.$emit("command", new Command({type: CommandType.EndTurn, player: scope.game.currentPlayer, args: []}));

@@ -3,8 +3,6 @@ Player = Meta.declareClass("Player", {
     name: "",
     lastIncome: 1,
     gold: 1,
-    priests: 1,
-    philosophers: 1,
     unitsLeft: {},
     unitBuyCount: 1,
     cardBuyCount: 1,
@@ -17,12 +15,6 @@ Player = Meta.declareClass("Player", {
     account: {},
     templeUsed: 1,
     init: function () {
-        if (!this.priests) {
-            this.priests = 0;
-        }
-        if (!this.philosophers) {
-            this.philosophers = 0;
-        }
         if (!this.unitBuyCount) {
             this.unitBuyCount = 0;
         }
@@ -102,7 +94,7 @@ Player = Meta.declareClass("Player", {
         }
         this.cards[card.name]++;
     },
-    buyGodCard: function () {
+    buyGodCard: function() {
         try {
             this.requireGod();
             if (!this.god.card) {
@@ -120,10 +112,16 @@ Player = Meta.declareClass("Player", {
             throw err.prefix("Il est impossible d'acheter une carte : ");
         }
     },
+    getGodCardCount: function(godCard) {
+        var result = this.cards[godCard.name];
+        result = result ? result : 0;
+        return result;
+    },
     getPriests: function () {
-        var priests = this.cards[GodCard.Priest.name];
-        priests = priests ? priests : 0;
-        return priests;
+        return this.getGodCardCount(GodCard.Priest);
+    },
+    getPhilosophers: function () {
+        return this.getGodCardCount(GodCard.Philosopher);
     },
     placeBid: function (god, number) {
         try {
@@ -252,11 +250,9 @@ Player.new = function (name) {
     return new Player({
         name: name,
         gold: 7,
-        priests: 5,
-        philosophers: 5,
         unitsLeft: {
-            earth: 7,
-            sea: 7,
+            earth: 8,
+            sea: 8,
             gladiator: 3
         }
     })
