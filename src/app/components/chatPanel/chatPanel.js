@@ -33,6 +33,12 @@ function chatPanel(gameSocket) {
                 scope.send();
               }
             }
+            scope.strip = function(string, size) {
+              if (string && string.length > size) {
+                return string.substring(0, size)+"...";
+              }
+              return string;
+            }
         }
     };
 }

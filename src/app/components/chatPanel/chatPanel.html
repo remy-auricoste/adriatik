@@ -4,7 +4,7 @@
     <div class="messages">
       <div ng-repeat="message in messages.getItems()"
            class="message"
-        >{{message.source}} > {{message.message}}</div>
+        >{{strip(message.source, 10)}} > {{message.message}}</div>
     </div>
     <input type="text" ng-model="text" class="text" ng-keydown="onKeyDown($event)" />
   </div>
