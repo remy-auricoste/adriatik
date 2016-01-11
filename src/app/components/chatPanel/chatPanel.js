@@ -1,5 +1,7 @@
 /** @ngInject */
 function chatPanel(gameSocket) {
+    var chatSocket = gameSocket.subSocket("chat");
+
     'use strict';
     var KEY_ENTER = 13;
     return {
@@ -14,18 +16,16 @@ function chatPanel(gameSocket) {
             var elem = elements[0];
             var messagesEl = elem.getElementsByClassName("messages")[0];
             scope.messages = new Fifo({size: 20});
-            gameSocket.addListener(function(messageObj) {
-                if (typeof messageObj.message === "string") {
-                  scope.messages.push(messageObj);
-                  scope.$apply();
-                  messagesEl.scrollTop = messagesEl.scrollHeight;
-                }
+            chatSocket.addListener(function(messageObj) {
+                scope.messages.push(messageObj);
+                scope.$apply();
+                messagesEl.scrollTop = messagesEl.scrollHeight;
             });
             scope.toggle = function() {
               scope.closed = !scope.closed;
             }
             scope.send = function() {
-              gameSocket.send(scope.text);
+              chatSocket.send(scope.text);
               scope.text = "";
             }
             scope.onKeyDown = function(event) {
