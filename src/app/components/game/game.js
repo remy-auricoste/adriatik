@@ -24,8 +24,10 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
             });
 
             var executeCommand = function(command) {
-                var id = Math.random() + "";
-                command.id = id;
+                if (!command.id) {
+                  var id = Math.random() + "";
+                  command.id = id;
+                }
                 randomFactory.setGlobalId(command.id);
                 var result = scope.game.receiveCommand(command);
                 var thenFct = function(result) {
