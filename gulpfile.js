@@ -1,29 +1,36 @@
-/**
- *  Welcome to your gulpfile!
- *  The gulp tasks are splitted in several files in the gulp directory
- *  because putting all here was really too long
- */
+var conf = {
+    base: {
+        src: ".",
+        lib: 'lib',
+        dist: 'dist',
+        test: "**/*.spec.js",
+        css: "src",
+        html: "src"
+    },
+    modules: {
+        main: {
+            src: "src",
+            browserify: "main.js",
+            sass: "index.scss",
+            css: true,
+            html: true,
+            other: true
+        },
+        angular: {
+            src: ".",
+            browserify: "lib/node/angular.js",
+            css: false,
+            html: false,
+            other: false
+        },
+        standalone: {
+            src: ".",
+            lib: true,
+            css: false,
+            html: false,
+            other: false
+        }
+    }
+};
 
-'use strict';
-
-var gulp = require('gulp');
-var wrench = require('wrench');
-
-/**
- *  This will load all js or coffee files in the gulp directory
- *  in order to load all gulp tasks
- */
-wrench.readdirSyncRecursive('./gulp').filter(function(file) {
-  return (/\.(js|coffee)$/i).test(file);
-}).map(function(file) {
-  require('./gulp/' + file);
-});
-
-
-/**
- *  Default task clean temporaries directories and launch the
- *  main optimization build task
- */
-gulp.task('default', ['clean'], function () {
-  gulp.start('build');
-});
+require("rauricoste-gulp")(conf);
