@@ -1,4 +1,5 @@
-var gameSocket = require("../../gameSocket");
+var gameSocket = require("../../services/gameSocket");
+var Fifo = require("../../model/tools/Fifo");
 
 /** @ngInject */
 function chatPanel() {
@@ -8,7 +9,7 @@ function chatPanel() {
     var KEY_ENTER = 13;
     return {
         restrict: 'E',
-        templateUrl: "app/components/chatPanel/chatPanel.html",
+        templateUrl: "components/chatPanel/chatPanel.html",
         replace: true,
         scope: {
         },

@@ -3,7 +3,7 @@ function creaturePanel($rootScope) {
     'use strict';
     return {
         restrict: 'E',
-        templateUrl: "app/components/creaturePanel/creaturePanel.html",
+        templateUrl: "components/creaturePanel/creaturePanel.html",
         replace: true,
         scope: {
           game: "="

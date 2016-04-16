@@ -1,3 +1,6 @@
+var Game = require("../model/data/Game");
+var God = require("../model/data/God");
+
 var key = window.location.pathname;
 
 var gameStorage = {

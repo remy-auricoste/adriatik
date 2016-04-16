@@ -63,12 +63,12 @@
       font-weight: bold;
       background-color: white;
 
-      &.front  { background: url(/app/images/dice/dice_1.png) white 4px 4px no-repeat; }
-      &.back   { background: url(/app/images/dice/dice_2.png) white 4px 4px no-repeat; }
-      &.right  { background: url(/app/images/dice/dice_3.png) white 4px 4px no-repeat; }
-      &.left   { background: url(/app/images/dice/dice_1.png) white 4px 4px no-repeat; }
-      &.top    { background: url(/app/images/dice/dice_2.png) white 4px 4px no-repeat; }
-      &.bottom { background: url(/app/images/dice/dice_6.png) white 4px 4px no-repeat; }
+      &.front  { background: url(/images/dice/dice_1.png) white 4px 4px no-repeat; }
+      &.back   { background: url(/images/dice/dice_2.png) white 4px 4px no-repeat; }
+      &.right  { background: url(/images/dice/dice_3.png) white 4px 4px no-repeat; }
+      &.left   { background: url(/images/dice/dice_1.png) white 4px 4px no-repeat; }
+      &.top    { background: url(/images/dice/dice_2.png) white 4px 4px no-repeat; }
+      &.bottom { background: url(/images/dice/dice_6.png) white 4px 4px no-repeat; }
       // TODO replace bottom by image of 0 value
 
       &.front  {

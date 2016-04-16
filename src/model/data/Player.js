@@ -7,6 +7,8 @@ var Territory = require("./Territory");
 var Bid = require("./Bid");
 var Unit = require("./Unit");
 
+var randomFactory = require("../../services/randomFactory")
+
 Player = Meta.declareClass("Player", {
     _primary: "name",
     name: "",
@@ -19,7 +21,6 @@ Player = Meta.declareClass("Player", {
     god: "God",
     cards: {},
     bid: "Bid",
-    randomFactory: {},
     initCount: {},
     account: {},
     templeUsed: 1,
@@ -234,7 +235,7 @@ Player = Meta.declareClass("Player", {
         if (destIsEmpty) {
             toTerritorry.owner = self;
         } else {
-            return self.randomFactory.generate(2).then(function (randoms) {
+            return randomFactory.generate(2).then(function (randoms) {
                 var battle = new Battle({
                   randoms: randoms,
                   territory: toTerritorry

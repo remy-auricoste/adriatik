@@ -1,3 +1,4 @@
+var TimedArray = require("../../model/tools/TimedArray");
 var cron = require("../../services/cron");
 
 /** @ngInject */
@@ -6,7 +7,7 @@ function errorPanel($exceptionHandler) {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/errorPanel/errorPanel.html",
+        templateUrl: "components/errorPanel/errorPanel.html",
         replace: true,
         scope: {
         },

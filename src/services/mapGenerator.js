@@ -1,12 +1,15 @@
 var Meta = require("../alias/Meta");
+var Request = require("rauricoste-request");
+var Tile = require("../model/tools/Tile");
+var Territory = require("../model/data/Territory");
 
 var tileSize = 60;
 var distEpsilon = 0.5;
 
-var service = {
+var mapGenerator = {
   getTiles: function(name) {
-    return $http.get("/app/maps/"+name+".txt").then(function (res) {
-      var content = res.data;
+    return new Request().get("/maps/"+name+".txt").then(function (res) {
+      var content = res.body;
 
       var lastLine = null;
       var matrix = content.split("\n").map(function(line, lineIndex) {
@@ -162,4 +165,4 @@ var service = {
 
 };
 
-module.exports = service;
+module.exports = mapGenerator;

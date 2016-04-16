@@ -1,10 +1,19 @@
+var gameInitializer = require("../../services/gameInitializer");
+var randomFactory = require("../../services/randomFactory");
+var qPlus = require("../../services/qPlus");
+var gameStorage = require("../../services/gameStorage");
+var commandSocket = require("../../services/commandSocket");
+var config = require("../../services/config");
+
+var Command = require("../../model/data/Command");
+
 /** @ngInject */
-function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootScope, commandSocket, config) {
+function game($route, $rootScope) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/game/game.html",
+        templateUrl: "components/game/game.html",
         replace: true,
         scope: {
         },
@@ -19,7 +28,9 @@ function game(gameInitializer, $route, randomFactory, qPlus, gameStorage, $rootS
               console.log("ready", game);
               scope.game = game;
               scope.ready = true;
+              scope.$apply();
             }).catch(function(err) {
+              console.log("error when initializing the game");
               console.error(err);
             });
 

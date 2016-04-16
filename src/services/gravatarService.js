@@ -1,3 +1,5 @@
+var Request = require("rauricoste-request");
+
 /** @ngInject */
 function gravatarService(md5, $http) {
   'use strict';
@@ -9,11 +11,11 @@ function gravatarService(md5, $http) {
         return this.cache[email];
       }
       var hash = md5.createHash(email);
-      $http.get("http://www.gravatar.com/"+hash).then(function(res) {
+      return new Request().get("http://www.gravatar.com/"+hash).then(function(res) {
         console.log(res.headers);
         var locationHeader = res.headers.Location;
         if (locationHeader) {
-          return $http.get(locationHeader);
+          return new Request().get(locationHeader);
         } else {
           return res;
         }

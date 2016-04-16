@@ -3,7 +3,7 @@ function customIf() {
     'use strict';
     return {
         restrict: 'A',
-        templateUrl: "app/components/customIf/customIf.html",
+        templateUrl: "components/customIf/customIf.html",
         replace: false,
         transclude: true,
         scope: {

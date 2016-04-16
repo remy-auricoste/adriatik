@@ -4,7 +4,7 @@ function introPanel($rootScope) {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/introPanel/introPanel.html",
+        templateUrl: "components/introPanel/introPanel.html",
         replace: true,
         scope: {
         },

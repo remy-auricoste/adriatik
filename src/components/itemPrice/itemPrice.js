@@ -4,7 +4,7 @@ function itemPrice() {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/itemPrice/itemPrice.html",
+        templateUrl: "components/itemPrice/itemPrice.html",
         replace: true,
         scope: {
             iconSize: "@",

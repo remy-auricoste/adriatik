@@ -5,6 +5,10 @@ var UnitType = require("./UnitType");
 var Unit = require("./Unit");
 var Building = require("./Building");
 var CommandType = require("./CommandType");
+var God = require("./God");
+
+var q = require("../../services/qPlus");
+var randomFactory = require("../../services/randomFactory");
 
 var Game = Meta.declareClass("Game", {
     territories: ["Territory"],
@@ -15,8 +19,6 @@ var Game = Meta.declareClass("Game", {
     creaturesUsed: ["CreatureCard"],
     creaturesLeft: ["CreatureCard"],
     currentPlayer: "Player",
-    randomFactory: {},
-    q: "fct",
     turn: 1,
     phase: "",
     colors: [],
@@ -53,7 +55,6 @@ var Game = Meta.declareClass("Game", {
           });
         }
         this.players.map(function (player, index) {
-            player.randomFactory = self.randomFactory;
             player.color = self.colors[index];
         });
     },
@@ -72,7 +73,7 @@ var Game = Meta.declareClass("Game", {
                 god.index = index;
             })
         });
-        var playersPromise = self.q.empty();
+        var playersPromise = q.empty();
         if (self.turn === 1) {
             playersPromise = self.shuffle(self.players).then(function() {
               self.currentPlayer = self.players[0];
@@ -84,8 +85,8 @@ var Game = Meta.declareClass("Game", {
               player.gold += income;
             })
         }
-        var creaturesPromise = this.turn === 1 ? this.q.empty() : self.pushCreatures(this.turn === 2 ? 1 : 3);
-        return self.q.all([godPromise, playersPromise, creaturesPromise]);
+        var creaturesPromise = this.turn === 1 ? q.empty() : self.pushCreatures(this.turn === 2 ? 1 : 3);
+        return q.all([godPromise, playersPromise, creaturesPromise]);
     },
     endPlayerTurn: function () {
         var self = this;
@@ -307,7 +308,7 @@ var Game = Meta.declareClass("Game", {
       this.creatures = this.creatures.filter(function(creature) {
         return creature;
       });
-      return this.randomFactory.shuffle(self.creaturesLeft).then(function() {
+      return randomFactory.shuffle(self.creaturesLeft).then(function() {
         var missingCard = count - self.creatures.length;
         self.creatures = self.creaturesLeft.slice(0, missingCard).concat(self.creatures);
       });
@@ -320,7 +321,7 @@ var Game = Meta.declareClass("Game", {
       }));
     },
     shuffle: function(array) {
-      return this.randomFactory.shuffle(array);
+      return randomFactory.shuffle(array);
     }
 });
 

@@ -4,7 +4,7 @@ function icon() {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/icon/icon.html",
+        templateUrl: "components/icon/icon.html",
         replace: true,
         scope: {
             size: "@",

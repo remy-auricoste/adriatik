@@ -375,7 +375,7 @@ describe('Player class', function () {
       // then
       expect(result.getLoosers()).to.deep.equal([player]);
     });
-    it("should not remove units and wait for player1 choice and remove 1 unit for player2", function() {
+    it.only("should not remove units and wait for player1 choice and remove 1 unit for player2", function() {
       // given
       player.gold = 1;
       player.god = God.Minerve;
@@ -388,6 +388,7 @@ describe('Player class', function () {
       var units = [playerLegionnaire, playerGladiator];
       var result = player.move(units, territory, emptyTerritory);
       // then
+      console.log("result", result);
       expect(result.getLoosers()).to.deep.equal([player2, player]);
     });
   });

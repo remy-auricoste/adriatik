@@ -1,6 +1,10 @@
-module.exports = {
+console.log(window.location);
+
+var config = {
   isDev: function() {
-    var path = location.pathname;
+    var path = window.location.hash.substring(1);
     return path.startsWith("/dev/");
   }
 }
+
+module.exports = config;

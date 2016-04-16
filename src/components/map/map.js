@@ -1,10 +1,15 @@
+var Territory = require("../../model/data/Territory");
+var Phases = require("../../model/data/Phases");
+var CommandType = require("../../model/data/CommandType");
+var Command = require("../../model/data/Command");
+
 /** @ngInject */
-function map($http, $rootScope) {
+function map($rootScope) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/map/map.html",
+        templateUrl: "components/map/map.html",
         replace: true,
         scope: {
             game: "="

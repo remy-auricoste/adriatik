@@ -6,7 +6,7 @@ function accountPage() {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/accountPage/accountPage.html",
+        templateUrl: "components/accountPage/accountPage.html",
         replace: true,
         scope: {
         },

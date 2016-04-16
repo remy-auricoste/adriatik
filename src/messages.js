@@ -23,3 +23,5 @@ function messageGetter(key, object) {
   var result = object[key[0]];
   return key.length === 1 ? result : messageGetter(key.slice(1), result);
 }
+
+module.exports = messageGetter;

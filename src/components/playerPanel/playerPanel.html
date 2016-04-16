@@ -8,10 +8,10 @@
         <div class="player-avatar"><img src="{{gravatarService.getPictureUrl(player.account.email)}}"></div>
         <div class="resources">
             <div class="priest adk-tooltip" title="{{player.getPriests()}} prêtre(s)">
-                <img ng-repeat="priest in [] | range:player.getPriests()" src="app/images/priest.png" />
+                <img ng-repeat="priest in [] | range:player.getPriests()" src="/images/priest.png" />
             </div>
             <div class="philosopher adk-tooltip" title="{{player.getPhilosophers()}} philosophe(s)">
-                <img ng-repeat="philosopher in [] | range:player.getPhilosophers()" src="app/images/philosopher.png">
+                <img ng-repeat="philosopher in [] | range:player.getPhilosophers()" src="/images/philosopher.png">
             </div>
         </div>
         </div>

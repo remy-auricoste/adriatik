@@ -1,1 +1,1 @@
-module.exports = require("rauricoste-meta");
+module.exports = Meta;

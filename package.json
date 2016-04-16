@@ -2,17 +2,20 @@
   "name": "adriatik",
   "version": "0.0.1",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --require ./src/tests \"src/**/*.spec.js\"",
+    "test": "./node_modules/mocha/bin/mocha --require './src/tests' \"src/**/*.spec.js\"",
     "start": "./node_modules/bower/bin/bower install ; node ./node_modules/gulp/bin/gulp.js build ; node server.js"
   },
   "dependencies": {
     "angular": "^1.5.3",
+    "angular-route": "x",
+    "bootstrap-sass": "^3.3.6",
     "express": "^4.13.3",
     "gulp": "^3.9.1",
     "q": "^1.4.1",
     "rauricoste-gulp": "^0.0.x",
     "rauricoste-meta": "^0.1.x",
     "rauricoste-promise-light": "x",
+    "rauricoste-request": "0.0.x",
     "rauricoste-websocket-room-client": "0.x",
     "rauricoste-websocket-room-server": "0.0.16"
   },

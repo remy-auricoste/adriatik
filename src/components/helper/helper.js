@@ -1,10 +1,13 @@
+var Phases = require("../../model/data/Phases");
+var messageGetter = require("../../messages");
+
 /** @ngInject */
 function helper($rootScope) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/helper/helper.html",
+        templateUrl: "components/helper/helper.html",
         replace: true,
         scope: {
           game: "="

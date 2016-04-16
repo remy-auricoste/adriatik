@@ -1,1 +1,3 @@
-module.exports = require("rauricoste-promise-light");
+var qPlus = require("rauricoste-promise-light");
+
+module.exports = qPlus;

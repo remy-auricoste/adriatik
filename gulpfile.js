@@ -1,34 +1,34 @@
 var conf = {
     base: {
-        src: ".",
-        lib: 'lib',
+        src: "src",
         dist: 'dist',
         test: "**/*.spec.js",
         css: "src",
-        html: "src"
+        html: "src",
+        watch: "src"
     },
     modules: {
         main: {
-            src: "src",
             browserify: "main.js",
             sass: "index.scss",
             css: true,
             html: true,
             other: true
         },
-        angular: {
+        nodes: {
             src: ".",
-            browserify: "lib/node/angular.js",
+            browserify: "lib/node/all.js",
+            sass: "lib/node/all.scss",
             css: false,
             html: false,
             other: false
         },
         standalone: {
-            src: ".",
-            lib: true,
-            css: false,
-            html: false,
-            other: false
+          src: ".",
+          jsConcat: "lib/standalone",
+          css: false,
+          html: false,
+          other: false
         }
     }
 };

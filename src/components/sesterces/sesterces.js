@@ -4,7 +4,7 @@ function sesterces() {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/sesterces/sesterces.html",
+        templateUrl: "components/sesterces/sesterces.html",
         replace: true,
         scope: {
             number: "@",

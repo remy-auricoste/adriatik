@@ -1,10 +1,14 @@
+var Command = require("../../model/data/Command");
+var CommandType = require("../../model/data/CommandType");
+var Phases = require("../../model/data/Phases");
+
 /** @ngInject */
 function actionPanel($rootScope) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/actionPanel/actionPanel.html",
+        templateUrl: "components/actionPanel/actionPanel.html",
         replace: true,
         scope: {
             game: "="

@@ -1,11 +1,13 @@
 var cron = require("../../services/cron");
+var Dice = require("../../model/data/Dice");
+var RandomWrapper = require("../../model/tools/RandomWrapper");
 
 /** @ngInject */
 function dicePanel($timeout) {
     'use strict';
     return {
         restrict: 'E',
-        templateUrl: "app/components/dicePanel/dicePanel.html",
+        templateUrl: "components/dicePanel/dicePanel.html",
         replace: true,
         scope: {
         },

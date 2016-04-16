@@ -1,4 +1,4 @@
-var gravatarService = require("../../gravatarService");
+var gravatarService = require("../../services/gravatarService");
 
 /** @ngInject */
 function playerPanel($rootScope) {
@@ -6,7 +6,7 @@ function playerPanel($rootScope) {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/playerPanel/playerPanel.html",
+        templateUrl: "components/playerPanel/playerPanel.html",
         replace: true,
         scope: {
             game: "="

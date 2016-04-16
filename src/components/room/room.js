@@ -1,11 +1,11 @@
-var gameFinder = require("../../gameFinder");
+var gameFinder = require("../../services/gameFinder");
 
 /** @ngInject */
 function room() {
     'use strict';
     return {
         restrict: 'E',
-        templateUrl: "app/components/room/room.html",
+        templateUrl: "components/room/room.html",
         replace: true,
         scope: {
         },

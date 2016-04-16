@@ -8,10 +8,10 @@
             >
 
         <div class="god-avatar">
-            <img src="app/images/gods/jupiter.png" />
+            <img src="/images/gods/jupiter.png" />
             <div class="god-tooltip" >
-                <div ng-show="god.building.label"><img src="app/images/{{ god.building.name }}.png">{{ god.building.label }}</div>
-                <div ng-show="god.unitType.label"><img src="app/images/{{ god.unitType.name }}.png">{{ god.unitType.label }}</div>
+                <div ng-show="god.building.label"><img src="/images/{{ god.building.name }}.png">{{ god.building.label }}</div>
+                <div ng-show="god.unitType.label"><img src="/images/{{ god.unitType.name }}.png">{{ god.unitType.label }}</div>
                 <div ng-show="god.playerNames">
                     <span>
                         {{god.playerNames.join(', ')}}
@@ -31,7 +31,7 @@
                  ng-if="gold === 1 || god !== God.Ceres"
                  >
                 <span class="adk-tooltip" title="{{ god.name === 'Ceres' ? 'Gagner' : 'Miser' }} {{gold}} sesterce(s)">
-                    <img src="app/images/sesterce.png"
+                    <img src="/images/sesterce.png"
                      ng-hide="game.getPlayer(god) && gold <= god.bid.gold"
                         >
                 </span>
@@ -43,7 +43,7 @@
         <div class="title">{{game.currentPlayer.gold}} sesterce(s)</div>
 
         <div class="purse">
-            <img class="purse-sesterce" ng-repeat="piece in [] | range:game.currentPlayer.gold" src="app/images/sesterce.png">
+            <img class="purse-sesterce" ng-repeat="piece in [] | range:game.currentPlayer.gold" src="/images/sesterce.png">
         </div>
     </div>
 

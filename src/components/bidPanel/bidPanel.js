@@ -1,4 +1,8 @@
 var gameStorage = require("../../services/gameStorage");
+var Phases = require("../../model/data/Phases");
+var God = require("../../model/data/God");
+var Command = require("../../model/data/Command");
+var CommandType = require("../../model/data/CommandType");
 
 /** @ngInject */
 function bidPanel($rootScope, $timeout) {
@@ -6,7 +10,7 @@ function bidPanel($rootScope, $timeout) {
 
     return {
         restrict: 'E',
-        templateUrl: "app/components/bidPanel/bidPanel.html",
+        templateUrl: "components/bidPanel/bidPanel.html",
         replace: true,
         scope: {
             game: "="

@@ -32,3 +32,5 @@ Tile.prototype.getBlock = function() {
   this.block = block;
   return block;
 }
+
+module.exports = Tile;
