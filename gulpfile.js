@@ -11,9 +11,9 @@ var conf = {
         main: {
             browserify: "main.js",
             sass: "index.scss",
-            css: true,
-            html: true,
-            other: true
+            css: false,
+            html: false,
+            other: false
         },
         nodes: {
             src: ".",

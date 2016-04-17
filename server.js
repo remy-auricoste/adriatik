@@ -10,6 +10,7 @@ String.prototype.startsWith = function(start) {
 }
 
 app.use("/", express.static("dist"));
+app.use("/", express.static("src"));
 
 var server = app.listen(port, function () {
   var host = server.address().address;
