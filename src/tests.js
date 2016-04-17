@@ -1,6 +1,9 @@
 console.log("loading tests.js");
 
-Meta = require("rauricoste-meta")
+Meta = require("rauricoste-meta");
+
+var env = require("./test/env");
+env.mode = "test";
 
 require("./test/window");
 require("./model/natif/Arrays");

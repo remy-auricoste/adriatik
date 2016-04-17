@@ -19,32 +19,12 @@ describe("Game class", function() {
     game.territories.push(territory);
     return territory;
   }
-  var fakePromise = function(value) {
-    return {
-      then: function(fonction) {
-        var newValue = fonction(value);
-        return fakePromise(newValue);
-      }
-    }
-  }
-
-  var fakeRandomFactory = function() {
-    var result = randomFactory;
-    result.generate = function(size) {
-      var randoms = Array.seq(0, size).map(function() {
-        return Math.random();
-      });
-      return fakePromise(randoms);
-    }
-    return result;
-  }
 
   beforeEach(function() {
     player = new Player();
     player2 = new Player();
     game = new Game({
       players: [player, player2],
-      randomFactory: fakeRandomFactory(),
       turn: 1,
       warMode: true
     });

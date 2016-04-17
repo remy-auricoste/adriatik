@@ -2,6 +2,11 @@ var expect = require("../alias/Expect");
 var randomFactory = require("./randomFactory.mock");
 var hashService = require("./hashService");
 var randomSocketMock = require("./randomSocket.mock");
+var hashService = require("./hashService");
+var randomFactoryBuilder = require("./randomFactoryBuilder");
+var qPlus = require("./qPlus");
+
+var randomFactory = randomFactoryBuilder(qPlus, randomSocketMock, hashService);
 
 describe('random factory object', function () {
   var random = randomFactory;

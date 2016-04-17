@@ -1,6 +1,6 @@
 var StateSync = require("../model/tools/StateSync");
 
-function randomFactoryBuider(qPlus, randomSocket, hashService) {
+function randomFactoryBuilder(qPlus, randomSocket, hashService) {
   if (randomSocket) {
     var hashesMap = {};
     var generatedMap = {};
@@ -45,7 +45,7 @@ function randomFactoryBuider(qPlus, randomSocket, hashService) {
     });
   }
 
-  var service =  {
+  var service = {
     generateLocal: function(number) {
       var self = this;
       var values = Array.seq(1, number).map(function() {
@@ -109,4 +109,4 @@ function randomFactoryBuider(qPlus, randomSocket, hashService) {
   return service;
 }
 
-module.exports = randomFactoryBuider;
+module.exports = randomFactoryBuilder;

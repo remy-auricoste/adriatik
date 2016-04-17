@@ -1,3 +1,5 @@
+require("./test/env");
+
 require("./app");
 require("./model/natif/Arrays");
 require("./model/natif/Errors");

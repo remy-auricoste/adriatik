@@ -17,24 +17,15 @@ describe('Player class', function () {
   var player2Legionnaire;
   var playerGladiator;
 
-  var randomNumber = 0;
-  var randomFactoryMock = {
-    generate: function(number) {
-      return {
-        then: function(fonction) {
-          var result = [];
-          for (var i=0;i<number;i++) {
-            result.push(randomNumber);
-          }
-          return fonction(result);
-        }
-      }
-    }
+  var getNewTerritory = function() {
+    var newTerritory = new Territory({buildSlots: 4, type:"earth"});
+    newTerritory.nextTo(territory);
+    return newTerritory;
   }
 
   beforeEach(function () {
-    player = new Player({name: "player", gold: 7, randomFactory: randomFactoryMock});
-    player2 = new Player({name: "player2", gold: 7, randomFactory: randomFactoryMock});
+    player = new Player({name: "player", gold: 7});
+    player2 = new Player({name: "player2", gold: 7});
     player.god = God.Minerve;
     playerLegionnaire = new Unit({type: UnitType.Legionnaire, owner: player});
     player2Legionnaire = new Unit({type: UnitType.Legionnaire, owner: player2});
@@ -343,7 +334,7 @@ describe('Player class', function () {
   });
 
   describe("move method : fights", function() {
-    it("should remove units for both players", function() {
+    it("should remove units for both players", function(done) {
       // given
       player.gold = 1;
       player.god = God.Minerve;
@@ -356,10 +347,13 @@ describe('Player class', function () {
       var units = [playerLegionnaire, playerLegionnaire];
       var result = player.move(units, territory, emptyTerritory);
       // then
-      expect(result.getLoosers()).to.deep.equal([player2, player]);
-      expect(result.getDices()).to.deep.equal([0, 0]);
+      result.then(function(battle) {
+        expect(battle.getDices()).to.deep.equal([0, 0]);
+        expect(battle.getLoosers()).to.deep.equal([player2, player]);
+        done();
+      }).catch(done);
     });
-    it("should remove 1 unit for player1", function() {
+    it("should remove 1 unit for player1", function(done) {
       // given
       player.gold = 1;
       player.god = God.Minerve;
@@ -373,9 +367,12 @@ describe('Player class', function () {
       var units = [playerLegionnaire, playerLegionnaire];
       var result = player.move(units, territory, emptyTerritory);
       // then
-      expect(result.getLoosers()).to.deep.equal([player]);
+      result.then(function(battle) {
+        expect(battle.getLoosers()).to.deep.equal([player]);
+        done();
+      });
     });
-    it.only("should not remove units and wait for player1 choice and remove 1 unit for player2", function() {
+    it("should not remove units and wait for player1 choice and remove 1 unit for player2", function(done) {
       // given
       player.gold = 1;
       player.god = God.Minerve;
@@ -388,8 +385,10 @@ describe('Player class', function () {
       var units = [playerLegionnaire, playerGladiator];
       var result = player.move(units, territory, emptyTerritory);
       // then
-      console.log("result", result);
-      expect(result.getLoosers()).to.deep.equal([player2, player]);
+      result.then(function(battleResult) {
+        expect(battleResult.getLoosers()).to.deep.equal([player2, player]);
+        done();
+      });
     });
   });
 

@@ -1,8 +1,13 @@
+console.log("loading randomFactory mock");
+
 var hashService = require("./hashService");
-var randomFactoryBuilder = require("./randomFactoryBuilder");
 var qPlus = require("./qPlus");
-var randomSocketMock = require("./randomSocket.mock");
 
-var randomFactoryInstance = randomFactoryBuilder(qPlus, randomSocketMock, hashService);
+var randomFactory = require("./randomFactoryBuilder")(qPlus, null, hashService);
+randomFactory.generate = function(number, networkSize, id) {
+  return qPlus.value(Array.seq(1, number).map(function() {
+    return 0;
+  }));
+}
 
-module.exports = randomFactoryInstance;
+module.exports = randomFactory;
