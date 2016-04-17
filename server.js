@@ -1,7 +1,9 @@
+console.log("start server.js");
 var static = require('node-static');
 
 var port = process.env.PORT || 8000;
 
+console.log("starting static servers");
 var fileServer = new static.Server('./src', {
     cache: 1
 });
