@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --require './src/tests' 'src/**/*.spec.js'",
-    "start": "echo starting ; node ./node_modules/gulp/bin/gulp.js build ; echo 'launching server.js' ; node server.js"
+    "postinstall": "node ./node_modules/gulp/bin/gulp.js build",
+    "start": "node server.js"
   },
   "dependencies": {
     "angular": "^1.5.3",
