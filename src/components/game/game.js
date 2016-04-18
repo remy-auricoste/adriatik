@@ -43,6 +43,9 @@ function game($route, $rootScope) {
                 var result = scope.game.receiveCommand(command);
                 var thenFct = function(result) {
                   gameStorage.save(scope.game);
+                  setTimeout(function() {
+                    scope.$apply();
+                  }, 0);
                 }
                 if (result && typeof result.then === "function") {
                   result.then(thenFct).catch(function(err) {
@@ -67,7 +70,6 @@ function game($route, $rootScope) {
                 throw new Error("received a command not from the actual player. source="+source+". player id="+playerSocketId);
               }
               executeCommand(command);
-              scope.$apply();
             });
 
             $rootScope.$on("command", function(event, command) {

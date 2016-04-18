@@ -1,8 +1,9 @@
 var TimedArray = require("../../model/tools/TimedArray");
 var cron = require("../../services/cron");
+var exceptionHandler = require("../../services/exceptionHandler");
 
 /** @ngInject */
-function errorPanel($exceptionHandler) {
+function errorPanel() {
     'use strict';
 
     return {
@@ -14,7 +15,7 @@ function errorPanel($exceptionHandler) {
         link: function (scope) {
           scope.errors = new TimedArray({ttl: 10000});
           scope.showError = false;
-          $exceptionHandler.$onError(function(exception) {
+          exceptionHandler.$onError(function(exception) {
             scope.errors.push(exception.message);
           })
           scope.close = function(message) {

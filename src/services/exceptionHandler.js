@@ -1,17 +1,15 @@
-/** @ngInject */
-function exceptionHandler($log) {
-  var result = function(exception, cause) {
-    result.listeners.map(function(listener) {
-      listener(exception);
-    });
-    $log.error(exception);
-  };
-  result.listeners = [];
-  result.$onError = function(fonction) {
-    result.listeners.push(fonction);
-  }
-  return result;
+var exceptionHandler = function(exception, cause) {
+  exceptionHandler.listeners.map(function(listener) {
+    listener(exception);
+  });
+  console.error(exception);
+};
+exceptionHandler.listeners = [];
+exceptionHandler.$onError = function(fonction) {
+  exceptionHandler.listeners.push(fonction);
 }
 
 
-angular.module('adriatik').factory('$exceptionHandler', exceptionHandler);
+angular.module('adriatik').factory('$exceptionHandler', function() {return exceptionHandler});
+
+module.exports = exceptionHandler;
