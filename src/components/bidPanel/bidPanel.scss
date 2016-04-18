@@ -31,6 +31,12 @@
     padding: 0 0 10px 0;
     border-radius: 50px 50px;
     box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+    transition: 0.5s;
+    left: 0;
+    position: relative;
+    &.selected {
+      left: 3em;
+    }
 
     p {
       float: left;

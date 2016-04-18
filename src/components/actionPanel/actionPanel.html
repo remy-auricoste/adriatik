@@ -1,37 +1,39 @@
 <section class="action-panel rounded-box shadowed-box">
     <div class="title">Actions</div>
     <div class="actions">
-      <div class="action-building"
-           ng-click="selectMode(CommandType.Build)"
-              >
-          <item-price price="2"
-                      ng-show="god().building"
-                      icon-size="{{iconSize}}"
-                      icon-name="{{god().building.name}}"
-                      ng-class="{selected: mode === CommandType.Build}"
-                  ></item-price>
-      </div>
-      <div ng-show="god().unitType"
-           ng-class="{selected: mode === CommandType.BuyUnit}"
-           class="action-unit"
-           ng-click="selectMode(CommandType.BuyUnit)"
-              >
-          <item-price ng-repeat="price in god().unitPrice().slice(game.currentPlayer.unitBuyCount)"
-                      price="{{price}}"
-                      icon-size="{{iconSize}}"
-                      icon-name="{{god().unitType.name}}"
-                  ></item-price>
-      </div>
-      <div ng-show="god().card"
-           ng-class="{selected: mode === CommandType.BuyCard}"
-           class="action-card"
-           ng-click="selectMode(CommandType.BuyCard)"
-              >
-          <item-price ng-repeat="price in god().cardPrice().slice(game.currentPlayer.cardBuyCount)"
-                      price="{{price}}"
-                      icon-size="{{iconSize}}"
-                      icon-name="{{god().card.name}}"
-                  ></item-price>
+      <div ng-if="game.turn > 1">
+        <div class="action-building"
+             ng-click="selectMode(CommandType.Build)"
+                >
+            <item-price price="2"
+                        ng-show="god().building"
+                        icon-size="{{iconSize}}"
+                        icon-name="{{god().building.name}}"
+                        ng-class="{selected: mode === CommandType.Build}"
+                    ></item-price>
+        </div>
+        <div ng-show="god().unitType"
+             ng-class="{selected: mode === CommandType.BuyUnit}"
+             class="action-unit"
+             ng-click="selectMode(CommandType.BuyUnit)"
+                >
+            <item-price ng-repeat="price in god().unitPrice().slice(game.currentPlayer.unitBuyCount)"
+                        price="{{price}}"
+                        icon-size="{{iconSize}}"
+                        icon-name="{{god().unitType.name}}"
+                    ></item-price>
+        </div>
+        <div ng-show="god().card"
+             ng-class="{selected: mode === CommandType.BuyCard}"
+             class="action-card"
+             ng-click="selectMode(CommandType.BuyCard)"
+                >
+            <item-price ng-repeat="price in god().cardPrice().slice(game.currentPlayer.cardBuyCount)"
+                        price="{{price}}"
+                        icon-size="{{iconSize}}"
+                        icon-name="{{god().card.name}}"
+                    ></item-price>
+        </div>
       </div>
 
       <div class="action-end-turn" ng-show="game.phase === Phases.actions">

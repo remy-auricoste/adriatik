@@ -5,6 +5,7 @@
 
     <div ng-repeat="god in game.currentGods"
          class="{{god.name}} god {{ game.phase === Phases.actions && game.getPlayer(god).color ? 'player-' + game.getPlayer(god).color : '' }}"
+         ng-class="{selected: game.phase === Phases.actions && game.getPlayer(god) === game.currentPlayer}"
             >
 
         <div class="god-avatar">
