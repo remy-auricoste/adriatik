@@ -4,7 +4,7 @@ var static = require('node-static');
 var port = process.env.PORT || 8000;
 
 console.log("starting static servers");
-var fileServer = new static.Server('./src', {
+var fileServer = new static.Server('./dist/assets', {
     cache: 1
 });
 var distServer = new static.Server('./dist', {
