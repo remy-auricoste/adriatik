@@ -17,13 +17,16 @@ function bidPanel($rootScope, $timeout) {
         },
         link: function (scope, elements, attr) {
             scope.gameStorage = gameStorage;
-            scope.golds = Array.seq(1, 7);
+            scope.visibleCoins = function(god) {
+              var godBid = (god && god.bid && god.bid.gold) ? god.bid.gold : 0;
+              var coinsNb = Math.max(scope.game.currentPlayer.gold, godBid);
+              console.log(god.name, coinsNb);
+              return Array.seq(1, coinsNb);
+            }
 
             scope.placeBid = function (god, value) {
                 var command = new Command({type: CommandType.Bid, player: scope.game.currentPlayer, args: [god, value]})
                 $rootScope.$emit("command",  command);
-
-                scope.golds = Array.seq(1, scope.game.currentPlayer.gold);
             }
             scope.Phases = Phases;
             scope.God = God;
