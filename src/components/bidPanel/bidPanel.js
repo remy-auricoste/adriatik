@@ -20,7 +20,6 @@ function bidPanel($rootScope, $timeout) {
             scope.visibleCoins = function(god) {
               var godBid = (god && god.bid && god.bid.gold) ? god.bid.gold : 0;
               var coinsNb = Math.max(scope.game.currentPlayer.gold, godBid);
-              console.log(god.name, coinsNb);
               return Array.seq(1, coinsNb);
             }
 

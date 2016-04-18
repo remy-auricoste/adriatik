@@ -69,17 +69,13 @@
     }
 
     .god-name {
-      float: left;
       font-size: 2em;
-      padding: 0 0 0 10px;
-      margin: 0;
+      margin-left: 0.5em;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     }
     /* Money counter */
     .gold-container {
-      position: absolute;
       width: 170px;
-      margin: 38px 0 0 85px;
     }
     .gold {
       float: left;
@@ -105,7 +101,7 @@
       visibility: hidden;
       opacity: 0;
       position: relative;
-      min-width: $tooltip-width;
+      min-width: 250px;
       height: $tooltip-height;
       margin: -110px 0 0 -130px;
       padding: 0px 16px 0px 12px;
@@ -137,6 +133,13 @@
       border-width: 12px;
       border-style: solid;
       border-color: transparent $tooltip-bg transparent transparent;
+    }
+    .player-name {
+      margin-left: 1em;
+    }
+    .content-container {
+      float: left;
+      margin-left: 0.5em;
     }
   }
 

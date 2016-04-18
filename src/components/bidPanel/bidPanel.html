@@ -12,30 +12,28 @@
             <div class="god-tooltip" >
                 <div ng-show="god.building.label"><img src="/images/{{ god.building.name }}.png">{{ god.building.label }}</div>
                 <div ng-show="god.unitType.label"><img src="/images/{{ god.unitType.name }}.png">{{ god.unitType.label }}</div>
-                <div ng-show="god.playerNames">
-                    <span>
-                        {{god.playerNames.join(', ')}}
-                    </span>
-                </div>
             </div>
         </div>
 
-        <div class="god-name">{{god.name}}</div>
+        <div class="content-container">
+          <div class="god-name">{{god.name}}</div>
+          <div class="player-name" ng-if="game.phase === Phases.actions && game.getPlayer(god)">{{game.getPlayer(god).name}}</div>
 
-        <div class="gold-container"
-             ng-show="game.phase === Phases.bidding"
-                >
-            <div ng-repeat="gold in visibleCoins(god)"
-                 class="gold {{game.getPlayer(god) && gold <= god.bid.gold ? 'bidden player-'+game.getPlayer(god).color : ''}}"
-                 ng-click="placeBid(god, gold)"
-                 ng-if="gold === 1 || god !== God.Ceres"
-                 >
-                <span class="adk-tooltip" title="{{ god.name === 'Ceres' ? 'Gagner' : 'Miser' }} {{gold}} sesterce(s)">
-                    <img src="/images/sesterce.png"
-                     ng-hide="game.getPlayer(god) && gold <= god.bid.gold"
-                        >
-                </span>
-            </div>
+          <div class="gold-container"
+               ng-show="game.phase === Phases.bidding"
+                  >
+              <div ng-repeat="gold in visibleCoins(god)"
+                   class="gold {{game.getPlayer(god) && gold <= god.bid.gold ? 'bidden player-'+game.getPlayer(god).color : ''}}"
+                   ng-click="placeBid(god, gold)"
+                   ng-if="gold === 1 || god !== God.Ceres"
+                   >
+                  <span class="adk-tooltip" title="{{ god.name === 'Ceres' ? 'Gagner' : 'Miser' }} {{gold}} sesterce(s)">
+                      <img src="/images/sesterce.png"
+                       ng-hide="game.getPlayer(god) && gold <= god.bid.gold"
+                          >
+                  </span>
+              </div>
+          </div>
         </div>
     </div>
 
