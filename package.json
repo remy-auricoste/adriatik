@@ -12,7 +12,7 @@
     "bootstrap-sass": "^3.3.6",
     "gulp": "^3.9.1",
     "node-static": "^0.7.7",
-    "rauricoste-gulp": "^0.1.x",
+    "rauricoste-gulp": "^1.0.x",
     "rauricoste-meta": "^0.1.x",
     "rauricoste-promise-light": "x",
     "rauricoste-request": "0.0.x",

@@ -3,21 +3,20 @@ var conf = {
         src: "src",
         dist: 'dist',
         test: "**/*.spec.js",
-        watch: "src"
+        watch: "src",
+        serve: "src"
     },
     modules: {
         main: {
-            browserify: "main.js",
-            sass: "index.scss"
+            browserify: "src/main.js",
+            sass: "src/index.scss"
         },
         nodes: {
-            src: ".",
             browserify: "lib/node/all.js",
             sass: "lib/node/all.scss"
         },
         standalone: {
-          src: ".",
-          jsConcat: "lib/standalone",
+          jsConcat: "lib/standalone"
         },
         assets: {
           css: "src",
