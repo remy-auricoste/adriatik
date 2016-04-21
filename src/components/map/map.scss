@@ -48,7 +48,9 @@ $sea-over-neighbour: darken($sea, $darken1);
     pointer-events: auto;
     &.selected {
       border: solid 1px black;
-
+    }
+    &.coin, &.building {
+      pointer-events: none;
     }
   }
 

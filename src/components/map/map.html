@@ -28,12 +28,12 @@
                 ></icon><icon ng-repeat="building in territory.buildings track by $index"
               size="{{unitSize}}"
               file-name="{{building.name}}"
-              class="image"
+              class="image building"
               ng-click="selectBuilding(building)"
               ></icon><icon ng-repeat="i in [] | range:territory.getIncome()"
               size="{{unitSize}}"
               file-name="sesterce"
-              class="image"
+              class="image coin"
               ></icon>
       </div>
     </div>
