@@ -247,6 +247,7 @@ Player = Meta.declareClass("Player", {
                   randoms: randoms,
                   territory: toTerritorry
                 });
+                console.log("battle", battle);
                 return battle;
             });
         }
@@ -279,6 +280,9 @@ Player = Meta.declareClass("Player", {
     },
     initBuilding: function (territory, building) {
         try {
+            if (territory.type !== "earth") {
+                throw new Error("vous ne pouvez construire que sur les territoires terrestres");
+            }
             if (this.initBuildCount) {
                 throw new Error("vous avez déjà construit votre bâtiment gratuit.");
             }
