@@ -8,7 +8,7 @@
                   ng-mouseover="onMouseOver($event, territory)"
                   ng-mouseout="onMouseOut(territory)"
                   ng-click="onClick(territory)"
-                  style="{{territory.owner ? 'stroke: '+territory.owner.color : ''}}"
+                  style="{{territory.owner && territory.type === 'earth' ? 'fill: '+territory.owner.color : ''}}"
                   stroke="black"
                     >
             </path>

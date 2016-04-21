@@ -29,7 +29,6 @@ $sea-over-neighbour: darken($sea, $darken1);
       fill: $earth-over-neighbour;
     }
     &.owned {
-      stroke-width: 10px;
     }
 
     &.sea {
