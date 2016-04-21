@@ -22,6 +22,7 @@ Player = Meta.declareClass("Player", {
     cards: {},
     bid: "Bid",
     initCount: {},
+    initBuildCount: 1,
     account: {},
     templeUsed: 1,
     init: function () {
@@ -48,6 +49,9 @@ Player = Meta.declareClass("Player", {
         }
         if (!this.templeUsed) {
           this.templeUsed = 0;
+        }
+        if (!this.initBuildCount) {
+          this.initBuildCount = 0;
         }
     },
     build: function (territory) {
@@ -272,6 +276,9 @@ Player = Meta.declareClass("Player", {
     },
     initBuilding: function (territory, building) {
         try {
+            if (this.initBuildCount) {
+                throw new Error("vous avez déjà construit votre bâtiment gratuit.");
+            }
             if (!(this.god && this.god.canBuild(building))) {
                 throw new Error("le dieu choisi ne peut pas construire ce bâtiment.");
             }
@@ -279,6 +286,7 @@ Player = Meta.declareClass("Player", {
                 throw new Error("vous devez contrôller le territoire pour y placer un bâtiment.");
             }
             territory.buildings.push(building);
+            this.initBuildCount++;
         } catch (err) {
             throw err.prefix("Il est impossible de placer ce bâtiment : ");
         }
