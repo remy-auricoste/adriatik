@@ -193,6 +193,9 @@ Player = Meta.declareClass("Player", {
       });
     },
     checkValidMove: function(units, fromTerritory, toTerritorry) {
+        if (fromTerritory === toTerritorry) {
+            throw new Error("vos troupes sont déjà sur ce territoire");
+        }
         if (!units || !units.length) {
             throw new Error("il n'y a aucune unité sélectionnée.");
         }
@@ -222,8 +225,8 @@ Player = Meta.declareClass("Player", {
             } else if (fromTerritory.type === "earth" && this.god === God.Minerve) {
                 this.spend(1);
             } else if (fromTerritory.type === "earth" && gladiators.length) {
+                this.spend(this.gladiatorMoveCount+1);
                 this.gladiatorMoveCount++;
-                this.spend(this.gladiatorMoveCount);
             } else {
                 throw new Error("vous n'avez pas les faveurs du dieu correspondant.");
             }
