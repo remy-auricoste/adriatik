@@ -1,9 +1,13 @@
 section.player-panel {
   position: fixed;
-  bottom: 0;
+  bottom: -150px;
+  transition: 0.5s;
   left: 330px;
   width: 700px;
   height: 190px;
+  &:hover {
+    bottom: 0px;
+  }
 
   detail.player {
     float: left;
@@ -51,7 +55,7 @@ section.player-panel {
     }
   }
   detail.player.current {
-    transform: translate(0, -50px);
+    transform: translate(0, -35px);
     transition: all 0.3s ease-in-out;
   }
 }
