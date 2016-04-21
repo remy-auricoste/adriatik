@@ -74,6 +74,7 @@ var Game = Meta.declareClass("Game", {
             })
         });
         var playersPromise = q.empty();
+        self.syncing = true;
         if (self.turn === 1) {
             playersPromise = self.shuffle(self.players).then(function() {
               self.currentPlayer = self.players[0];
@@ -86,7 +87,10 @@ var Game = Meta.declareClass("Game", {
             })
         }
         var creaturesPromise = this.turn === 1 ? q.empty() : self.pushCreatures(this.turn === 2 ? 1 : 3);
-        return q.all([godPromise, playersPromise, creaturesPromise]);
+        return q.all([godPromise, playersPromise, creaturesPromise]).then(function(result) {
+          self.syncing = false;
+          return result;
+        });
     },
     endPlayerTurn: function () {
         var self = this;

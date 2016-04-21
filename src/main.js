@@ -25,5 +25,6 @@ require("./components/map/map");
 require("./components/playerPanel/playerPanel");
 require("./components/room/room");
 require("./components/sesterces/sesterces");
+require("./components/sync/sync");
 
 require("./route");
