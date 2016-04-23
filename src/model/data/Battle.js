@@ -20,24 +20,23 @@ var Battle = Meta.createClass("Battle", {
       // TODO count defensive buildings
       return strength + self.dices[index];
     });
+    this.losses = [this.getLoss(0, 1), this.getLoss(1, 0)];
   },
   getDices: function() {
     return this.dices;
   },
+  getLoss: function(index1, index2) {
+    return this.scores[index1] <= this.scores[index2] ? 1 : 0;
+  },
   getLoosers: function() {
-    var territory = this.territory;
-    var strength1 = this.strengths[0];
-    var strength2 = this.strengths[1];
-    var loss1 = strength1 <= strength2 ? 1 : 0;
-    var loss2 = strength2 <= strength1 ? 1 : 0;
-    var result = [];
-    if (loss1) {
-      result.push(this.player1);
+    var loosers = [];
+    if (this.losses[0]) {
+      loosers.push(this.player1);
     }
-    if (loss2) {
-      result.push(this.player2);
+    if (this.losses[1]) {
+      loosers.push(this.player2);
     }
-    return result;
+    return loosers;
   }
 });
 

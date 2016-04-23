@@ -182,6 +182,7 @@ var Game = Meta.declareClass("Game", {
         }
     },
     receiveCommand: function (command) {
+        var self = this;
         if (!command.player || command.player !== this.currentPlayer) {
             throw new Error("received command not from currentPlayer" + JSON.stringify(command));
         }
@@ -192,17 +193,26 @@ var Game = Meta.declareClass("Game", {
         if (command.type.argCount !== command.args.length) {
             throw new Error("got " + command.args.length + " args but needed " + command.type.argCount + " args.");
         }
+        var commandResult;
         if (command.type === CommandType.Bid) {
-            return this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
+            commandResult = this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
         } else if (command.type === CommandType.InitUnit) {
-            return this.initUnit(this.currentPlayer, command.args[0]);
+            commandResult = this.initUnit(this.currentPlayer, command.args[0]);
         } else if (command.type === CommandType.BuyCreature) {
-            return this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
+            commandResult = this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
         } else if (command.type === CommandType.EndTurn) {
-            return this.endPlayerTurn();
+            commandResult = this.endPlayerTurn();
         } else {
-            return this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
+            commandResult = this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
         }
+        if (commandResult && typeof commandResult.then === "function") {
+            this.syncing = true;
+            commandResult = commandResult.then(function(result) {
+                self.syncing = false;
+                return result;
+            });
+        }
+        return commandResult;
     },
     initUnit: function (player, territory) {
         if (this.turn !== 1) {
