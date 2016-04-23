@@ -30,6 +30,10 @@ function bidPanel($rootScope, $timeout) {
             scope.Phases = Phases;
             scope.God = God;
             scope.rootScope = $rootScope;
+
+            scope.goldPlus = function() {
+              scope.game.currentPlayer.gold++;
+            }
         }
     };
 }
