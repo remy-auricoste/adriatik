@@ -10,6 +10,7 @@ function dicePanel($timeout) {
         templateUrl: "components/dicePanel/dicePanel.html",
         replace: true,
         scope: {
+          value: "="
         },
         link: function (scope, elements, attr) {
             var diceEl = elements[0].getElementsByClassName("dice")[0];
@@ -34,9 +35,10 @@ function dicePanel($timeout) {
               diceEl.style.transition = duration+"s";
             }
 
-            scope.throwDice = function(result) {
-              if (result === undefined) {
-                result = Dice(Math.random());
+            scope.throwDice = function() {
+              var value = scope.value;
+              if (value === undefined) {
+                value = Dice(Math.random());
               }
               Array.seq(1, 5).map(function(index) {
                 angles.x += getRandomAngle();
@@ -53,8 +55,8 @@ function dicePanel($timeout) {
                 var turnsY = Math.floor(angles.y / 360);
                 var leftX = angles.x % 360;
                 var leftY = angles.y % 360;
-                var targetX = resultAngles[result].x;
-                var targetY = resultAngles[result].y;
+                var targetX = resultAngles[value].x;
+                var targetY = resultAngles[value].y;
 
                 angles.x = turnsX * 360 + targetX;
                 angles.y = turnsY * 360 + targetY;
@@ -67,6 +69,9 @@ function dicePanel($timeout) {
                 setAngles(0.4);
               }, 500);
             }
+            $timeout(function() {
+              scope.throwDice();
+            }, 500);
         }
     };
 }

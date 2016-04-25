@@ -1,7 +1,4 @@
 .dice-panel {
-  position: fixed;
-  bottom: 10px;
-  left: 880px;
   width: 150px;
   height: 150px;
   margin: 0 auto 20px;
@@ -51,6 +48,7 @@
     padding: 18px;
     transform-style: preserve-3d;
     transition: transform 0.7s;
+    cursor: pointer;
 
     figure {
       display: block;

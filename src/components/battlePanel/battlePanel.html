@@ -1,0 +1,28 @@
+<div class="battlePanel rounded-box shadowed-box" ng-show="game.currentBattle">
+  <div class="title">Combat</div>
+  <div custom-if="game.currentBattle">
+    <div ng-repeat="state in game.currentBattle.states" class="player">
+      <div class="name player-{{state.player.color}}">{{state.player.name}}</div>
+      <div class="forces">
+        <icon ng-repeat="unit in state.units"
+              size="32"
+              file-name="{{unit.type.name}}"
+              class="image"
+              ng-class="{selectable: isSelectable(unit), selected: selectedUnits.indexOf(unit) >= 0}"
+              ng-click="selectUnit(unit)"
+        ></icon>
+        <icon ng-repeat="building in state.buildings track by $index"
+                        size="32"
+                        file-name="{{building.name}}"
+                        class="image building"
+        ></icon>
+      </div>
+      <dice-panel value="state.getDice()"></dice-panel>
+      <div ng-if="game.currentBattle.getLosses()[$index]">Sélectionnez l'unité à retirer</div>
+    </div>
+    <div class="actions">
+      <input type="button" value="Continuer" ng-click="ok()" />
+      <input type="button" value="Retraiter" ng-click="ok()" />
+    </div>
+  </div>
+</div>

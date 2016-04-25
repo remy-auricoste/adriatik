@@ -1,0 +1,50 @@
+.battlePanel {
+  position: fixed;
+  width: 600px;
+  top: 100px;
+  margin: auto;
+  background-color: white;
+  left: 50%;
+  margin-left: -300px;
+  text-align: center;
+
+  .player {
+    width: 50%;
+    float: left;
+    padding: 10px;
+
+    .name {
+      padding: 5px;
+      border-radius: 10px;
+      color: white;
+      width: 50%;
+      margin: auto;
+      margin-bottom: 1em;
+
+      &.player-red {
+        background: linear-gradient(to top, $player-red-1, $player-red-2 80%); /* Standard syntax */
+      }
+      &.player-blue {
+        background: linear-gradient(to top, $player-blue-1, $player-blue-2 80%); /* Standard syntax */
+      }
+      &.player-green {
+        background: linear-gradient(to top, $player-green-1, $player-green-2 80%); /* Standard syntax */
+      }
+      &.player-purple {
+        background: linear-gradient(to top, $player-purple-1, $player-purple-2 80%); /* Standard syntax */
+      }
+    }
+    .forces {
+      margin-bottom: 1em;
+    }
+    .selectable {
+      cursor: pointer;
+    }
+    .selected {
+      border: solid 3px black;
+    }
+  }
+  .actions {
+    clear: both;
+  }
+}
