@@ -1,43 +1,74 @@
 var Meta = require("../../alias/Meta");
+var Building = require("./Building");
+var BattleState = require("./BattleState");
 var Dice = require("./Dice");
 
 var Battle = Meta.createClass("Battle", {
-  randoms: [],
   territory: "Territory",
-  init: function() {
-    var self = this;
-    var player1 = this.territory.units[0].owner;
-    this.player1 = player1;
-    this.player2 = this.territory.units.filter(function (unit) {
-      return unit.owner !== player1;
-    })[0].owner;
-    this.players = [this.player1, this.player2];
-    this.dices = this.randoms.map(Dice);
-    this.strengths = this.players.map(function(player) {
-      return self.territory.getUnits(player).length;
-    });
-    this.scores = this.strengths.map(function(strength, index) {
-      // TODO count defensive buildings
-      return strength + self.dices[index];
-    });
-    this.losses = [this.getLoss(0, 1), this.getLoss(1, 0)];
-  },
+  states: ["BattleState"],
   getDices: function() {
-    return this.dices;
+    return this.states.map(function(state) {
+      return state.getDice();
+    });
   },
-  getLoss: function(index1, index2) {
-    return this.scores[index1] <= this.scores[index2] ? 1 : 0;
+  getLosses: function() {
+    if (!this.losses) {
+      this.losses = [
+        this.states[0].getLoss(this.states[1].score),
+        this.states[1].getLoss(this.states[0].score)
+      ];
+    }
+    return this.losses;
+  },
+  getLoss: function(player) {
+    var index = Meta.findIndex(this.states, function(state) {
+      return state.player === player;
+    });
+    return this.getLosses()[index];
   },
   getLoosers: function() {
     var loosers = [];
-    if (this.losses[0]) {
-      loosers.push(this.player1);
+    if (this.getLosses()[0]) {
+      loosers.push(this.states[0].player);
     }
-    if (this.losses[1]) {
-      loosers.push(this.player2);
+    if (this.getLosses()[1]) {
+      loosers.push(this.states[1].player);
     }
     return loosers;
   }
 });
+Battle.new = function(randoms, territory) {
+  var player1 = territory.owner;
+  var player2 = territory.units.filter(function(unit) {
+    return unit.owner !== player1;
+  })[0].owner;
+  var getDefensiveBuildings = function(player) {
+    if (player === player2) {
+      return [];
+    }
+    // TODO add metropoles
+    return territory.buildings.filter(function(building) {
+      return building === Building.Fort;
+    });
+  }
+
+  var battleState1 = new BattleState({
+    random: randoms[0],
+    player: player1,
+    units: territory.getUnits(player1),
+    buildings: getDefensiveBuildings(player1),
+  });
+  var battleState2 = new BattleState({
+    random: randoms[1],
+    player: player2,
+    units: territory.getUnits(player2),
+    buildings: getDefensiveBuildings(player2),
+  });
+
+  return new Battle({
+    territory: territory,
+    states: [battleState1, battleState2]
+  });
+}
 
 module.exports = Battle;

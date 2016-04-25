@@ -23,6 +23,7 @@ var Game = Meta.declareClass("Game", {
     phase: "",
     colors: [],
     warMode: true,
+    currentBattle: "Battle",
     init: function () {
         var self = this;
         if (!this.currentPlayer) {
@@ -208,6 +209,9 @@ var Game = Meta.declareClass("Game", {
         if (commandResult && typeof commandResult.then === "function") {
             this.syncing = true;
             commandResult = commandResult.then(function(result) {
+                if (result._type === "Battle") {
+                  self.currentBattle = result;
+                }
                 self.syncing = false;
                 return result;
             });

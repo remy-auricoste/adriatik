@@ -243,10 +243,7 @@ Player = Meta.declareClass("Player", {
             toTerritorry.owner = self;
         } else {
             return randomFactory.generate(2).then(function (randoms) {
-                var battle = new Battle({
-                  randoms: randoms,
-                  territory: toTerritorry
-                });
+                var battle = Battle.new(randoms, toTerritorry);
                 console.log("battle", battle);
                 return battle;
             });
