@@ -20,7 +20,7 @@
       <dice-panel value="state.getDice()"></dice-panel>
       <div ng-if="game.currentBattle.getLosses()[$index]">Sélectionnez l'unité à retirer</div>
     </div>
-    <div class="actions">
+    <div class="actions" ng-show="selectedUnits.length">
       <input type="button" value="Continuer" ng-click="ok()" />
       <input type="button" value="Retraiter" ng-click="ok()" />
     </div>
