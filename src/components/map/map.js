@@ -2,11 +2,10 @@ var Territory = require("../../model/data/Territory");
 var Phases = require("../../model/data/Phases");
 var CommandType = require("../../model/data/CommandType");
 var Command = require("../../model/data/Command");
+var commandCenter = require("../../services/commandCenter");
 
 /** @ngInject */
 function map($rootScope) {
-    'use strict';
-
     return {
         restrict: 'E',
         templateUrl: "components/map/map.html",
@@ -71,7 +70,7 @@ function map($rootScope) {
                   $rootScope.$emit("select", territory);
                 }
                 if (command) {
-                  $rootScope.$emit("command", command);
+                  commandCenter.send(command);
                 }
             }
             scope.toggleUnit = function (unit) {

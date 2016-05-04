@@ -1,3 +1,5 @@
+var commandCenter = require("../../services/commandCenter");
+
 /** @ngInject */
 function creaturePanel($rootScope) {
     'use strict';
@@ -18,7 +20,7 @@ function creaturePanel($rootScope) {
               player: scope.game.currentPlayer,
               args: [creature, creatureArgs]
             });
-            $rootScope.$emit("command", command);
+            commandCenter.send(command);
           }
           scope.selectCreature = function(creature) {
             if (!creature) {

@@ -1,5 +1,6 @@
 var Command = require("../../model/data/Command");
 var CommandType = require("../../model/data/CommandType");
+var commandCenter = require("../../services/commandCenter");
 
 /** @ngInject */
 function battlePanel($rootScope) {
@@ -12,7 +13,7 @@ function battlePanel($rootScope) {
         },
         link: function (scope, elements, attr) {
           var emitResolveBattle = function(options) {
-            $rootScope.$emit("command", new Command({
+            commandCenter.send(new Command({
               type: CommandType.ResolveBattle,
               player: scope.game.currentPlayer,
               args: [scope.game.currentBattle, options]

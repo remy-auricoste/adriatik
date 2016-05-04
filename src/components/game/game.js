@@ -1,14 +1,8 @@
 var gameInitializer = require("../../services/gameInitializer");
-var randomFactory = require("../../services/randomFactory");
-var qPlus = require("../../services/qPlus");
-var gameStorage = require("../../services/gameStorage");
-var commandSocket = require("../../services/commandSocket");
-var config = require("../../services/config");
-
-var Command = require("../../model/data/Command");
+var commandCenter = require("../../services/commandCenter");
 
 /** @ngInject */
-function game($route, $rootScope) {
+function game($route) {
     'use strict';
 
     return {
@@ -27,58 +21,13 @@ function game($route, $rootScope) {
             gameInitializer.init(playerSize).then(function(game) {
               console.log("ready", game);
               scope.game = game;
+              commandCenter.setGame(game);
+              commandCenter.linkScope(scope);
               scope.ready = true;
               scope.$apply();
             }).catch(function(err) {
               console.log("error when initializing the game");
               console.error(err);
-            });
-
-            var executeCommand = function(command) {
-                if (!command.id) {
-                  var id = Math.random() + "";
-                  command.id = id;
-                }
-                randomFactory.setGlobalId(command.id);
-                var result = scope.game.receiveCommand(command);
-                var thenFct = function(result) {
-                  gameStorage.save(scope.game);
-                  setTimeout(function() {
-                    scope.$apply();
-                  }, 0);
-                }
-                if (result && typeof result.then === "function") {
-                  result.then(thenFct).catch(function(err) {
-                    console.error("error");
-                    console.error(err);
-                  });
-                } else {
-                  thenFct(result);
-                }
-            }
-
-            commandSocket.addListener(function(messageObj) {
-              var source = messageObj.source;
-              if (source === commandSocket.getId()) {
-                // ignore my commands
-                return;
-              }
-              var command = Command.fromObject(messageObj.message);
-              console.log("commandSocket received", command, "source", source);
-              var playerSocketId = command.player.account.id;
-              if (!config.isDev() && playerSocketId !== source) {
-                throw new Error("received a command not from the actual player. source="+source+". player id="+playerSocketId);
-              }
-              executeCommand(command);
-            });
-
-            $rootScope.$on("command", function(event, command) {
-              if (!config.isDev() && commandSocket.getId() !== command.player.account.id) {
-                throw new Error("Ce n'est pas à votre tour de jouer");
-              }
-              executeCommand(command);
-              console.log("sending command", command);
-              commandSocket.send(JSON.parse(JSON.stringify(command)));
             });
         }
     };

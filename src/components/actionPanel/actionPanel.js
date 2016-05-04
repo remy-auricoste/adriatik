@@ -1,6 +1,7 @@
 var Command = require("../../model/data/Command");
 var CommandType = require("../../model/data/CommandType");
 var Phases = require("../../model/data/Phases");
+var commandCenter = require("../../services/commandCenter");
 
 /** @ngInject */
 function actionPanel($rootScope) {
@@ -25,17 +26,16 @@ function actionPanel($rootScope) {
                 $rootScope.mode = selected ? mode : null;
                 scope.mode = $rootScope.mode;
                 if (scope.mode === CommandType.BuyCard) {
-                  $rootScope.$emit("command", new Command({
+                  commandCenter.send(new Command({
                     type: scope.mode,
-                    player: scope.game.currentPlayer,
-                    args: []
+                    player: scope.game.currentPlayer
                   }));
                   scope.mode = null;
                   $rootScope.mode = null;
                 }
             }
             scope.endTurn = function () {
-                $rootScope.$emit("command", new Command({type: CommandType.EndTurn, player: scope.game.currentPlayer, args: []}));
+                commandCenter.send(new Command({type: CommandType.EndTurn, player: scope.game.currentPlayer}));
             }
             scope.Phases = Phases;
         }
