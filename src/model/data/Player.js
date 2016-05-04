@@ -242,11 +242,33 @@ Player = Meta.declareClass("Player", {
         if (destIsEmpty) {
             toTerritorry.owner = self;
         } else {
-            return randomFactory.generate(2).then(function (randoms) {
-                var battle = Battle.new(randoms, toTerritorry);
-                console.log("battle", battle);
-                return battle;
-            });
+            return self.generateBattle(toTerritorry);
+        }
+    },
+    generateBattle: function(territory) {
+        return randomFactory.generate(2).then(function (randoms) {
+            var battle = Battle.new(randoms, territory);
+            console.log("battle", battle);
+            return battle;
+        });
+    },
+    resolveBattle: function(battle, options) {
+        if (options.unit) {
+          console.log("resolveBattle : removing unit");
+          battle.territory.removeUnit(options.unit);
+          battle.resolvedLosses.push(options.unit);
+        }
+        if (options.retreatTerritory) {
+          console.log("resolveBattle : retreating...");
+          this.retreat(battle.territory, options.retreatTerritory);
+        }
+        if (battle.territory.getUnits(this).length === battle.territory.units.length) {
+          console.log("end of battle", "owner=", this.name);
+          battle.territory.owner = this;
+          return true;
+        } else if (battle.getDefender() === this) {
+          console.log("no retreats, generating new battle");
+          return this.generateBattle(battle.territory);
         }
     },
     possibleRetreats: function (territory) {

@@ -182,6 +182,12 @@ var Game = Meta.declareClass("Game", {
             return self.startTurn();
         }
     },
+    resolveBattle: function(player, battle, options) {
+        var result = player.resolveBattle(battle, options);
+        if (result === true) {
+          this.currentBattle = null;
+        }
+    },
     receiveCommand: function (command) {
         var self = this;
         if (!command.player || command.player !== this.currentPlayer) {
@@ -203,6 +209,8 @@ var Game = Meta.declareClass("Game", {
             commandResult = this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
         } else if (command.type === CommandType.EndTurn) {
             commandResult = this.endPlayerTurn();
+        } else if (command.type === CommandType.ResolveBattle) {
+            commandResult = this.resolveBattle(command.player, command.args[0], command.args[1])
         } else {
             commandResult = this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
         }

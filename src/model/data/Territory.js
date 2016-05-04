@@ -44,9 +44,12 @@ var Territory = Meta.declareClass("Territory", {
         this.units.push(unit);
     },
     removeUnit: function (unit) {
-        var index = this.units.indexOf(unit);
-        if (index === -1) {
-            throw new Error("Pas d'unité de ce type " + unit.type);
+        var index = Meta.findIndex(this.units, function(unitIte) {
+          return unit.type === unitIte.type && unit.owner === unitIte.owner;
+        });
+        if (!(typeof index === "number" && index >= 0)) {
+            console.error("impossible de retirer cette unité : ", unit, this.units, index);
+            throw new Error("impossible de retirer cette unité : " + unit.type.label);
         }
         this.units.splice(index, 1);
     },

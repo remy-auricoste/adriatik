@@ -43,10 +43,10 @@ function creaturePanel($rootScope) {
           }
 
           $rootScope.$on("select", function(event, selection) {
-            console.log("selected", selection);
             if (!scope.selectedCreature || !selection) {
               return;
             }
+            console.log("selected", selection);
             var expectedTargetType = scope.selectedCreature.targetTypes[scope.targets.length];
             try { scope.selectedCreature.checkType(expectedTargetType, selection); } catch(err) { return; }
             console.log("add target", selection);

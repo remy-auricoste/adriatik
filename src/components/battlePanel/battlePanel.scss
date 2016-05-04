@@ -3,14 +3,24 @@
   width: 600px;
   top: 100px;
   margin: auto;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
   left: 50%;
   margin-left: -300px;
   text-align: center;
 
+  .hide-button {
+    padding: 10px 15px;
+  }
+
+  .panel {
+    background-color: white;
+  }
+
+  .players {
+    display: flex;
+  }
   .player {
     width: 50%;
-    float: left;
     padding: 10px;
 
     .name {

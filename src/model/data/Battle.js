@@ -6,6 +6,12 @@ var Dice = require("./Dice");
 var Battle = Meta.createClass("Battle", {
   territory: "Territory",
   states: ["BattleState"],
+  resolvedLosses: ["Unit"],
+  init: function() {
+    if (!this.resolvedLosses) {
+      this.resolvedLosses = [];
+    }
+  },
   getDices: function() {
     return this.states.map(function(state) {
       return state.getDice();
@@ -35,6 +41,15 @@ var Battle = Meta.createClass("Battle", {
       loosers.push(this.states[1].player);
     }
     return loosers;
+  },
+  getDefender: function() {
+    return this.states[0].player;
+  },
+  getAttacker: function() {
+    return this.states[1].player;
+  },
+  isResolved: function() {
+    return this.resolvedLosses.length === this.getLoosers().length;
   }
 });
 Battle.new = function(randoms, territory) {
