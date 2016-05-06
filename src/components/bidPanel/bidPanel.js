@@ -25,7 +25,7 @@ function bidPanel($rootScope, $timeout) {
             }
 
             scope.placeBid = function (god, value) {
-                var command = new Command({type: CommandType.Bid, player: scope.game.currentPlayer, args: [god, value]})
+                var command = new Command({type: CommandType.Bid, args: [god, value]})
                 commandCenter.send(command);
             }
             scope.Phases = Phases;

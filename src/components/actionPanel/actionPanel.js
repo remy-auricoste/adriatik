@@ -27,15 +27,14 @@ function actionPanel($rootScope) {
                 scope.mode = $rootScope.mode;
                 if (scope.mode === CommandType.BuyCard) {
                   commandCenter.send(new Command({
-                    type: scope.mode,
-                    player: scope.game.currentPlayer
+                    type: scope.mode
                   }));
                   scope.mode = null;
                   $rootScope.mode = null;
                 }
             }
             scope.endTurn = function () {
-                commandCenter.send(new Command({type: CommandType.EndTurn, player: scope.game.currentPlayer}));
+                commandCenter.send(new Command({type: CommandType.EndTurn}));
             }
             scope.Phases = Phases;
         }

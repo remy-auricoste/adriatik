@@ -39,7 +39,6 @@ function map($rootScope) {
                     var args = hasMoreUnits ? [territory] : [territory, scope.game.currentPlayer.god.building];
                     command = new Command({
                         type: commandType,
-                        player: scope.game.currentPlayer,
                         args: args
                     })
                 } else if (!$rootScope.mode) {
@@ -56,14 +55,12 @@ function map($rootScope) {
                     if (selectedUnits.length && fromTerritory) {
                         command = new Command({
                             type: CommandType.Move,
-                            player: scope.game.currentPlayer,
                             args: [selectedUnits, fromTerritory, territory]
                         });
                     }
                 } else if($rootScope.mode && $rootScope.mode.constructor === CommandType) {
                     command = new Command({
                         type: $rootScope.mode,
-                        player: scope.game.currentPlayer,
                         args: [territory]
                     });
                 } else {

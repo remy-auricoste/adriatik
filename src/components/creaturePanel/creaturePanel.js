@@ -17,7 +17,6 @@ function creaturePanel($rootScope) {
             var creatureArgs = scope.targets;
             var command = new Command({
               type: CommandType.BuyCreature,
-              player: scope.game.currentPlayer,
               args: [creature, creatureArgs]
             });
             commandCenter.send(command);

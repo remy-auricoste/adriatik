@@ -33,6 +33,9 @@ var CommandCenter = {
       var id = Math.random() + "";
       command.id = id;
     }
+    if (!command.player) {
+      command.player = this.game.currentPlayer;
+    }
     randomFactory.setGlobalId(command.id);
     var result = game.receiveCommand(command);
     var thenFct = function(result) {
