@@ -10,7 +10,7 @@
             <icon ng-repeat="unit in state.units"
                   size="32"
                   file-name="{{unit.type.name}}"
-                  class="image"
+                  class="image unit unit-{{unit.owner.color}}"
                   ng-class="{selectable: isSelectable(unit), selected: selectedUnit === unit}"
                   ng-click="selectUnit(unit)"
             ></icon>
