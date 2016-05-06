@@ -239,7 +239,7 @@ Player = Meta.declareClass("Player", {
         var self = this;
         var destIsEmpty = toTerritorry.isEmpty();
         fromTerritory.moveUnits(units, toTerritorry);
-        if (destIsEmpty) {
+        if (destIsEmpty || toTerritorry.owner === this) {
             toTerritorry.owner = self;
         } else {
             return self.generateBattle(toTerritorry);
@@ -262,7 +262,7 @@ Player = Meta.declareClass("Player", {
           console.log("resolveBattle : retreating...");
           this.retreat(battle.territory, options.retreatTerritory);
         }
-        if (battle.territory.getUnits(this).length === battle.territory.units.length) {
+        if (battle.isResolved()) {
           console.log("end of battle", "owner=", this.name);
           battle.territory.owner = this;
           return true;
