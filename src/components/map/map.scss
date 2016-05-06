@@ -61,20 +61,4 @@ $sea-over-neighbour: darken($sea, $darken1);
     justify-content: center;
     align-items: center;
   }
-
-  .unit {
-    border: solid 3px;
-    &.unit-red {
-      border-color: red;
-    }
-    &.unit-blue {
-      border-color: blue;
-    }
-    &.unit-green {
-      border-color: green;
-    }
-    &.unit-purple {
-      border-color: purple;
-    }
-  }
 }

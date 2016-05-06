@@ -118,3 +118,20 @@ input[type=button] {
  */
 // injector
 // endinjector
+
+
+.unit {
+  border: solid 3px;
+  &.unit-red {
+    border-color: red;
+  }
+  &.unit-blue {
+    border-color: blue;
+  }
+  &.unit-green {
+    border-color: green;
+  }
+  &.unit-purple {
+    border-color: purple;
+  }
+}
