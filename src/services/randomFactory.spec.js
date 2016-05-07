@@ -37,7 +37,7 @@ describe('random factory object', function () {
       Object.keys(buckets).sort(function(a,b) {
         return buckets[a] - buckets[b];
       }).map(function(bucketKey) {
-        //logger.info(bucketKey, buckets[bucketKey])
+        logger.debug(bucketKey, buckets[bucketKey])
       });
     });
   });
@@ -82,7 +82,7 @@ describe('random factory object', function () {
       });
 
       return result.then(function(result) {
-        logger.info(result);
+        logger.debug(result);
         expect(result.constructor).to.equal(Array);
         expect(result.length).to.equal(arrayLength);
         result.map(function(value) {

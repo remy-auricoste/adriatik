@@ -49,7 +49,7 @@ var gameInitializer = {
   createGame: function (accounts) {
     logger.info("creating game", accounts);
     var loaded = gameStorage.load();
-    logger.info("loaded", loaded);
+    logger.debug("loaded", loaded);
     if (loaded) {
       loaded.randomFactory = randomFactory;
       loaded.q = qPlus;

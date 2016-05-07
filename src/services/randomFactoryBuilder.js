@@ -12,10 +12,10 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       var generated = service.generateLocal(randomAsk.number);
       generatedMap[id] = generated;
       deferMap[id] = qPlus.defer();
-      logger.info(id, "create defer from start fct");
+      logger.debug(id, "create defer from start fct");
       hashSync.send(id, size, {hash: generated.hash, number: randomAsk.number});
     }, function(stored) {
-      logger.info(stored.id, "received all hashes", stored.values);
+      logger.debug(stored.id, "received all hashes", stored.values);
       hashesMap[stored.id] = stored.values;
       valueSync.send(stored.id, stored.size, generatedMap[stored.id]);
     });
@@ -23,7 +23,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
     var valueSync = new StateSync(randomSocket.valueSocket);
     valueSync.syncListener(function(id, size, randomValue) {
     }, function(stored) {
-      logger.info(stored.id, "received all values", stored.values);
+      logger.debug(stored.id, "received all values", stored.values);
       Object.keys(stored.values).map(function(source) {
         var randomValue = stored.values[source];
         var storedHash = hashesMap[stored.id][source].hash;
@@ -60,7 +60,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       }
     },
     generate: function(number, networkSize, id) {
-      logger.info("generate", number, id);
+      logger.debug("generate", number, id);
       var self = this;
       this.idCount++;
       if (!id) {
@@ -76,7 +76,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       }
       defer = qPlus.defer();
       deferMap[id] = defer;
-      logger.info(id, "created defer");
+      logger.debug(id, "created defer");
       var generated = this.generateLocal(number);
       generatedMap[id] = generated;
       hashSync.send(id, networkSize, {hash: generated.hash, number: number});
