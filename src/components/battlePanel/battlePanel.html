@@ -21,12 +21,12 @@
             ></icon>
           </div>
           <dice-panel value="state.getDice()"></dice-panel>
-          <div ng-if="game.currentBattle.getLosses()[$index]">Sélectionnez l'unité à retirer</div>
+          <div ng-if="state.loss">Sélectionnez l'unité à retirer</div>
+          <div class="actions" ng-show="state.isLossResolved() && game.currentBattle.isLossResolved()">
+            <input type="button" value="Rester" ng-click="stayButton(state.player)" />
+            <input type="button" value="Retraiter" ng-click="retreatButton(state.player)" />
+          </div>
         </div>
-      </div>
-      <div class="actions" ng-show="game.currentBattle.isResolved()">
-        <input type="button" value="Rester" ng-click="stayButton()" />
-        <input type="button" value="Retraiter" ng-click="retreatButton()" />
       </div>
     </div>
   </div>

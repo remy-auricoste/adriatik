@@ -6,41 +6,24 @@ var Dice = require("./Dice");
 var Battle = Meta.createClass("Battle", {
   territory: "Territory",
   states: ["BattleState"],
-  resolvedLosses: ["Unit"],
-  init: function() {
-    if (!this.resolvedLosses) {
-      this.resolvedLosses = [];
+  getStates: function() {
+    if (this.states && this.states.length) {
+      this.states[0].buildLoss(this.states[1].score);
+      this.states[1].buildLoss(this.states[0].score);
     }
+    return this.states;
   },
   getDices: function() {
-    return this.states.map(function(state) {
+    return this.getStates().map(function(state) {
       return state.getDice();
     });
   },
-  getLosses: function() {
-    if (!this.losses) {
-      this.losses = [
-        this.states[0].getLoss(this.states[1].score),
-        this.states[1].getLoss(this.states[0].score)
-      ];
-    }
-    return this.losses;
-  },
-  getLoss: function(player) {
-    var index = Meta.findIndex(this.states, function(state) {
-      return state.player === player;
-    });
-    return this.getLosses()[index];
-  },
   getLoosers: function() {
-    var loosers = [];
-    if (this.getLosses()[0]) {
-      loosers.push(this.states[0].player);
-    }
-    if (this.getLosses()[1]) {
-      loosers.push(this.states[1].player);
-    }
-    return loosers;
+    return this.getStates().filter(function(state) {
+      return state.loss;
+    }).map(function(state) {
+      return state.player;
+    })
   },
   getDefender: function() {
     return this.states[0].player;
@@ -48,8 +31,22 @@ var Battle = Meta.createClass("Battle", {
   getAttacker: function() {
     return this.states[1].player;
   },
-  isResolved: function() {
-    return this.resolvedLosses.length === this.getLoosers().length;
+  isLossResolved: function() {
+    return this.getStates().forall(function(state) {
+      return state.isLossResolved();
+    });
+  },
+  isFullyResolved: function() {
+    return this.getStates().forall(function(state) {
+      return state.isFullyResolved();
+    }) || this.isLossResolved() && this.getStates().filter(function(state) {
+      return !state.hasUnits();
+    }).length;
+  },
+  getState: function(player) {
+    return this.getStates().filter(function(state) {
+      return state.player === player;
+    })[0];
   }
 });
 Battle.new = function(randoms, territory) {

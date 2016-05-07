@@ -9,6 +9,7 @@ var God = require("./God");
 
 var q = require("../../services/qPlus");
 var randomFactory = require("../../services/randomFactory");
+var config = require("../../services/config");
 
 var Game = Meta.declareClass("Game", {
     territories: ["Territory"],
@@ -190,7 +191,7 @@ var Game = Meta.declareClass("Game", {
     },
     receiveCommand: function (command) {
         var self = this;
-        if (!command.player || command.player !== this.currentPlayer) {
+        if (!config.isDev() && !(command.player && command.player === this.currentPlayer)) {
             throw new Error("received command not from currentPlayer" + JSON.stringify(command));
         }
         var commandNames = Object.keys(CommandType._all);

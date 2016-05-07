@@ -80,6 +80,15 @@ var Territory = Meta.declareClass("Territory", {
     },
     getIncome: function() {
       return this.income + this.addedIncome;
+    },
+    hasConflict: function() {
+      if (!this.units.length) {
+        return false;
+      }
+      var player1 = this.units[0].owner;
+      return !!Meta.find(this.units, function(unit) {
+        return unit.owner !== player1;
+      });
     }
 });
 Territory.byId = function (id) {

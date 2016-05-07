@@ -12,14 +12,14 @@ function battlePanel($rootScope) {
             game: "="
         },
         link: function (scope, elements, attr) {
-          var emitResolveBattle = function(options) {
+          var emitResolveBattle = function(options, player) {
+            player = player ? player : scope.game.currentPlayer;
             commandCenter.send(new Command({
               type: CommandType.ResolveBattle,
-              player: scope.game.currentPlayer,
+              player: player,
               args: [scope.game.currentBattle, options]
             }));
           }
-
 
           scope.selectedUnit = null;
           scope.selectUnit = function(unit) {
@@ -27,14 +27,14 @@ function battlePanel($rootScope) {
               return;
             }
             scope.selectedUnit = unit;
-            emitResolveBattle({unit: unit});
+            emitResolveBattle({unit: unit}, unit.owner);
           }
           scope.isSelectable = function(unit) {
-            return scope.game.currentBattle.getLoss(unit.owner);
+            return scope.game.currentBattle.getState(unit.owner).loss;
           }
 
-          scope.stayButton = function() {
-            emitResolveBattle({});
+          scope.stayButton = function(player) {
+            emitResolveBattle({stay: true}, player);
           }
           scope.retreatButton = function() {
               scope.isChoosingRetreat = true;

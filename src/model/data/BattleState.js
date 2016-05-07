@@ -7,6 +7,9 @@ var BattleState = Meta.createClass("BattleState", {
   player: "Player",
   units: [],
   buildings: [],
+  decision: "",
+  loss: 1,
+  resolvedLoss: "Unit",
   init: function() {
     this.strength = this.units.length + this.buildings.length;
     // TODO count defensive buildings
@@ -15,8 +18,26 @@ var BattleState = Meta.createClass("BattleState", {
   getDice: function() {
     return Dice(this.random);
   },
-  getLoss: function(strength) {
-    return (this.score <= strength) ? 1 : 0;
+  buildLoss: function(strength) {
+    this.loss = (this.score <= strength) ? 1 : 0;
+  },
+  isLossResolved: function() {
+    return (this.loss && this.resolvedLoss) || !this.loss;
+  },
+  setLoss: function(unit) {
+    this.resolvedLoss = unit;
+  },
+  isFullyResolved: function() {
+    return this.isLossResolved() && (this.decision || !this.hasUnits());
+  },
+  hasUnits: function() {
+    return !!(this.units.length - (this.resolvedLoss ? 1 : 0));
+  },
+  stay: function() {
+    this.decision = "stay";
+  },
+  retreat: function() {
+    this.decision = "retreat";
   }
 });
 

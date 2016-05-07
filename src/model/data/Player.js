@@ -239,10 +239,10 @@ Player = Meta.declareClass("Player", {
         var self = this;
         var destIsEmpty = toTerritorry.isEmpty();
         fromTerritory.moveUnits(units, toTerritorry);
-        if (destIsEmpty || toTerritorry.owner === this) {
-            toTerritorry.owner = self;
+        if (toTerritorry.hasConflict()) {
+          return self.generateBattle(toTerritorry);
         } else {
-            return self.generateBattle(toTerritorry);
+          toTerritorry.owner = self;
         }
     },
     generateBattle: function(territory) {
@@ -256,19 +256,29 @@ Player = Meta.declareClass("Player", {
         if (options.unit) {
           console.log("resolveBattle : removing unit");
           battle.territory.removeUnit(options.unit);
-          battle.resolvedLosses.push(options.unit);
+          battle.getState(this).setLoss(options.unit);
         }
         if (options.retreatTerritory) {
           console.log("resolveBattle : retreating...");
+          battle.getState(this).retreat();
           this.retreat(battle.territory, options.retreatTerritory);
         }
-        if (battle.isResolved()) {
-          console.log("end of battle", "owner=", this.name);
-          battle.territory.owner = this;
-          return true;
-        } else if (battle.getDefender() === this) {
-          console.log("no retreats, generating new battle");
-          return this.generateBattle(battle.territory);
+        if (options.stay) {
+          battle.getState(this).stay();
+        }
+        console.log("battle fully resolved", battle.isFullyResolved());
+        if (battle.isFullyResolved()) {
+          if (battle.territory.hasConflict()) {
+            console.log("no retreats, generating new battle");
+            return this.generateBattle(battle.territory);
+          } else {
+            var units = battle.territory.units;
+            if (units.length) {
+              battle.territory.owner = units[0].owner;
+            }
+            console.log("battle is over");
+            return true; // battle is over
+          }
         }
     },
     possibleRetreats: function (territory) {

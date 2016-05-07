@@ -99,7 +99,8 @@ var gameInitializer = {
       {name: "Alain", email: "adoanhuu@gmail.com"},
       {name: "Alan", email: "alan.leruyet@free.fr"},
       {name: "Charles", email: "chales.lescot@gmail.com"},
-      {name: "Rémy", email: "remy.auricoste@gmail.com"}
+      {name: "Rémy", email: "remy.auricoste@gmail.com"},
+      {name: "Baptiste", email: "bapt@gmail.com"}
     ];
     accounts = accounts.slice(0, playerSize);
     var result = {};
