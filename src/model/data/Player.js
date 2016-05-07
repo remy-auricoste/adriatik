@@ -7,7 +7,8 @@ var Territory = require("./Territory");
 var Bid = require("./Bid");
 var Unit = require("./Unit");
 
-var randomFactory = require("../../services/randomFactory")
+var randomFactory = require("../../services/randomFactory");
+var logger = require("../../alias/Logger").getLogger("Player");
 
 Player = Meta.declareClass("Player", {
     _primary: "name",
@@ -187,7 +188,7 @@ Player = Meta.declareClass("Player", {
         return territory && territory.type === "sea" && territory.owner === self;
       });
       passedTerritories.push(fromTerritory);
-      console.log("passed territories", passedTerritories.length);
+      logger.info("passed territories", passedTerritories.length);
       return Meta.find(possibleNeighbours, function(territory) {
         return self.findPathBySea(territory, toTerritorry, currentPath.concat([territory]), passedTerritories);
       });
@@ -248,35 +249,35 @@ Player = Meta.declareClass("Player", {
     generateBattle: function(territory) {
         return randomFactory.generate(2).then(function (randoms) {
             var battle = Battle.new(randoms, territory);
-            console.log("battle", battle);
+            logger.info("battle", battle);
             return battle;
         });
     },
     resolveBattle: function(battle, options) {
         if (options.unit) {
-          console.log("resolveBattle : removing unit");
+          logger.info("resolveBattle : removing unit");
           battle.territory.removeUnit(options.unit);
           battle.getState(this).setLoss(options.unit);
         }
         if (options.retreatTerritory) {
-          console.log("resolveBattle : retreating...");
+          logger.info("resolveBattle : retreating...");
           battle.getState(this).retreat();
           this.retreat(battle.territory, options.retreatTerritory);
         }
         if (options.stay) {
           battle.getState(this).stay();
         }
-        console.log("battle fully resolved", battle.isFullyResolved());
+        logger.info("battle fully resolved", battle.isFullyResolved());
         if (battle.isFullyResolved()) {
           if (battle.territory.hasConflict()) {
-            console.log("no retreats, generating new battle");
+            logger.info("no retreats, generating new battle");
             return this.generateBattle(battle.territory);
           } else {
             var units = battle.territory.units;
             if (units.length) {
               battle.territory.owner = units[0].owner;
             }
-            console.log("battle is over");
+            logger.info("battle is over");
             return true; // battle is over
           }
         }

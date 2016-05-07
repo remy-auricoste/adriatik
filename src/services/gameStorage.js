@@ -1,5 +1,6 @@
 var Game = require("../model/data/Game");
 var God = require("../model/data/God");
+var logger = require("../alias/Logger").getLogger("gameStorage");
 
 var key = window.location.pathname;
 
@@ -14,7 +15,7 @@ var gameStorage = {
         return null;
       }
       value = JSON.parse(value);
-      console.log("json game", value);
+      logger.info("json game", value);
       var game = Game.fromObject(value);
       // fix bids on gods
       game.players.map(function(player) {

@@ -1,4 +1,5 @@
 var Request = require("rauricoste-request");
+var logger = require("../alias/Logger").getLogger("gravatarService");
 
 /** @ngInject */
 function gravatarService(md5, $http) {
@@ -12,7 +13,7 @@ function gravatarService(md5, $http) {
       }
       var hash = md5.createHash(email);
       return new Request().get("http://www.gravatar.com/"+hash).then(function(res) {
-        console.log(res.headers);
+        logger.info(res.headers);
         var locationHeader = res.headers.Location;
         if (locationHeader) {
           return new Request().get(locationHeader);
@@ -20,13 +21,13 @@ function gravatarService(md5, $http) {
           return res;
         }
       }).then(function(res) {
-        console.log(res.body);
+        logger.info(res.body);
         return JSON.parse(res.body);
       });
     },
     getUsername: function(email) {
       return this.getJson(email).then(function(gravatar) {
-        console.log(gravatar);
+        logger.info(gravatar);
       });
     },
     getPictureUrl: function(email) {

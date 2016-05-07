@@ -1,4 +1,5 @@
 var gameFinder = require("../../services/gameFinder");
+var logger = require("../../alias/Logger").getLogger("room");
 
 /** @ngInject */
 function room() {
@@ -11,7 +12,7 @@ function room() {
         },
         link: function (scope, elements, attr) {
             scope.search = function () {
-                console.log("search", scope.playerSize);
+                logger.info("search", scope.playerSize);
                 gameFinder.find(parseInt(scope.playerSize));
             }
         }

@@ -1,6 +1,7 @@
 var Command = require("../../model/data/Command");
 var CommandType = require("../../model/data/CommandType");
 var commandCenter = require("../../services/commandCenter");
+var logger = require("../../alias/Logger").getLogger("battlePanel");
 
 /** @ngInject */
 function battlePanel($rootScope) {
@@ -44,7 +45,7 @@ function battlePanel($rootScope) {
             if (!scope.game.currentBattle) {
               return;
             }
-            console.log("battlePanel selection", selection);
+            logger.info("battlePanel selection", selection);
             emitResolveBattle({retreatTerritory: selection});
             scope.isChoosingRetreat = false;
           })

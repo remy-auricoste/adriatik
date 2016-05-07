@@ -13,6 +13,8 @@ var Player = require("../model/data/Player");
 var Game = require("../model/data/Game");
 var God = require("../model/data/God");
 
+var logger = require("../alias/Logger").getLogger("gameInitializer");
+
 var initSocket = gameSocket.subSocket("init");
 
 var gameInitializer = {
@@ -30,24 +32,24 @@ var gameInitializer = {
     var initSync = new StateSync(initSocket);
     var id = "init";
     gameSocket.addRoomListener(function (messageObj) {
-      console.log("received", messageObj);
+      logger.info("received", messageObj);
       if (messageObj.members.length === playerSize) {
-        console.log("all players connected => sending account data", accountService.getData());
+        logger.info("all players connected => sending account data", accountService.getData());
         initSync.send(id, playerSize, accountService.getData());
       }
     });
     initSync.syncListener(function(id, size, value) {
     }, function(stored) {
       var accounts = stored.values;
-      console.log("accounts", accounts);
+      logger.info("accounts", accounts);
       defer.resolve(self.createGame(accounts));
     })
     return defer.promise;
   },
   createGame: function (accounts) {
-    console.log("creating game", accounts);
+    logger.info("creating game", accounts);
     var loaded = gameStorage.load();
-    console.log("loaded", loaded);
+    logger.info("loaded", loaded);
     if (loaded) {
       loaded.randomFactory = randomFactory;
       loaded.q = qPlus;

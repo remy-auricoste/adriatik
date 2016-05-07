@@ -2,6 +2,7 @@ var Command = require("../../model/data/Command");
 var CommandType = require("../../model/data/CommandType");
 var Phases = require("../../model/data/Phases");
 var commandCenter = require("../../services/commandCenter");
+var logger = require("../../alias/Logger").getLogger("actionPanel");
 
 /** @ngInject */
 function actionPanel($rootScope) {
@@ -22,7 +23,7 @@ function actionPanel($rootScope) {
             }
             scope.selectMode = function(mode) {
                 var selected = mode !== $rootScope.mode;
-                console.log("mode", mode, selected);
+                logger.info("mode", mode, selected);
                 $rootScope.mode = selected ? mode : null;
                 scope.mode = $rootScope.mode;
                 if (scope.mode === CommandType.BuyCard) {

@@ -7,6 +7,7 @@ var randomFactoryBuilder = require("./randomFactoryBuilder");
 var qPlus = require("./qPlus");
 
 var randomFactory = randomFactoryBuilder(qPlus, randomSocketMock, hashService);
+var logger = require("../alias/Logger").getLogger("randomFactory.spec");
 
 describe('random factory object', function () {
   var random = randomFactory;
@@ -36,7 +37,7 @@ describe('random factory object', function () {
       Object.keys(buckets).sort(function(a,b) {
         return buckets[a] - buckets[b];
       }).map(function(bucketKey) {
-        //console.log(bucketKey, buckets[bucketKey])
+        //logger.info(bucketKey, buckets[bucketKey])
       });
     });
   });
@@ -81,7 +82,7 @@ describe('random factory object', function () {
       });
 
       return result.then(function(result) {
-        console.log(result);
+        logger.info(result);
         expect(result.constructor).to.equal(Array);
         expect(result.length).to.equal(arrayLength);
         result.map(function(value) {

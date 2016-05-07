@@ -1,4 +1,5 @@
-console.log("loading randomFactory mock");
+var logger = require("../alias/Logger").getLogger("randomFactory.mock");
+logger.info("loading randomFactory mock");
 
 var hashService = require("./hashService");
 var qPlus = require("./qPlus");

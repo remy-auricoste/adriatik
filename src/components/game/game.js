@@ -1,5 +1,6 @@
 var gameInitializer = require("../../services/gameInitializer");
 var commandCenter = require("../../services/commandCenter");
+var logger = require("../../alias/Logger").getLogger("game");
 
 /** @ngInject */
 function game($route) {
@@ -19,14 +20,14 @@ function game($route) {
               playerSize = 0;
             }
             gameInitializer.init(playerSize).then(function(game) {
-              console.log("ready", game);
+              logger.info("ready", game);
               scope.game = game;
               commandCenter.setGame(game);
               commandCenter.linkScope(scope);
               scope.ready = true;
               scope.$apply();
             }).catch(function(err) {
-              console.log("error when initializing the game");
+              logger.info("error when initializing the game");
               console.error(err);
             });
         }

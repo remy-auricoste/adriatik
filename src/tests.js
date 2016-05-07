@@ -1,4 +1,5 @@
-console.log("loading tests.js");
+var logger = require("./alias/Logger").getLogger("tests");
+logger.info("loading tests.js");
 
 Meta = require("rauricoste-meta");
 

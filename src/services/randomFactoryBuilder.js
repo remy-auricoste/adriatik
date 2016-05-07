@@ -1,4 +1,5 @@
 var StateSync = require("../model/tools/StateSync");
+var logger = require("../alias/Logger").getLogger("randomFactoryBuilder");
 
 function randomFactoryBuilder(qPlus, randomSocket, hashService) {
   if (randomSocket) {
@@ -11,10 +12,10 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       var generated = service.generateLocal(randomAsk.number);
       generatedMap[id] = generated;
       deferMap[id] = qPlus.defer();
-      console.log(id, "create defer from start fct");
+      logger.info(id, "create defer from start fct");
       hashSync.send(id, size, {hash: generated.hash, number: randomAsk.number});
     }, function(stored) {
-      console.log(stored.id, "received all hashes", stored.values);
+      logger.info(stored.id, "received all hashes", stored.values);
       hashesMap[stored.id] = stored.values;
       valueSync.send(stored.id, stored.size, generatedMap[stored.id]);
     });
@@ -22,7 +23,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
     var valueSync = new StateSync(randomSocket.valueSocket);
     valueSync.syncListener(function(id, size, randomValue) {
     }, function(stored) {
-      console.log(stored.id, "received all values", stored.values);
+      logger.info(stored.id, "received all values", stored.values);
       Object.keys(stored.values).map(function(source) {
         var randomValue = stored.values[source];
         var storedHash = hashesMap[stored.id][source].hash;
@@ -59,7 +60,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       }
     },
     generate: function(number, networkSize, id) {
-      console.log("generate", number, id);
+      logger.info("generate", number, id);
       var self = this;
       this.idCount++;
       if (!id) {
@@ -75,7 +76,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       }
       defer = qPlus.defer();
       deferMap[id] = defer;
-      console.log(id, "created defer");
+      logger.info(id, "created defer");
       var generated = this.generateLocal(number);
       generatedMap[id] = generated;
       hashSync.send(id, networkSize, {hash: generated.hash, number: number});

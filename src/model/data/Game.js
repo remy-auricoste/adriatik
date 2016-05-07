@@ -10,6 +10,7 @@ var God = require("./God");
 var q = require("../../services/qPlus");
 var randomFactory = require("../../services/randomFactory");
 var config = require("../../services/config");
+var logger = require("../../alias/Logger").getLogger("Game");
 
 var Game = Meta.declareClass("Game", {
     territories: ["Territory"],
@@ -189,7 +190,7 @@ var Game = Meta.declareClass("Game", {
           this.currentBattle = null;
         } else if(result) {
           return result.then(function(battle) {
-            console.log("setting new battle", battle);
+            logger.info("setting new battle", battle);
             this.currentBattle = battle;
             return battle;
           });

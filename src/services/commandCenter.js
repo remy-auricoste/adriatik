@@ -3,6 +3,7 @@ var gameStorage = require("./gameStorage");
 var randomFactory = require("./randomFactory");
 var Command = require("../model/data/Command");
 var config = require("./config");
+var logger = require("../alias/Logger").getLogger("commandCenter");
 
 commandSocket.addListener(function(messageObj) {
   var source = messageObj.source;
@@ -11,7 +12,7 @@ commandSocket.addListener(function(messageObj) {
     return;
   }
   var command = Command.fromObject(messageObj.message);
-  console.log("commandSocket received", command, "source", source);
+  logger.info("commandSocket received", command, "source", source);
   var playerSocketId = command.player.account.id;
   if (!config.isDev() && playerSocketId !== source) {
     throw new Error("received a command not from the actual player. source="+source+". player id="+playerSocketId);
@@ -58,7 +59,7 @@ var CommandCenter = {
       throw new Error("Ce n'est pas à votre tour de jouer");
     }
     this.execute(command);
-    console.log("sending command", command);
+    logger.info("sending command", command);
     commandSocket.send(JSON.parse(JSON.stringify(command)));
   }
 };

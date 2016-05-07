@@ -1,9 +1,10 @@
-console.log("start server.js");
+var logger = require("./alias/Logger").getLogger("server");
+logger.info("start server.js");
 var static = require('node-static');
 
 var port = process.env.PORT || 8000;
 
-console.log("starting static servers");
+logger.info("starting static servers");
 var fileServer = new static.Server('./dist/assets', {
     cache: 1
 });
@@ -18,7 +19,7 @@ String.prototype.endsWith = function(end) {
     return end.length <= this.length && this.substring(this.length-end.length) === end;
 }
 
-console.log("creating server listening on port", port);
+logger.info("creating server listening on port", port);
 require('http').createServer(function (request, response) {
     request.addListener('end', function () {
         if (request.url.endsWith(".css") || request.url.endsWith(".js")) {

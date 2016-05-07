@@ -1,4 +1,5 @@
 var commandCenter = require("../../services/commandCenter");
+var logger = require("../../alias/Logger").getLogger("creaturePanel");
 
 /** @ngInject */
 function creaturePanel($rootScope) {
@@ -13,7 +14,7 @@ function creaturePanel($rootScope) {
         link: function (scope, elements, attr) {
           scope.targets = [];
           scope.useCreature = function(creature) {
-            console.log("use creature", creature);
+            logger.info("use creature", creature);
             var creatureArgs = scope.targets;
             var command = new Command({
               type: CommandType.BuyCreature,
@@ -47,10 +48,10 @@ function creaturePanel($rootScope) {
             if (!scope.selectedCreature || !selection) {
               return;
             }
-            console.log("selected", selection);
+            logger.info("selected", selection);
             var expectedTargetType = scope.selectedCreature.targetTypes[scope.targets.length];
             try { scope.selectedCreature.checkType(expectedTargetType, selection); } catch(err) { return; }
-            console.log("add target", selection);
+            logger.info("add target", selection);
             scope.targets.push(selection);
             if (scope.targets.length === scope.selectedCreature.targetTypes.length) {
               scope.useCreature(scope.selectedCreature);
