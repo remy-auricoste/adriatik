@@ -57,3 +57,4 @@ Array.prototype.flatMap = function(fonction) {
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
+Array.prototype.forall = Array.prototype.every;
