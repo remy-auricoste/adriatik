@@ -370,7 +370,7 @@ describe('Player class', function () {
       result.then(function(battle) {
         expect(battle.getLoosers()).to.deep.equal([player]);
         done();
-      });
+      }).catch(done);
     });
     it("should not remove units and wait for player1 choice and remove 1 unit for player2", function(done) {
       // given
@@ -388,7 +388,7 @@ describe('Player class', function () {
       result.then(function(battleResult) {
         expect(battleResult.getLoosers()).to.deep.equal([player2, player]);
         done();
-      });
+      }).catch(done);
     });
   });
 
