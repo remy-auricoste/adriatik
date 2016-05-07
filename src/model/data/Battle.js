@@ -39,7 +39,7 @@ var Battle = Meta.createClass("Battle", {
   isFullyResolved: function() {
     return this.getStates().forall(function(state) {
       return state.isFullyResolved();
-    }) || this.isLossResolved() && this.getStates().filter(function(state) {
+    }) || this.isLossResolved() && !!this.getStates().filter(function(state) {
       return !state.hasUnits();
     }).length;
   },

@@ -187,6 +187,12 @@ var Game = Meta.declareClass("Game", {
         var result = player.resolveBattle(battle, options);
         if (result === true) {
           this.currentBattle = null;
+        } else if(result) {
+          return result.then(function(battle) {
+            console.log("setting new battle", battle);
+            this.currentBattle = battle;
+            return battle;
+          });
         }
     },
     receiveCommand: function (command) {
