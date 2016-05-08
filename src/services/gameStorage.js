@@ -5,12 +5,14 @@ var logger = require("../alias/Logger").getLogger("gameStorage");
 var key = window.location.pathname;
 
 var gameStorage = {
-    save: function(object) {
+    save: function(object, name) {
+      name = name ? name : key;
       var saved = JSON.stringify(object);
-      localStorage[key] = saved;
+      localStorage[name] = saved;
     },
-    load: function() {
-      var value = localStorage[key];
+    load: function(name) {
+      name = name ? name : key;
+      var value = localStorage[name];
       if (!value) {
         return null;
       }
@@ -32,10 +34,14 @@ var gameStorage = {
       })
       return game;
     },
+    copy: function(source, dest) {
+      localStorage[dest] = localStorage[source];
+    },
     delete: function() {
       delete localStorage[key];
       window.location.reload(true);
-    }
+    },
+    defaultName: key
 }
 
 module.exports = gameStorage;

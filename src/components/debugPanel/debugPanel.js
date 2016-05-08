@@ -16,6 +16,13 @@ function debugPanel($rootScope, $timeout) {
             scope.goldPlus = function() {
               scope.game.currentPlayer.gold++;
             }
+            scope.saveSlot = function() {
+              gameStorage.save(scope.game, "slot");
+            }
+            scope.loadSlot = function() {
+              gameStorage.copy("slot", gameStorage.defaultName);
+              window.location.reload(true);
+            }
         }
     };
 }
