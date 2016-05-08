@@ -3,7 +3,7 @@ var Request = require("rauricoste-request");
 var Tile = require("../model/tools/Tile");
 var Territory = require("../model/data/Territory");
 
-var tileSize = 60;
+var tileSize = 90;
 var distEpsilon = 0.5;
 
 var mapGenerator = {
