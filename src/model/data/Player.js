@@ -72,6 +72,7 @@ Player = Meta.declareClass("Player", {
         territory.buildings.push(this.god.building);
     },
     buyUnit: function (territory) {
+        var self = this;
         try {
             this.requireGod();
             if (!this.god.unitType) {
@@ -81,8 +82,21 @@ Player = Meta.declareClass("Player", {
             if (!price && price !== 0) {
                 throw new Error("il n'y a plus d'unité à acheter.");
             }
-            if (territory.owner !== this) {
-                throw new Error("vous ne pouvez acheter des unités que sur des territoires que vous contrôlez")
+            var territoryType = this.god.unitType.territoryType;
+            if (territoryType !== territory.type) {
+                throw new Error("il est impossible de placer ce type d\'unité sur ce type de territoire.");
+            }
+            if (territory.owner !== this && territory.type === "earth") {
+                throw new Error("vous ne pouvez acheter des unités terrestres que sur des territoires que vous contrôlez");
+            }
+            if (!territory.isFriendly(self) && territory.type === "sea") {
+                throw new Error("vous ne pouvez acheter des unités maritimes que sur des territoires vides ou que vous contrôlez");
+            }
+            var nearbyOwnedTerritories = territory.getNeighbours().filter(function(territory2) {
+              return territory2.type === "earth" && territory2.owner === self;
+            });
+            if (territory.type === "sea" && !nearbyOwnedTerritories.length) {
+                throw new Error("vous ne pouvez acheter des unités maritimes que sur des territoires situés à proximité d'un territoire terrestre que vous contrôlez");
             }
             this.spend(price);
             territory.placeUnit(new Unit({type: this.god.unitType, owner: this}));

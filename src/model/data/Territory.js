@@ -92,6 +92,11 @@ var Territory = Meta.declareClass("Territory", {
     },
     isNextTo: function(territory) {
       return this.neighbours.indexOf(territory.id) >= 0;
+    },
+    getNeighbours: function() {
+      return this.neighbours.map(Territory.byId).filter(function(territory) {
+        return !!territory;
+      });
     }
 });
 Territory.byId = function (id) {

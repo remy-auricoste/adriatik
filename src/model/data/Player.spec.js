@@ -82,8 +82,12 @@ describe('Player class', function () {
     });
     it("should buy a unit and place it on the territory (Neptune)", function() {
       // given
+      territory2.owner = player;
+      territory2.type = "earth";
+      territory.nextTo(territory2);
+
       player.god = God.Neptune;
-      territory.type = "sea";
+      territory.type = "sea"; // territory is next to a controlled earth territory
       // when
       player.buyUnit(territory);
       // then
@@ -144,7 +148,7 @@ describe('Player class', function () {
       // given
       player.god = God.Minerve;
       // when
-      expect(function() {player.buyUnit(emptyTerritory);}).to.throw("Il est impossible d'acheter une unité : vous ne pouvez acheter des unités que sur des territoires que vous contrôlez");
+      expect(function() {player.buyUnit(emptyTerritory);}).to.throw("Il est impossible d'acheter une unité : vous ne pouvez acheter des unités terrestres que sur des territoires que vous contrôlez");
     })
   });
 
