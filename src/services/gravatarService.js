@@ -12,7 +12,7 @@ function gravatarService(md5, $http) {
         return this.cache[email];
       }
       var hash = md5.createHash(email);
-      return new Request().get("http://www.gravatar.com/"+hash).then(function(res) {
+      return new Request().get("https://www.gravatar.com/"+hash).then(function(res) {
         logger.info(res.headers);
         var locationHeader = res.headers.Location;
         if (locationHeader) {
@@ -34,7 +34,7 @@ function gravatarService(md5, $http) {
       if (!email) {
         return null;
       }
-      return "http://www.gravatar.com/avatar/"+md5.createHash(email)+"?s=50";
+      return "https://www.gravatar.com/avatar/"+md5.createHash(email)+"?s=50";
     }
   }
 }
