@@ -1,4 +1,4 @@
-var logger = require("./alias/Logger").getLogger("server");
+var logger = require("./src/alias/Logger").getLogger("server");
 logger.info("start server.js");
 var static = require('node-static');
 
