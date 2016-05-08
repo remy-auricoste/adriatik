@@ -33,6 +33,9 @@ var BattleState = Meta.createClass("BattleState", {
   hasUnits: function() {
     return !!(this.units.length - (this.resolvedLoss ? 1 : 0));
   },
+  isStaying: function() {
+    return this.decision === "stay";
+  },
   stay: function() {
     this.decision = "stay";
   },

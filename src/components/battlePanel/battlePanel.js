@@ -22,16 +22,19 @@ function battlePanel($rootScope) {
             }));
           }
 
-          scope.selectedUnit = null;
+          scope.selectedUnits = [];
           scope.selectUnit = function(unit) {
             if (!scope.isSelectable(unit)) {
               return;
             }
-            scope.selectedUnit = unit;
+            scope.selectedUnits.push(unit);
             emitResolveBattle({unit: unit}, unit.owner);
           }
           scope.isSelectable = function(unit) {
             return scope.game.currentBattle.getState(unit.owner).loss;
+          }
+          scope.isSelected = function(unit) {
+            return scope.selectedUnits.indexOf(unit) >= 0;
           }
 
           scope.stayButton = function(player) {

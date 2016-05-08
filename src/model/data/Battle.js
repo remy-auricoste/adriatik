@@ -47,6 +47,13 @@ var Battle = Meta.createClass("Battle", {
     return this.getStates().filter(function(state) {
       return state.player === player;
     })[0];
+  },
+  shouldMakeMoveDecision: function(player) {
+    var state = this.getState(player);
+    return this.isLossResolved()
+                && state.isLossResolved()
+                && !state.decision
+                && (this.getAttacker() === player || this.getState(this.getAttacker()).isStaying());
   }
 });
 Battle.new = function(randoms, territory) {
