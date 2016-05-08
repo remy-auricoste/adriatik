@@ -4,6 +4,8 @@ var CommandType = require("../../model/data/CommandType");
 var Command = require("../../model/data/Command");
 var commandCenter = require("../../services/commandCenter");
 
+var logger = require("../../alias/Logger").getLogger("map");
+
 /** @ngInject */
 function map($rootScope) {
     return {

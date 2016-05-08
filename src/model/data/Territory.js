@@ -89,10 +89,18 @@ var Territory = Meta.declareClass("Territory", {
       return !!Meta.find(this.units, function(unit) {
         return unit.owner !== player1;
       });
+    },
+    isNextTo: function(territory) {
+      return this.neighbours.indexOf(territory.id) >= 0;
     }
 });
 Territory.byId = function (id) {
     return Territory._all[id];
+}
+Territory.allArray = function() {
+  return Object.keys(Territory._all).map(function(key) {
+    return Territory._all[key];
+  });
 }
 
 module.exports = Territory;

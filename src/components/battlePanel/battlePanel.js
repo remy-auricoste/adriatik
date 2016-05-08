@@ -13,6 +13,11 @@ function battlePanel($rootScope) {
             game: "="
         },
         link: function (scope, elements, attr) {
+          var init = function() {
+            scope.selectedUnits = [];
+          }
+          init();
+
           var emitResolveBattle = function(options, player) {
             player = player ? player : scope.game.currentPlayer;
             commandCenter.send(new Command({
@@ -22,7 +27,6 @@ function battlePanel($rootScope) {
             }));
           }
 
-          scope.selectedUnits = [];
           scope.selectUnit = function(unit) {
             if (!scope.isSelectable(unit)) {
               return;
@@ -40,17 +44,20 @@ function battlePanel($rootScope) {
           scope.stayButton = function(player) {
             emitResolveBattle({stay: true}, player);
           }
-          scope.retreatButton = function() {
+          scope.retreatButton = function(player) {
               scope.isChoosingRetreat = true;
+              scope.retreatingPlayer = player;
               $rootScope.mode = {select: "Territory"};
           }
           $rootScope.$on("select", function(event, selection) {
             if (!scope.game.currentBattle) {
               return;
             }
-            logger.info("battlePanel selection", selection);
-            emitResolveBattle({retreatTerritory: selection});
+            logger.info("battlePanel selection", selection, "retreating player", scope.retreatingPlayer.name);
+            emitResolveBattle({retreatTerritory: selection}, scope.retreatingPlayer);
             scope.isChoosingRetreat = false;
+            scope.retreatingPlayer = null;
+            $rootScope.mode = null;
           })
 
           scope.toggleShow = function() {

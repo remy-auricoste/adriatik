@@ -169,16 +169,12 @@ Player = Meta.declareClass("Player", {
     },
     findPathBySea: function(fromTerritory, toTerritorry, currentPath, passedTerritories) {
       var self = this;
-      if (!passedTerritories) {
-        passedTerritories = [];
-      }
-      if (!currentPath) {
-        currentPath = [];
-      }
-      if (fromTerritory.neighbours.indexOf(toTerritorry.id) !== -1) {
+      passedTerritories = passedTerritories ? passedTerritories : [];
+      currentPath = currentPath ? currentPath : [];
+      if (fromTerritory.isNextTo(toTerritorry)) {
         return currentPath.concat([toTerritorry]);
       }
-      var neighbourIdsLeft = fromTerritory.neighbours.diff(passedTerritories.map(function(territory) {return territory.id}));
+      var neighbourIdsLeft = fromTerritory.neighbours.diff(passedTerritories);
       if (neighbourIdsLeft.length === 0) {
         return null;
       }
@@ -187,8 +183,8 @@ Player = Meta.declareClass("Player", {
       }).filter(function(territory) {
         return territory && territory.type === "sea" && territory.owner === self;
       });
-      passedTerritories.push(fromTerritory);
-      logger.info("passed territories", passedTerritories.length);
+      passedTerritories.push(fromTerritory.id);
+      logger.debug("passed territories", passedTerritories);
       return Meta.find(possibleNeighbours, function(territory) {
         return self.findPathBySea(territory, toTerritorry, currentPath.concat([territory]), passedTerritories);
       });
@@ -261,8 +257,8 @@ Player = Meta.declareClass("Player", {
         }
         if (options.retreatTerritory) {
           logger.info("resolveBattle : retreating...");
-          battle.getState(this).retreat();
           this.retreat(battle.territory, options.retreatTerritory);
+          battle.getState(this).retreat();
         }
         if (options.stay) {
           battle.getState(this).stay();
@@ -284,14 +280,9 @@ Player = Meta.declareClass("Player", {
     },
     possibleRetreats: function (territory) {
         var self = this;
-        var neighbours = territory.neighbours.map(function (id) {
-            return Territory.byId(id);
+        return Territory.allArray().filter(function(territory2) {
+          return territory2.isFriendly(self) && (territory.isNextTo(territory2) || !!self.findPathBySea(territory, territory2));
         });
-        var friendly = neighbours.filter(function (territory) {
-            return territory.isFriendly(self);
-        });
-        // TODO handle retreats using ships
-        return friendly;
     },
     retreat: function (fromTerritory, toTerritorry) {
         var self = this;

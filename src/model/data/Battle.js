@@ -40,7 +40,7 @@ var Battle = Meta.createClass("Battle", {
     return this.getStates().forall(function(state) {
       return state.isFullyResolved();
     }) || this.isLossResolved() && !!this.getStates().filter(function(state) {
-      return !state.hasUnits();
+      return !state.hasUnits() || state.isRetreating();
     }).length;
   },
   getState: function(player) {

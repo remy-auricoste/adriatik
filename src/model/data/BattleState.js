@@ -36,6 +36,9 @@ var BattleState = Meta.createClass("BattleState", {
   isStaying: function() {
     return this.decision === "stay";
   },
+  isRetreating: function() {
+    return this.decision === "retreat";
+  },
   stay: function() {
     this.decision = "stay";
   },
