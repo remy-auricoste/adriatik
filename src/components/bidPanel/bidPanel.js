@@ -1,4 +1,3 @@
-var gameStorage = require("../../services/gameStorage");
 var commandCenter = require("../../services/commandCenter");
 var Phases = require("../../model/data/Phases");
 var God = require("../../model/data/God");
@@ -17,7 +16,6 @@ function bidPanel($rootScope, $timeout) {
             game: "="
         },
         link: function (scope, elements, attr) {
-            scope.gameStorage = gameStorage;
             scope.visibleCoins = function(god) {
               var godBid = (god && god.bid && god.bid.gold) ? god.bid.gold : 0;
               var coinsNb = Math.max(scope.game.currentPlayer.gold, godBid);
@@ -30,11 +28,6 @@ function bidPanel($rootScope, $timeout) {
             }
             scope.Phases = Phases;
             scope.God = God;
-            scope.rootScope = $rootScope;
-
-            scope.goldPlus = function() {
-              scope.game.currentPlayer.gold++;
-            }
         }
     };
 }

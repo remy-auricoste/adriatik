@@ -14,6 +14,7 @@ require("./components/bidPanel/bidPanel");
 require("./components/chatPanel/chatPanel");
 require("./components/creaturePanel/creaturePanel");
 require("./components/customIf/customIf");
+require("./components/debugPanel/debugPanel");
 require("./components/dicePanel/dicePanel");
 require("./components/errorPanel/errorPanel");
 require("./components/game/game");
