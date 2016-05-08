@@ -208,7 +208,7 @@ Player = Meta.declareClass("Player", {
         }
         this.requireGod();
         if (!this.findPathBySea(fromTerritory, toTerritorry)) {
-            throw new Error("le territoire de destination n'est pas adjacent au territoire de départ.");
+            throw new Error("le territoire de destination n'est pas adjacent au territoire de départ, ou relié par une chaîne de bateaux.");
         }
     },
     move: function (units, fromTerritory, toTerritorry) {

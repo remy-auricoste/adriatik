@@ -308,7 +308,7 @@ describe('Player class', function () {
       territory.placeUnit(playerLegionnaire);
       // when
       var units = [playerLegionnaire];
-      expect(function() {player.move(units, territory, territory2);}).to.throw("Il est impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ.");
+      expect(function() {player.move(units, territory, territory2);}).to.throw("Il est impossible de déplacer des unités : le territoire de destination n'est pas adjacent au territoire de départ, ou relié par une chaîne de bateaux.");
     });
     it("should throw an exception because move is not allowed by the god", function() {
       // given
