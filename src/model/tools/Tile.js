@@ -1,3 +1,5 @@
+var Meta = require("../../alias/Meta");
+
 var Tile = function(id, code, pos) {
   this.code = code;
   this.id = id;
