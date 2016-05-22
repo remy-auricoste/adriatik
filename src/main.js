@@ -23,6 +23,8 @@ require("./components/icon/icon");
 require("./components/introPanel/introPanel");
 require("./components/itemPrice/itemPrice");
 require("./components/map/map");
+require("./components/map/mapCounter");
+require("./components/mouseFollow/mouseFollow");
 require("./components/playerPanel/playerPanel");
 require("./components/room/room");
 require("./components/sesterces/sesterces");

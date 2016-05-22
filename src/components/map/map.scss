@@ -60,5 +60,10 @@ $sea-over-neighbour: darken($sea, $darken1);
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    padding: 10px;
+  }
+
+  .player-unit, .controlledIncome {
+    color: white;
   }
 }

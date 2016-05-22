@@ -1,40 +1,58 @@
 <section class="map">
-    <svg>
-        <g>
-            <path ng-repeat="territory in game.territories track by territory.id"
-                  ng-attr-d="{{territory.path}}"
-                  class="area"
-                  ng-class="{over: territory.over, neighbour: territory.isNeighbour, sea: territory.type === 'sea', owned: territory.owner}"
-                  ng-mouseover="onMouseOver($event, territory)"
-                  ng-mouseout="onMouseOut(territory)"
-                  ng-click="onClick(territory)"
-                  style="{{territory.owner && territory.type === 'earth' ? 'fill: '+territory.owner.color : ''}}"
-                  stroke="black"
-                    >
-            </path>
-        </g>
-    </svg>
-    <div ng-repeat="territory in game.territories track by territory.id"
-         class="icon-container"
-         style="left: {{territory.box.x}}px; top: {{territory.box.y}}px; width: {{territory.box.width}}px; height: {{territory.box.height}}px;"
-            >
-      <div>
-        <icon ng-repeat="unit in territory.units"
-                size="{{unitSize}}"
-                file-name="{{unit.type.name}}"
-                class="image unit unit-{{unit.owner.color}}"
-                ng-class="{selected: unit.selected}"
-                ng-click="toggleUnit(unit)"
-                ></icon><icon ng-repeat="building in territory.buildings track by $index"
-              size="{{unitSize}}"
-              file-name="{{building.name}}"
-              class="image building"
-              ng-click="selectBuilding(building)"
-              ></icon><icon ng-repeat="i in [] | range:territory.getIncome()"
-              size="{{unitSize}}"
-              file-name="sesterce"
-              class="image coin"
-              ></icon>
-      </div>
+  <svg>
+    <g>
+      <path ng-repeat="territory in game.territories track by territory.id"
+            ng-attr-d="{{territory.path}}"
+            class="area"
+            ng-class="{over: territory.over, neighbour: territory.isNeighbour, sea: territory.type === 'sea', owned: territory.owner}"
+            ng-mouseover="onMouseOver($event, territory)"
+            ng-mouseout="onMouseOut(territory)"
+            ng-click="onClick(territory)"
+            stroke="black"
+      >
+        <!--style="{{territory.owner && territory.type === 'earth' ? 'fill: '+territory.owner.color : ''}}"-->
+      </path>
+    </g>
+  </svg>
+  <div ng-repeat="territory in game.territories track by territory.id"
+       class="icon-container"
+       style="left: {{territory.box.x}}px; top: {{territory.box.y}}px; width: {{territory.box.width}}px; height: {{territory.box.height}}px;"
+  >
+    <div>
+      <map-counter file-name="sesterce"
+                   value="territory.getIncome()"
+                   class="bg-player-{{territory.owner.color}} income"
+                   ng-class="{controlledIncome: territory.owner}"
+                    ></map-counter>
+      <map-counter ng-repeat="key in getUnitCounterKeys(territory.units)"
+                   file-name="{{getCounter(territory.units, key).unitType}}"
+                   value="getUnitCount(territory.units, key, territory)"
+                   class="bg-player-{{getCounter(territory.units, key).color}} player-unit clickable"
+                   ng-click="select(getCounter(territory.units, key), territory)"
+                    ></map-counter>
+      <!--<icon ng-repeat="unit in territory.units"-->
+      <!--size="40"-->
+      <!--file-name="{{unit.type.name}}"-->
+      <!--class="image unit unit-{{unit.owner.color}}"-->
+      <!--ng-class="{selected: unit.selected}"-->
+      <!--ng-click="toggleUnit(unit)"-->
+      <!--&gt;</icon><icon ng-repeat="building in territory.buildings track by $index"-->
+      <!--size="30"-->
+      <!--file-name="{{building.name}}"-->
+      <!--class="image building"-->
+      <!--ng-click="selectBuilding(building)"-->
+      <!--&gt;</icon><icon ng-repeat="i in [] | range:territory.getIncome()"-->
+      <!--size="20"-->
+      <!--file-name="sesterce"-->
+      <!--class="image coin"-->
+      <!--&gt;</icon>-->
     </div>
+  </div>
+  <mouse-follow ng-show="hasSelectedUnits()">
+    <map-counter ng-repeat="key in getUnitCounterKeys(selection.units)"
+                 file-name="{{getCounter(selection.units, key).unitType}}"
+                 value="getCounter(selection.units, key).units.length"
+                 class="bg-player-{{getCounter(selection.units, key).color}} player-unit"
+    ></map-counter>
+  </mouse-follow>
 </section>
