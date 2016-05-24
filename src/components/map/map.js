@@ -77,6 +77,7 @@ function map($rootScope) {
             };
             initSelection();
             scope.select = function(counter, territory) {
+              $rootScope.$emit("select.mode", null);
               if (scope.selection.fromTerritory !== territory) {
                 initSelection();
               }
@@ -123,6 +124,10 @@ function map($rootScope) {
               }
               return unitCount;
             }
+
+            $rootScope.$on("select.mode", function() {
+              initSelection();
+            });
         }
     };
 }

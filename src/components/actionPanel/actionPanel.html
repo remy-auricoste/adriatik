@@ -9,11 +9,11 @@
                         ng-show="god().building"
                         icon-size="{{iconSize}}"
                         icon-name="{{god().building.name}}"
-                        ng-class="{selected: mode === CommandType.Build}"
+                        ng-class="{selected: rootScope.mode === CommandType.Build}"
                     ></item-price>
         </div>
         <div ng-show="god().unitType"
-             ng-class="{selected: mode === CommandType.BuyUnit}"
+             ng-class="{selected: rootScope.mode === CommandType.BuyUnit}"
              class="action-unit"
              ng-click="selectMode(CommandType.BuyUnit)"
                 >
@@ -24,7 +24,7 @@
                     ></item-price>
         </div>
         <div ng-show="god().card"
-             ng-class="{selected: mode === CommandType.BuyCard}"
+             ng-class="{selected: rootScope.mode === CommandType.BuyCard}"
              class="action-card"
              ng-click="selectMode(CommandType.BuyCard)"
                 >

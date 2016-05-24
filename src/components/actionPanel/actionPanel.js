@@ -24,20 +24,20 @@ function actionPanel($rootScope) {
             scope.selectMode = function(mode) {
                 var selected = mode !== $rootScope.mode;
                 logger.info("mode", mode, selected);
-                $rootScope.mode = selected ? mode : null;
-                scope.mode = $rootScope.mode;
-                if (scope.mode === CommandType.BuyCard) {
+                var mode = selected ? mode : null;
+                $rootScope.$emit("select.mode", mode);
+                if (mode === CommandType.BuyCard) {
                   commandCenter.send(new Command({
-                    type: scope.mode
+                    type: mode
                   }));
-                  scope.mode = null;
-                  $rootScope.mode = null;
+                  $rootScope.$emit("select.mode", null);
                 }
             }
             scope.endTurn = function () {
                 commandCenter.send(new Command({type: CommandType.EndTurn}));
             }
             scope.Phases = Phases;
+            scope.rootScope = $rootScope;
         }
     };
 }

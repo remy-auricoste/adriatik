@@ -3,7 +3,7 @@ var commandCenter = require("../../services/commandCenter");
 var logger = require("../../alias/Logger").getLogger("game");
 
 /** @ngInject */
-function game($route) {
+function game($route, $rootScope) {
     'use strict';
 
     return {
@@ -29,6 +29,10 @@ function game($route) {
             }).catch(function(err) {
               logger.info("error when initializing the game");
               console.error(err);
+            });
+
+            $rootScope.$on("select.mode", function(event, value) {
+              $rootScope.mode = value;
             });
         }
     };

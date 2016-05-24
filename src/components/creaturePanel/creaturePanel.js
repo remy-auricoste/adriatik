@@ -33,10 +33,10 @@ function creaturePanel($rootScope) {
                 scope.selectedCreature = creature;
                 scope.targets = [];
                 var type = creature.targetTypes[0];
-                $rootScope.mode = {select: type};
+                $rootScope.$emit("select.mode", {select: type});
               } else {
                 scope.selectedCreature = null;
-                $rootScope.mode = null;
+                $rootScope.$emit("select.mode", null);
               }
             }
           }
@@ -57,7 +57,8 @@ function creaturePanel($rootScope) {
               scope.useCreature(scope.selectedCreature);
             }
             var nextType = scope.selectedCreature.targetTypes[scope.targets.length];
-            $rootScope.mode = nextType ? {select: nextType} : null;
+            var mode = nextType ? {select: nextType} : null;
+            $rootScope.$emit("select.mode", mode);
           })
         }
     };

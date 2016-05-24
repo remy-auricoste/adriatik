@@ -47,7 +47,7 @@ function battlePanel($rootScope) {
           scope.retreatButton = function(player) {
               scope.isChoosingRetreat = true;
               scope.retreatingPlayer = player;
-              $rootScope.mode = {select: "Territory"};
+              $rootScope.$emit("select.mode", {select: "Territory"});
           }
           $rootScope.$on("select", function(event, selection) {
             if (!scope.game.currentBattle) {
@@ -57,7 +57,7 @@ function battlePanel($rootScope) {
             emitResolveBattle({retreatTerritory: selection}, scope.retreatingPlayer);
             scope.isChoosingRetreat = false;
             scope.retreatingPlayer = null;
-            $rootScope.mode = null;
+            $rootScope.$emit("select.mode", null);
           })
 
           scope.toggleShow = function() {
