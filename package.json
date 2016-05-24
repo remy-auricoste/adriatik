@@ -4,6 +4,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --require './src/tests' 'src/**/*.spec.js'",
     "postinstall": "node ./node_modules/gulp/bin/gulp.js build",
+    "dev": "./startSocketServer.sh & gulp serve",
     "start": "node server.js"
   },
   "dependencies": {

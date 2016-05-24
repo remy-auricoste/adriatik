@@ -27,8 +27,7 @@ npm config set proxy http://xxxx
 
 
 Voici ensuite quelques commandes :
-* ```gulp serve``` pour démarrer un server statique. Attention, il faut le redémarrer lorsqu'on ajoute des fichiers qui ne sont pas dans le répertoire de watch (par défaut ```src```, cf ```gulpfile.js/conf.base.watch```).
+* `npm run dev` pour démarrer les serveurs en local. Attention, il faut les redémarrer lorsqu'on ajoute des fichiers qui ne sont pas dans le répertoire de watch (par défaut ```src```, cf ```gulpfile.js/conf.base.watch```).
 Les fichiers générés se trouvent dans le répertoire ```dist```
-* ```npm test``` pour lancer les tests
-* ```gulp``` pour créer une version compilée (minifée, uglify, etc...)
-* ```./startSocketServer.sh``` pour lancer un serveur de messages en local (port 8001). Il faut alors changer la conf dans socket.js
+* `npm test` pour lancer les tests
+* `gulp` pour créer une version compilée (minifée, uglify, etc...)

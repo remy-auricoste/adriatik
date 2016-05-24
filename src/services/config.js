@@ -7,6 +7,9 @@ var config = {
     }
     var path = window.location.hash.substring(1);
     return path.startsWith("/dev/");
+  },
+  isLocal: function() {
+    return window.location.hostname === "localhost";
   }
 }
 
