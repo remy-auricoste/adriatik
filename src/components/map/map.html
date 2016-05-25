@@ -30,6 +30,11 @@
                    class="bg-player-{{getCounter(territory.units, key).color}} player-unit clickable"
                    ng-click="select(getCounter(territory.units, key), territory)"
                     ></map-counter>
+      <div class="map-counter bg-player-{{territory.owner.color}} building" ng-if="territory.buildings.length">
+          <icon ng-repeat="building in territory.buildings track by $index"
+                file-name="{{building.name}}"
+                size="20"></icon>
+      </div>
       <!--<icon ng-repeat="unit in territory.units"-->
       <!--size="40"-->
       <!--file-name="{{unit.type.name}}"-->
