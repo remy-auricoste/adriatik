@@ -1,6 +1,6 @@
 var Injector = require("./Injector");
 
-describe.only("Injector", function() {
+describe("Injector", function() {
   it("should handle dependancies with multiple layers", function() {
     var injector = new Injector();
     var layer1 = {a: 1};

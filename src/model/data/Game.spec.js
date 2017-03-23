@@ -1,5 +1,8 @@
+var injector = require("../../core/InjectorTest");
+require("./Game");
+
 var CreatureCard = require("./CreatureCard");
-var Game = require("./Game");
+var Game = injector.getInstance("Game");
 var God = require("./God");
 var Territory = require("./Territory");
 var Building = require("./Building");

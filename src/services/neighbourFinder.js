@@ -26,8 +26,8 @@ module.exports = {
     var segments = Raphael.parsePathString(territory.path);
     var neighboursFound = this.findNeighboursSimple(territory, territories).filter(function (neighbour) {
       var otherSegments = Raphael.parsePathString(neighbour.path);
-      return Meta.find(segments, function (segment) {
-        return Meta.find(otherSegments, function (otherSegment) {
+      return segments.find(function (segment) {
+        return otherSegments.find(function (otherSegment) {
           var x = segment[1];
           var y = segment[2];
           var otherx = otherSegment[1];

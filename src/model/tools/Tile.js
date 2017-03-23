@@ -1,4 +1,4 @@
-var Meta = require("../../alias/Meta");
+var Arrays = require("../natif/Arrays");
 
 var Tile = function(id, code, pos) {
   this.code = code;
@@ -25,11 +25,11 @@ Tile.prototype.getBlock = function() {
   while (added.length) {
     block = block.concat(added);
     var visited = block.concat([]);
-    var added = Meta.flatten(added.map(function(tile) {
+    var added = Arrays.flatMap(added, function(tile) {
       var neighbours = tile.getNeighbours(self.code, visited);
       visited = visited.concat(neighbours);
       return neighbours;
-    }));
+    });
   }
   this.block = block;
   return block;

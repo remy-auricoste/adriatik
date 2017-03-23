@@ -83,14 +83,6 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
       hashSync.send(id, networkSize, {hash: generated.hash, number: number});
       return defer.promise;
     },
-    shuffle: function (array) {
-      return this.generate(array.length).then(function (randoms) {
-        // cf http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-        var o = array;
-        for (var j, x, i = o.length; i; j = Math.floor(randoms[i - 1] * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
-      });
-    },
     multRandom : function(randomsArray){
       var joined = randomsArray.join("");
       var string = ("" + hashService(joined));

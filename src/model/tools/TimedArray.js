@@ -19,7 +19,7 @@ var TimedArray = Meta.createClass("TimedArray", {
     });
   },
   remove: function(item) {
-    var index = Meta.findIndex(this.items, function(object) {
+    var index = this.items.findIndex(function(object) {
       return object.item === item;
     });
     if (index >= 0) {
