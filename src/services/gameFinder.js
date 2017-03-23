@@ -3,7 +3,7 @@ var socket = require("./socket");
 var gameFinder = {
   search: {},
   find: function(playerSize) {
-    var roomSocket = socket.openRoom("adriatik-search-"+playerSize);
+    var roomSocket = socket.openRoomSocket("adriatik-search-"+playerSize);
     roomSocket.addRoomListener(function(messageObj) {
       if (messageObj.members.length >= playerSize) {
         roomSocket.send({command: "READY"})

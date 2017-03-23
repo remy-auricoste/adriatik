@@ -1,3 +1,4 @@
+var Arrays = require("rauricoste-arrays");
 var StateSync = require("../model/tools/StateSync");
 var logger = require("../alias/Logger").getLogger("randomFactoryBuilder");
 
@@ -49,7 +50,7 @@ function randomFactoryBuilder(qPlus, randomSocket, hashService) {
   var service = {
     generateLocal: function(number) {
       var self = this;
-      var values = Array.seq(1, number).map(function() {
+      var values = Arrays.seq(0, number).map(function() {
         return Math.random();
       });
       var salt = Math.random();

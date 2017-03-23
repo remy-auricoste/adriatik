@@ -1,3 +1,4 @@
+require("rauricoste-objects"); // polyfill
 var Meta = require("../../alias/Meta");
 
 var idCount = 0;
@@ -14,27 +15,17 @@ var Territory = Meta.declareClass("Territory", {
     buildings: ["Building"],
     buildSlots: 1,
     owner: "Player",
-    init: function () {
-        if (!this.buildings) {
-            this.buildings = [];
-        }
-        if (!this.units) {
-            this.units = [];
-        }
-        if (!this.neighbours) {
-            this.neighbours = [];
-        }
+    _defaults: {
+      buildings: [],
+      units: [],
+      neighbours: [],
+      addedIncome: 0,
+      income: 0,
+      buildSlots: 0
+    },
+    _init: function () {
         if (!this.id) {
             this.id = idCount++ + "";
-        }
-        if (!this.addedIncome) {
-          this.addedIncome = 0;
-        }
-        if (!this.income) {
-          this.income = 0;
-        }
-        if (!this.buildSlots) {
-          this.buildSlots = 0;
         }
     },
     placeUnit: function (unit) {
@@ -44,7 +35,7 @@ var Territory = Meta.declareClass("Territory", {
         this.units.push(unit);
     },
     removeUnit: function (unit) {
-        var index = Meta.findIndex(this.units, function(unitIte) {
+        var index = this.units.findIndex(function(unitIte) {
           return unit.type === unitIte.type && unit.owner === unitIte.owner;
         });
         if (!(typeof index === "number" && index >= 0)) {
@@ -86,7 +77,7 @@ var Territory = Meta.declareClass("Territory", {
         return false;
       }
       var player1 = this.units[0].owner;
-      return !!Meta.find(this.units, function(unit) {
+      return !!this.units.find(function(unit) {
         return unit.owner !== player1;
       });
     },
@@ -103,9 +94,7 @@ Territory.byId = function (id) {
     return Territory._all[id];
 }
 Territory.allArray = function() {
-  return Object.keys(Territory._all).map(function(key) {
-    return Territory._all[key];
-  });
+  return Object.values(Territory._all);
 }
 
 module.exports = Territory;

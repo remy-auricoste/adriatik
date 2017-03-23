@@ -12,10 +12,8 @@ var God = Meta.declareClass("God", {
     index: 1,
     bid: "Bid",
     playerNames: [],
-    init: function () {
-        if (!this.playerNames) {
-            this.playerNames = [];
-        }
+    _defaults: {
+      playerNames: []
     },
     canBuild: function (building) {
         return building === this.building;

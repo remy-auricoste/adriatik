@@ -1,4 +1,3 @@
-var expect = require("../../alias/Expect");
 var Player = require("./Player");
 var God = require("./God");
 var GodCard = require("./GodCard");
@@ -348,8 +347,7 @@ describe('Player class', function () {
       emptyTerritory.placeUnit(player2Legionnaire);
       emptyTerritory.owner = player2;
       // when
-      var units = [playerLegionnaire, playerLegionnaire];
-      var result = player.move(units, territory, emptyTerritory);
+      var result = player.move([playerLegionnaire, playerLegionnaire], territory, emptyTerritory);
       // then
       result.then(function(battle) {
         expect(battle.getDices()).to.deep.equal([0, 0]);

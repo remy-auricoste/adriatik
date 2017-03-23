@@ -10,7 +10,7 @@ var BattleState = Meta.createClass("BattleState", {
   decision: "",
   loss: 1,
   resolvedLoss: "Unit",
-  init: function() {
+  _init: function() {
     this.strength = this.units.length + this.buildings.length;
     // TODO count defensive buildings
     this.score = this.strength + this.getDice();

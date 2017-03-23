@@ -26,33 +26,27 @@ Player = Meta.declareClass("Player", {
     initBuildCount: 1,
     account: {},
     templeUsed: 1,
-    init: function () {
-        if (!this.unitBuyCount) {
-            this.unitBuyCount = 0;
-        }
-        if (!this.cardBuyCount) {
-            this.cardBuyCount = 0;
-        }
-        if (!this.cards) {
-            this.cards = {};
-        }
-        if (!this.gladiatorMoveCount) {
-            this.gladiatorMoveCount = 0;
-        }
-        if (!this.lastIncome) {
-          this.lastIncome = 0;
-        }
+    _defaults: {
+      unitBuyCount: 0,
+      cardBuyCount: 0,
+      cards: {},
+      gladiatorMoveCount: 0,
+      lastIncome: 0,
+      templeUsed: 0,
+      initBuildCount: 0,
+      gold: 7,
+      unitsLeft: {
+          earth: 8,
+          sea: 8,
+          gladiator: 3
+      }
+    },
+    _init: function () {
         if (!this.initCount) {
             this.initCount = {};
-            for (var name in UnitType.all) {
-                this.initCount[UnitType.all[name].name] = 0;
+            for (var name in UnitType._all) {
+                this.initCount[name] = 0;
             }
-        }
-        if (!this.templeUsed) {
-          this.templeUsed = 0;
-        }
-        if (!this.initBuildCount) {
-          this.initBuildCount = 0;
         }
     },
     build: function (territory) {
@@ -199,7 +193,7 @@ Player = Meta.declareClass("Player", {
       });
       passedTerritories.push(fromTerritory.id);
       logger.debug("passed territories", passedTerritories);
-      return Meta.find(possibleNeighbours, function(territory) {
+      return possibleNeighbours.find(function(territory) {
         return self.findPathBySea(territory, toTerritorry, currentPath.concat([territory]), passedTerritories);
       });
     },
@@ -210,7 +204,7 @@ Player = Meta.declareClass("Player", {
         if (!units || !units.length) {
             throw new Error("il n'y a aucune unité sélectionnée.");
         }
-        var allInTerritory = Meta.forall(units, function(unit) {
+        var allInTerritory = units.every(function(unit) {
           return fromTerritory.units.indexOf(unit) !== -1;
         });
         if (!allInTerritory) {
@@ -248,7 +242,6 @@ Player = Meta.declareClass("Player", {
     },
     resolveMove: function (units, fromTerritory, toTerritorry) {
         var self = this;
-        var destIsEmpty = toTerritorry.isEmpty();
         fromTerritory.moveUnits(units, toTerritorry);
         if (toTerritorry.hasConflict()) {
           return self.generateBattle(toTerritorry);
@@ -259,7 +252,7 @@ Player = Meta.declareClass("Player", {
     generateBattle: function(territory) {
         return randomFactory.generate(2).then(function (randoms) {
             var battle = Battle.new(randoms, territory);
-            logger.info("battle", battle);
+            logger.debug("battle", battle);
             return battle;
         });
     },
@@ -334,18 +327,5 @@ Player = Meta.declareClass("Player", {
         }
     }
 });
-
-Player.new = function (name) {
-
-    return new Player({
-        name: name,
-        gold: 7,
-        unitsLeft: {
-            earth: 8,
-            sea: 8,
-            gladiator: 3
-        }
-    })
-}
 
 module.exports = Player;

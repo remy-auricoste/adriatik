@@ -68,7 +68,7 @@ var gameInitializer = {
     var players = Object.keys(accounts).map(function (id) {
       var account = accounts[id];
       account.id = id;
-      var player = Player.new(account.name);
+      var player = new Player({name: account.name});
       player.account = account;
       return player;
     });

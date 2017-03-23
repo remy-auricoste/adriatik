@@ -1,5 +1,3 @@
-var expect = require("../../alias/Expect");
-
 describe('Arrays', function () {
   beforeEach(function () {
   });

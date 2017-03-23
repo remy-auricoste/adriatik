@@ -1,3 +1,4 @@
+var env = require("../test/env");
 var logger = require("../alias/Logger").getLogger("randomFactory");
 
 if (env.isTest()) {

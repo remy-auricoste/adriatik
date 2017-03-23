@@ -1,4 +1,4 @@
-var expect = require("../alias/Expect");
+var Arrays = require("rauricoste-arrays");
 var randomFactory = require("./randomFactory.mock");
 var hashService = require("./hashService");
 var randomSocketMock = require("./randomSocket.mock");
@@ -28,7 +28,7 @@ describe('random factory object', function () {
       };
 
       var randomNumbers = function() {
-        var randoms = Array.seq(1, 4).map(function(index) {
+        var randoms = Arrays.seq(0, 4).map(function(index) {
           return Math.random();
         });
         return random.multRandom(randoms);
@@ -85,7 +85,7 @@ describe('random factory object', function () {
         logger.debug(result);
         expect(result.constructor).to.equal(Array);
         expect(result.length).to.equal(arrayLength);
-        result.map(function(value) {
+        result.forEach(function(value) {
           expect(0 <= value && value <= 1).to.equal(true);
         });
         done();

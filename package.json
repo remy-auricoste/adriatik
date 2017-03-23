@@ -3,26 +3,20 @@
   "version": "0.0.1",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --require './src/tests' 'src/**/*.spec.js'",
-    "postinstall": "node ./node_modules/gulp/bin/gulp.js build",
     "dev": "./startSocketServer.sh & gulp serve",
-    "start": "node server.js"
+    "start": "./node_modules/rauricoste-web-builder/bin/reactWatch.js config.json"
   },
   "dependencies": {
-    "angular": "^1.5.3",
-    "angular-route": "x",
     "bootstrap-sass": "^3.3.6",
-    "gulp": "^3.9.1",
-    "node-static": "^0.7.7",
-    "rauricoste-gulp": "^1.0.x",
+    "rauricoste-arrays": "^0.1.0",
     "rauricoste-logger": "0.0.x",
-    "rauricoste-meta": "^0.1.x",
+    "rauricoste-model": "1.x",
     "rauricoste-promise-light": "x",
-    "rauricoste-request": "0.0.x",
+    "rauricoste-request": "0.x",
     "rauricoste-websocket-room-client": "0.x",
-    "rauricoste-websocket-room-server": "0.0.x"
+    "rauricoste-websocket-room-server": "0.x"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "rauricoste-tests": "0.x"
   }
 }

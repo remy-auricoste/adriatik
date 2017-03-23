@@ -1,4 +1,4 @@
-var Meta = require("../alias/Meta");
+var Arrays = require("rauricoste-arrays");
 var Request = require("rauricoste-request");
 var Tile = require("../model/tools/Tile");
 var Territory = require("../model/data/Territory");
@@ -12,7 +12,8 @@ var mapGenerator = {
       var content = res.body;
 
       var lastLine = null;
-      var matrix = content.split("\n").map(function(line, lineIndex) {
+      var lines = content.split("\n");
+      var tiles = Arrays.flatMap(lines, function(line, lineIndex) {
         var lastTile = null;
         var tileLine = line.trim().split(" ").map(function(code, tileIndex) {
           if (code === "0" || !code || !code.length) {
@@ -46,9 +47,6 @@ var mapGenerator = {
         lastLine = tileLine;
         return tileLine;
       });
-
-
-      var tiles = Meta.flatten(matrix);
       return tiles;
     });
   },
@@ -84,14 +82,14 @@ var mapGenerator = {
     var line = segments.splice(0, 1)[0].concat([]);
     while(segments.length) {
       var lastPoint = line[line.length - 1];
-      var segmentIndex = Meta.findIndex(segments, function(segment) {
-        return Meta.find(segment, function(point, index) {
+      var segmentIndex = segments.findIndex(function(segment) {
+        return segment.find(function(point, index) {
           return point.distance(lastPoint) < distEpsilon;
         });
       });
       var segment = segments[segmentIndex];
       !segment && console.error("could not find segment", lastPoint, line, segments);
-      var nextPoint = Meta.find(segment, function(point) {
+      var nextPoint = segment.find(function(point) {
         return point.distance(lastPoint) > distEpsilon;
       });
       !nextPoint && console.error("could not find next point", lastPoint, segment);
@@ -106,7 +104,7 @@ var mapGenerator = {
     var result = [segments[0]];
     segments.splice(0, 1);
     segments.forEach(function(segment) {
-      var isNew = Meta.forall(result, function(otherSegment) {
+      var isNew = result.every(function(otherSegment) {
         var dists = segment.map(function(point, index) {
           return point.distance(otherSegment[index]);
         });
@@ -115,7 +113,7 @@ var mapGenerator = {
       if (isNew) {
         result.push(segment);
       } else {
-        var found = Meta.findIndex(result, function(otherSegment) {
+        var found = result.findIndex(function(otherSegment) {
           var dists = segment.map(function(point, index) {
             return point.distance(otherSegment[index]);
           });

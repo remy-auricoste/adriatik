@@ -1,3 +1,4 @@
+var Arrays = require("rauricoste-arrays");
 var logger = require("../alias/Logger").getLogger("randomFactory.mock");
 logger.info("loading randomFactory mock");
 
@@ -6,7 +7,7 @@ var qPlus = require("./qPlus");
 
 var randomFactory = require("./randomFactoryBuilder")(qPlus, null, hashService);
 randomFactory.generate = function(number, networkSize, id) {
-  return qPlus.value(Array.seq(1, number).map(function() {
+  return qPlus.value(Arrays.seq(0, number).map(function() {
     return 0;
   }));
 }

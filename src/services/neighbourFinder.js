@@ -17,10 +17,9 @@ module.exports = {
     var corners = self.getCorners(territory.box);
     return territories.filter(function (territoryIt) {
       var otherBox = territoryIt.box;
-      var isOut = Meta.forall(corners, function (corner) {
-        return !self.isInside(corner, otherBox);
+      return corners.some(function (corner) {
+        return self.isInside(corner, otherBox);
       });
-      return !isOut;
     })
   },
   findRealNeighbours: function (territory, territories) {

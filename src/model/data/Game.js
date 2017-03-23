@@ -1,10 +1,11 @@
+require("../natif/Arrays");
+
 var Meta = require("../../alias/Meta");
 var Phases = require("./Phases");
 var CreatureCard = require("./CreatureCard");
 var UnitType = require("./UnitType");
 var Unit = require("./Unit");
 var Building = require("./Building");
-var CommandType = require("./CommandType");
 var God = require("./God");
 
 var q = require("../../services/qPlus");
@@ -26,36 +27,20 @@ var Game = Meta.declareClass("Game", {
     colors: [],
     warMode: true,
     currentBattle: "Battle",
-    init: function () {
+    _defaults: {
+      gods: [],
+      turn: 0,
+      phase: Phases.bidding,
+      territories: [],
+      colors: ["red", "blue", "green", "purple"],
+      creatures: [],
+      creaturesUsed: [],
+      creaturesLeft: Object.values(CreatureCard._all)
+    },
+    _init: function () {
         var self = this;
         if (!this.currentPlayer) {
             this.currentPlayer = this.players[0];
-        }
-        if (!this.gods) {
-            this.gods = [];
-        }
-        if (!this.turn) {
-            this.turn = 0;
-        }
-        if (!this.phase) {
-            this.phase = Phases.bidding;
-        }
-        if (!this.territories) {
-            this.territories = [];
-        }
-        if (!this.colors) {
-          this.colors = ["red", "blue", "green", "purple"];
-        }
-        if (!this.creatures) {
-          this.creatures = [];
-        }
-        if (!this.creaturesUsed) {
-          this.creaturesUsed = [];
-        }
-        if (!this.creaturesLeft) {
-          this.creaturesLeft = Object.keys(CreatureCard._all).map(function(key) {
-            return CreatureCard._all[key];
-          });
         }
         this.players.map(function (player, index) {
             player.color = self.colors[index];
@@ -196,44 +181,44 @@ var Game = Meta.declareClass("Game", {
           });
         }
     },
-    receiveCommand: function (command) {
-        var self = this;
-        if (!config.isDev() && !(command.player && command.player === this.currentPlayer)) {
-            throw new Error("received command not from currentPlayer" + JSON.stringify(command));
-        }
-        var commandNames = Object.keys(CommandType._all);
-        if (commandNames.indexOf(command.type.name) === -1) {
-            throw new Error("Type de commande inconnu " + command.type.name + ".");
-        }
-        if (command.type.argCount !== command.args.length) {
-            throw new Error("got " + command.args.length + " args but needed " + command.type.argCount + " args.");
-        }
-        var commandResult;
-        if (command.type === CommandType.Bid) {
-            commandResult = this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
-        } else if (command.type === CommandType.InitUnit) {
-            commandResult = this.initUnit(this.currentPlayer, command.args[0]);
-        } else if (command.type === CommandType.BuyCreature) {
-            commandResult = this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
-        } else if (command.type === CommandType.EndTurn) {
-            commandResult = this.endPlayerTurn();
-        } else if (command.type === CommandType.ResolveBattle) {
-            commandResult = this.resolveBattle(command.player, command.args[0], command.args[1])
-        } else {
-            commandResult = this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
-        }
-        if (commandResult && typeof commandResult.then === "function") {
-            this.syncing = true;
-            commandResult = commandResult.then(function(result) {
-                if (result._type === "Battle") {
-                  self.currentBattle = result;
-                }
-                self.syncing = false;
-                return result;
-            });
-        }
-        return commandResult;
-    },
+//    receiveCommand: function (command) {
+//        var self = this;
+//        if (!config.isDev() && !(command.player && command.player === this.currentPlayer)) {
+//            throw new Error("received command not from currentPlayer" + JSON.stringify(command));
+//        }
+//        var commandNames = Object.keys(CommandType._all);
+//        if (commandNames.indexOf(command.type.name) === -1) {
+//            throw new Error("Type de commande inconnu " + command.type.name + ".");
+//        }
+//        if (command.type.argCount !== command.args.length) {
+//            throw new Error("got " + command.args.length + " args but needed " + command.type.argCount + " args.");
+//        }
+//        var commandResult;
+//        if (command.type === CommandType.Bid) {
+//            commandResult = this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
+//        } else if (command.type === CommandType.InitUnit) {
+//            commandResult = this.initUnit(this.currentPlayer, command.args[0]);
+//        } else if (command.type === CommandType.BuyCreature) {
+//            commandResult = this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
+//        } else if (command.type === CommandType.EndTurn) {
+//            commandResult = this.endPlayerTurn();
+//        } else if (command.type === CommandType.ResolveBattle) {
+//            commandResult = this.resolveBattle(command.player, command.args[0], command.args[1])
+//        } else {
+//            commandResult = this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
+//        }
+//        if (commandResult && typeof commandResult.then === "function") {
+//            this.syncing = true;
+//            commandResult = commandResult.then(function(result) {
+//                if (result._type === "Battle") {
+//                  self.currentBattle = result;
+//                }
+//                self.syncing = false;
+//                return result;
+//            });
+//        }
+//        return commandResult;
+//    },
     initUnit: function (player, territory) {
         if (this.turn !== 1) {
             throw new Error("dev error: you cannot use this method if it is not turn 1.");
@@ -261,8 +246,8 @@ var Game = Meta.declareClass("Game", {
                   if (sameTypeTerritories.length === 2) {
                       throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
                   }
-                  var isAdjacent = !Meta.forall(playerTerritories, function (territoryIte) {
-                      return territoryIte.neighbours.indexOf(territory.id) === -1;
+                  var isAdjacent = playerTerritories.some(function (territoryIte) {
+                      return territoryIte.neighbours.indexOf(territory.id) !== -1;
                   });
                   if (playerTerritories.length && !isAdjacent) {
                       throw new Error("il n'est pas adjacent aux territoires déjà contrôlés.");
@@ -279,8 +264,7 @@ var Game = Meta.declareClass("Game", {
             if (currentValue === allowedValue - 1 && territory.owner === player) {
                 throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
             }
-            currentValue++;
-            player.initCount[unitType.name] = currentValue;
+            player.initCount[unitType.name] = currentValue + 1;
             var unit = new Unit({
                 type: unitType,
                 owner: self
@@ -304,13 +288,13 @@ var Game = Meta.declareClass("Game", {
         return unitCount < allowedValue;
     },
     getTemples: function(player) {
-      return Meta.sum(this.territories.filter(function(territory) {
+      return this.territories.filter(function(territory) {
         return territory.owner === player;
       }).map(function(territory) {
         return territory.buildings.filter(function(building) {
           return building === Building.Temple || building === Building.Cite;
         }).length;
-      }));
+      }).sum();
     },
     buyCreature: function(player, creature, args) {
       var self = this;

@@ -1,5 +1,4 @@
 var mapGenerator = require("./mapGenerator");
-var expect = require("../alias/Expect");
 
 describe('mapGenerator', function () {
   beforeEach(function () {

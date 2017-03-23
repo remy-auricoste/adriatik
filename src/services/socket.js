@@ -8,9 +8,6 @@ var addWindowCloseListener = function(fonction) {
 
 var hostName = config.isLocal() ? "http://localhost:8001/socket" : "https://websocket-room-http.herokuapp.com:443/socket";
 logger.info("connecting to socket", hostName);
-var socket = new Socket({
-    host: [hostName]
-});
-module.exports = socket;
+module.exports = new Socket(hostName);
 
 

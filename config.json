@@ -1,0 +1,35 @@
+{
+  "dist": "dist",
+  "modules": {
+    "main": {
+      "src": "src",
+      "browserify": {
+        "entry": "main.js",
+        "output": "bundle.js"
+      },
+      "concat": {
+        "css": "bundle.css"
+      },
+      "sass": {
+        "entry": "index.scss",
+        "output": "bundle-sass.css"
+      },
+      "watch": true
+    },
+    "libs": {
+      "src": "lib",
+      "browserify": {
+        "entry": "node/all.js",
+        "output": "libs.js"
+      },
+      "concat": {
+        "js": "concat.js"
+      },
+      "sass": {
+        "entry": "node/all.scss",
+        "output": "lib-sass.css"
+      },
+      "watch": true
+    }
+  }
+}

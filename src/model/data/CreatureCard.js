@@ -4,12 +4,10 @@ var CreatureCard = Meta.declareClass("CreatureCard", {
     _primary: "name",
     name: "",
     action: "fct",
-    targetTypes: [],
-    init: function() {
-      CreatureCard.all[this.name] = this;
-      if (!this.targetTypes) {
-        this.targetTypes = [];
-      }
+    _defaults: {
+      targetTypes: []
+    },
+    _init: function() {
       if (typeof this.action !== "function") {
         throw new Error("you must define this.action as a function");
       }
@@ -25,12 +23,12 @@ var CreatureCard = Meta.declareClass("CreatureCard", {
 
       if (def.constructor === Array) {
         var defType = def[0];
-        value.map(function(subValue) {
+        value.forEach(function(subValue) {
           self.checkType(defType, subValue);
         })
       } else if(def.constructor === String) {
-        if (value.constructor.className !== def) {
-          throw new Error("expected type "+def+" but got type "+value.constructor.className);
+        if (value.constructor !== def) {
+          throw new Error("expected type "+def+" but got type "+value.constructor);
         }
       }
     },
@@ -49,6 +47,5 @@ var CreatureCard = Meta.declareClass("CreatureCard", {
       }
     }
 });
-CreatureCard.all = {};
 
 module.exports = CreatureCard;

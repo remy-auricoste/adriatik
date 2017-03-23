@@ -1,13 +1,5 @@
-Array.seq = function(min, max, step) {
-  if (!step) {
-    step = 1;
-  }
-  var result = [];
-  for (var i=min;i<=max;i+=step) {
-    result.push(i);
-  }
-  return result;
-}
+require("rauricoste-arrays"); // polyfill
+
 Array.prototype.sum = function() {
   var total = 0;
   this.forEach(function(value) {
@@ -45,16 +37,7 @@ Array.prototype.minusVector = function(array) {
 Array.prototype.distance = function(array) {
   return this.minusVector(array).norm();
 }
-Array.prototype.flatMap = function(fonction) {
-  var result = [];
-  this.forEach(function(value, index) {
-    var array = fonction(value, index);
-    result = result.concat(array);
-  });
-  return result;
-}
 // cf http://stackoverflow.com/questions/1187518/javascript-array-difference
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
-Array.prototype.forall = Array.prototype.every;
