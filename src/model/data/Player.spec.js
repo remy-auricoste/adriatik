@@ -1,4 +1,8 @@
-var Player = require("./Player");
+require("./Player");
+
+var injector = require("../../core/InjectorTest");
+var Player = injector.getInstance("Player");
+
 var God = require("./God");
 var GodCard = require("./GodCard");
 var UnitType = require("./UnitType");

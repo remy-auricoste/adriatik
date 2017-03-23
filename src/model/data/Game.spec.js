@@ -1,8 +1,11 @@
 var injector = require("../../core/InjectorTest");
 require("./Game");
+require("./Player");
+
+var Game = injector.getInstance("Game");
+var Player = injector.getInstance("Player");
 
 var CreatureCard = require("./CreatureCard");
-var Game = injector.getInstance("Game");
 var God = require("./God");
 var Territory = require("./Territory");
 var Building = require("./Building");

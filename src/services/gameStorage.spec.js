@@ -1,4 +1,6 @@
-var Player = require("../model/data/Player");
+require("../model/data/Player");
+var injector = require("../core/InjectorTest");
+var Player = injector.getInstance("Player");
 
 describe('models classes', function () {
   describe("<class>.fromObject method", function() {
