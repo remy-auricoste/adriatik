@@ -1,21 +1,41 @@
 var Injector = function() {
   this.dependencies = {};
+  this.solved = {};
 }
-Injector.prototype.register = function(key, value) {
-  this.dependencies[key] = value;
-}
-Injector.prototype.resolve = function(deps, fonction, scope) {
-  var args = [];
-  for(var i=0; i<deps.length, d=deps[i]; i++) {
-    var value = this.dependencies[d];
-    if(value) {
-        args.push(value);
-    } else {
-        throw new Error('Can\'t resolve ' + d);
-    }
+Injector.prototype.register = function(key, deps, value) {
+  if (value === undefined) {
+    value = deps;
+    return this.register(key, [], function() {
+      return value;
+    })
   }
-  var appliedSelf = scope || {};
-  return fonction.apply(appliedSelf, args);
+  this.dependencies[key] = {
+    deps: deps,
+    value: value
+  };
+}
+Injector.prototype.buildInstance = function(name) {
+  var def = this.dependencies[name];
+  if (def === undefined) {
+    throw new Error("could not resolve "+name);
+  }
+  if (!def.deps.length) {
+    return def.value();
+  }
+  var args = [];
+  for(var i=0; i<def.deps.length, depName=def.deps[i]; i++) {
+    args.push(this.getInstance(depName));
+  }
+  return def.value.apply({}, args);
+}
+Injector.prototype.getInstance = function(name) {
+  var solved = this.solved[name];
+  if (solved !== undefined) {
+    return solved;
+  }
+  var built = this.buildInstance(name);
+  this.solved[name] = built;
+  return built;
 }
 
 module.exports = Injector;
