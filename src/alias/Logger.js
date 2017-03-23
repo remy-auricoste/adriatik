@@ -3,6 +3,7 @@ var config = require("../services/config");
 
 var rootLogger = require("rauricoste-logger");
 rootLogger.setLevel("info");
+// TODO fix this
 //if (!config.isLocal()) {
 //  rootLogger.addAppender(function(logger, methodName, callArgs) {
 //    if (methodName === rootLogger.levels.error.name) {

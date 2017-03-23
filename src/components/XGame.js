@@ -29,6 +29,7 @@ var XGame = Component({
 
 module.exports = XGame;
 
+// TODO what to do with this ?
 //            scope.ready = false;
 //            var playerSize = $route.current.params.playerSize;
 //            playerSize = parseInt(playerSize);
