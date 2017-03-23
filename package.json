@@ -14,8 +14,11 @@
     "rauricoste-promise-light": "x",
     "rauricoste-random": "^1.x",
     "rauricoste-request": "0.x",
+    "rauricoste-store": "^1.3.1",
     "rauricoste-websocket-room-client": "0.x",
-    "rauricoste-websocket-room-server": "0.x"
+    "rauricoste-websocket-room-server": "0.x",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.0",
