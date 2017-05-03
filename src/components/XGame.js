@@ -12,7 +12,12 @@ var XCreaturePanel = require("./XCreaturePanel");
 var XBattlePanel = require("./XBattlePanel");
 
 var XGame = Component({
+  componentDidMount: function() {
+    store.subscribe(() => this.forceUpdate());
+  },
   render: function() {
+    var state = store.getState();
+    logger.info(state);
     return (<div className="XGame">
           <XIntroPanel />
           <XHelper />

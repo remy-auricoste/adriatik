@@ -1,0 +1,225 @@
+.bid-panel {
+  color: black;
+  position: fixed;
+  left: 0;
+  width: $bid-panel-width;
+  height: 100%;
+  border-right: #563f39 solid 5px;
+  background: url(/images/map.jpg) top right;
+  padding: 0 0 0 10px;
+  box-shadow: 10px 0 8px 0 rgba(0, 0, 0, 0.3);
+
+  /* Phase box */
+  .phase {
+    color: white;
+    font-size: 1.8em;
+    text-align: center;
+    background-color: #563f39;
+    border: 4px solid $border-dark-color;
+    height: 50px;
+    margin: 3px 10px 15px 5px;
+    padding: 5px 0 10px 0;
+    border-radius: 50px 50px;
+    box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+  }
+  .god {
+    color: white;
+    background-color: #a4865d;
+    border: 4px solid #563f39;
+    height: 100px;
+    margin: 10px 10px 10px 5px;
+    padding: 0 0 10px 0;
+    border-radius: 50px 50px;
+    box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+    transition: 0.5s;
+    left: 0;
+    position: relative;
+    &.selected {
+      left: 3em;
+    }
+
+    p {
+      float: left;
+      font-size: 2em;
+      padding: 3px 0 0 10px;
+    }
+    div {
+      vertical-align: top;
+    }
+    .god-avatar {
+      position: relative;
+      float: left;
+      width: 90px;
+      margin-left: -10px;
+      margin-top: -12px;
+      transform: rotate(-5deg);
+      z-index: 100;
+      transition: all $tooltip-transition-delay ease-in-out;
+
+      img {
+        width: 100%;
+        border: 3px solid white;
+        border-radius: 10px;
+        box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
+      }
+    }
+    .god-avatar:hover {
+      transform: rotate(0);
+      transition: all $tooltip-transition-delay ease-in-out;
+    }
+    .god-avatar:hover div.god-tooltip {
+      visibility: visible;
+      opacity: 0.95;
+      margin: -110px 0 0 85px;
+      transition: all $tooltip-transition-delay ease-in-out;
+    }
+
+    .god-name {
+      font-size: 2em;
+      margin-left: 0.4em;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    }
+    /* Money counter */
+    .gold-container {
+      width: 170px;
+    }
+    .gold {
+      float: left;
+      width: 22px;
+      height: 22px;
+      border: solid 1px #656565;
+      border-radius: 2.5em;
+      cursor: pointer;
+      margin: 1px;
+
+      img {
+        width: 20px;
+      }
+      &.bidden {
+        cursor: not-allowed;
+      }
+      &.bidden-player-red {
+        background-color: $player-red-1 !important;
+      }
+      &.bidden-player-blue {
+        background-color: $player-blue-1 !important;
+      }
+      &.bidden-player-green {
+        background-color: $player-green-1 !important;
+      }
+      &.bidden-player-purple {
+        background-color: $player-purple-1 !important;
+      }
+
+    }
+    .gold:hover {
+      color: #f5e385;
+    }
+    .god-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: relative;
+      min-width: 250px;
+      height: $tooltip-height;
+      margin: -110px 0 0 -130px;
+      padding: 0px 16px 0px 12px;
+      font-size: 16px;
+      line-height: 45px;
+      color: black;
+      background: $tooltip-bg;
+      border: 0px 0px 0px 0px none none none none white $tooltip-bg white white;
+      border-radius: 15px;
+      box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
+      $tooltip-shadow -15px 0px 15px 5px inset;
+      transition: all $tooltip-transition-delay ease-in-out;
+    }
+    .god-tooltip img {
+      width: 40px !important;
+      border: 1px solid black !important;
+      background-color: white !important;
+      border-radius: 50% !important;
+      margin: 5px 10px 0 0;
+      box-shadow: none !important;
+    }
+    .god-tooltip:after {
+      content: "";
+      position: absolute;
+      top: 35px;
+      left: -24px;
+      width: 0;
+      height: 0;
+      border-width: 12px;
+      border-style: solid;
+      border-color: transparent $tooltip-bg transparent transparent;
+    }
+    .player-name {
+      margin-left: 1em;
+    }
+    .content-container {
+      float: left;
+      margin-left: 0.5em;
+    }
+  }
+
+  /* Player background*/
+  .player-red {
+    background-color: $player-red-1 !important;
+  }
+  .player-blue {
+    background-color: $player-blue-1 !important;
+  }
+  .player-green {
+    background-color: $player-green-1 !important;
+  }
+  .player-purple {
+    background-color: $player-purple-1 !important;
+  }
+
+  /* Sesterce box */
+  .sesterce-box {
+    float: left;
+    min-height: 100px;
+    width: 260px;
+    padding-bottom: 5px;
+    span {
+      float: left;
+    }
+    .purse {
+      width: 230px;
+      padding: 5px;
+      .purse-sesterce {
+        float: left;
+        width: 35px;
+        height: 35px;
+        margin: 0 -14px 0 0;
+        padding: 0;
+        border: solid 1px #656565;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  /* Message box */
+  .message-box {
+    position: absolute;
+    bottom: 60px;
+    height: 85px;
+    width: 260px;
+    padding: 10px;
+    border: none;
+  }
+  .message-box:after {
+    border-left: solid transparent 10px;
+    border-right: solid transparent 10px;
+    border-top: solid white 10px;
+    bottom: -10px;
+    content: " ";
+    height: 0;
+    left: 50%;
+    margin-left: -60px;
+    position: absolute;
+    width: 0;
+    box-shadow: 0 2x 2px 0 rgba(0, 0, 0, 0.3);
+  }
+
+}

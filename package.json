@@ -7,8 +7,8 @@
     "start": "./node_modules/rauricoste-web-builder/bin/reactWatch.js config.json"
   },
   "dependencies": {
-    "bootstrap-sass": "^3.3.6",
-    "rauricoste-arrays": "^0.1.0",
+    "rauricoste-arrays": "0.x",
+    "rauricoste-commandify": "^1.1.1",
     "rauricoste-logger": "0.0.x",
     "rauricoste-model": "1.x",
     "rauricoste-promise-light": "x",
@@ -21,8 +21,7 @@
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.0",
-    "babel-preset-react": "^6.23.0",
-    "rauricoste-tests": "0.x"
+    "rauricoste-tests": "0.x",
+    "rauricoste-web-builder": "^2.0.1"
   }
 }

@@ -1,7 +1,3 @@
-/**
- *  If you want to override some bootstrap variables, you have to change values here.
- *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
- */
 $navbar-inverse-link-color: #5AADBB;
 $tooltip-bg: #f5f8ff;
 $tooltip-shadow: #daddd8;
@@ -20,7 +16,6 @@ $bid-color-2: #8a714e;
 $border-light-color: #a58763;
 $border-medium-color: #5f4d36;
 $border-dark-color: #44322d;
-$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 $bid-panel-width: 310px;
 
 @font-face {

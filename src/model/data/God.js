@@ -11,10 +11,6 @@ var God = Meta.declareClass("God", {
     cardPrice: "fct",
     index: 1,
     bid: "Bid",
-    playerNames: [],
-    _defaults: {
-      playerNames: []
-    },
     canBuild: function (building) {
         return building === this.building;
     }

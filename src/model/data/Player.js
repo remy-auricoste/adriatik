@@ -1,4 +1,5 @@
 var injector = require("../../core/MyInjector");
+var Objects = require("rauricoste-objects");
 
 var Meta = require("../../alias/Meta");
 
@@ -53,22 +54,6 @@ var PlayerWithDeps = injector.register("Player", ["randomReaderAsync"], function
               }
           }
       },
-      build: function (territory) {
-          try {
-              this.requireGod();
-              if (!territory.buildSlots) {
-                  throw new Error("il n'y a aucun emplacement libre sur le territoire sélectionné.");
-              }
-              if (!this.god.building) {
-                  throw new Error("ce dieu ne peut pas construire ce tour-ci.");
-              }
-              this.spend(2);
-          } catch (err) {
-              throw err.prefix("Il est impossible de construire : ");
-          }
-          territory.buildSlots -= 1;
-          territory.buildings.push(this.god.building);
-      },
       buyUnit: function (territory) {
           var self = this;
           try {
@@ -107,7 +92,7 @@ var PlayerWithDeps = injector.register("Player", ["randomReaderAsync"], function
           if (this.gold < number) {
               throw new Error("vous n'avez pas assez de sesterces. Cette action coûte " + number + " sesterce(s).");
           }
-          this.gold -= number;
+          return this.copy({gold: this.gold - number})
       },
       requireGod: function () {
           if (!this.god) {
@@ -115,11 +100,13 @@ var PlayerWithDeps = injector.register("Player", ["randomReaderAsync"], function
           }
       },
       addGodCard: function (card) {
+          var self = this.copy({cards: Objects.copy(this.cards)});
           var currentValue = this.cards[card.name];
           if (!currentValue) {
-              this.cards[card.name] = 0;
+              self.cards[card.name] = 0;
           }
-          this.cards[card.name]++;
+          self.cards[card.name]++;
+          return self;
       },
       buyGodCard: function() {
           try {
@@ -139,6 +126,11 @@ var PlayerWithDeps = injector.register("Player", ["randomReaderAsync"], function
               throw err.prefix("Il est impossible d'acheter une carte : ");
           }
       },
+      buyCreature: function(cost, templeUsed) {
+        return this.spend(cost).copy({
+          templeUsed: this.templeUsed + templeUsed
+        });
+      },
       getGodCardCount: function(godCard) {
           var result = this.cards[godCard.name];
           result = result ? result : 0;
@@ -150,34 +142,10 @@ var PlayerWithDeps = injector.register("Player", ["randomReaderAsync"], function
       getPhilosophers: function () {
           return this.getGodCardCount(GodCard.Philosopher);
       },
-      placeBid: function (god, number) {
-          try {
-              if (god === God.Ceres) {
-                  number = 0;
-                  god.playerNames.push(this.name);
-              } else {
-                  if (number > this.gold + this.getPriests()) {
-                      throw new Error("vous n'avez pas assez de sesterces.");
-                  }
-                  if (god.bid && number <= god.bid.gold) {
-                      throw new Error("votre enchère n'est pas assez importante.");
-                  }
-                  if (this.bid && god.name === this.bid.godName) {
-                      throw new Error("il est mpossible de surenchérir sur le même dieu.");
-                  }
-              }
-              this.bid = new Bid({godName: god.name, gold: number});
-              god.bid = this.bid;
-          } catch (err) {
-              throw new Error("Il est impossible de placer cette enchère : " + err.message);
-          }
-      },
-      payBid: function () {
-          var goldLeft = this.bid.gold - this.getPriests();
+      payBid: function(amount) {
+          var goldLeft = amount - this.getPriests();
           var payment = Math.max(1, goldLeft);
-          this.spend(payment);
-          this.god = this.bid.getGod();
-          return payment;
+          return this.spend(payment);
       },
       findPathBySea: function(fromTerritory, toTerritorry, currentPath, passedTerritories) {
         var self = this;

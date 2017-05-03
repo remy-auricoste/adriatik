@@ -1,8 +1,5 @@
 $tooltip-color: rgba(255, 255, 255, 0.9);
 
-/**
- * Tooltip css
- **/
 .adk-tooltip {
   display: inline;
   position: relative;
@@ -16,8 +13,7 @@ $tooltip-color: rgba(255, 255, 255, 0.9);
     position: absolute;
     z-index: 1098;
     width: 220px;
-    box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px,
-    $tooltip-shadow -15px 0px 15px 5px inset;
+    box-shadow: rgba(0, 0, 0, 0.4) 5px 5px 4px 2px, $tooltip-shadow -15px 0px 15px 5px inset;
     bottom: 30px;
   }
   &:hover:after {

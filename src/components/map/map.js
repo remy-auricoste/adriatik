@@ -41,7 +41,7 @@ function map($rootScope) {
                 if (scope.game.turn === 1 && scope.game.phase === Phases.actions && !$rootScope.mode) {
                     var hasMoreUnits = scope.game.initHasMoreUnits(scope.game.currentPlayer);
                     var commandType = hasMoreUnits ? CommandType.InitUnit : CommandType.InitBuilding;
-                    var args = hasMoreUnits ? [territory] : [territory, scope.game.currentPlayer.god.building];
+                    var args = hasMoreUnits ? [territory] : [territory, scope.game.getCurrentPlayer().god.building];
                     command = new Command({
                         type: commandType,
                         args: args

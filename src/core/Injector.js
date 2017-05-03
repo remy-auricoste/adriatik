@@ -23,7 +23,8 @@ Injector.prototype.buildInstance = function(name) {
     return def.value();
   }
   var args = [];
-  for(var i=0; i<def.deps.length, depName=def.deps[i]; i++) {
+  for(var i=0; i<def.deps.length; i++) {
+    var depName = def.deps[i];
     args.push(this.getInstance(depName));
   }
   return def.value.apply({}, args);

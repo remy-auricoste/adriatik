@@ -1,4 +1,8 @@
+var Objects = require("rauricoste-objects"); // polyfill
+
+var rauriArrays = require("rauricoste-arrays");
 var Arrays = require("../natif/Arrays");
+var Errors = require("../natif/Errors");
 
 var injector = require("../../core/MyInjector");
 
@@ -29,29 +33,33 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
       colors: [],
       warMode: true,
       currentBattle: "Battle",
+      _mandatoryFields: [
+        "players"
+      ],
       _defaults: {
         gods: [],
+        currentGods: [],
         turn: 0,
         phase: Phases.bidding,
         territories: [],
         colors: ["red", "blue", "green", "purple"],
         creatures: [],
         creaturesUsed: [],
-        creaturesLeft: Object.values(CreatureCard._all)
+        creaturesLeft: Object.values(CreatureCard._all),
+        currentPlayerIndex: 0,
+        bids: []
       },
       _init: function () {
           var self = this;
-          if (!this.currentPlayer) {
-              this.currentPlayer = this.players[0];
-          }
           this.players.map(function (player, index) {
               player.color = self.colors[index];
           });
       },
+      getCurrentPlayer: function() {
+        return this.players[this.currentPlayerIndex];
+      },
       startTurn: function () {
-          var self = this;
-
-          self.turn++;
+          var self = this.copy({turn: this.turn+1});
           var normalGods = self.gods.filter(function (god) {
               return god !== God.Ceres;
           });
@@ -59,15 +67,12 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
               shuffled = shuffled.slice(0, self.players.length - 1);
               shuffled.push(God.Ceres);
               self.currentGods = shuffled;
-              shuffled.map(function (god, index) {
-                  god.index = index;
-              })
           });
           var playersPromise = q.empty();
-          self.syncing = true;
           if (self.turn === 1) {
-              playersPromise = randomReaderAsync.shuffle(self.players).then(function() {
-                self.currentPlayer = self.players[0];
+              playersPromise = randomReaderAsync.shuffle(self.players).then(function(players) {
+                self.players = players;
+                self.currentPlayerIndex = 0;
               });
           } else {
               self.players.forEach(function(player) {
@@ -76,98 +81,131 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
                 player.gold += income;
               })
           }
-          var creaturesPromise = this.turn === 1 ? q.empty() : self.pushCreatures(this.turn === 2 ? 1 : 3);
-          return q.all([godPromise, playersPromise, creaturesPromise]).then(function(result) {
-            self.syncing = false;
-            return result;
+          var creaturesPromise = self.turn === 1 ? q.empty() : self.pushCreatures(self.turn === 2 ? 1 : 3);
+          return q.all([godPromise, playersPromise, creaturesPromise]).then(function() {
+            return self;
           });
       },
       endPlayerTurn: function () {
-          var self = this;
+          var self = this.copy();
           if (self.phase === Phases.bidding) {
-              var freePlayers = self.players.filter(function (player) {
-                  return !player.bid;
+              var freePlayers = self.players.filter(function(player) {
+                  return !self.getPlayerBid(player);
               });
               if (freePlayers.length) {
-                  self.currentPlayer = freePlayers[0];
+                  self.currentPlayerIndex = self.players.indexOf(freePlayers[0]);
+                  return self;
               } else {
                   return self.nextPhase();
               }
           } else if (self.phase === Phases.actions) {
-              var index = self.players.findIndex(function (player) {
-                  return player === self.currentPlayer;
-              });
-              if (index < 0) {
-                  throw new Error("Il est impossible de trouver le joueur.");
-              }
-              index++;
-              if (index >= self.players.length) {
+              self.currentPlayerIndex++;
+              if (self.currentPlayerIndex >= self.players.length) {
                   return self.nextPhase();
-              } else {
-                  self.currentPlayer = self.players[index];
               }
+              return self;
           }
       },
-      getPlayer: function (god) {
-          var biddingPlayers = this.players.filter(function (player) {
-              return player.bid && player.bid.godName === god.name;
+      getBidsForGod: function(god) {
+          return this.bids.filter(function(bid) {
+            return bid.god === god.name;
           });
-          biddingPlayers.sort(function (a, b) {
-              return b.bid.gold - a.bid.gold;
-          });
-          return biddingPlayers[0];
+      },
+      getPlayerBid: function(player) {
+          return this.bids.find(function(bid) {
+            return bid.player === player.name;
+          })
+      },
+      getPlayerByName: function(playerName) {
+        return this.players.find(function(player) {
+          return player.name === playerName;
+        })
+      },
+      getPlayerGod: function(player) {
+        var bid = this.getPlayerBid(player);
+        var godName = bid && bid.god;
+        return God._all[godName];
+      },
+      addBid: function(player, god, amount) {
+        this.bids = this.bids.filter(function(bid) {
+          return bid.player !== player.name;
+        }).concat([{
+          player: player.name,
+          god: god.name,
+          amount: amount
+        }])
+        return this;
+      },
+      removeBid: function(bid) {
+        var index = this.bids.indexOf(bid);
+        if (index >= 0) {
+          this.bids.splice(index, 1);
+        }
       },
       placeBid: function (player, god, amount) {
-          if (god === God.Ceres) {
-              player.placeBid(god, 0);
-              return this.endPlayerTurn();
-          }
-          var removedPlayer = this.getPlayer(god);
-          player.placeBid(god, amount);
-          if (removedPlayer) {
-              this.currentPlayer = removedPlayer;
-              return removedPlayer;
-          } else {
-              return this.endPlayerTurn();
+          try {
+            player = this.getPlayerByName(player.name);
+            if (god === God.Ceres) {
+                var self = this.copy();
+                self.addBid(player, god, 0);
+                return self.endPlayerTurn();
+            }
+            if (amount > player.gold + player.getPriests()) {
+                throw new Error("vous n'avez pas assez de sesterces.");
+            }
+            var previousBids = this.getBidsForGod(god);
+            if (previousBids.length) {
+              if (previousBids.length > 1) {
+                throw new Error("weird state : several bids on the same god")
+              }
+              var lastPreviousBid = previousBids[previousBids.length - 1];
+              if (amount <= lastPreviousBid.amount) {
+                  throw new Error("votre enchère n'est pas assez importante.");
+              }
+              if (previousBids.find(function(bid) {
+                return bid.player === player.name;
+              })) {
+                  throw new Error("il est mpossible de surenchérir sur le même dieu.");
+              }
+              var self = this.copy();
+              self.addBid(player, god, amount);
+              var previousBid = previousBids[0];
+              self.removeBid(previousBid);
+              var previousBidderIndex = self.players.findIndex(function(player) {
+                return player.name === previousBid.player;
+              })
+              self.currentPlayerIndex = previousBidderIndex;
+              return self;
+            } else {
+              var self = this.copy();
+              self.addBid(player, god, amount);
+              return self.endPlayerTurn();
+            }
+          } catch(err) {
+            throw err.prefix("Il est impossible de placer cette enchère : ");
           }
       },
       nextPhase: function () {
-          var self = this;
-
+          var self = this.copy();
           if (self.phase === Phases.bidding) {
               self.phase = Phases.actions;
-
-              var CeresPlayers = God.Ceres.playerNames.map(function (name) {
-                  return self.players.find(function (player) {
-                      return player.name === name;
-                  });
+              self.players = self.players.map(function(player) {
+                var bid = self.getPlayerBid(player);
+                return player.payBid(bid.amount);
               });
-              self.players = self.currentGods.filter(function (god) {
-                  return god.bid && god !== God.Ceres;
-              }).map(function (god) {
-                  return self.getPlayer(god);
-              });
-              self.players = self.players.concat(CeresPlayers);
-              self.players.map(function (player) {
-                  player.payBid();
-              });
-              self.currentPlayer = self.players[0];
+              self.players = rauriArrays.flatMap(self.currentGods, function(god) {
+                return self.getBidsForGod(god).map(function(bid) {
+                  return self.getPlayerByName(bid.player);
+                })
+              })
+              self.currentPlayerIndex = 0;
+              return self;
           } else if (self.phase === Phases.actions) {
-              self.currentPlayer = self.players[0];
+              self.currentPlayerIndex = 0;
               self.phase = Phases.bidding;
-
               self.players.map(function (player) {
-                  player.bid = null;
-                  player.god = null;
-                  player.templeUsed = 0;
-                  player.unitBuyCount = 0;
-                  player.cardBuyCount = 0;
+                  return player.reset();
               });
-              self.gods.map(function(god) {
-                god.bid = null;
-              });
-              God.Ceres.playerNames = [];
-
               return self.startTurn();
           }
       },
@@ -221,18 +259,18 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
   //        }
   //        return commandResult;
   //    },
-      initUnit: function (player, territory) {
+      initUnit: function (playerName, territoryIndex) {
+          var player = this.getPlayerByName(playerName);
+          var territory = this.getTerritory(territoryIndex);
           if (this.turn !== 1) {
               throw new Error("dev error: you cannot use this method if it is not turn 1.");
           }
           try {
-              if (territory.owner && territory.owner !== player) {
+              if (territory.owner && territory.owner !== player.name) {
                   throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre.");
               }
+              var playerTerritories = this.getTerritoriesForPlayer(playerName);
               if (!territory.owner) {
-                  var playerTerritories = this.territories.filter(function (territory) {
-                      return territory.owner === player;
-                  });
                   if (territory.type === "sea") {
                     var isAdjacentEarth = playerTerritories.some(function(territoryIte) {
                       return territoryIte.type === "earth";
@@ -249,30 +287,31 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
                         throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
                     }
                     var isAdjacent = playerTerritories.some(function (territoryIte) {
-                        return territoryIte.neighbours.indexOf(territory.id) !== -1;
+                        return territoryIte.isNextTo(territory);
                     });
                     if (playerTerritories.length && !isAdjacent) {
                         throw new Error("il n'est pas adjacent aux territoires déjà contrôlés.");
                     }
                   }
               }
-              var self = player;
               var unitType = territory.type === "earth" ? UnitType.Legionnaire : UnitType.Ship;
-              var currentValue = player.initCount[unitType.name];
-              var allowedValue = 2 + (player.god.unitType && player.god.unitType === unitType ? 1 : 0);
+              var currentValue = playerTerritories.map(function(territory) {
+                return territory.getUnits(player).length;
+              }).sum();
+              var playerGod = this.getPlayerGod(player);
+              var allowedValue = 2 + (playerGod.unitType && playerGod.unitType === unitType ? 1 : 0);
               if (currentValue === allowedValue) {
                   throw new Error("vous ne pouvez pas ajouter d'autres unités de type " + unitType.name + ".");
               }
-              if (currentValue === allowedValue - 1 && territory.owner === player) {
+              if (currentValue === allowedValue - 1 && territory.owner === player.name) {
                   throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
               }
-              player.initCount[unitType.name] = currentValue + 1;
               var unit = new Unit({
                   type: unitType,
-                  owner: self
+                  owner: player.name
               });
-              territory.owner = player;
-              territory.placeUnit(unit);
+              territory = territory.placeUnit(unit).copy({owner: player.name});
+              return this.updateTerritory(territory);
           } catch (err) {
               throw err.prefix("Il est impossible de placer une unité sur ce territoire : ");
           }
@@ -289,32 +328,33 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
           }
           return unitCount < allowedValue;
       },
-      getTemples: function(player) {
+      getTerritoriesForPlayer: function(playerName) {
         return this.territories.filter(function(territory) {
-          return territory.owner === player;
-        }).map(function(territory) {
+          return territory.owner === playerName;
+        });
+      },
+      getTemples: function(playerName) {
+        return this.getTerritoriesForPlayer(playerName).map(function(territory) {
           return territory.buildings.filter(function(building) {
             return building === Building.Temple || building === Building.Cite;
           }).length;
         }).sum();
       },
-      buyCreature: function(player, creature, args) {
-        var self = this;
+      buyCreature: function(playerName, creature, args) {
         var index = this.creatures.indexOf(creature);
         if (index >= 0) {
           var cost = [4, 3, 2][index];
-          var discount = this.getTemples(player) - player.templeUsed;
+          var temples = this.getTemples(playerName);
+          var player = this.getPlayerByName(playerName);
+          var discount = temples - player.templeUsed;
           var finalCost = Math.max(1, cost - discount);
           var discountUsed = cost - finalCost;
-          player.spend(finalCost);
-          try {
-            creature.apply(self, player, args);
-          } catch(err) {
-            player.gold += finalCost;
-            throw err;
-          }
-          player.templeUsed += discountUsed;
-          this.creatures[index] = null;
+          // TODO handle immutability here
+          creature.apply(this, player, args);
+          var newPlayer = player.buyCreature(finalCost, discountUsed);
+          var self = this.updatePlayer(newPlayer);
+          self.creatures[index] = null;
+          return self;
         } else {
           throw new Error("could not find creature "+creature.name);
         }
@@ -334,11 +374,45 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
         });
       },
       getIncome: function(player) {
-        return this.territories.filter(function(territory) {
-          return territory.owner === player;
-        }).map(function(territory) {
+        return this.getTerritoriesForPlayer(player.name).map(function(territory) {
           return territory.getIncome();
         }).sum();
+      },
+      updateTerritory: function(territory) {
+        var index = territory.index;
+        var self = this.copy();
+        self.territories = this.territories.concat([]);
+        self.territories[index] = territory;
+        return self;
+      },
+      updatePlayer: function(newPlayer) {
+        var self = this.copy();
+        var index = this.players.findIndex(function(playerIte) {
+          return playerIte.name === newPlayer.name;
+        })
+        self.players[index] = newPlayer;
+        return self;
+      },
+      getTerritory: function(index) {
+        return this.territories[index];
+      },
+      build: function(playerName, territoryIndex, building) {
+        var player = this.getPlayerByName(playerName);
+        var territory = this.getTerritory(territoryIndex);
+        var god = this.getPlayerGod(player);
+        try {
+            if (!god) {
+              throw new Error("vous n\'avez sélectionné aucun dieu.");
+            }
+            if (!god.building) {
+                throw new Error("ce dieu ne peut pas construire ce tour-ci.");
+            }
+            territory = territory.build(building);
+            player = player.spend(2);
+            return this.updateTerritory(territory).updatePlayer(player);
+        } catch (err) {
+            throw err.prefix("Il est impossible de construire : ");
+        }
       }
   });
   return Game;

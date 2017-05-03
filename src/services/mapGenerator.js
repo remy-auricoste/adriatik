@@ -36,7 +36,7 @@ var mapGenerator = {
         if (lastLine) {
           var modifier = lineIndex % 2 === 0 ? -1 : 0;
           tileLine.map(function(tile, tileIndex) {
-            Array.seq(0, 1).map(function(value) {
+            Arrays.seq(0, 1).map(function(value) {
               var otherTile = lastLine[tileIndex + value + modifier];
               if (otherTile) {
                 otherTile.nextTo(tile);
@@ -135,9 +135,9 @@ var mapGenerator = {
           blocks[tile.code] = tile.getBlock();
         }
       });
-      return Object.keys(blocks).map(function(key) {
+      return Object.keys(blocks).map((key, index) => {
         var block = blocks[key];
-        var segments = block.flatMap(function(tile) {
+        var segments = Arrays.flatMap(block, function(tile) {
           return self.getSegments(self.getTilePoints(tile.pos));
         });
         segments = self.removeDuplicates(segments);
@@ -149,18 +149,33 @@ var mapGenerator = {
 
         var territory = new Territory({
           type: block[0].id !== "1" ? "earth" : "sea",
-          path: pathValue
+          path: pathValue,
+          index: index
         });
         if (territory.type === "earth") {
           territory.buildSlots = Math.min(4, block.length);
           territory.income = 4 - territory.buildSlots;
         }
-        territory.box = Raphael.pathBBox(pathValue);
+        territory.box = self.getBox(points);
+        territory.segments = segments;
         return territory;
       });
     });
+  },
+  getBox: function(points) {
+    var xs = points.map(point => { return point[0] });
+    var ys = points.map(point => { return point[1] });
+    var minX = xs.reduce(Math.min);
+    var minY = ys.reduce(Math.min);
+    var maxX = xs.reduce(Math.max);
+    var maxY = ys.reduce(Math.max);
+    return {
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY
+    }
   }
-
 };
 
 module.exports = mapGenerator;

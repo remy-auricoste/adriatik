@@ -1,7 +1,6 @@
 require("rauricoste-objects"); // polyfill
 var Meta = require("../../alias/Meta");
 
-var idCount = 0;
 var Territory = Meta.declareClass("Territory", {
     _primary: "id",
     id: "",
@@ -23,16 +22,14 @@ var Territory = Meta.declareClass("Territory", {
       income: 0,
       buildSlots: 0
     },
-    _init: function () {
-        if (!this.id) {
-            this.id = idCount++ + "";
-        }
-    },
     placeUnit: function (unit) {
         if (unit.type.territoryType !== this.type) {
             throw new Error("il est impossible de placer ce type d'unité sur ce type de territoire.");
         }
-        this.units.push(unit);
+        var self = this.copy();
+        self.units = self.units.concat([]);
+        self.units.push(unit);
+        return self;
     },
     removeUnit: function (unit) {
         var index = this.units.findIndex(function(unitIte) {
@@ -54,19 +51,28 @@ var Territory = Meta.declareClass("Territory", {
             self.moveUnit(unit, dest);
         });
     },
+    build: function(building) {
+      if (this.buildSlots <= 0) {
+        throw new Error("il n\'y a aucun emplacement libre sur le territoire sélectionné.");
+      }
+      var self = this.copy({buildSlots: this.buildSlots - 1});
+      self.buildings = self.buildings.concat([]);
+      self.buildings.push(building);
+      return self;
+    },
     isEmpty: function () {
         return this.units.length === 0;
     },
     nextTo: function (territory) {
-        this.neighbours.push(territory.id);
-        territory.neighbours.push(this.id);
+        this.neighbours.push(territory.index);
+        territory.neighbours.push(this.index);
     },
     isFriendly: function (player) {
-        return !this.owner || this.owner === player;
+        return !this.owner || this.owner === player.name;
     },
     getUnits: function (player) {
         return this.units.filter(function (unit) {
-            return unit.owner === player;
+            return unit.owner === player.name;
         });
     },
     getIncome: function() {
@@ -82,19 +88,8 @@ var Territory = Meta.declareClass("Territory", {
       });
     },
     isNextTo: function(territory) {
-      return this.neighbours.indexOf(territory.id) >= 0;
-    },
-    getNeighbours: function() {
-      return this.neighbours.map(Territory.byId).filter(function(territory) {
-        return !!territory;
-      });
+      return this.neighbours.indexOf(territory.index) >= 0;
     }
 });
-Territory.byId = function (id) {
-    return Territory._all[id];
-}
-Territory.allArray = function() {
-  return Object.values(Territory._all);
-}
 
 module.exports = Territory;

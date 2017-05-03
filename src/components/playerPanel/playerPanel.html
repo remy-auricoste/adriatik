@@ -1,6 +1,6 @@
 <section class="player-panel">
     <detail class="player rounded-box shadowed-box"
-            ng-class="{current: player.name === game.currentPlayer.name}"
+            ng-class="{current: player.name === game.getCurrentPlayer().name}"
             ng-repeat="player in game.players track by $index"
             ng-click="selectPlayer(player)"
             >

@@ -40,10 +40,6 @@ function creaturePanel($rootScope) {
               }
             }
           }
-          scope.validateSelection = function() {
-
-          }
-
           $rootScope.$on("select", function(event, selection) {
             if (!scope.selectedCreature || !selection) {
               return;

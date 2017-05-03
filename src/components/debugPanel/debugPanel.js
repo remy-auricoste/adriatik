@@ -14,7 +14,7 @@ function debugPanel($rootScope, $timeout) {
             scope.rootScope = $rootScope;
 
             scope.goldPlus = function() {
-              scope.game.currentPlayer.gold++;
+              scope.game.getCurrentPlayer().gold++;
             }
             scope.saveSlot = function() {
               gameStorage.save(scope.game, "slot");

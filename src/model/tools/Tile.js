@@ -1,4 +1,4 @@
-var Arrays = require("../natif/Arrays");
+var Arrays = require("rauricoste-arrays");
 
 var Tile = function(id, code, pos) {
   this.code = code;

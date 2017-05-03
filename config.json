@@ -11,9 +11,10 @@
         "css": "bundle.css"
       },
       "sass": {
-        "entry": "index.scss",
+        "entry": "main.scss",
         "output": "bundle-sass.css"
       },
+      "assets": ["txt", "jpg", "ttf", "png", "html"],
       "watch": true
     },
     "libs": {
@@ -21,13 +22,6 @@
       "browserify": {
         "entry": "node/all.js",
         "output": "libs.js"
-      },
-      "concat": {
-        "js": "concat.js"
-      },
-      "sass": {
-        "entry": "node/all.scss",
-        "output": "lib-sass.css"
       },
       "watch": true
     }

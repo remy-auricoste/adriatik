@@ -23,9 +23,9 @@ module.exports = {
     })
   },
   findRealNeighbours: function (territory, territories) {
-    var segments = Raphael.parsePathString(territory.path);
+    var segments = territory.segments;
     var neighboursFound = this.findNeighboursSimple(territory, territories).filter(function (neighbour) {
-      var otherSegments = Raphael.parsePathString(neighbour.path);
+      var otherSegments = neighbour.segments;
       return segments.find(function (segment) {
         return otherSegments.find(function (otherSegment) {
           var x = segment[1];

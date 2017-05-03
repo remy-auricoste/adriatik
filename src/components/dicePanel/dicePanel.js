@@ -1,3 +1,5 @@
+var Arrays = require("rauricoste-arrays");
+
 var cron = require("../../services/cron");
 var Dice = require("../../model/data/Dice");
 var RandomWrapper = require("../../model/tools/RandomWrapper");
@@ -40,7 +42,7 @@ function dicePanel($timeout) {
               if (value === undefined) {
                 value = Dice(Math.random());
               }
-              Array.seq(1, 5).map(function(index) {
+              Arrays.seq(0, 5).map(function(index) {
                 angles.x += getRandomAngle();
                 angles.y += getRandomAngle();
                 setAngles(0.5);

@@ -38,10 +38,10 @@
     </div>
 
     <div class="sesterce-box rounded-box shadowed-box">
-        <div class="title">{{game.currentPlayer.gold}} sesterce(s)</div>
+        <div class="title">{{game.getCurrentPlayer().gold}} sesterce(s)</div>
 
         <div class="purse">
-            <img class="purse-sesterce" ng-repeat="piece in [] | range:game.currentPlayer.gold" src="/images/sesterce.png">
+            <img class="purse-sesterce" ng-repeat="piece in [] | range:game.getCurrentPlayer().gold" src="/images/sesterce.png">
         </div>
     </div>
 

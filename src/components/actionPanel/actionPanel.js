@@ -19,7 +19,7 @@ function actionPanel($rootScope) {
             scope.CommandType = CommandType;
             scope.iconSize = 20;
             scope.god = function () {
-                return scope.game.currentPlayer.god;
+                return scope.game.getCurrentPlayer().god;
             }
             scope.selectMode = function(mode) {
                 var selected = mode !== $rootScope.mode;

@@ -42,38 +42,6 @@ describe('Player class', function () {
     })
   });
 
-  describe("build method", function() {
-    it('should build a building', function() {
-      // when
-      player.build(territory);
-      // then
-      expect(territory.buildSlots).to.equal(3);
-      expect(territory.buildings).to.deep.equal([Building.Fort]);
-    });
-    it("should throw an exception if no god is currently associated with the player", function() {
-      // given
-      player.god = null;
-      // then
-      expect(function() {player.build(territory)}).to.throw("Il est impossible de construire : vous n'avez sélectionné aucun dieu.");
-    });
-    it("should throw an exception if Ceres god is currently associated with the player", function() {
-      // given
-      player.god = God.Ceres;
-      // then
-      expect(function() {player.build(territory)}).to.throw("Il est impossible de construire : ce dieu ne peut pas construire ce tour-ci.");
-    });
-    it("should throw an exception if there is no slot left on the territory", function() {
-      territory.buildSlots = 0;
-      // then
-      expect(function() {player.build(territory)}).to.throw("Il est impossible de construire : il n'y a aucun emplacement libre sur le territoire sélectionné.");
-    });
-    it("should throw an exception if there is not enough gold", function() {
-      player.gold = 1;
-      // then
-      expect(function() {player.build(territory)}).to.throw("Il est impossible de construire : vous n'avez pas assez de sesterces. Cette action coûte 2 sesterce(s).");
-    });
-  });
-
   describe("buyUnit method", function() {
     it("should buy a unit and place it on the territory (Minerve)", function() {
       // given
@@ -186,43 +154,6 @@ describe('Player class', function () {
       player.buyGodCard();
       player.buyGodCard();
       expect(function() {player.buyGodCard();}).to.throw("Il est impossible d'acheter une carte : il n'y a plus de carte à acheter.");
-    });
-  });
-
-  describe("placeBid method", function() {
-    it("should place a bid", function() {
-      // given
-      expect(player.bid).to.equal(undefined);
-      player.gold = 8;
-      // when
-      player.placeBid(God.Minerve, 3);
-      // then
-      expect(!!player.bid).to.equal(true);
-    });
-    it("should place a bid with priests", function() {
-      // given
-      expect(player.bid).to.equal(undefined);
-      player.addGodCard(GodCard.Priest);
-      player.addGodCard(GodCard.Priest);
-      player.addGodCard(GodCard.Priest);
-      player.gold = 3;
-      // when
-      player.placeBid(God.Minerve, 6);
-      // then
-      expect(!!player.bid).to.equal(true);
-    });
-    it("should throw an exception because not enough gold", function() {
-      // given
-      player.gold = 3;
-      // then
-      expect(function() {player.placeBid(God.Minerve, 4);}).to.throw("Il est impossible de placer cette enchère : vous n'avez pas assez de sesterces.");
-    });
-    it("should throw an exception because bidding twice on the same god", function() {
-      // given
-      player.gold = 3;
-      // then
-      player.placeBid(God.Minerve, 2);
-      expect(function() {player.placeBid(God.Minerve, 3);}).to.throw("Il est impossible de placer cette enchère : il est mpossible de surenchérir sur le même dieu.");
     });
   });
 
