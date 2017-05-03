@@ -7,11 +7,8 @@
         "entry": "main.js",
         "output": "bundle.js"
       },
-      "concat": {
-        "css": "bundle.css"
-      },
       "sass": {
-        "entry": "main.scss",
+        "entry": "styles/main.scss",
         "output": "bundle-sass.css"
       },
       "assets": ["txt", "jpg", "ttf", "png", "html"],

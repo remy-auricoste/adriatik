@@ -21,7 +21,6 @@ var XBidPanel = Component({
     var state = store.getState();
     var game = state.game;
     return (<div className="XBidPanel">
-        <section className="bid-panel">
             <debug-panel game="game"></debug-panel>
             <div className="phase">{game.phase}: {game.turn}</div>
             {
@@ -93,7 +92,7 @@ var XBidPanel = Component({
                 </div>)
               })
             }
-            <div className="sesterce-box rounded-box shadowed-box">
+            <div className="sesterce-box">
                 <div className="title">{game.getCurrentPlayer().gold} sesterce(s)</div>
                 <div className="purse">
                     {
@@ -106,7 +105,6 @@ var XBidPanel = Component({
                     }
                 </div>
             </div>
-        </section>
     </div>)
   }
 })

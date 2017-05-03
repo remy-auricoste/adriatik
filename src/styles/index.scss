@@ -1,0 +1,41 @@
+$navbar-inverse-link-color: #5AADBB;
+$bid-panel-width: 310px;
+
+@font-face {
+  font-family: roman;
+  font-size: 10px !important;
+  src: url(/fonts/RomanSD.ttf);
+}
+
+body {
+  font-family: roman !important;
+  background-image: url(/images/map.jpg);
+}
+
+/**
+ * Submit button
+ **/
+input[type=button] {
+  color: white;
+  background-color: #34538f;
+  border-radius: 5px;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-top-color: #375897;
+  border-left-color: #375897;
+  border-bottom-color: #34538f;
+  border-right-color: #34538f;
+}
+
+.bg-player-red {
+  background-color: $player-red-1;
+}
+.bg-player-green {
+  background-color: $player-green-1;
+}
+.bg-player-blue {
+  background-color: $player-blue-1;
+}
+.bg-player-purple {
+  background-color: $player-purple-1;
+}

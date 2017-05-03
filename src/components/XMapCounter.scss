@@ -1,8 +1,8 @@
 .map-counter {
+  @extend .inline-container;
+
   text-align: center;
   margin: auto;
-
-  @extend .inline-container;
   border: solid black 1px;
   border-radius: 10px;
   background-color: white;

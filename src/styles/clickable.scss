@@ -1,0 +1,10 @@
+.clickable {
+  pointer-events: auto;
+  cursor: pointer !important;
+  * {
+    cursor: pointer !important;
+  }
+}
+.nonClickable {
+  pointer-events: none;
+}

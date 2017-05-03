@@ -1,0 +1,10 @@
+.vertical-center {
+    & > *, &:before {
+        vertical-align: middle;
+        display: inline-block;
+    }
+    &:before {
+        content:'';
+        height: 100%;
+    }
+}

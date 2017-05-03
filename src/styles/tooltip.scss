@@ -1,4 +1,8 @@
 $tooltip-color: rgba(255, 255, 255, 0.9);
+$tooltip-bg: #f5f8ff;
+$tooltip-shadow: #daddd8;
+$tooltip-height: 96px;
+$tooltip-transition-delay: 0.3s;
 
 .adk-tooltip {
   display: inline;

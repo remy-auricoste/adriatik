@@ -1,0 +1,21 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    position: relative;
+    vertical-align: top;
+    outline: 0;
+}
+h1, h2, h3, p, div {
+    display: block;
+}
+h1, h2, h3, p {
+    padding: 1em;
+}
+a {
+    cursor: pointer;
+}
+html, body, #app {
+    height: 100%;
+}
