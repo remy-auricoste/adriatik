@@ -1,6 +1,7 @@
 var Component = require("../core/Component");
 var ClassObject = require("./ClassObject");
 
+var messageGetter = require("../core/messages");
 var Phases = require("../model/data/Phases");
 
 var XHelper = Component({
