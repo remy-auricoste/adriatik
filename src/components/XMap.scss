@@ -22,6 +22,7 @@ $sea-over-neighbour: darken($sea, $darken1);
 
   .area {
     fill: $earth;
+    stroke: black;
     &.over {
       fill: $earth-over;
     }

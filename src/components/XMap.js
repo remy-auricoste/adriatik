@@ -26,9 +26,10 @@ var XMap = Component({
     this.setOver(territory, false);
   },
   onClick: function(territory) {
+    console.log("onClick", territory);
   },
   select: function(counter, territory) {
-    // TODO
+    console.log("select", counter, territory);
   },
   render: function() {
     var state = store.getState();
@@ -46,7 +47,6 @@ var XMap = Component({
                                 onMouseOver={this.onMouseOver.bind(this, territory)}
                                 onMouseOut={this.onMouseOut.bind(this, territory)}
                                 onClick={this.onClick.bind(this, territory)}
-                                stroke="black"
                           />)
 
                       })
