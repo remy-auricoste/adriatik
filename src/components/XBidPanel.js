@@ -29,7 +29,6 @@ var XBidPanel = Component({
                 var bids = game.getBidsForGod(god);
                 var lastBid = bids[bids.length - 1];
                 var player = lastBid && game.getPlayerByName(lastBid.player);
-                console.log(god, player);
                 var playerColor = player && player.color;
                 return (<div className={"god "+god.name+" "+(isPhaseActions && playerColor ? "player-"+playerColor : "")+" "+ClassObject({selected: isPhaseActions && player === game.getCurrentPlayer()})}
                              key={god.name}
