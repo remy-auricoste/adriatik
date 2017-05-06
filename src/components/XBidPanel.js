@@ -73,7 +73,7 @@ var XBidPanel = Component({
                                           return gold === 1 || god !== God.Ceres;
                                         })
                                         .map(gold => {
-                                          return (<div className={"gold "+(lastBid && player && gold <= lastBid.amount ? ("bidden-player-"+playerColor) : "")}
+                                          return (<div className={"gold "+(lastBid && player && gold <= lastBid.amount ? ("bidden bidden-player-"+playerColor) : "")}
                                                        onClick={this.placeBid.bind(this, god, gold)}
                                                        key={gold}
                                                        >

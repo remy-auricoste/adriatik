@@ -37,14 +37,12 @@ var XHelper = Component({
     }
 
     return (<div className="XHelper">
-      <div className="helper">
         <div className={"content "+ClassObject({hidden: !message})}>
           <div>{message}</div>
           <div className={ClassObject({hidden: !isMulti})}>
             <input type="button" value="Valider la sélection" onClick={this.selectionValidate} />
           </div>
         </div>
-      </div>
     </div>)
   }
 })

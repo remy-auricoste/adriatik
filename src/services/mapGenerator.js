@@ -6,6 +6,9 @@ var Territory = require("../model/data/Territory");
 var tileSize = 90;
 var distEpsilon = 0.5;
 
+var minFct = (a, b) => { return Math.min(a, b); };
+var maxFct = (a, b) => { return Math.max(a, b); };
+
 var mapGenerator = {
   getTiles: function(name) {
     return new Request().get("/maps/"+name+".txt").then(function (res) {
@@ -165,16 +168,17 @@ var mapGenerator = {
   getBox: function(points) {
     var xs = points.map(point => { return point[0] });
     var ys = points.map(point => { return point[1] });
-    var minX = xs.reduce(Math.min);
-    var minY = ys.reduce(Math.min);
-    var maxX = xs.reduce(Math.max);
-    var maxY = ys.reduce(Math.max);
-    return {
+    var minX = xs.reduce(minFct);
+    var minY = ys.reduce(minFct);
+    var maxX = xs.reduce(maxFct);
+    var maxY = ys.reduce(maxFct);
+    var box = {
       x: minX,
       y: minY,
       width: maxX - minX,
       height: maxY - minY
     }
+    return box;
   }
 };
 
