@@ -62,7 +62,7 @@ var XMap = Component({
             </svg>
             {
                 game.territories.map((territory, territoryIndex) => {
-                    var ownerColor = territory.owner && territory.owner.color;
+                    var ownerColor = territory.owner && game.getPlayerByName(territory.owner).color;
                     var groupedUnits = Arrays.groupBy(territory.units, function(unit) {
                        return unit.type.name + "_" + unit.owner.color;
                     });
@@ -83,11 +83,12 @@ var XMap = Component({
                               Object.keys(groupedUnits).map(key => {
                                   var unitGroup = groupedUnits[key];
                                   var firstUnit = unitGroup[0];
+                                  var color = firstUnit.owner && game.getPlayerByName(firstUnit.owner).color;
                                   return (<XMapCounter
                                           key={key}
                                           fileName={firstUnit.type.name}
                                           value={unitGroup.length}
-                                          className={"bg-player-"+firstUnit.owner.color+" player-unit clickable"}
+                                          className={"bg-player-"+color+" player-unit clickable"}
                                           onClick={this.select.bind(this, territory, firstUnit)}
                                   />)
                               })

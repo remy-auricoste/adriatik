@@ -25,7 +25,7 @@ var XActionPanel = Component({
 //      }
   },
   endTurn: function() {
-      Actions.Game.endTurn();
+      Actions.Game.endPlayerTurn();
   },
   render: function() {
     var state = store.getState();

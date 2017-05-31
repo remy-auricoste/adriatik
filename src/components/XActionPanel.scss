@@ -1,4 +1,5 @@
-.action-panel {
+.XActionPanel {
+  @extend .rounded-box;
   position: fixed;
   bottom: 0;
   right: 0;

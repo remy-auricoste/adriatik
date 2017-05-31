@@ -203,9 +203,9 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
           } else if (self.phase === Phases.actions) {
               self.currentPlayerIndex = 0;
               self.phase = Phases.bidding;
-              self.players.map(function (player) {
-                  return player.reset();
-              });
+//              self.players.map(function (player) {
+//                  return player.reset();
+//              });
               return self.startTurn();
           }
       },
