@@ -221,44 +221,6 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
             });
           }
       },
-  //    receiveCommand: function (command) {
-  //        var self = this;
-  //        if (!config.isDev() && !(command.player && command.player === this.currentPlayer)) {
-  //            throw new Error("received command not from currentPlayer" + JSON.stringify(command));
-  //        }
-  //        var commandNames = Object.keys(CommandType._all);
-  //        if (commandNames.indexOf(command.type.name) === -1) {
-  //            throw new Error("Type de commande inconnu " + command.type.name + ".");
-  //        }
-  //        if (command.type.argCount !== command.args.length) {
-  //            throw new Error("got " + command.args.length + " args but needed " + command.type.argCount + " args.");
-  //        }
-  //        var commandResult;
-  //        if (command.type === CommandType.Bid) {
-  //            commandResult = this.placeBid(this.currentPlayer, command.args[0], command.args[1]);
-  //        } else if (command.type === CommandType.InitUnit) {
-  //            commandResult = this.initUnit(this.currentPlayer, command.args[0]);
-  //        } else if (command.type === CommandType.BuyCreature) {
-  //            commandResult = this.buyCreature(this.currentPlayer, command.args[0], command.args[1]);
-  //        } else if (command.type === CommandType.EndTurn) {
-  //            commandResult = this.endPlayerTurn();
-  //        } else if (command.type === CommandType.ResolveBattle) {
-  //            commandResult = this.resolveBattle(command.player, command.args[0], command.args[1])
-  //        } else {
-  //            commandResult = this.currentPlayer[command.type.methodName](command.args[0], command.args[1], command.args[2]);
-  //        }
-  //        if (commandResult && typeof commandResult.then === "function") {
-  //            this.syncing = true;
-  //            commandResult = commandResult.then(function(result) {
-  //                if (result._type === "Battle") {
-  //                  self.currentBattle = result;
-  //                }
-  //                self.syncing = false;
-  //                return result;
-  //            });
-  //        }
-  //        return commandResult;
-  //    },
       initUnit: function (playerName, territoryIndex) {
           var player = this.getPlayerByName(playerName);
           var territory = this.getTerritory(territoryIndex);

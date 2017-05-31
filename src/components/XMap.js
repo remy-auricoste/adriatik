@@ -9,6 +9,8 @@ var XIcon = require("./XIcon");
 
 var Territory = require("../model/data/Territory");
 
+var Phases = require("../model/data/Phases");
+
 var XMap = Component({
   setOver: function(territory, value) {
     var game = store.getState().game;
@@ -26,10 +28,15 @@ var XMap = Component({
     this.setOver(territory, false);
   },
   onClick: function(territory) {
+    var state = store.getState();
+    var game = state.game;
+    if (game.turn === 1 && game.phase === Phases.actions) {
+        Actions.Game.initUnit(game.getCurrentPlayer().name, territory.index);
+    }
     console.log("onClick", territory);
   },
-  select: function(counter, territory) {
-    console.log("select", counter, territory);
+  select: function(territory, unit) {
+    console.log("select", territory, unit);
   },
   render: function() {
     var state = store.getState();
@@ -80,8 +87,8 @@ var XMap = Component({
                                           key={key}
                                           fileName={firstUnit.type.name}
                                           value={unitGroup.length}
-                                          className={"bg-player-"+counter.color+" player-unit clickable"}
-                                          onClick={this.select.bind(this, counter, territory)}
+                                          className={"bg-player-"+firstUnit.owner.color+" player-unit clickable"}
+                                          onClick={this.select.bind(this, territory, firstUnit)}
                                   />)
                               })
                           }
