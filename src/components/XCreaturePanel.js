@@ -1,6 +1,8 @@
 var Component = require("../core/Component");
 var ClassObject = require("./ClassObject");
 
+var XSesterces = require("./XSesterces");
+
 var XCreaturePanel = Component({
   selectCreature: function(creature) {
   },
@@ -16,6 +18,7 @@ var XCreaturePanel = Component({
                 game.creatures.map((creature, index) => {
                     return (
                         <div className={"creature clickable "+ClassObject({selected: creature === selectedCreature})}
+                             key={index}
                              onClick={this.selectCreature.bind(this, creature)}
                              ref={creature}
                              >

@@ -10,7 +10,11 @@ var Actions = function(store) {
       },
       Game: Commandify(initGame, {
         wrapper: function(command) {
-          commands.set("game", Commandify.applyCommand(store.getState().game, command));
+          var commandResult = Commandify.applyCommand(store.getState().game, command);
+          var thenFct = function(game) {
+            commands.set("game", game);
+          }
+          commandResult.then ? commandResult.then(thenFct) : thenFct(commandResult);
           return command;
         }
       }),

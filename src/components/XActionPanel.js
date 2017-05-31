@@ -37,7 +37,7 @@ var XActionPanel = Component({
         <div className="actions">
           {
             (() => {
-              if (game.turn > 1) {
+              if (game.turn > 1 && game.phase === Phases.actions) {
                 return (<div>
                     <div className="action-building" onClick={this.selectMode.bind(this, CommandType.Build)} >
                       <XItemPrice price={2}
