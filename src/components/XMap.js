@@ -33,7 +33,6 @@ var XMap = Component({
     if (game.turn === 1 && game.phase === Phases.actions) {
         Actions.Game.initUnit(game.getCurrentPlayer().name, territory.index);
     }
-    console.log("onClick", territory);
   },
   select: function(territory, unit) {
     console.log("select", territory, unit);

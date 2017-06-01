@@ -8,21 +8,11 @@ var XIf = require("./XIf");
 var CommandType = require("../model/data/CommandType");
 var Phases = require("../model/data/Phases");
 
-var iconSize = 20;
+var iconSize = 40;
 
 var XActionPanel = Component({
   selectMode: function(mode) {
       Actions.selectMode(mode);
-//      var selected = mode !== $rootScope.mode;
-//      logger.info("mode", mode, selected);
-//      var mode = selected ? mode : null;
-//      $rootScope.$emit("select.mode", mode);
-//      if (mode === CommandType.BuyCard) {
-//        commandCenter.send(new Command({
-//          type: mode
-//        }));
-//        $rootScope.$emit("select.mode", null);
-//      }
   },
   endTurn: function() {
       Actions.Game.endPlayerTurn();
@@ -31,7 +21,7 @@ var XActionPanel = Component({
     var state = store.getState();
     var mode = state.mode;
     var game = state.game;
-    var god = game.getCurrentPlayer().god;
+    var god = game.getPlayerGod(game.getCurrentPlayer());
     return (<div className="XActionPanel">
         <div className="title">Actions</div>
         <div className="actions">
@@ -42,19 +32,20 @@ var XActionPanel = Component({
                     <div className="action-building" onClick={this.selectMode.bind(this, CommandType.Build)} >
                       <XItemPrice price={2}
                                   iconSize={iconSize}
-                                  iconName={god.building.name}
+                                  iconName={god.building && god.building.name}
                                   className={ClassObject({selected: mode === CommandType.Build, hidden: !god.building})} />
                     </div>
                     <div className={"action-unit "+ClassObject({hidden: !god.unitType, selected: mode === CommandType.BuyUnit})}
                          onClick={this.selectMode.bind(this, CommandType.BuyUnit)}
                          >
                          {
-                            god.unitPrice().slice(game.getCurrentPlayer().unitBuyCount).map(price => {
+                            god.unitPrice && god.unitPrice().slice(game.getCurrentPlayer().unitBuyCount).map((price, index) => {
                               return (
-                                 <XItemPrice price={price}
+                                 <XItemPrice key={index}
+                                             price={price}
                                              iconSize={iconSize}
                                              iconName={god.unitType.name}
-                                             className={ClassObject({selected: mode === CommandType.Build, hidden: !god.building})} />
+                                             className={ClassObject({selected: mode === CommandType.Build, hidden: !god.unitType})} />
                               )
                             })
                          }
@@ -63,9 +54,10 @@ var XActionPanel = Component({
                          onClick={this.selectMode.bind(this, CommandType.BuyCard)}
                          >
                          {
-                            god.cardPrice().slice(game.getCurrentPlayer().cardBuyCount).map(price => {
+                            god.cardPrice && god.cardPrice().slice(game.getCurrentPlayer().cardBuyCount).map((price, index) => {
                                 return (
-                                    <XItemPrice price={price}
+                                    <XItemPrice key={index}
+                                                price={price}
                                                 iconSize={iconSize}
                                                 iconName={god.card.name}
                                                 />

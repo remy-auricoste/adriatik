@@ -59,7 +59,10 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
         return this.players[this.currentPlayerIndex];
       },
       startTurn: function () {
-          var self = this.copy({turn: this.turn+1});
+          var self = this.copy({
+            turn: this.turn+1,
+            bids: []
+          });
           var normalGods = self.gods.filter(function (god) {
               return god !== God.Ceres;
           });
