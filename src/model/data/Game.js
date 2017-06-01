@@ -261,7 +261,7 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
               }
               var unitType = territory.type === "earth" ? UnitType.Legionnaire : UnitType.Ship;
               var currentValue = playerTerritories.map(function(territory) {
-                return territory.getUnits(player).length;
+                return territory.getUnitsOfType(player, unitType).length;
               }).sum();
               var playerGod = this.getPlayerGod(player);
               var allowedValue = 2 + (playerGod.unitType && playerGod.unitType === unitType ? 1 : 0);

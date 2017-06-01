@@ -75,6 +75,11 @@ var Territory = Meta.declareClass("Territory", {
             return unit.owner === player.name;
         });
     },
+    getUnitsOfType: function(player, type) {
+        return this.units.filter(function (unit) {
+            return unit.owner === player.name && unit.type === type;
+        });
+    },
     getIncome: function() {
       return this.income + this.addedIncome;
     },
