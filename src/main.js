@@ -25,7 +25,7 @@ GameCreator.create(4).then(game => {
   };
   logger.info("initState", initState);
   window.store = new Store(initState);
-  window.Actions = Actions(store);
+  window.Actions = Actions(window.store);
 
   ReactDOM.render(<XGame />, document.getElementById('app'));
 })

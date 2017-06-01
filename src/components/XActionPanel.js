@@ -12,7 +12,12 @@ var iconSize = 40;
 
 var XActionPanel = Component({
   selectMode: function(mode) {
-      Actions.selectMode(mode);
+      if (state.mode === mode) {
+        Actions.selectMode(null);
+      } else {
+        Actions.resetSelection();
+        Actions.selectMode(mode);
+      }
   },
   endTurn: function() {
       Actions.Game.endPlayerTurn();

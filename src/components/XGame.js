@@ -13,7 +13,10 @@ var XBattlePanel = require("./XBattlePanel");
 
 var XGame = Component({
   componentDidMount: function() {
-    store.subscribe(() => this.forceUpdate());
+    store.subscribe(() => {
+      window.state = store.getState();
+      this.forceUpdate();
+    });
   },
   render: function() {
     var state = store.getState();
