@@ -18,7 +18,10 @@ var XPlayerPanel = Component({
                         onClick={this.selectPlayer.bind(this, player)}
                         >
                     <div className={"title player-name player-"+player.color}>{player.name}</div>
-                    <div className="player-avatar"><img src={gravatarService.getPictureUrl(player.account && player.account.email)} /></div>
+                    {
+                      player.account && player.account.email &&
+                        <div className="player-avatar"><img src={gravatarService.getPictureUrl(player.account.email)} /></div>
+                    }
                     <div className="resources">
                         <div className="priest adk-tooltip" title={player.getPriests()+" prêtre(s)"}>
                             {
