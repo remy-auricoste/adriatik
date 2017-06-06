@@ -170,30 +170,6 @@
     background-color: $player-purple-1 !important;
   }
 
-  /* Sesterce box */
-  .sesterce-box {
-    @extend .rounded-box;
-
-    margin-top: 20px;
-    min-height: 100px;
-    width: 260px;
-    padding-bottom: 5px;
-
-    .purse {
-      width: 230px;
-      padding: 5px;
-
-      .purse-sesterce {
-        width: 35px;
-        height: 35px;
-        margin: 0 -14px 0 0;
-        padding: 0;
-        border: solid 1px #656565;
-        border-radius: 50%;
-      }
-    }
-  }
-
   /* Message box */
   .message-box {
     position: absolute;

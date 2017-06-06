@@ -15,6 +15,10 @@ section.player-panel {
     margin: 0 5px 0 0;
     transition: all 0.3s ease-in-out;
 
+    .player-name {
+      @extend .title;
+      margin-bottom: 0.5em;
+    }
     .player-avatar img {
       border-radius: 50%;
       margin: 6px 3px 3px 3px;

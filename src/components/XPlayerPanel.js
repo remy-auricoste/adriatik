@@ -3,6 +3,8 @@ var ClassObject = require("./ClassObject");
 var gravatarService = require("../services/gravatarService");
 var Arrays = require("rauricoste-arrays");
 
+var XSesterces = require("./XSesterces");
+
 var XPlayerPanel = Component({
   selectPlayer: function(player) {
   },
@@ -22,6 +24,7 @@ var XPlayerPanel = Component({
                       player.account && player.account.email &&
                         <div className="player-avatar"><img src={gravatarService.getPictureUrl(player.account.email)} /></div>
                     }
+                    <XSesterces number={player.gold} size={30} stacked={true} />
                     <div className="resources">
                         <div className="priest adk-tooltip" title={player.getPriests()+" prêtre(s)"}>
                             {

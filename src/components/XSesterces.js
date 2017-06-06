@@ -7,17 +7,14 @@ var XIcon = require("./XIcon");
 var XSesterces = Component({
   render: function() {
     var props = this.props;
-    return (<div className="XSesterces">
-      <div className="sesterces">
+    return (<div className={"XSesterces "+(props.stacked ? "stacked" : "")}>
         <XIf test={props.number > 0}>
-          <div style={{width: props.size / 2}}></div>
           {
             Arrays.seq(0, props.number).map(i => {
               return (<XIcon
                         key={i}
                         fileName="sesterce"
                         size={props.size}
-                        style={{marginLeft: props.size / -2}}
               />)
             })
           }
@@ -29,7 +26,6 @@ var XSesterces = Component({
                 />
           <div className="zero">0</div>
         </XIf>
-      </div>
     </div>)
   }
 })

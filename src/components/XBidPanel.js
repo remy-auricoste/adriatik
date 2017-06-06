@@ -91,19 +91,6 @@ var XBidPanel = Component({
                 </div>)
               })
             }
-            <div className="sesterce-box">
-                <div className="title">{game.getCurrentPlayer().gold} sesterce(s)</div>
-                <div className="purse">
-                    {
-                        Arrays.seq(0, game.getCurrentPlayer().gold).map(piece => {
-                          return (<img className="purse-sesterce"
-                                       src="/images/sesterce.png"
-                                       key={piece}
-                                 />)
-                        })
-                    }
-                </div>
-            </div>
     </div>)
   }
 })
