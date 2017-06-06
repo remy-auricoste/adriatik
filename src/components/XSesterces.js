@@ -20,11 +20,13 @@ var XSesterces = Component({
           }
         </XIf>
         <XIf test={props.number === 0}>
-          <XIcon fileName="sesterce"
-                size={props.size}
-                className="empty"
-                />
-          <div className="zero">0</div>
+          <div className="zero-container">
+            <XIcon fileName="sesterce"
+                  size={props.size}
+                  className="empty"
+                  />
+            <div className="zero">0</div>
+          </div>
         </XIf>
     </div>)
   }

@@ -27,6 +27,9 @@ var XActionPanel = Component({
     var mode = state.mode;
     var game = state.game;
     var god = game.getPlayerGod(game.getCurrentPlayer());
+    var currentPlayer = game.getCurrentPlayer();
+    var unitBuyCount = currentPlayer.unitBuyCount;
+    var cardBuyCount = currentPlayer.cardBuyCount;
     return (<div className="XActionPanel">
         <div className="title">Actions</div>
         <div className="actions">
@@ -44,7 +47,7 @@ var XActionPanel = Component({
                          onClick={this.selectMode.bind(this, CommandType.BuyUnit)}
                          >
                          {
-                            god.unitPrice && god.unitPrice().slice(game.getCurrentPlayer().unitBuyCount).map((price, index) => {
+                            god.unitPrice && god.unitPrice().slice(unitBuyCount, unitBuyCount+1).map((price, index) => {
                               return (
                                  <XItemPrice key={index}
                                              price={price}
@@ -59,7 +62,7 @@ var XActionPanel = Component({
                          onClick={this.selectMode.bind(this, CommandType.BuyCard)}
                          >
                          {
-                            god.cardPrice && god.cardPrice().slice(game.getCurrentPlayer().cardBuyCount).map((price, index) => {
+                            god.cardPrice && god.cardPrice().slice(cardBuyCount, cardBuyCount+1).map((price, index) => {
                                 return (
                                     <XItemPrice key={index}
                                                 price={price}
