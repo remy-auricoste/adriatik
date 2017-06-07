@@ -361,6 +361,9 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
       getTerritory: function(index) {
         return this.territories[index];
       },
+      getNeighboursTerritories: function(territory) {
+        return territory.neighbours.map(index => this.getTerritory(index));
+      },
       build: function(playerName, territoryIndex, building) {
         var player = this.getPlayerByName(playerName);
         var territory = this.getTerritory(territoryIndex);
@@ -377,6 +380,45 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
             return this.updateTerritory(territory).updatePlayer(player);
         } catch (err) {
             throw err.prefix("Il est impossible de construire : ");
+        }
+      },
+      buyUnit: function(territory) {
+        try {
+            var player = this.getCurrentPlayer();
+            var playerName = player.name;
+            var god = this.getPlayerGod(player);
+            if (!god) {
+                throw new Error("aucun dieu disponible");
+            }
+            if (!god.unitType) {
+                throw new Error("ce dieu ne peut pas vous fournir d'unité.");
+            }
+            var price = god.unitPrice()[player.unitBuyCount];
+            if (!price && price !== 0) {
+                throw new Error("il n'y a plus d'unité à acheter.");
+            }
+            var territoryType = god.unitType.territoryType;
+            if (territoryType !== territory.type) {
+                throw new Error("il est impossible de placer ce type d\'unité sur ce type de territoire.");
+            }
+            if (territory.owner !== playerName && territory.type === "earth") {
+                throw new Error("vous ne pouvez acheter des unités terrestres que sur des territoires que vous contrôlez");
+            }
+            if (!territory.isFriendly(self) && territory.type === "sea") {
+                throw new Error("vous ne pouvez acheter des unités maritimes que sur des territoires vides ou que vous contrôlez");
+            }
+            var nearbyOwnedTerritories = this.getNeighboursTerritories(territory).filter(function(territory2) {
+              return territory2.type === "earth" && territory2.owner === playerName;
+            });
+            if (territory.type === "sea" && !nearbyOwnedTerritories.length) {
+                throw new Error("vous ne pouvez acheter des unités maritimes que sur des territoires situés à proximité d'un territoire terrestre que vous contrôlez");
+            }
+            player = player.spend(price);
+            territory = territory.placeUnit(new Unit({type: god.unitType, owner: playerName}));
+            player.unitBuyCount++;
+            return this.updateTerritory(territory).updatePlayer(player);
+        } catch (err) {
+            throw err.prefix("Il est impossible d'acheter une unité : ")
         }
       }
   });

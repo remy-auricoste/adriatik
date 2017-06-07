@@ -8,8 +8,8 @@ var XIf = require("./XIf");
 var XIcon = require("./XIcon");
 
 var Territory = require("../model/data/Territory");
-
 var Phases = require("../model/data/Phases");
+var CommandType = require("../model/data/CommandType");
 
 var XMap = Component({
   setOver: function(territory, value) {
@@ -32,6 +32,8 @@ var XMap = Component({
     var game = state.game;
     if (game.turn === 1 && game.phase === Phases.actions) {
         Actions.Game.initUnit(game.getCurrentPlayer().name, territory.index);
+    } else if (state.command && state.command.type) {
+        Actions.fillCommand(territory);
     }
   },
   select: function(territory, unit) {

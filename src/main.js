@@ -18,10 +18,11 @@ var Store = require("rauricoste-store");
 var Actions = require("./Actions");
 
 var GameCreator = injector.getInstance("GameCreator");
+var HistoryService = require("./services/HistoryService")
 
 GameCreator.create(4).then(game => {
   var initState = {
-    game: game
+    game: HistoryService.getState() || game
   };
   logger.info("initState", initState);
   window.store = new Store(initState);

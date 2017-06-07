@@ -20,7 +20,6 @@ var XGame = Component({
   },
   render: function() {
     var state = store.getState();
-    logger.info(state);
     return (<div className="XGame">
           <XIntroPanel />
           <XHelper />

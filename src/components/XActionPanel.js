@@ -13,10 +13,10 @@ var iconSize = 40;
 var XActionPanel = Component({
   selectMode: function(mode) {
       if (state.mode === mode) {
-        Actions.selectMode(null);
+        Actions.selectCommand(null);
       } else {
         Actions.resetSelection();
-        Actions.selectMode(mode);
+        Actions.selectCommand(mode);
       }
   },
   endTurn: function() {
@@ -24,7 +24,7 @@ var XActionPanel = Component({
   },
   render: function() {
     var state = store.getState();
-    var mode = state.mode;
+    var mode = state.command && state.command.type;
     var game = state.game;
     var god = game.getPlayerGod(game.getCurrentPlayer());
     var currentPlayer = game.getCurrentPlayer();
