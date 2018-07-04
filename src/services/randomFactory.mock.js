@@ -3,13 +3,15 @@ var logger = require("../alias/Logger").getLogger("randomFactory.mock");
 logger.info("loading randomFactory mock");
 
 var hashService = require("./hashService");
-var qPlus = require("./qPlus");
 
-var randomFactory = require("./randomFactoryBuilder")(qPlus, null, hashService);
+var randomFactory = require("./randomFactoryBuilder")(null, hashService);
 randomFactory.generate = function(number, networkSize, id) {
-  return qPlus.value(Arrays.seq(0, number).map(function() {
+  const numbers = Arrays.seq(0, number).map(function() {
     return 0;
-  }));
+  })
+  return new Promise(function(resolve) {
+    resolve(numbers)
+  })
 }
 
 module.exports = randomFactory;

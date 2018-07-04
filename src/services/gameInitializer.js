@@ -1,6 +1,5 @@
 var gameSocket = require("./gameSocket");
 var accountService = require("./accountService");
-var qPlus = require("./qPlus");
 var randomFactory = require("./randomFactory");
 var gameStorage = require("./gameStorage");
 var neighbourFinder = require("./neighbourFinder");
@@ -22,29 +21,31 @@ var gameInitializer = {
     var self = this;
     if (config.isDev()) {
       randomFactory.setNetworkSize(1);
-      return qPlus.value(self.createGame(self.devAccounts(playerSize)));
+        return new Promise(resolve => {
+          resolve(self.createGame(self.devAccounts(playerSize)));
+        })
     }
     randomFactory.setNetworkSize(playerSize);
 
     var self = this;
     var accounts = {};
-    var defer = qPlus.defer();
-    var initSync = new StateSync(initSocket);
-    var id = "init";
-    gameSocket.addRoomListener(function (messageObj) {
-      logger.info("received", messageObj);
-      if (messageObj.members.length === playerSize) {
-        logger.info("all players connected => sending account data", accountService.getData());
-        initSync.send(id, playerSize, accountService.getData());
-      }
-    });
-    initSync.syncListener(function(id, size, value) {
-    }, function(stored) {
-      var accounts = stored.values;
-      logger.info("accounts", accounts);
-      defer.resolve(self.createGame(accounts));
+    return new Promise(resolve => {
+      var initSync = new StateSync(initSocket);
+      var id = "init";
+      gameSocket.addRoomListener(function (messageObj) {
+        logger.info("received", messageObj);
+        if (messageObj.members.length === playerSize) {
+          logger.info("all players connected => sending account data", accountService.getData());
+          initSync.send(id, playerSize, accountService.getData());
+        }
+      });
+      initSync.syncListener(function(id, size, value) {
+      }, function(stored) {
+        var accounts = stored.values;
+        logger.info("accounts", accounts);
+        resolve(self.createGame(accounts));
+      })
     })
-    return defer.promise;
   },
   createGame: function (accounts) {
     logger.info("creating game", accounts);
@@ -52,7 +53,6 @@ var gameInitializer = {
     logger.debug("loaded", loaded);
     if (loaded) {
       loaded.randomFactory = randomFactory;
-      loaded.q = qPlus;
       Object.keys(accounts).map(function(id) {
         var account = accounts[id];
         account.id = id;

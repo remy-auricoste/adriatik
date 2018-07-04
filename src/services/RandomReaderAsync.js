@@ -1,5 +1,3 @@
-var Q = require("rauricoste-promise-light");
-
 var RandomReaderAsync = function(randomReader) {
   var randomReaderAsync = {};
   for (var key in randomReader) {
@@ -7,7 +5,10 @@ var RandomReaderAsync = function(randomReader) {
     if (typeof value === "function") {
       var build = function(key, value) {
         randomReaderAsync[key] = function() {
-          return Q.value(value.apply(randomReader, arguments));
+          const result = value.apply(randomReader, arguments)
+          return new Promise(function(resolve) {
+            resolve(result)
+          })
         }
       }
       build(key, value);

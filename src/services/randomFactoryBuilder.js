@@ -2,7 +2,7 @@ var Arrays = require("rauricoste-arrays");
 var StateSync = require("../model/tools/StateSync");
 var logger = require("../alias/Logger").getLogger("randomFactoryBuilder");
 
-function randomFactoryBuilder(qPlus, randomSocket, hashService) {
+function randomFactoryBuilder(randomSocket, hashService) {
   if (randomSocket) {
     var hashesMap = {};
     var generatedMap = {};

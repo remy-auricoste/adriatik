@@ -4,9 +4,8 @@ var hashService = require("./hashService");
 var randomSocketMock = require("./randomSocket.mock");
 var hashService = require("./hashService");
 var randomFactoryBuilder = require("./randomFactoryBuilder");
-var qPlus = require("./qPlus");
 
-var randomFactory = randomFactoryBuilder(qPlus, randomSocketMock, hashService);
+var randomFactory = randomFactoryBuilder(randomSocketMock, hashService);
 var logger = require("../alias/Logger").getLogger("randomFactory.spec");
 
 describe('random factory object', function () {

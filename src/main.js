@@ -1,5 +1,6 @@
 require("./test/env");
 
+require("./model/natif/Promises");
 require("./model/natif/Arrays");
 require("./model/natif/Errors");
 require("./model/natif/Strings");

@@ -14,7 +14,6 @@ var Unit = require("./Unit");
 var Building = require("./Building");
 var God = require("./God");
 
-var q = require("../../services/qPlus");
 var config = require("../../services/config");
 var logger = require("../../alias/Logger").getLogger("Game");
 
@@ -71,7 +70,7 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
               shuffled.push(God.Ceres);
               self.currentGods = shuffled;
           });
-          var playersPromise = q.empty();
+          var playersPromise = Promise.empty();
           if (self.turn === 1) {
               playersPromise = randomReaderAsync.shuffle(self.players).then(function(players) {
                 self.players = players;
@@ -84,8 +83,8 @@ var GameWithDeps = injector.register("Game", ["randomReaderAsync"], function(ran
                 player.gold += income;
               })
           }
-          var creaturesPromise = self.turn === 1 ? q.empty() : self.pushCreatures(self.turn === 2 ? 1 : 3);
-          return q.all([godPromise, playersPromise, creaturesPromise]).then(function() {
+          var creaturesPromise = self.turn === 1 ? Promise.empty() : self.pushCreatures(self.turn === 2 ? 1 : 3);
+          return Promise.all([godPromise, playersPromise, creaturesPromise]).then(function() {
             return self;
           });
       },
