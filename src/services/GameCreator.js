@@ -18,7 +18,7 @@ injector.register("GameCreator", [
   "Player"
 ], function(Game, Player) {
   var GameCreator = {
-      create: function(playerCount) {
+      create: function(playerCount, mapName) {
           var players = accounts.slice(0, playerCount).map(account => { return new Player(account) });
           var game = new Game({
             players: players,
@@ -26,7 +26,7 @@ injector.register("GameCreator", [
             warMode: false
           });
 
-          return mapGenerator.getTerritories("standard").then(function(territories) {
+          return mapGenerator.getTerritories(mapName).then(function(territories) {
             territories.map(function (territory) {
               var neighbours = neighbourFinder.findRealNeighbours(territory, territories);
               neighbours.map(function (neighbour) {
@@ -39,6 +39,7 @@ injector.register("GameCreator", [
             return territories;
           }).then(function (territories) {
             game.territories = territories;
+            game.mapName = mapName
             return game.startTurn();
           });
       }

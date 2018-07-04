@@ -21,7 +21,7 @@ var Actions = require("./Actions");
 var GameCreator = injector.getInstance("GameCreator");
 var HistoryService = require("./services/HistoryService")
 
-GameCreator.create(4).then(game => {
+GameCreator.create(4, "standard").then(game => {
   var initState = {
     game: HistoryService.getState() || game
   };
