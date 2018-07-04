@@ -114,7 +114,7 @@ var PlayerWithDeps = injector.register("Player", ["randomReaderAsync"], function
               if (!this.god.card) {
                   throw new Error("ce dieu ne peut pas vous fournir de carte.");
               }
-              var price = this.god.cardPrice()[this.cardBuyCount];
+              var price = this.god.cardPrice[this.cardBuyCount];
               if (!price && price !== 0) {
                   throw new Error("il n'y a plus de carte à acheter.");
               }

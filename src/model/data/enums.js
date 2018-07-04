@@ -38,9 +38,7 @@ God.Jupiter = new God({
     color: "white",
     building: Building.Temple,
     card: GodCard.Priest,
-    cardPrice: function () {
-        return [0, 4];
-    }
+    cardPrice: [0, 4]
 });
 God.Pluton = new God({
     name: "Pluton",
@@ -71,9 +69,7 @@ God.Junon = new God({
     color: "blue",
     building: Building.University,
     card: GodCard.Philosopher,
-    cardPrice: function () {
-        return [0, 4];
-    }
+    cardPrice: [0, 4]
 });
 God.Minerve = new God({
     name: "Minerve",

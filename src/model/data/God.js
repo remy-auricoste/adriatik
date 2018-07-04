@@ -8,7 +8,7 @@ var God = Meta.declareClass("God", {
     unitType: "UnitType",
     unitPrice: "fct",
     card: "GodCard",
-    cardPrice: "fct",
+    cardPrice: "",
     index: 1,
     bid: "Bid",
     canBuild: function (building) {
