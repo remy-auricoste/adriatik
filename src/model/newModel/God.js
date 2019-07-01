@@ -92,6 +92,22 @@ module.exports = function(Building, GodCard, UnitType) {
         throw err.prefix("Il est impossible d'acheter une carte : ");
       }
     }
+    build({ player, territory, building = this.building, god = this }) {
+      try {
+        if (!god) {
+          throw new Error("vous n'avez sélectionné aucun dieu.");
+        }
+        if (!god.building) {
+          throw new Error("ce dieu ne peut pas construire ce tour-ci.");
+        }
+        return {
+          player: player.spend(2),
+          territory: territory.build(building)
+        };
+      } catch (err) {
+        throw err.prefix("Il est impossible de construire : ");
+      }
+    }
 
     // private
     copy(params) {
