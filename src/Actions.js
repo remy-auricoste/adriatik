@@ -15,7 +15,7 @@ var ActionsBuilder = function(store) {
           var commandResult = Commandify.applyCommand(store.getState().game, command);
           var thenFct = function(game) {
             commands.set("game", game);
-//            HistoryService.saveState(game);
+            HistoryService.saveState(game);
           }
           commandResult.then ? commandResult.then(thenFct) : thenFct(commandResult);
           return command;
