@@ -180,4 +180,48 @@ describe.only("God class", () => {
       );
     });
   });
+  describe("buyGodCard method", function() {
+    it("should buy a card", function() {
+      // given
+      const god = God.Jupiter;
+      // when
+      const result = god.buyGodCard({ player });
+      // then
+      expect(result.player.cards.priest).to.equal(1);
+    });
+    it("should throw an exception the player does not have enough gold", function() {
+      // given
+      const god = God.Jupiter;
+      const player = DataTest.player.copy({ gold: 1 });
+      // then
+      const result = god.buyGodCard({ player });
+      expect(function() {
+        result.god.buyGodCard({ player: result.player });
+      }).to.throw(
+        "Il est impossible d'acheter une carte : vous n'avez pas assez de sesterces. Cette action coûte 4 sesterce(s)."
+      );
+    });
+    it("should throw an exception if the god cannot give cards", function() {
+      // then
+      expect(function() {
+        God.Minerve.buyGodCard({ player });
+      }).to.throw(
+        "Il est impossible d'acheter une carte : ce dieu ne peut pas vous fournir de carte."
+      );
+    });
+    it("should throw an exception if there is no more card to buy", function() {
+      // given
+      const god = God.Junon;
+      const player = DataTest.player.copy({ gold: 20 });
+      // then
+      let result;
+      result = god.buyGodCard({ player });
+      result = result.god.buyGodCard({ player: result.player });
+      expect(function() {
+        result = result.god.buyGodCard({ player: result.player });
+      }).to.throw(
+        "Il est impossible d'acheter une carte : il n'y a plus de carte à acheter."
+      );
+    });
+  });
 });

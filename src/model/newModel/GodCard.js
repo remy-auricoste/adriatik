@@ -1,6 +1,6 @@
 const GodCard = {
   Priest: "priest",
-  Philosohper: "philosohper"
+  Philosopher: "philosopher"
 };
 
 module.exports = GodCard;
