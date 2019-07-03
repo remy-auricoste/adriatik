@@ -6,6 +6,7 @@ class Territory {
     addedIncome = 0,
     baseIncome = 0,
     buildSlots = 0,
+    id = Math.random() + "",
     type
   }) {
     this.buildings = buildings;
@@ -15,6 +16,7 @@ class Territory {
     this.baseIncome = baseIncome;
     this.buildSlots = buildSlots;
     this.type = type;
+    this.id = id;
   }
   // writes
   placeUnit(unit) {
@@ -64,8 +66,9 @@ class Territory {
     });
   }
   nextTo(territory) {
-    this.neighbours.push(territory.index);
-    territory.neighbours.push(this.index);
+    // TODO solve this as immutable
+    this.neighbours.push(territory);
+    territory.neighbours.push(this);
   }
 
   // reads
@@ -99,6 +102,13 @@ class Territory {
   }
   isNextTo(territory) {
     return this.neighbours.indexOf(territory.index) >= 0;
+  }
+  getOwner() {
+    const firstUnit = this.units[0];
+    return firstUnit && firstUnit.ownerId;
+  }
+  getNeighbours() {
+    return this.neighbours;
   }
 
   // private

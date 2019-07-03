@@ -11,6 +11,7 @@ const GodCard = require("./GodCard");
 const Player = require("./Player");
 const Territory = require("./Territory");
 const TerritoryType = require("./TerritoryType");
+const Unit = require("./Unit");
 const UnitType = require("./UnitType");
 module.exports = {
 Bid,
@@ -26,5 +27,6 @@ GodCard,
 Player,
 Territory,
 TerritoryType,
+Unit,
 UnitType
 }

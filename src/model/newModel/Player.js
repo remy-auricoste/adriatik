@@ -2,12 +2,17 @@ var logger = require("../../alias/Logger").getLogger("Player");
 
 module.exports = function(GodCard) {
   return class Player {
-    constructor({ gold = 7, templeUsed = 0, cards = {} } = {}) {
+    constructor({
+      gold = 7,
+      templeUsed = 0,
+      cards = {},
+      id = Math.random() + ""
+    } = {}) {
       this.gold = gold;
       this.templeUsed = templeUsed;
       this.cards = cards;
 
-      this.id = Math.random() + "";
+      this.id = id;
     }
     spend(number) {
       const { gold } = this;

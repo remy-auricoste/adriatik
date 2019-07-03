@@ -1,4 +1,4 @@
-module.exports = function(Building, GodCard, UnitType) {
+module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
   class God {
     constructor({
       name,
@@ -8,7 +8,8 @@ module.exports = function(Building, GodCard, UnitType) {
       card,
       cardPrice,
       unitBuyCount = 0,
-      cardBuyCount = 0
+      cardBuyCount = 0,
+      index
     }) {
       this.name = name;
       this.building = building;
@@ -20,38 +21,47 @@ module.exports = function(Building, GodCard, UnitType) {
       this.unitBuyCount = unitBuyCount;
       this.cardBuyCount = cardBuyCount;
       this.id = name.toLowerCase();
+      this.index = index;
     }
-    buyUnit({ territory, player, god = this }) {
-      const { unitType, unitBuyCount } = god;
+    buyUnit({ territory, player, god = this, unitType = this.unitType }) {
+      const { unitBuyCount } = god;
       try {
         if (!unitType) {
           throw new Error("ce dieu ne peut pas vous fournir d'unité.");
         }
-        const price = god.unitPrice()[unitBuyCount];
+        const price = god.unitPrice(god)[unitBuyCount];
         if (!price && price !== 0) {
           throw new Error("il n'y a plus d'unité à acheter.");
         }
-        const territoryType = unitType.territoryType;
-        if (territoryType !== territory.type) {
+        if (unitType.territoryType !== territory.type) {
           throw new Error(
             "il est impossible de placer ce type d'unité sur ce type de territoire."
           );
         }
-        if (territory.owner !== player && territory.type === "earth") {
+        if (
+          territory.getOwner() !== player.id &&
+          territory.type === TerritoryType.earth
+        ) {
           throw new Error(
             "vous ne pouvez acheter des unités terrestres que sur des territoires que vous contrôlez"
           );
         }
-        if (!territory.isFriendly(player) && territory.type === "sea") {
+        if (
+          !territory.isFriendly(player) &&
+          territory.type === TerritoryType.sea
+        ) {
           throw new Error(
             "vous ne pouvez acheter des unités maritimes que sur des territoires vides ou que vous contrôlez"
           );
         }
-        if (territory.type === "sea") {
+        if (territory.type === TerritoryType.sea) {
           const nearbyOwnedTerritories = territory
             .getNeighbours()
             .filter(territory2 => {
-              return territory2.type === "earth" && territory2.owner === player;
+              return (
+                territory2.type === TerritoryType.earth &&
+                territory2.getOwner() === player.id
+              );
             });
           if (!nearbyOwnedTerritories.length) {
             throw new Error(
@@ -62,7 +72,7 @@ module.exports = function(Building, GodCard, UnitType) {
         return {
           player: player.spend(price),
           territory: territory.placeUnit(
-            new Unit({ type: unitType, owner: player.id })
+            new Unit({ type: unitType, ownerId: player.id })
           ),
           god: god.copy({
             unitBuyCount: unitBuyCount + 1
@@ -124,8 +134,8 @@ module.exports = function(Building, GodCard, UnitType) {
   God.Pluton = new God({
     name: "Pluton",
     unitType: UnitType.Gladiator,
-    unitPrice: function() {
-      if (this.index === 0) {
+    unitPrice: function(god) {
+      if (god.index === 0) {
         return [0, 2];
       } else {
         return [2];
