@@ -14,6 +14,7 @@ module.exports = function(GodCard) {
 
       this.id = id;
     }
+    // writes
     spend(number) {
       const { gold } = this;
       if (gold < number) {
@@ -37,6 +38,13 @@ module.exports = function(GodCard) {
         cards: newCards
       });
     }
+    payBid(amount) {
+      var goldLeft = amount - this.getPriests();
+      var payment = Math.max(1, goldLeft);
+      return this.spend(payment);
+    }
+
+    // reads
     getGodCardCount(godCard) {
       return this.cards[godCard] || 0;
     }
@@ -46,10 +54,9 @@ module.exports = function(GodCard) {
     getPhilosophers() {
       return this.getGodCardCount(GodCard.Philosopher);
     }
-    payBid(amount) {
-      var goldLeft = amount - this.getPriests();
-      var payment = Math.max(1, goldLeft);
-      return this.spend(payment);
+    getMaxBid() {
+      const { gold } = this;
+      return gold + this.getPriests();
     }
 
     // private
