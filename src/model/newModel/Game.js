@@ -61,18 +61,6 @@
 //   getCurrentPlayer() {
 //     return this.players[this.currentPlayerIndex];
 //   }
-
-//   getPlayerByName(playerName) {
-//     return this.players.find(function(player) {
-//       return player.name === playerName;
-//     })
-//   },
-//   getPlayerGod(player) {
-//     const bid = this.getPlayerBid(player);
-//     const godName = bid && bid.god;
-//     return God._all[godName];
-//   },
-
 //   nextPhase() {
 //       const self = this.copy();
 //       if (self.phase === Phases.bidding) {
@@ -190,120 +178,10 @@
 //       }).length;
 //     }).sum();
 //   },
-//   buyCreature(playerName, creature, args) {
-//     const index = this.creatures.indexOf(creature);
-//     if (index >= 0) {
-//       const cost = [4, 3, 2][index];
-//       const temples = this.getTemples(playerName);
-//       const player = this.getPlayerByName(playerName);
-//       const discount = temples - player.templeUsed;
-//       const finalCost = Math.max(1, cost - discount);
-//       const discountUsed = cost - finalCost;
-//       // TODO handle immutability here
-//       creature.apply(this, player, args);
-//       const newPlayer = player.buyCreature(finalCost, discountUsed);
-//       const self = this.updatePlayer(newPlayer);
-//       self.creatures[index] = null;
-//       return self;
-//     } else {
-//       throw new Error("could not find creature "+creature.name);
-//     }
-//   },
-//   pushCreatures(count) {
-//     if (!count) {
-//       count = 3;
-//     }
-//     const self = this;
-//     this.creatures[2] = null;
-//     this.creatures = this.creatures.filter(function(creature) {
-//       return creature;
-//     });
-//     return randomReaderAsync.shuffle(self.creaturesLeft).then(function() {
-//       const missingCard = count - self.creatures.length;
-//       self.creatures = self.creaturesLeft.slice(0, missingCard).concat(self.creatures);
-//     });
-//   },
 //   getIncome(player) {
 //     return this.getTerritoriesForPlayer(player.name).map(function(territory) {
 //       return territory.getIncome();
 //     }).sum();
 //   },
-//   updateTerritory(territory) {
-//     const index = territory.index;
-//     const self = this.copy();
-//     self.territories = this.territories.concat([]);
-//     self.territories[index] = territory;
-//     return self;
-//   },
-//   updatePlayer(newPlayer) {
-//     const self = this.copy();
-//     const index = this.players.findIndex(function(playerIte) {
-//       return playerIte.name === newPlayer.name;
-//     })
-//     self.players[index] = newPlayer;
-//     return self;
-//   },
-//   getTerritory(index) {
-//     return this.territories[index];
-//   },
-//   getNeighboursTerritories(territory) {
-//     return territory.neighbours.map(index => this.getTerritory(index));
-//   },
-//   build(playerName, territoryIndex, building) {
-//     const player = this.getPlayerByName(playerName);
-//     const territory = this.getTerritory(territoryIndex);
-//     const god = this.getPlayerGod(player);
-//     try {
-//         if (!god) {
-//           throw new Error("vous n\'avez sélectionné aucun dieu.");
-//         }
-//         if (!god.building) {
-//             throw new Error("ce dieu ne peut pas construire ce tour-ci.");
-//         }
-//         territory = territory.build(building);
-//         player = player.spend(2);
-//         return this.updateTerritory(territory).updatePlayer(player);
-//     } catch (err) {
-//         throw err.prefix("Il est impossible de construire : ");
-//     }
-//   },
-//   buyUnit(territory) {
-//     try {
-//         const player = this.getCurrentPlayer();
-//         const playerName = player.name;
-//         const god = this.getPlayerGod(player);
-//         if (!god) {
-//             throw new Error("aucun dieu disponible");
-//         }
-//         if (!god.unitType) {
-//             throw new Error("ce dieu ne peut pas vous fournir d'unité.");
-//         }
-//         const price = god.unitPrice()[player.unitBuyCount];
-//         if (!price && price !== 0) {
-//             throw new Error("il n'y a plus d'unité à acheter.");
-//         }
-//         const territoryType = god.unitType.territoryType;
-//         if (territoryType !== territory.type) {
-//             throw new Error("il est impossible de placer ce type d\'unité sur ce type de territoire.");
-//         }
-//         if (territory.owner !== playerName && territory.type === "earth") {
-//             throw new Error("vous ne pouvez acheter des unités terrestres que sur des territoires que vous contrôlez");
-//         }
-//         if (!territory.isFriendly(self) && territory.type === "sea") {
-//             throw new Error("vous ne pouvez acheter des unités maritimes que sur des territoires vides ou que vous contrôlez");
-//         }
-//         const nearbyOwnedTerritories = this.getNeighboursTerritories(territory).filter(function(territory2) {
-//           return territory2.type === "earth" && territory2.owner === playerName;
-//         });
-//         if (territory.type === "sea" && !nearbyOwnedTerritories.length) {
-//             throw new Error("vous ne pouvez acheter des unités maritimes que sur des territoires situés à proximité d'un territoire terrestre que vous contrôlez");
-//         }
-//         player = player.spend(price);
-//         territory = territory.placeUnit(new Unit({type: god.unitType, owner: playerName}));
-//         player.unitBuyCount++;
-//         return this.updateTerritory(territory).updatePlayer(player);
-//     } catch (err) {
-//         throw err.prefix("Il est impossible d'acheter une unité : ")
-//     }
-//   }
+
 // };
