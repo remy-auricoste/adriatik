@@ -39,7 +39,7 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
           );
         }
         if (
-          territory.getOwner() !== player.id &&
+          !territory.isOwner(player) &&
           territory.type === TerritoryType.earth
         ) {
           throw new Error(
@@ -60,7 +60,7 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
             .filter(territory2 => {
               return (
                 territory2.type === TerritoryType.earth &&
-                territory2.getOwner() === player.id
+                territory2.isOwner(player)
               );
             });
           if (!nearbyOwnedTerritories.length) {

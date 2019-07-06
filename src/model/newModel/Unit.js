@@ -3,4 +3,7 @@ module.exports = class Unit {
     this.ownerId = ownerId;
     this.type = type;
   }
+  copy(params = {}) {
+    return new Unit(Object.assign({}, this, params));
+  }
 };

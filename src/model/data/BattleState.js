@@ -1,5 +1,4 @@
 var Meta = require("../../alias/Meta");
-var Building = require("./Building");
 var Dice = require("./Dice");
 
 var BattleState = Meta.createClass("BattleState", {
@@ -19,16 +18,16 @@ var BattleState = Meta.createClass("BattleState", {
     return Dice(this.random);
   },
   buildLoss: function(strength) {
-    this.loss = (this.score <= strength) ? 1 : 0;
+    this.loss = this.score <= strength ? 1 : 0;
   },
   isLossResolved: function() {
-    return (this.loss && this.resolvedLoss) || !this.loss;
+    return (this.loss && this.resolvedLoss) || !this.loss;
   },
   setLoss: function(unit) {
     this.resolvedLoss = unit;
   },
   isFullyResolved: function() {
-    return this.isLossResolved() && (this.decision || !this.hasUnits());
+    return this.isLossResolved() && (this.decision || !this.hasUnits());
   },
   hasUnits: function() {
     return !!(this.units.length - (this.resolvedLoss ? 1 : 0));

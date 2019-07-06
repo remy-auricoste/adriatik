@@ -76,16 +76,17 @@ class Territory {
     return this.units.length === 0;
   }
   isFriendly(player) {
-    return !this.owner || this.owner === player.name;
+    const owner = this.getOwner();
+    return !owner || owner === player.id;
   }
   getUnits(player) {
-    return this.units.filter(function(unit) {
-      return unit.owner === player.name;
+    return this.units.filter(unit => {
+      return unit.ownerId === player.id;
     });
   }
   getUnitsOfType(player, type) {
-    return this.units.filter(function(unit) {
-      return unit.owner === player.name && unit.type === type;
+    return this.units.filter(unit => {
+      return unit.ownerId === player.id && unit.type === type;
     });
   }
   getIncome() {
@@ -106,6 +107,9 @@ class Territory {
   getOwner() {
     const firstUnit = this.units[0];
     return firstUnit && firstUnit.ownerId;
+  }
+  isOwner(player) {
+    return this.getOwner() === player.id;
   }
   getNeighbours() {
     return this.neighbours;

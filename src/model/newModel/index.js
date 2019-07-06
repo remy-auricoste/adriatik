@@ -4,6 +4,7 @@ const Building = require("./Building");
 const CreatureCard = require("./CreatureCard");
 const CreatureMarket = require("./CreatureMarket");
 const DataTest = require("./DataTest");
+const FirstTurnActions = require("./FirstTurnActions");
 const Game = require("./Game");
 const GameSettings = require("./GameSettings");
 const God = require("./God");
@@ -20,6 +21,7 @@ Building,
 CreatureCard,
 CreatureMarket,
 DataTest,
+FirstTurnActions,
 Game,
 GameSettings,
 God,

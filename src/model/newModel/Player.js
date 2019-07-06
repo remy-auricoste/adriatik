@@ -1,5 +1,3 @@
-var logger = require("../../alias/Logger").getLogger("Player");
-
 module.exports = function(GodCard) {
   return class Player {
     constructor({

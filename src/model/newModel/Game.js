@@ -1,3 +1,34 @@
+module.exports = class Game {
+  constructor({ turn = 1, territories = [], warMode = false } = {}) {
+    this.turn = turn;
+    this.territories = territories;
+    this.warMode = warMode;
+  }
+  //writes
+  update(entity) {
+    return this.copy({
+      territories: this.territories
+        .filter(territory => territory.id !== entity.id)
+        .concat([entity])
+    });
+  }
+  copy(params = {}) {
+    return new Game(Object.assign({}, this, params));
+  }
+  //reads
+  getTerritoriesForPlayer(player) {
+    return this.territories.filter(territory => {
+      return territory.isOwner(player);
+    });
+  }
+  getEntityById(id) {
+    return this.territories.find(entity => entity.id === id);
+  }
+  getEntity(entity) {
+    return this.getEntityById(entity.id);
+  }
+};
+
 // module.exports = class Game {
 //   constructor({ gameSettings } = {}) {
 //     this.init()
@@ -97,75 +128,7 @@
 //         });
 //       }
 //   },
-//   initUnit(playerName, territoryIndex) {
-//       const player = this.getPlayerByName(playerName);
-//       const territory = this.getTerritory(territoryIndex);
-//       if (this.turn !== 1) {
-//           throw new Error("dev error: you cannot use this method if it is not turn 1.");
-//       }
-//       try {
-//           if (territory.owner && territory.owner !== player.name) {
-//               throw new Error("vous devez contrôler le territoire ou le territoire doit être neutre.");
-//           }
-//           const playerTerritories = this.getTerritoriesForPlayer(playerName);
-//           if (!territory.owner) {
-//               if (territory.type === "sea") {
-//                 const isAdjacentEarth = playerTerritories.some(function(territoryIte) {
-//                   return territoryIte.type === "earth";
-//                 });
-//                 if (!isAdjacentEarth) {
-//                   throw new Error("vous devez placer vos bateaux sur des territoires adjacents à vos territoires terrestres");
-//                 }
-//               }
-//               if (this.warMode) {
-//                 const sameTypeTerritories = playerTerritories.filter(function (territoryIte) {
-//                     return territory.type === territoryIte.type;
-//                 });
-//                 if (sameTypeTerritories.length === 2) {
-//                     throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
-//                 }
-//                 const isAdjacent = playerTerritories.some(function (territoryIte) {
-//                     return territoryIte.isNextTo(territory);
-//                 });
-//                 if (playerTerritories.length && !isAdjacent) {
-//                     throw new Error("il n'est pas adjacent aux territoires déjà contrôlés.");
-//                 }
-//               }
-//           }
-//           const unitType = territory.type === "earth" ? UnitType.Legionnaire : UnitType.Ship;
-//           const currentValue = playerTerritories.map(function(territory) {
-//             return territory.getUnitsOfType(player, unitType).length;
-//           }).sum();
-//           const playerGod = this.getPlayerGod(player);
-//           const allowedValue = 2 + (playerGod.unitType && playerGod.unitType === unitType ? 1 : 0);
-//           if (currentValue === allowedValue) {
-//               throw new Error("vous ne pouvez pas ajouter d'autres unités de type " + unitType.name + ".");
-//           }
-//           if (currentValue === allowedValue - 1 && territory.owner === player.name) {
-//               throw new Error("vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus.");
-//           }
-//           const unit = new Unit({
-//               type: unitType,
-//               owner: player.name
-//           });
-//           territory = territory.placeUnit(unit).copy({owner: player.name});
-//           return this.updateTerritory(territory);
-//       } catch (err) {
-//           throw err.prefix("Il est impossible de placer une unité sur ce territoire : ");
-//       }
-//   },
-//   initHasMoreUnits(player) {
-//       const unitCount = 0;
-//       for (const key in player.initCount) {
-//           const value = player.initCount[key];
-//           unitCount += value;
-//       }
-//       const allowedValue = 4 + (player.god.unitType ? 1 : 0);
-//       if (player.god === God.Pluton && God.Pluton.index === 0) {
-//           allowedValue++;
-//       }
-//       return unitCount < allowedValue;
-//   },
+//
 //   getTerritoriesForPlayer(playerName) {
 //     return this.territories.filter(function(territory) {
 //       return territory.owner === playerName;

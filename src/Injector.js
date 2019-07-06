@@ -55,9 +55,10 @@ class Injector {
 
   // private
   getDiRegex() {
-    const moduleNamePattern = "[a-zA-Z]+";
+    const space = "[ \t\n]*";
+    const moduleName = `${space}[a-zA-Z]+${space}`;
     return new RegExp(
-      `^function ?\\(${moduleNamePattern}(, ?${moduleNamePattern})*\\) ?\\{`,
+      `^function${space}\\(${moduleName}(,${moduleName})*\\)${space}\\{`,
       "g"
     );
   }
