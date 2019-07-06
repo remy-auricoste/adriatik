@@ -4,7 +4,8 @@ module.exports = function(
   GameSettings,
   BidsState,
   PhaseBid,
-  PhaseAction
+  PhaseAction,
+  randomReaderAsync
 ) {
   return class Game {
     constructor({
@@ -42,7 +43,13 @@ module.exports = function(
     }
     async start() {
       const game = this;
-      return await game.getCurrentPhase().start({ game });
+      const { players } = game;
+      return await game
+        .copy({
+          players: randomReaderAsync.shuffle(players)
+        })
+        .getCurrentPhase()
+        .start({ game });
     }
     async nextPhase(game = this) {
       const { currentPhaseIndex, phases } = game;
@@ -99,28 +106,6 @@ module.exports = function(
 //         this.players = newPlayers
 //         this.currentPlayerIndex = 0
 //       });
-//   }
-
-//   endPlayerTurn() {
-//       const {phase, players} = this
-//       const self = this.copy();
-//       if (phase === Phases.bidding) {
-//           const freePlayers = players.filter(player => {
-//               return !this.getPlayerBid(player);
-//           });
-//           if (freePlayers.length) {
-//               this.currentPlayerIndex = players.indexOf(freePlayers[0]);
-//               return self;
-//           } else {
-//               return self.nextPhase();
-//           }
-//       } else if (phase === Phases.actions) {
-//           self.currentPlayerIndex++;
-//           if (self.currentPlayerIndex >= players.length) {
-//               return self.nextPhase();
-//           }
-//           return self;
-//       }
 //   }
 
 //   // reads
