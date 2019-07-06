@@ -5,7 +5,8 @@ module.exports = function(
   BidsState,
   PhaseBid,
   PhaseAction,
-  randomReaderAsync
+  randomReaderAsync,
+  Building
 ) {
   return class Game {
     constructor({
@@ -70,6 +71,15 @@ module.exports = function(
       return this.territories.filter(territory => {
         return territory.isOwner(player);
       });
+    }
+    getTemples(player) {
+      return this.getTerritoriesForPlayer(player)
+        .map(territory => {
+          return territory.buildings.filter(building => {
+            return building === Building.Temple || building === Building.Cite;
+          }).length;
+        })
+        .reduce((acc, value) => acc + value, 0);
     }
     getEntityById(id) {
       return this.territories.find(entity => entity.id === id);
