@@ -1,7 +1,9 @@
 module.exports = function(God, randomReaderAsync) {
   return class PhaseAction {
     async start({ game }) {
-      return game;
+      return game.copy({
+        currentPlayerIndex: 0
+      });
     }
     pass({ game }) {
       const { currentPlayerIndex, players } = game;

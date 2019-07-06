@@ -96,46 +96,6 @@ module.exports = function(
 };
 
 // module.exports = class Game {
-//   constructor({ gameSettings } = {}) {
-//     this.init()
-//   }
-//   // writes
-//   init() {
-//       const {players} = this
-//     return randomReaderAsync.shuffle(players).then(newPlayers => {
-//         this.players = newPlayers
-//         this.currentPlayerIndex = 0
-//       });
-//   }
-
-//   // reads
-//   getCurrentPlayer() {
-//     return this.players[this.currentPlayerIndex];
-//   }
-//   nextPhase() {
-//       const self = this.copy();
-//       if (self.phase === Phases.bidding) {
-//           self.phase = Phases.actions;
-//           self.players = self.players.map(function(player) {
-//             const bid = self.getPlayerBid(player);
-//             return player.payBid(bid.amount);
-//           });
-//           self.players = rauriArrays.flatMap(self.currentGods, function(god) {
-//             return self.getBidsForGod(god).map(function(bid) {
-//               return self.getPlayerByName(bid.player);
-//             })
-//           })
-//           self.currentPlayerIndex = 0;
-//           return self;
-//       } else if (self.phase === Phases.actions) {
-//           self.currentPlayerIndex = 0;
-//           self.phase = Phases.bidding;
-// //              self.players.map(function (player) {
-// //                  return player.reset();
-// //              });
-//           return self.startTurn();
-//       }
-//   },
 //   resolveBattle(player, battle, options) {
 //       const result = player.resolveBattle(battle, options);
 //       if (result === true) {
@@ -149,11 +109,6 @@ module.exports = function(
 //       }
 //   },
 //
-//   getTerritoriesForPlayer(playerName) {
-//     return this.territories.filter(function(territory) {
-//       return territory.owner === playerName;
-//     });
-//   },
 //   getTemples(playerName) {
 //     return this.getTerritoriesForPlayer(playerName).map(function(territory) {
 //       return territory.buildings.filter(function(building) {
@@ -161,10 +116,4 @@ module.exports = function(
 //       }).length;
 //     }).sum();
 //   },
-//   getIncome(player) {
-//     return this.getTerritoriesForPlayer(player.name).map(function(territory) {
-//       return territory.getIncome();
-//     }).sum();
-//   },
-
 // };
