@@ -119,11 +119,3 @@ module.exports = function(
 //       }
 //   },
 //
-//   getTemples(playerName) {
-//     return this.getTerritoriesForPlayer(playerName).map(function(territory) {
-//       return territory.buildings.filter(function(building) {
-//         return building === Building.Temple || building === Building.Cite;
-//       }).length;
-//     }).sum();
-//   },
-// };
