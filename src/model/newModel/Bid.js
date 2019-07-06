@@ -1,5 +1,7 @@
 module.exports = class Bid {
   constructor({ godId, playerId, amount }) {
-    Object.assign(this, arguments[0]);
+    this.godId = godId;
+    this.playerId = playerId;
+    this.amount = amount;
   }
 };
