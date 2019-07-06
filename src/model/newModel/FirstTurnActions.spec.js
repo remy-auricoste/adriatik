@@ -6,10 +6,12 @@ const {
   FirstTurnActions,
   Player,
   UnitType,
-  God
+  God,
+  GameSettings
 } = injector.resolveAll();
 
-const { game, player } = DataTest;
+const { player } = DataTest;
+const game = DataTest.game.copy({ turn: 1 });
 const god = God.Neptune;
 
 const firstTurnActions = new FirstTurnActions();
@@ -99,7 +101,10 @@ describe.only("FirstTurnActions class", () => {
     it("should throw an exception if trying to place unit on non-adjacent territories (war mode)", () => {
       const territory = DataTest.territory;
       const territory2 = territory.copy({ id: "territory2" });
-      const game = DataTest.game.copy({ warMode: true });
+      const game = DataTest.game.copy({
+        settings: new GameSettings({ warMode: true }),
+        turn: 1
+      });
 
       // when
       let result;

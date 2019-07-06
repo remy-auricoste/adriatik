@@ -4,11 +4,13 @@ module.exports = function(GodCard) {
       gold = 7,
       templeUsed = 0,
       cards = {},
+      lastIncome = 0,
       id = Math.random() + ""
     } = {}) {
       this.gold = gold;
       this.templeUsed = templeUsed;
       this.cards = cards;
+      this.lastIncome = lastIncome;
 
       this.id = id;
     }
@@ -40,6 +42,13 @@ module.exports = function(GodCard) {
       var goldLeft = amount - this.getPriests();
       var payment = Math.max(1, goldLeft);
       return this.spend(payment);
+    }
+    income(amount) {
+      const { gold } = this;
+      return this.copy({
+        gold: gold + amount,
+        lastIncome: amount
+      });
     }
 
     // reads

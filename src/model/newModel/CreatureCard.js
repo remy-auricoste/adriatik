@@ -1,3 +1,5 @@
+const all = [];
+
 class CreatureCard {
   constructor({ name, targetTypes, action, addToEnum = true }) {
     this.name = name;
@@ -9,6 +11,7 @@ class CreatureCard {
     }
     if (addToEnum) {
       CreatureCard[this.name] = this;
+      all.push(this);
     }
   }
   apply(game, player, args) {
@@ -86,5 +89,6 @@ new CreatureCard({
     // TODO activate state on player so that he can trade cards / units for 2 gold
   }
 });
+CreatureCard.all = all;
 
 module.exports = CreatureCard;

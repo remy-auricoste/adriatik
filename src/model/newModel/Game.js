@@ -1,32 +1,91 @@
-module.exports = class Game {
-  constructor({ turn = 1, territories = [], warMode = false } = {}) {
-    this.turn = turn;
-    this.territories = territories;
-    this.warMode = warMode;
-  }
-  //writes
-  update(entity) {
-    return this.copy({
-      territories: this.territories
-        .filter(territory => territory.id !== entity.id)
-        .concat([entity])
-    });
-  }
-  copy(params = {}) {
-    return new Game(Object.assign({}, this, params));
-  }
-  //reads
-  getTerritoriesForPlayer(player) {
-    return this.territories.filter(territory => {
-      return territory.isOwner(player);
-    });
-  }
-  getEntityById(id) {
-    return this.territories.find(entity => entity.id === id);
-  }
-  getEntity(entity) {
-    return this.getEntityById(entity.id);
-  }
+module.exports = function(
+  CreatureCard,
+  CreatureMarket,
+  GameSettings,
+  BidsState,
+  PhaseBid,
+  PhaseAction
+) {
+  return class Game {
+    constructor({
+      turn = 1,
+      territories = [],
+      players = [],
+      creatureMarket = new CreatureMarket({
+        creaturesDraw: CreatureCard.all
+      }),
+      gods = [],
+      settings = new GameSettings(),
+      bidState = new BidsState(),
+      currentPlayerIndex = 0,
+      phases = [new PhaseBid(), new PhaseAction()],
+      currentPhaseIndex = 0
+    } = {}) {
+      this.turn = turn;
+      this.territories = territories;
+      this.players = players;
+      this.creatureMarket = creatureMarket;
+      this.gods = gods;
+      this.settings = settings;
+      this.bidState = bidState;
+      this.currentPlayerIndex = currentPlayerIndex;
+      this.phases = phases;
+      this.currentPhaseIndex = currentPhaseIndex;
+    }
+    //writes
+    update(entity) {
+      return this.copy({
+        territories: this.territories
+          .filter(territory => territory.id !== entity.id)
+          .concat([entity])
+      });
+    }
+    async start() {
+      const game = this;
+      return await game.getCurrentPhase().start({ game });
+    }
+    async nextPhase(game = this) {
+      const { currentPhaseIndex, phases } = game;
+      const currentPhase = game.getCurrentPhase();
+      let newGame = await currentPhase.end({ game });
+      const newPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+      const newPhase = phases[newPhaseIndex];
+      newGame = await newPhase.start({ game });
+      return newGame.copy({
+        currentPhaseIndex: newPhaseIndex
+      });
+    }
+    copy(params = {}) {
+      return new Game(Object.assign({}, this, params));
+    }
+    //reads
+    getTerritoriesForPlayer(player) {
+      return this.territories.filter(territory => {
+        return territory.isOwner(player);
+      });
+    }
+    getEntityById(id) {
+      return this.territories.find(entity => entity.id === id);
+    }
+    getEntity(entity) {
+      return this.getEntityById(entity.id);
+    }
+    getIncome(player) {
+      return this.getTerritoriesForPlayer(player)
+        .map(territory => {
+          return territory.getIncome();
+        })
+        .reduce((acc, value) => acc + value, 0);
+    }
+    getCurrentPlayer() {
+      const { players, currentPlayerIndex } = this;
+      return players[currentPlayerIndex];
+    }
+    getCurrentPhase() {
+      const { currentPhaseIndex, phases } = this;
+      return phases[currentPhaseIndex];
+    }
+  };
 };
 
 // module.exports = class Game {
@@ -41,31 +100,7 @@ module.exports = class Game {
 //         this.currentPlayerIndex = 0
 //       });
 //   }
-//   startTurn() {
-//       const {turn, players, gods} = this
-//       const self = this.copy({
-//         turn: this.turn+1,
-//         bids: []
-//       });
-//       const normalGods = gods.filter(god => {
-//           return god !== God.Ceres;
-//       });
-//       const godPromise = randomReaderAsync.shuffle(normalGods).then(function (shuffled) {
-//           shuffled = shuffled.slice(0, players.length - 1);
-//           shuffled.push(God.Ceres);
-//           return shuffled
-//       });
-//       if (self.turn !== 1) {
-//           const newPlayers = players.map(player => {
-//             const income = this.getIncome(player);
-//             return player.income(income)
-//           })
-//       }
-//       const creaturesPromise = self.turn === 1 ? Promise.empty() : this.pushCreatures(turn === 2 ? 1 : 3);
-//       return Promise.all([godPromise, playersPromise, creaturesPromise]).then(function() {
-//         return self;
-//       });
-//   }
+
 //   endPlayerTurn() {
 //       const {phase, players} = this
 //       const self = this.copy();

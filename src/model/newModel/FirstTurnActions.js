@@ -2,7 +2,10 @@ module.exports = function(UnitType, TerritoryType, Unit) {
   const { sea, earth } = TerritoryType;
   class FirstTurnActions {
     initUnit({ player, territory, game, god }) {
-      const { turn, warMode } = game;
+      const {
+        turn,
+        settings: { warMode }
+      } = game;
       if (turn !== 1) {
         throw new Error(
           "dev error: you cannot use this method if it is not turn 1."

@@ -9,6 +9,8 @@ const Game = require("./Game");
 const GameSettings = require("./GameSettings");
 const God = require("./God");
 const GodCard = require("./GodCard");
+const PhaseAction = require("./PhaseAction");
+const PhaseBid = require("./PhaseBid");
 const Player = require("./Player");
 const Territory = require("./Territory");
 const TerritoryType = require("./TerritoryType");
@@ -26,6 +28,8 @@ Game,
 GameSettings,
 God,
 GodCard,
+PhaseAction,
+PhaseBid,
 Player,
 Territory,
 TerritoryType,

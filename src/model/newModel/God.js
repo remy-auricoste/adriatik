@@ -23,6 +23,12 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
       this.id = name.toLowerCase();
       this.index = index;
     }
+    init() {
+      return this.copy({
+        unitBuyCount: 0,
+        cardBuyCount: 0
+      });
+    }
     buyUnit({ territory, player, god = this, unitType = this.unitType }) {
       const { unitBuyCount } = god;
       try {
