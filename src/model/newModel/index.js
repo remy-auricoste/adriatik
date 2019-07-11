@@ -6,6 +6,7 @@ const CreatureMarket = require("./CreatureMarket");
 const DataTest = require("./DataTest");
 const FirstTurnActions = require("./FirstTurnActions");
 const Game = require("./Game");
+const GameActions = require("./GameActions");
 const GameSettings = require("./GameSettings");
 const God = require("./God");
 const GodCard = require("./GodCard");
@@ -25,6 +26,7 @@ CreatureMarket,
 DataTest,
 FirstTurnActions,
 Game,
+GameActions,
 GameSettings,
 God,
 GodCard,

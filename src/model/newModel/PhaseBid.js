@@ -81,5 +81,10 @@ module.exports = function(God, randomReaderAsync) {
         players: sortedPlayers
       });
     }
+    getActions({ game }) {
+      const { bidState } = game;
+      const player = game.getCurrentPlayer();
+      return Commandify(bidState).placeBid();
+    }
   };
 };

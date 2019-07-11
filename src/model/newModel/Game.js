@@ -6,7 +6,8 @@ module.exports = function(
   PhaseBid,
   PhaseAction,
   randomReaderAsync,
-  Building
+  Building,
+  Territory
 ) {
   return class Game {
     constructor({
@@ -24,7 +25,6 @@ module.exports = function(
       currentPhaseIndex = 0
     } = {}) {
       this.turn = turn;
-      this.territories = territories;
       this.players = players;
       this.creatureMarket = creatureMarket;
       this.gods = gods;
@@ -33,18 +33,30 @@ module.exports = function(
       this.currentPlayerIndex = currentPlayerIndex;
       this.phases = phases;
       this.currentPhaseIndex = currentPhaseIndex;
+      this.territories = territories;
     }
     //writes
     update(entity) {
-      return this.copy({
-        territories: this.territories
-          .filter(territory => territory.id !== entity.id)
-          .concat([entity])
-      });
+      const game = this;
+      const entitiesName = game.getEntitiesNameByName(entity.constructor.name);
+      const entities = game[entitiesName];
+      const newEntities = entities
+        .filter(entity2 => entity2.id !== entity.id)
+        .concat([entity]);
+      const updatedParams = {};
+      updatedParams[entitiesName] = newEntities;
+      return this.copy(updatedParams);
+    }
+    updateAll(obj) {
+      const game = this;
+      return Object.values(obj).reduce(
+        (gameAcc, entity) => gameAcc.update(entity),
+        game
+      );
     }
     async start() {
       const game = this;
-      const { players } = game;
+      const { players, territories, gods } = game;
       return await game
         .copy({
           players: randomReaderAsync.shuffle(players)
@@ -82,7 +94,11 @@ module.exports = function(
         .reduce((acc, value) => acc + value, 0);
     }
     getEntityById(id) {
-      return this.territories.find(entity => entity.id === id);
+      const { territories, players, gods } = this;
+      return territories
+        .concat(players)
+        .concat(gods)
+        .find(entity => entity.id === id);
     }
     getEntity(entity) {
       return this.getEntityById(entity.id);
@@ -98,9 +114,29 @@ module.exports = function(
       const { players, currentPlayerIndex } = this;
       return players[currentPlayerIndex];
     }
+    getCurrentPlayerAndGod({ game = this } = {}) {
+      const { bidState } = game;
+      const godId = bidState.getBidForPlayer(player).godId;
+      const god = game.getEntityById(godId);
+      const player = game.getCurrentPlayer();
+      return { player, god };
+    }
     getCurrentPhase() {
       const { currentPhaseIndex, phases } = this;
       return phases[currentPhaseIndex];
+    }
+    // private
+    getEntitiesNameByName(className) {
+      switch (className) {
+        case "Territory":
+          return "territories";
+        case "Player":
+          return "players";
+        case "God":
+          return "gods";
+        default:
+          throw new Error(`no entity group for class name ${className}`);
+      }
     }
   };
 };
