@@ -18,18 +18,20 @@ module.exports = function(UnitType, TerritoryType, Unit) {
           );
         }
         const playerTerritories = game.getTerritoriesForPlayer(player);
-        if (!territory.getOwner()) {
-          if (territory.type === sea) {
-            const isAdjacentEarth = playerTerritories.some(territoryIte => {
-              return territoryIte.type === earth;
-            });
-            if (!isAdjacentEarth) {
-              throw new Error(
-                "vous devez placer vos bateaux sur des territoires adjacents à vos territoires terrestres"
-              );
-            }
+        if (territory.type === sea) {
+          const isAdjacentEarth = playerTerritories.some(territoryIte => {
+            return (
+              territoryIte.type === earth && territoryIte.isNextTo(territory)
+            );
+          });
+          if (!isAdjacentEarth) {
+            throw new Error(
+              "vous devez placer vos bateaux sur des territoires adjacents à vos territoires terrestres"
+            );
           }
-          if (warMode) {
+        }
+        if (!territory.getOwner()) {
+          if (warMode && territory.type === earth) {
             const sameTypeTerritories = playerTerritories.filter(
               territoryIte => territory.type === territoryIte.type
             );
@@ -38,7 +40,7 @@ module.exports = function(UnitType, TerritoryType, Unit) {
                 "vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."
               );
             }
-            const isAdjacent = playerTerritories.some(territoryIte => {
+            const isAdjacent = sameTypeTerritories.some(territoryIte => {
               return territoryIte.isNextTo(territory);
             });
             if (playerTerritories.length && !isAdjacent) {

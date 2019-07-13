@@ -7,7 +7,8 @@ const {
   Player,
   UnitType,
   God,
-  GameSettings
+  GameSettings,
+  TerritoryType
 } = injector.resolveAll();
 
 const { player } = DataTest;
@@ -214,6 +215,31 @@ describe.only("FirstTurnActions class", () => {
         });
       }).to.throw(
         "Il est impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."
+      );
+    });
+    it("should throw an exception if trying to place a boat far from a controlled earth territory", () => {
+      const territory = DataTest.territory.copy();
+      const territory2 = territory.copy({
+        id: "territory2",
+        type: TerritoryType.sea
+      });
+      // when
+      let result;
+      result = firstTurnActions.initUnit({
+        player,
+        territory,
+        game,
+        god
+      });
+      expect(() => {
+        result = firstTurnActions.initUnit({
+          player,
+          territory: territory2,
+          game: result.game,
+          god
+        });
+      }).to.throw(
+        "Il est impossible de placer une unité sur ce territoire : vous devez placer vos bateaux sur des territoires adjacents à vos territoires terrestres"
       );
     });
   });

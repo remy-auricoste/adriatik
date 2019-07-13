@@ -1,3 +1,5 @@
+const Commandify = require("rauricoste-commandify");
+
 module.exports = function(FirstTurnActions) {
   const firstActions = new FirstTurnActions();
   return class GameActions {
@@ -5,7 +7,7 @@ module.exports = function(FirstTurnActions) {
       const territory = game.getEntityById(territoryId);
       const { player, god } = game.getCurrentPlayerAndGod();
       const result = firstActions.initUnit({ player, territory, game, god });
-      return game.updateAll(result);
+      return result.game;
     }
     placeBid({ game, godId, amount }) {
       const { bidState } = game;
@@ -19,7 +21,7 @@ module.exports = function(FirstTurnActions) {
     buyUnit({ game, territoryId }) {
       const territory = game.getEntityById(territoryId);
       const { player, god } = game.getCurrentPlayerAndGod();
-      const result = god.buyUnit({ territory, player });
+      const result = god.buyUnit({ territory, player, game });
       return game.updateAll(result);
     }
     buyGodCard({ game }) {
@@ -36,6 +38,18 @@ module.exports = function(FirstTurnActions) {
     pass({ game }) {
       const phase = game.getCurrentPhase();
       return phase.pass({ game });
+    }
+    commands() {
+      return Commandify(this, {
+        wrapper: ({ object, method, args }) => {
+          const params = args[0];
+          return game => {
+            const newArgs = [Object.assign({ game }, params)];
+            const newCommand = { object, method, args: newArgs };
+            return Commandify.applyCommand(this, newCommand);
+          };
+        }
+      });
     }
   };
 };

@@ -22,5 +22,8 @@ module.exports = function(God, randomReaderAsync) {
         turn: turn + 1
       });
     }
+    name() {
+      return "Actions";
+    }
   };
 };

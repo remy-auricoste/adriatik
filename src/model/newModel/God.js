@@ -29,7 +29,7 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
         cardBuyCount: 0
       });
     }
-    buyUnit({ territory, player, god = this, unitType = this.unitType }) {
+    buyUnit({ territory, player, game, god = this, unitType = this.unitType }) {
       const { unitBuyCount } = god;
       try {
         if (!unitType) {
@@ -61,15 +61,10 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
           );
         }
         if (territory.type === TerritoryType.sea) {
-          const nearbyOwnedTerritories = territory
-            .getNeighbours()
-            .filter(territory2 => {
-              return (
-                territory2.type === TerritoryType.earth &&
-                territory2.isOwner(player)
-              );
-            });
-          if (!nearbyOwnedTerritories.length) {
+          const isNextEarthTerritory = game
+            .getTerritoriesForPlayer(player)
+            .some(territory2 => territory2.isNextTo(territory));
+          if (!isNextEarthTerritory) {
             throw new Error(
               "vous ne pouvez acheter des unités maritimes que sur des territoires situés à proximité d'un territoire terrestre que vous contrôlez"
             );

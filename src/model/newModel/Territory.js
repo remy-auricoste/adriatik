@@ -11,7 +11,7 @@ class Territory {
   }) {
     this.buildings = buildings;
     this.units = units;
-    this.neighbours = neighbours;
+    this.neighbours = neighbours.concat([]);
     this.addedIncome = addedIncome;
     this.baseIncome = baseIncome;
     this.buildSlots = buildSlots;
@@ -67,8 +67,8 @@ class Territory {
   }
   nextTo(territory) {
     // TODO solve this as immutable
-    this.neighbours.push(territory);
-    territory.neighbours.push(this);
+    this.neighbours.push(territory.id);
+    territory.neighbours.push(this.id);
   }
 
   // reads
@@ -102,7 +102,7 @@ class Territory {
     });
   }
   isNextTo(territory) {
-    return this.neighbours.indexOf(territory.index) >= 0;
+    return this.neighbours.indexOf(territory.id) >= 0;
   }
   getOwner() {
     const firstUnit = this.units[0];
@@ -110,9 +110,6 @@ class Territory {
   }
   isOwner(player) {
     return this.getOwner() === player.id;
-  }
-  getNeighbours() {
-    return this.neighbours;
   }
 
   // private

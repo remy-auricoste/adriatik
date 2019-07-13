@@ -66,11 +66,26 @@ describe.only("God class", () => {
         type: TerritoryType.sea
       });
       territory.nextTo(territory2);
+      const game = DataTest.game.copy({ territories: [territory, territory2] });
 
       // when
-      god.buyUnit({ territory: territory2, player });
+      const result = god.buyUnit({ territory: territory2, player, game });
       // then
-      expect(territory.units.length).to.equal(1);
+      expect(result.territory.units.length).to.equal(1);
+    });
+    it("should throw an exception when trying to place boat that is not next to a controlled earth territory", () => {
+      // given
+      const god = God.Neptune;
+      const territory = new Territory({
+        type: TerritoryType.sea
+      });
+      const game = DataTest.game.copy({ territories: [territory] });
+
+      expect(() => {
+        god.buyUnit({ territory, player, game });
+      }).to.throw(
+        "Il est impossible d'acheter une unité : vous ne pouvez acheter des unités maritimes que sur des territoires situés à proximité d'un territoire terrestre que vous contrôlez"
+      );
     });
     it("should throw an exception the player does not have enough gold", () => {
       // given

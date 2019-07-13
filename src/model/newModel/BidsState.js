@@ -7,7 +7,7 @@ module.exports = function(God, Bid) {
     placeBid({ player, god, amount }) {
       const bid = new Bid({ playerId: player.id, godId: god.id, amount });
       try {
-        if (god === God.Ceres) {
+        if (god.id === God.Ceres.id) {
           if (amount !== 0) {
             throw new Error("cannot bid other than 0 on Ceres");
           }
