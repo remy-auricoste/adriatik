@@ -1,4 +1,4 @@
-module.exports = function(God, randomReaderAsync) {
+module.exports = function(God) {
   return class PhaseAction {
     async start({ game }) {
       return game.copy({
@@ -21,9 +21,6 @@ module.exports = function(God, randomReaderAsync) {
       return game.copy({
         turn: turn + 1
       });
-    }
-    name() {
-      return "Actions";
     }
   };
 };

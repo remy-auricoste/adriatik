@@ -8,11 +8,11 @@ const {
   UnitType,
   God,
   GameSettings,
-  TerritoryType
+  TerritoryType,
+  Game
 } = injector.resolveAll();
 
 const { player } = DataTest;
-const game = DataTest.game.copy({ turn: 1 });
 const god = God.Neptune;
 
 const firstTurnActions = new FirstTurnActions();
@@ -23,6 +23,7 @@ describe.only("FirstTurnActions class", () => {
       const territory = DataTest.territory.copy();
       const territory2 = territory.copy({ id: "territory2" });
       territory.nextTo(territory2);
+      const game = new Game({ territories: [territory, territory2] });
 
       // when
       let result;
@@ -47,6 +48,7 @@ describe.only("FirstTurnActions class", () => {
     it("should throw an exception if the territory is already controlled by another player", () => {
       const territory = DataTest.territory.copy();
       const player2 = new Player();
+      const game = new Game({ territories: [territory] });
 
       let result;
       result = firstTurnActions.initUnit({
@@ -71,6 +73,10 @@ describe.only("FirstTurnActions class", () => {
       const territory2 = territory.copy({ id: "territory2" });
       const territory3 = territory.copy({ id: "territory3" });
       territory.nextTo(territory2);
+
+      const game = new Game({
+        territories: [territory, territory2, territory3]
+      });
 
       // when
       let result;
@@ -104,7 +110,8 @@ describe.only("FirstTurnActions class", () => {
       const territory2 = territory.copy({ id: "territory2" });
       const game = DataTest.game.copy({
         settings: new GameSettings({ warMode: true }),
-        turn: 1
+        turn: 1,
+        territories: [territory, territory2]
       });
 
       // when
@@ -133,6 +140,8 @@ describe.only("FirstTurnActions class", () => {
       const territory = DataTest.territory.copy();
       const territory2 = territory.copy({ id: "territory2" });
       territory.nextTo(territory2);
+
+      const game = new Game({ territories: [territory, territory2] });
 
       // when
       let result;
@@ -169,6 +178,8 @@ describe.only("FirstTurnActions class", () => {
       const territory2 = territory.copy({ id: "territory2" });
       territory.nextTo(territory2);
 
+      const game = new Game({ territories: [territory, territory2] });
+
       // when
       let result;
       result = firstTurnActions.initUnit({
@@ -198,6 +209,8 @@ describe.only("FirstTurnActions class", () => {
       const god = God.Junon;
       const territory = DataTest.territory.copy();
 
+      const game = new Game({ territories: [territory] });
+
       // when
       let result;
       result = firstTurnActions.initUnit({
@@ -214,7 +227,7 @@ describe.only("FirstTurnActions class", () => {
           god
         });
       }).to.throw(
-        "Il est impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."
+        "Il est impossible de placer une unité sur ce territoire : vous devez prendre 2 territoires terrestres."
       );
     });
     it("should throw an exception if trying to place a boat far from a controlled earth territory", () => {
@@ -223,6 +236,8 @@ describe.only("FirstTurnActions class", () => {
         id: "territory2",
         type: TerritoryType.sea
       });
+      const game = new Game({ territories: [territory, territory2] });
+
       // when
       let result;
       result = firstTurnActions.initUnit({

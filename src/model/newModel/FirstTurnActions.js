@@ -30,29 +30,27 @@ module.exports = function(UnitType, TerritoryType, Unit) {
             );
           }
         }
-        if (!territory.getOwner()) {
-          if (warMode && territory.type === earth) {
-            const sameTypeTerritories = playerTerritories.filter(
-              territoryIte => territory.type === territoryIte.type
+        const earthTerritories = playerTerritories.filter(
+          territoryIte => earth === territoryIte.type
+        );
+        if (!territory.getOwner() && warMode && territory.type === earth) {
+          if (earthTerritories.length === 2) {
+            throw new Error(
+              "vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."
             );
-            if (sameTypeTerritories.length === 2) {
-              throw new Error(
-                "vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."
-              );
-            }
-            const isAdjacent = sameTypeTerritories.some(territoryIte => {
-              return territoryIte.isNextTo(territory);
-            });
-            if (playerTerritories.length && !isAdjacent) {
-              throw new Error(
-                "il n'est pas adjacent aux territoires déjà contrôlés."
-              );
-            }
+          }
+          const isAdjacent = earthTerritories.some(territoryIte => {
+            return territoryIte.isNextTo(territory);
+          });
+          if (playerTerritories.length && !isAdjacent) {
+            throw new Error(
+              "il n'est pas adjacent aux territoires déjà contrôlés."
+            );
           }
         }
         const unitType =
           territory.type === earth ? UnitType.Legionnaire : UnitType.Ship;
-        const unitsLeft = this.getUnitsLeft({ game });
+        const unitsLeft = this.getUnitsLeft({ game, god, player });
         const unitsOfTypeLeft = unitsLeft[unitType.id];
         if (!unitsOfTypeLeft) {
           throw new Error(
@@ -61,9 +59,9 @@ module.exports = function(UnitType, TerritoryType, Unit) {
               "."
           );
         }
-        if (unitsOfTypeLeft === 1 && territory.isOwner(player)) {
+        if (unitsOfTypeLeft === 1 && territory.isOwner(player) && earthTerritories.length < 2) {
           throw new Error(
-            "vous devez prendre 2 territoires terrestres et 2 territoires maritimes contigus."
+            "vous devez prendre 2 territoires terrestres."
           );
         }
         const unit = new Unit({
@@ -81,8 +79,7 @@ module.exports = function(UnitType, TerritoryType, Unit) {
         );
       }
     }
-    getUnitsLeft({ game }) {
-      const { player, god } = game.getCurrentPlayerAndGod();
+    getUnitsLeft({ game, god, player }) {
       const playerTerritories = game.getTerritoriesForPlayer(player);
       const getAllowed = unitType => {
         return 2 + (god.unitType && god.unitType === unitType ? 1 : 0);

@@ -37,7 +37,10 @@ module.exports = function(God, Bid) {
       }
     }
     getBidForPlayer(player) {
-      return this.bids.filter(bid => bid.playerId === player.id)[0];
+      return this.bids.find(bid => bid.playerId === player.id);
+    }
+    init() {
+      return new BidsState()
     }
 
     // private

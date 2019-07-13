@@ -40,9 +40,16 @@ module.exports = function(
       const game = this;
       const entitiesName = game.getEntitiesNameByName(entity.constructor.name);
       const entities = game[entitiesName];
-      const newEntities = entities
-        .filter(entity2 => entity2.id !== entity.id)
-        .concat([entity]);
+      const index = entities.findIndex(entity2 => entity2.id === entity.id);
+      if (index < 0) {
+        throw new Error(
+          `could not find entity ${entity.constructor.name} ${JSON.stringify(
+            entity
+          )}`
+        );
+      }
+      const newEntities = entities.concat([]);
+      newEntities.splice(index, 1, entity);
       const updatedParams = {};
       updatedParams[entitiesName] = newEntities;
       return this.copy(updatedParams);
@@ -70,7 +77,7 @@ module.exports = function(
       let newGame = await currentPhase.end({ game });
       const newPhaseIndex = (currentPhaseIndex + 1) % phases.length;
       const newPhase = phases[newPhaseIndex];
-      newGame = await newPhase.start({ game });
+      newGame = await newPhase.start({ game: newGame });
       return newGame.copy({
         currentPhaseIndex: newPhaseIndex
       });

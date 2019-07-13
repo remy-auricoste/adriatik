@@ -2,7 +2,7 @@ module.exports = function(God, randomReaderAsync) {
   const { Ceres } = God;
   return class PhaseBid {
     async start({ game }) {
-      const { turn, players, creatureMarket, settings } = game;
+      const { turn, players, creatureMarket, settings, bidState } = game;
       const normalGods = settings.gods.filter(god => god !== Ceres);
       const godPromise = randomReaderAsync
         .shuffle(normalGods)
@@ -29,7 +29,8 @@ module.exports = function(God, randomReaderAsync) {
         gods: newGods,
         players: newPlayers,
         creatureMarket: newCreatureMarket,
-        currentPlayerIndex: 0
+        currentPlayerIndex: 0,
+        bidState: bidState.init()
       });
     }
     pass({ game }) {
@@ -55,7 +56,8 @@ module.exports = function(God, randomReaderAsync) {
           console.error("bidState", bidState);
           throw new Error(`weird state : no bid for player ${player.id}`);
         }
-        return player.payBid(bid.amount);
+        const isCeres = bid.godId === Ceres.id;
+        return isCeres ? player : player.payBid(bid.amount);
       });
       const ceresPlayers = newPlayers.filter(player => {
         const bid = bidState.getBidForPlayer(player);
@@ -67,11 +69,13 @@ module.exports = function(God, randomReaderAsync) {
       });
       const getGodIndex = player => {
         const bid = bidState.getBidForPlayer(player);
-        const godIndex = gods.findIndex(god => god.id === bid.godId);
-        if (typeof godIndex !== "number" || godIndex) {
-          throw new Error(`inconsistent state : godIndex=${godIndex}`);
+        const god = gods.find(god => god.id === bid.godId);
+        if (!god) {
+          throw new Error(
+            `inconsistent state : could not find god with id=${bid.godId}`
+          );
         }
-        return godIndex;
+        return god.index;
       };
       const sortedPlayers = nonCeresPlayers
         .sort((a, b) => getGodIndex(a) - getGodIndex(b))
@@ -80,9 +84,6 @@ module.exports = function(God, randomReaderAsync) {
       return game.copy({
         players: sortedPlayers
       });
-    }
-    name() {
-      return "Enchères";
     }
   };
 };

@@ -9,12 +9,16 @@ const {
   God,
   PhaseAction,
   Territory,
-  TerritoryType
+  TerritoryType,
+  FirstTurnActions,
+  PhaseBid
 } = injector.resolveAll();
 
 const gameActions = new GameActions();
 const commands = gameActions.commands();
 const settings = new GameSettings();
+
+const firstActions = new FirstTurnActions();
 
 describe.only("GameActions class", () => {
   describe("2 turns", () => {
@@ -51,11 +55,11 @@ describe.only("GameActions class", () => {
         .then(game => {
           const {
             bidState: { bids },
-            gods
+            players
           } = game;
           expect(bids).to.deep.equal([
             {
-              godId: gods[0].id,
+              godId: God.Neptune.id,
               amount: 2,
               playerId: player1.id
             },
@@ -65,15 +69,33 @@ describe.only("GameActions class", () => {
               playerId: player2.id
             }
           ]);
+          expect(players).to.deep.equal([player1.copy({ gold: 5 }), player2]);
+          expect(game.getCurrentPlayer().id).to.equal(player1.id);
           expect(game.getCurrentPhase().constructor).to.equal(PhaseAction);
           game = commands.initUnit({ territoryId: territories[1].id })(game); // earth
           game = commands.initUnit({ territoryId: territories[3].id })(game); // earth
           game = commands.initUnit({ territoryId: territories[0].id })(game); // sea
           game = commands.initUnit({ territoryId: territories[2].id })(game); // sea
+          game = commands.initUnit({ territoryId: territories[2].id })(game); // sea
           return game;
         })
         .then(game => {
-          // console.log(game);
+          expect(game.getCurrentPlayer().id).to.equal(player2.id);
+          game = commands.initUnit({ territoryId: territories[5].id })(game); // earth
+          game = commands.initUnit({ territoryId: territories[7].id })(game); // earth
+          game = commands.initUnit({ territoryId: territories[6].id })(game); // sea
+          game = commands.initUnit({ territoryId: territories[8].id })(game); // sea
+          return game;
+        })
+        .then(game => {
+          const { players, bidState } = game;
+          expect(game.getCurrentPlayer().id).to.equal(player1.id);
+          expect(game.getCurrentPhase().constructor).to.equal(PhaseBid);
+          expect(players.map(x => x.id)).to.deep.equal([
+            player1.id,
+            player2.id
+          ]);
+          expect(bidState.bids).to.deep.equal([]);
         });
     });
   });

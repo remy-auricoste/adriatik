@@ -7,7 +7,17 @@ module.exports = function(FirstTurnActions) {
       const territory = game.getEntityById(territoryId);
       const { player, god } = game.getCurrentPlayerAndGod();
       const result = firstActions.initUnit({ player, territory, game, god });
-      return result.game;
+      const newGame = result.game;
+      const unitsLeft = firstActions.getUnitsLeft({
+        game: newGame,
+        god,
+        player
+      });
+      const totalLeft = Object.values(unitsLeft).reduce(
+        (acc, value) => acc + value,
+        0
+      );
+      return totalLeft ? newGame : this.pass({ game: newGame });
     }
     placeBid({ game, godId, amount }) {
       const { bidState } = game;
