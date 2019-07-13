@@ -13,7 +13,7 @@ describe.only("Game class", () => {
       return game.start().then(newGame => {
         const { gods, turn, players, creatureMarket } = newGame;
         expect(turn).to.equal(1);
-        expect(players).to.deep.equal(players);
+        expect(players).to.deep.equal([player2, player]);
         expect(gods.length).to.deep.equal(2);
         expect(gods[gods.length - 1]).to.deep.equal(
           God.Ceres.copy({ index: 1 })

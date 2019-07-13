@@ -34,7 +34,8 @@ describe.only("GameActions class", () => {
         const lastTerritory = acc[acc.length - 1];
         const territory = new Territory({
           type: value ? TerritoryType.earth : TerritoryType.sea,
-          buildSlots: 4
+          buildSlots: 4,
+          baseIncome: value ? 1 : 0
         });
         lastTerritory && territory.nextTo(lastTerritory);
         return acc.concat([territory]);
@@ -95,6 +96,7 @@ describe.only("GameActions class", () => {
             player1.id,
             player2.id
           ]);
+          expect(players.map(x => x.gold)).to.deep.equal([7, 9]);
           expect(bidState.bids).to.deep.equal([]);
         });
     });

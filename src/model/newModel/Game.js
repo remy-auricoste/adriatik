@@ -63,13 +63,12 @@ module.exports = function(
     }
     async start() {
       const game = this;
-      const { players, territories, gods } = game;
-      return await game
-        .copy({
-          players: randomReaderAsync.shuffle(players)
-        })
-        .getCurrentPhase()
-        .start({ game });
+      const { players } = game;
+      const newPlayers = await randomReaderAsync.shuffle(players);
+      const newGame = game.copy({
+        players: newPlayers
+      });
+      return await newGame.getCurrentPhase().start({ game: newGame });
     }
     async nextPhase(game = this) {
       const { currentPhaseIndex, phases } = game;
