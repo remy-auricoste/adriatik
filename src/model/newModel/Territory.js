@@ -49,9 +49,13 @@ class Territory {
     return [this.removeUnit(unit), dest.placeUnit(unit)];
   }
   moveUnits(units, dest) {
-    return units.flatMap(unit => {
-      return this.moveUnit(unit, dest);
-    });
+    return units.reduce(
+      (acc, unit) => {
+        const [new1, new2] = acc;
+        return new1.moveUnit(unit, new2);
+      },
+      [this, dest]
+    );
   }
   build(building) {
     const { buildSlots, buildings } = this;

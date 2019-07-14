@@ -131,6 +131,37 @@ module.exports = function(
       const { currentPhaseIndex, phases } = this;
       return phases[currentPhaseIndex];
     }
+    findPath({
+      fromTerritory,
+      toTerritorry,
+      isValidFct,
+      currentPath = [],
+      passedTerritories = []
+    }) {
+      if (fromTerritory.isNextTo(toTerritorry)) {
+        return currentPath.concat([toTerritorry]);
+      }
+      const neighbourIdsLeft = fromTerritory.neighbours.filter(
+        id => passedTerritories.indexOf(id) === -1
+      );
+      if (!neighbourIdsLeft.length) {
+        return null;
+      }
+      const possibleNeighbours = neighbourIdsLeft
+        .map(id => this.getEntityById(id))
+        .filter(isValidFct);
+      passedTerritories.push(fromTerritory.id);
+      return possibleNeighbours.find(territory => {
+        return this.findPath({
+          fromTerritory: territory,
+          toTerritorry,
+          isValidFct,
+          currentPath: currentPath.concat([territory]),
+          passedTerritories
+        });
+      });
+    }
+
     // private
     getEntitiesNameByName(className) {
       switch (className) {
