@@ -97,12 +97,13 @@ class Territory {
     return this.baseIncome + this.addedIncome;
   }
   hasConflict() {
-    if (!this.units.length) {
+    const { units } = this;
+    if (!units.length) {
       return false;
     }
-    var player1 = this.units[0].owner;
-    return !!this.units.find(function(unit) {
-      return unit.owner !== player1;
+    const player1Id = units[0].ownerId;
+    return !units.every(unit => {
+      return unit.ownerId === player1Id;
     });
   }
   isNextTo(territory) {

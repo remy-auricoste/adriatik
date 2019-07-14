@@ -6,7 +6,8 @@ const {
   TerritoryType,
   Territory,
   Unit,
-  UnitType
+  UnitType,
+  Player
 } = injector.resolveAll();
 
 const { earth, sea } = TerritoryType;
@@ -53,6 +54,31 @@ describe.only("Territory class", () => {
       const [new1, new2] = territory.moveUnits([unit, unit2], territory2);
       expect(new1.getUnits(player).length).to.equal(0);
       expect(new2.getUnits(player).length).to.equal(2);
+    });
+  });
+  describe("hasConflict method", () => {
+    it("should return false if all units are owned by the same player", () => {
+      const unit = new Unit({ ownerId: player.id, type: UnitType.Legionnaire });
+      const unit2 = new Unit({
+        ownerId: player.id,
+        type: UnitType.Legionnaire
+      });
+      const territory = new Territory({ type: earth })
+        .placeUnit(unit)
+        .placeUnit(unit2);
+      expect(territory.hasConflict()).to.equal(false);
+    });
+    it("should return true if units are owned by several players", () => {
+      const player2 = new Player();
+      const unit = new Unit({ ownerId: player.id, type: UnitType.Legionnaire });
+      const unit2 = new Unit({
+        ownerId: player2.id,
+        type: UnitType.Legionnaire
+      });
+      const territory = new Territory({ type: earth })
+        .placeUnit(unit)
+        .placeUnit(unit2);
+      expect(territory.hasConflict()).to.equal(true);
     });
   });
 });
