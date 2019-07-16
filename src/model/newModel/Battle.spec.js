@@ -120,4 +120,15 @@ describe.only("Battle class", () => {
       });
     });
   });
+  describe("tryAutoLoss method", () => {
+    it("should remove a unit if all units are the same", () => {
+      return initBattle([2, 3]).then(battle => {
+        const { attacker, defender } = battle;
+        expect(battle.tryAutoLoss(defender)).to.deep.equal({ battle });
+        const result = battle.tryAutoLoss(attacker);
+        expect(result.battle.getState(attacker).resolvedLoss).to.equal(1);
+        expect(result.territory.getUnits(attacker).length).to.equal(1);
+      });
+    });
+  });
 });

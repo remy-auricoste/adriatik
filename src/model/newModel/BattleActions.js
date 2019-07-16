@@ -1,9 +1,9 @@
-module.exports = function(TerritoryType, God, UnitType) {
+module.exports = function(TerritoryType, God, UnitType, Battle) {
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
   return class BattleActions {
-    move({ game, units, fromTerritory, toTerritorry }) {
-      this.checkValidEarthMove({ game, units, fromTerritory, toTerritorry });
+    move({ game, units, fromTerritory, toTerritory }) {
+      this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
       const fromType = fromTerritory.type;
       const { player, god } = game.getCurrentPlayerAndGod();
       let newPlayer;
@@ -14,12 +14,28 @@ module.exports = function(TerritoryType, God, UnitType) {
           .spend(player.gladiatorMoveCount + 1)
           .copy({ gladiatorMoveCount: player.gladiatorMoveCount + 1 });
       }
-      return { player: newPlayer };
+      const newTerritories = fromTerritory.moveUnits(units, toTerritory);
+      const [fromNew, toNew] = newTerritories;
+      let newGame = game.update(fromNew).update(toNew);
+      if (toNew.hasConflict()) {
+        const battle = new Battle({
+          territory: toNew,
+          attacker: player,
+          defender: game.getEntityById(toTerritory.getOwner())
+        });
+        return battle.buildLosses().then(battle => {
+          const { attacker, defender } = battle;
+          newGame = newGame.updateAll(battle.tryAutoLoss(attacker));
+          newGame = newGame.updateAll(newGame.battle.tryAutoLoss(defender));
+          return newGame;
+        });
+      }
+      return newGame;
     }
 
     // reads
-    checkValidEarthMove({ game, units, fromTerritory, toTerritorry }) {
-      if (fromTerritory === toTerritorry) {
+    checkValidEarthMove({ game, units, fromTerritory, toTerritory }) {
+      if (fromTerritory === toTerritory) {
         throw new Error("vos troupes sont déjà sur ce territoire");
       }
       if (!units || !units.length) {
@@ -52,23 +68,14 @@ module.exports = function(TerritoryType, God, UnitType) {
       }
       const isValidFct = territory =>
         territory.type === sea && territory.isOwner(player);
-      if (!game.findPath({ fromTerritory, toTerritorry, isValidFct })) {
+      if (!game.findPath({ fromTerritory, toTerritory, isValidFct })) {
         throw new Error(
           "le territoire de destination n'est pas adjacent au territoire de départ, ou relié par une chaîne de bateaux."
         );
       }
     }
   };
-  
-  //   resolveMove: function (units, fromTerritory, toTerritorry) {
-  //     var self = this;
-  //     fromTerritory.moveUnits(units, toTerritorry);
-  //     if (toTerritorry.hasConflict()) {
-  //       return self.generateBattle(toTerritorry);
-  //     } else {
-  //       toTerritorry.owner = self;
-  //     }
-  // },
+
   // generateBattle: function(territory) {
   //     return randomReaderAsync.nextNRandoms(2).then(function (randoms) {
   //         var battle = Battle.new(randoms, territory);

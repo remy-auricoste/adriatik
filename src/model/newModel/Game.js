@@ -22,7 +22,8 @@ module.exports = function(
       bidState = new BidsState(),
       currentPlayerIndex = 0,
       phases = [new PhaseBid(), new PhaseAction()],
-      currentPhaseIndex = 0
+      currentPhaseIndex = 0,
+      battle = undefined
     } = {}) {
       this.turn = turn;
       this.players = players;
@@ -34,10 +35,14 @@ module.exports = function(
       this.phases = phases;
       this.currentPhaseIndex = currentPhaseIndex;
       this.territories = territories;
+      this.battle = battle;
     }
     //writes
     update(entity) {
       const game = this;
+      if (entity.constructor.name === "Battle") {
+        return this.copy({ battle: entity });
+      }
       const entitiesName = game.getEntitiesNameByName(entity.constructor.name);
       const entities = game[entitiesName];
       const index = entities.findIndex(entity2 => entity2.id === entity.id);
@@ -133,13 +138,13 @@ module.exports = function(
     }
     findPath({
       fromTerritory,
-      toTerritorry,
+      toTerritory,
       isValidFct,
       currentPath = [],
       passedTerritories = []
     }) {
-      if (fromTerritory.isNextTo(toTerritorry)) {
-        return currentPath.concat([toTerritorry]);
+      if (fromTerritory.isNextTo(toTerritory)) {
+        return currentPath.concat([toTerritory]);
       }
       const neighbourIdsLeft = fromTerritory.neighbours.filter(
         id => passedTerritories.indexOf(id) === -1
@@ -154,7 +159,7 @@ module.exports = function(
       return possibleNeighbours.find(territory => {
         return this.findPath({
           fromTerritory: territory,
-          toTerritorry,
+          toTerritorry: toTerritory,
           isValidFct,
           currentPath: currentPath.concat([territory]),
           passedTerritories

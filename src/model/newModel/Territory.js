@@ -30,10 +30,13 @@ class Territory {
       units: units.concat([unit])
     });
   }
+  placeUnits(units) {
+    return units.reduce((acc, unit) => acc.placeUnit(unit), this);
+  }
   removeUnit(unit) {
     const { units } = this;
-    var index = units.findIndex(function(unitIte) {
-      return unit.type === unitIte.type && unit.owner === unitIte.owner;
+    var index = units.findIndex(unitIte => {
+      return unit.type === unitIte.type && unit.ownerId === unitIte.ownerId;
     });
     if (!(typeof index === "number" && index >= 0)) {
       console.error("impossible de retirer cette unité : ", unit, units, index);

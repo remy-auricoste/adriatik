@@ -45,9 +45,10 @@ describe.only("Territory class", () => {
         ownerId: player.id,
         type: UnitType.Legionnaire
       });
-      const territory = new Territory({ type: earth })
-        .placeUnit(unit)
-        .placeUnit(unit2);
+      const territory = new Territory({ type: earth }).placeUnits([
+        unit,
+        unit2
+      ]);
       const territory2 = new Territory({ type: earth });
       expect(territory.getUnits(player).length).to.equal(2);
 
@@ -63,9 +64,11 @@ describe.only("Territory class", () => {
         ownerId: player.id,
         type: UnitType.Legionnaire
       });
-      const territory = new Territory({ type: earth })
-        .placeUnit(unit)
-        .placeUnit(unit2);
+      const territory = new Territory({ type: earth }).placeUnits([
+        unit,
+        unit2
+      ]);
+
       expect(territory.hasConflict()).to.equal(false);
     });
     it("should return true if units are owned by several players", () => {
@@ -75,9 +78,11 @@ describe.only("Territory class", () => {
         ownerId: player2.id,
         type: UnitType.Legionnaire
       });
-      const territory = new Territory({ type: earth })
-        .placeUnit(unit)
-        .placeUnit(unit2);
+      const territory = new Territory({ type: earth }).placeUnits([
+        unit,
+        unit2
+      ]);
+
       expect(territory.hasConflict()).to.equal(true);
     });
   });
