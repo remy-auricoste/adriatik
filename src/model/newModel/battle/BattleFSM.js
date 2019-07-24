@@ -31,12 +31,6 @@ module.exports = function(FiniteStateMachine) {
       .join(end);
   };
 
-  let machine = new FiniteStateMachine().step({
-    name: "start",
-    action: state => {
-      return state.buildLosses();
-    }
-  });
   const addDecisionSteps = (machine, playerKey) => {
     const start = `start decision ${playerKey}`;
     const end = `end decision ${playerKey}`;
@@ -45,11 +39,12 @@ module.exports = function(FiniteStateMachine) {
       .step({
         name: `no decision ${playerKey}`,
         condition: state => {
-          return !state.shouldMakeDecision();
+          const player = state[playerKey];
+          return !state.shouldMakeDecision(player);
         },
         action: state => {
           const player = state[playerKey];
-          return state.makeDecision(player, "no need");
+          return state.makeDecision(player, "all dead");
         }
       })
       .step({ name: end })
@@ -63,6 +58,13 @@ module.exports = function(FiniteStateMachine) {
       })
       .join(end);
   };
+
+  let machine = new FiniteStateMachine().step({
+    name: "start",
+    action: state => {
+      return state.buildLosses();
+    }
+  });
   machine = addLossSteps(machine, "attacker");
   machine = addLossSteps(machine, "defender");
   machine = addDecisionSteps(machine, "attacker");

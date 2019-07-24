@@ -21,7 +21,7 @@ module.exports = function(TerritoryType, God, UnitType, Battle) {
         const battle = new Battle({
           territory: toNew,
           attacker: newPlayer,
-          defender: game.getEntityById(toTerritory.getOwner())
+          defender: newGame.getEntityById(toTerritory.getOwner())
         });
         // TODO handle states
       }

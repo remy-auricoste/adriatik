@@ -13,35 +13,38 @@ class MachineStep {
 }
 
 class FiniteStateMachine {
-  constructor({ state = {}, currentSteps = [] } = {}) {
+  constructor({ state = {}, currentSteps = [], history = [] } = {}) {
     this.currentSteps = currentSteps;
     this.state = state;
+    this.history = history;
   }
   start() {
     return this.checkNext();
   }
   checkNext() {
-    const { state, currentSteps } = this;
+    const { state, currentSteps, history } = this;
     const nextStep = currentSteps.find(step => {
       return step.condition(state);
     });
     if (!nextStep) {
       return this;
     }
-    const { condition, action, nexts } = nextStep;
+    const { condition, action, nexts, name } = nextStep;
     if (condition(state)) {
       const newState = action(state);
       if (newState.constructor === Promise) {
         newState.then(newStateReal => {
           this.assign({
             state: newStateReal,
-            currentSteps: nexts
+            currentSteps: nexts,
+            history: history.concat([name])
           }).checkNext();
         });
       } else {
         return this.assign({
           state: newState,
-          currentSteps: nexts
+          currentSteps: nexts,
+          history: history.concat([name])
         }).checkNext();
       }
     }
@@ -68,6 +71,9 @@ class FiniteStateMachine {
   }
   assign(params = {}) {
     return Object.assign(this, params);
+  }
+  getHistory() {
+    return this.history;
   }
 }
 
