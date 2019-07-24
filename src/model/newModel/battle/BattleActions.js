@@ -20,15 +20,10 @@ module.exports = function(TerritoryType, God, UnitType, Battle) {
       if (toNew.hasConflict()) {
         const battle = new Battle({
           territory: toNew,
-          attacker: player,
+          attacker: newPlayer,
           defender: game.getEntityById(toTerritory.getOwner())
         });
-        return battle.buildLosses().then(battle => {
-          const { attacker, defender } = battle;
-          newGame = newGame.updateAll(battle.tryAutoLoss(attacker));
-          newGame = newGame.updateAll(newGame.battle.tryAutoLoss(defender));
-          return newGame;
-        });
+        // TODO handle states
       }
       return newGame;
     }
@@ -76,42 +71,6 @@ module.exports = function(TerritoryType, God, UnitType, Battle) {
     }
   };
 
-  // generateBattle: function(territory) {
-  //     return randomReaderAsync.nextNRandoms(2).then(function (randoms) {
-  //         var battle = Battle.new(randoms, territory);
-  //         logger.debug("battle", battle);
-  //         return battle;
-  //     });
-  // },
-  // resolveBattle: function(battle, options) {
-  //     if (options.unit) {
-  //       logger.info("resolveBattle : removing unit");
-  //       battle.territory.removeUnit(options.unit);
-  //       battle.getState(this).setLoss(options.unit);
-  //     }
-  //     if (options.retreatTerritory) {
-  //       logger.info("resolveBattle : retreating...");
-  //       this.retreat(battle.territory, options.retreatTerritory);
-  //       battle.getState(this).retreat();
-  //     }
-  //     if (options.stay) {
-  //       battle.getState(this).stay();
-  //     }
-  //     logger.info("battle fully resolved", battle.isFullyResolved());
-  //     if (battle.isFullyResolved()) {
-  //       if (battle.territory.hasConflict()) {
-  //         logger.info("no retreats, generating new battle");
-  //         return this.generateBattle(battle.territory);
-  //       } else {
-  //         var units = battle.territory.units;
-  //         if (units.length) {
-  //           battle.territory.owner = units[0].owner;
-  //         }
-  //         logger.info("battle is over");
-  //         return true; // battle is over
-  //       }
-  //     }
-  // },
   // possibleRetreats: function (territory) {
   //     var self = this;
   //     return Territory.allArray().filter(function(territory2) {

@@ -1,4 +1,4 @@
-const Injector = require("../../Injector");
+const Injector = require("../../../Injector");
 const injector = Injector.instance;
 
 const {
@@ -120,14 +120,13 @@ describe.only("Battle class", () => {
       });
     });
   });
-  describe("tryAutoLoss method", () => {
-    it("should remove a unit if all units are the same", () => {
-      return initBattle([2, 3]).then(battle => {
-        const { attacker, defender } = battle;
-        expect(battle.tryAutoLoss(defender)).to.deep.equal({ battle });
-        const result = battle.tryAutoLoss(attacker);
-        expect(result.battle.getState(attacker).resolvedLoss).to.equal(1);
-        expect(result.territory.getUnits(attacker).length).to.equal(1);
+  describe("makeDecision method", () => {
+    it("should fill the decision field for one player", () => {
+      return initBattle([1, 1]).then(battle => {
+        const { attacker } = battle;
+        battle = battle.makeDecision(attacker, "stay");
+        const attackerState = battle.getState(attacker);
+        expect(attackerState.decision).to.equal("stay");
       });
     });
   });

@@ -21,6 +21,8 @@ injector.add("randomReaderAsync", randomReaderAsync);
 
 const newModelIndex = require("./model/newModel/index");
 injector.addAll(newModelIndex);
+const battleIndex = require("./model/newModel/battle/index");
+injector.addAll(battleIndex);
 
 require("./model/data/enums");
 expect = require("rauricoste-tests");

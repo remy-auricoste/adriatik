@@ -49,29 +49,6 @@ module.exports = function(Dice, Building) {
         states: newStates
       });
     }
-    tryAutoLoss(player) {
-      const { territory } = this;
-      const { resolvedLoss, loss } = this.getState(player);
-      if (resolvedLoss === loss) {
-        return { battle: this };
-      }
-      const units = territory.getUnits(player);
-      const firstUnit = units[0];
-      if (!firstUnit) {
-        throw new Error(
-          `illegal state : has a loss but no units on the territory`
-        );
-      }
-      const allSameType = units.every(unit => unit.type === firstUnit.type);
-      if (!allSameType) {
-        return { battle: this };
-      }
-      const newTerritory = territory.removeUnit(firstUnit);
-      return {
-        territory: newTerritory,
-        battle: this.resolveLoss(player).copy({ territory: newTerritory })
-      };
-    }
     resolveLoss(player) {
       return this.updateState(player, state =>
         state.copy({
@@ -106,8 +83,36 @@ module.exports = function(Dice, Building) {
     isAttacker(player) {
       return player.id === this.attacker.id;
     }
-    getState(player) {
-      return this.states.find(state => state.playerId === player.id);
+    getState(player, state = this) {
+      return state.states.find(state => state.playerId === player.id);
+    }
+    isLossResolved(player, state = this) {
+      const { resolvedLoss, loss } = this.getState(player, state);
+      return resolvedLoss === loss;
+    }
+    isAutoLossPossible(player, state = this) {
+      const { territory } = state;
+      const isResolved = this.isLossResolved(player, state);
+      if (isResolved) {
+        return false;
+      }
+      const units = territory.getUnits(player);
+      const firstUnit = units[0];
+      if (!firstUnit) {
+        throw new Error(
+          `illegal state : has a loss but no units on the territory`
+        );
+      }
+      const allSameType = units.every(unit => unit.type === firstUnit.type);
+      return allSameType;
+    }
+    shouldMakeDecision(player) {
+      const { territory } = this;
+      const units = territory.getUnits(player);
+      return this.isLossResolved(player) && !!units.length;
+    }
+    hasMadeDecision(player) {
+      return !!this.getState(player).decision;
     }
 
     // private
