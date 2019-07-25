@@ -1,8 +1,8 @@
-module.exports = function(TerritoryType, God, UnitType, Battle) {
+module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
   return class BattleActions {
-    move({ game, units, fromTerritory, toTerritory }) {
+    async move({ game, units, fromTerritory, toTerritory }) {
       this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
       const fromType = fromTerritory.type;
       const { player, god } = game.getCurrentPlayerAndGod();
@@ -17,15 +17,36 @@ module.exports = function(TerritoryType, God, UnitType, Battle) {
       const newTerritories = fromTerritory.moveUnits(units, toTerritory);
       const [fromNew, toNew] = newTerritories;
       let newGame = game.update(fromNew).update(toNew);
-      if (toNew.hasConflict()) {
-        const battle = new Battle({
-          territory: toNew,
-          attacker: newPlayer,
-          defender: newGame.getEntityById(toTerritory.getOwner())
-        });
-        // TODO handle states
+      if (!toNew.hasConflict()) {
+        return newGame;
       }
-      return newGame;
+      const battle = new Battle({
+        territory: toNew,
+        attacker: newPlayer,
+        defender: newGame.getEntityById(toTerritory.getOwner())
+      });
+      const battleFsm = BattleFSM.build(battle);
+      newGame = newGame.copy({ battle: battleFsm });
+      return battleFsm.getReadyPromise().then(() => {
+        const { attacker, defender, territory } = battleFsm.getState();
+        return newGame.updateAll({ attacker, defender, territory });
+      });
+    }
+    retreat({ game, player, fromTerritory, toTerritory }) {
+      this.checkValidRetreat({ game, player, fromTerritory, toTerritory });
+      const units = fromTerritory.units.filter(
+        unit => unit.ownerId === player.id
+      );
+      const newTerritories = fromTerritory.moveUnits(units, toTerritory);
+      const [fromNew, toNew] = newTerritories;
+      const { battle } = game;
+      battle.updateState(
+        battle
+          .getState()
+          .makeDecision(player, "retreat")
+          .copy({ territory: fromNew })
+      );
+      return game.update(fromNew).update(toNew);
     }
 
     // reads
@@ -61,6 +82,21 @@ module.exports = function(TerritoryType, God, UnitType, Battle) {
       if (player.id !== units[0].ownerId) {
         throw new Error(`vous ne pouvez déplacer que vos propres unités`);
       }
+      this.checkEarthConnected({ game, player, fromTerritory, toTerritory });
+    }
+    checkValidRetreat({ game, player, fromTerritory, toTerritory }) {
+      this.checkValidDestination({ player, territory: toTerritory });
+      if (fromTerritory === toTerritory) {
+        throw new Error("vos troupes sont déjà sur ce territoire");
+      }
+      this.checkEarthConnected({ game, player, fromTerritory, toTerritory });
+    }
+    checkValidDestination({ territory, player }) {
+      if (!territory.isFriendly(player)) {
+        throw new Error(`le territoire est déjà contrôlé par un autre joueur`);
+      }
+    }
+    checkEarthConnected({ game, player, fromTerritory, toTerritory }) {
       const isValidFct = territory =>
         territory.type === sea && territory.isOwner(player);
       if (!game.findPath({ fromTerritory, toTerritory, isValidFct })) {
