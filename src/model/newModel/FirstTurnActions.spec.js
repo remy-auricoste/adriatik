@@ -17,7 +17,7 @@ const god = God.Neptune;
 
 const firstTurnActions = new FirstTurnActions();
 
-describe.only("FirstTurnActions class", () => {
+describe("FirstTurnActions class", () => {
   describe("initUnit method", () => {
     it("should place a unit on 2 empty territories", () => {
       const territory = DataTest.territory.copy();

@@ -20,7 +20,7 @@ const settings = new GameSettings();
 
 const firstActions = new FirstTurnActions();
 
-describe.only("GameActions class", () => {
+describe("GameActions class", () => {
   describe("2 turns", () => {
     it("should go well", () => {
       const player1 = new Player({ gold: 7, id: "player1" });

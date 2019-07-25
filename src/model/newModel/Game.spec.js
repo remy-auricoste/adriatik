@@ -3,7 +3,7 @@ const injector = Injector.instance;
 
 const { God, Game, Player } = injector.resolveAll();
 
-describe.only("Game class", () => {
+describe("Game class", () => {
   describe("start method", () => {
     it("should return a promise containing a game with shuffled gods, turn incremented, and no income distributed", () => {
       const player = new Player({ gold: 7, id: "player1" });

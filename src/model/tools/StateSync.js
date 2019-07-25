@@ -1,13 +1,20 @@
-var Meta = require("../../alias/Meta");
+const requireType = (value, expectedType) => {
+  const type = typeof value;
+  if (type !== expectedType) {
+    throw new Error(
+      `expected type ${expectedType}. got type=${type}. got value=${value}`
+    );
+  }
+};
 
 function StateSync(socket) {
   this.socket = socket;
   this.syncMap = {};
 }
-StateSync.prototype.syncListener = function(onStart, onSync) {
+StateSync.prototype.syncListener = function(onStart, onSync) {
   var self = this;
-  Meta.requireType(onSync, "function");
-  Meta.requireType(onStart, "function");
+  requireType(onSync, "function");
+  requireType(onStart, "function");
   var listener = self.socket.addListener(function(messageObj) {
     var source = messageObj.source;
     var id = messageObj.message.id;
@@ -34,7 +41,7 @@ StateSync.prototype.syncListener = function(onStart, onSync) {
     }
   });
   return listener;
-}
+};
 StateSync.prototype.send = function(id, size, value) {
   var self = this;
   var stored = this.syncMap[id];
@@ -44,7 +51,7 @@ StateSync.prototype.send = function(id, size, value) {
       id: id,
       size: size,
       values: {}
-    }
+    };
     this.syncMap[id] = stored;
   }
   return this.socket.send({
@@ -52,6 +59,6 @@ StateSync.prototype.send = function(id, size, value) {
     size: size,
     value: value
   });
-}
+};
 
 module.exports = StateSync;

@@ -1,6 +1,3 @@
-var Request = require("rauricoste-request");
-var config = require("../services/config");
-
 var rootLogger = require("rauricoste-logger");
 rootLogger.setLevel("info");
 // TODO fix this

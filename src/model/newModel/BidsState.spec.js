@@ -5,7 +5,7 @@ const { BidsState, God, DataTest, GodCard } = injector.resolveAll();
 
 const { player } = DataTest;
 
-describe.only("BidsState class", function() {
+describe("BidsState class", function() {
   describe("placeBid method", function() {
     it("should place a bid", function() {
       const bidsState = new BidsState();

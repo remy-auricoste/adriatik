@@ -13,7 +13,7 @@ const {
 const { earth, sea } = TerritoryType;
 const { player } = DataTest;
 
-describe.only("Territory class", () => {
+describe("Territory class", () => {
   describe("moveUnit method", () => {
     it("should move an earth unit from a territory to another", () => {
       const unit = new Unit({ ownerId: player.id, type: UnitType.Legionnaire });

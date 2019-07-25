@@ -1,4 +1,5 @@
 {
+  "libs": ["react", "react-dom"],
   "dist": "dist",
   "modules": {
     "main": {
@@ -7,19 +8,7 @@
         "entry": "main.js",
         "output": "bundle.js"
       },
-      "sass": {
-        "entry": "styles/main.scss",
-        "output": "bundle-sass.css"
-      },
       "assets": ["txt", "jpg", "ttf", "png", "html"],
-      "watch": true
-    },
-    "libs": {
-      "src": "lib",
-      "browserify": {
-        "entry": "node/all.js",
-        "output": "libs.js"
-      },
       "watch": true
     }
   }

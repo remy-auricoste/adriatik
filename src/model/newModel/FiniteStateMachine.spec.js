@@ -1,6 +1,6 @@
 const MachineBuilder = require("./FiniteStateMachine");
 
-describe.only("FiniteStateMachine class", () => {
+describe("FiniteStateMachine class", () => {
   it("should execute 1 simple step", () => {
     let machine = new MachineBuilder()
       .step({

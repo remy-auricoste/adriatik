@@ -9,7 +9,7 @@ const creature = CreatureCard.Sphinx;
 const creature2 = CreatureCard.Méduse;
 const creaturesDraw = [creature, creature, creature];
 
-describe.only("CreatureMarket class", function() {
+describe("CreatureMarket class", function() {
   describe("buyCreature method", function() {
     it("should buy the creatures for player. Temples should be used only once", function() {
       const market = new CreatureMarket({

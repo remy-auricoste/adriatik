@@ -94,6 +94,8 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
       this.checkValidTerritoryType({ units, territory: fromTerritory });
       this.checkValidTerritoryType({ units, territory: toTerritory });
     }
+
+    // private
     checkFriendlyDestination({ territory, player }) {
       if (!territory.isFriendly(player)) {
         throw new Error(`le territoire est déjà contrôlé par un autre joueur`);

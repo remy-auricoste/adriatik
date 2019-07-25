@@ -11,7 +11,7 @@ const {
 
 const { territory, player, legionnaire } = DataTest;
 
-describe.only("God class", () => {
+describe("God class", () => {
   describe("build method", () => {
     it("should build a building", () => {
       // when

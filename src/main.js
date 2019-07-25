@@ -1,35 +1,32 @@
-require("./test/env");
-
-require("./model/natif/Promises");
-require("./model/natif/Arrays");
 require("./model/natif/Errors");
 require("./model/natif/Strings");
-require("./model/data/enums");
 
-var logger = require("./alias/Logger").getLogger("main");
+const RandomReaderAsync = require("./services/RandomReaderAsync");
+const Random = require("rauricoste-random").simple;
+const randomReaderAsync = RandomReaderAsync(Random);
 
-var injector = require("./core/MyInjector");
+const Injector = require("./Injector");
+const injector = new Injector();
+Injector.instance = injector;
+injector.add("randomReaderAsync", randomReaderAsync);
 
-require("./services/GameCreator");
-require("./model/data/Game");
-require("./model/data/Player");
+const newModelIndex = require("./model/newModel/index");
+injector.addAll(newModelIndex);
+const battleIndex = require("./model/newModel/battle/index");
+injector.addAll(battleIndex);
 
-var XGame = require('./components/XGame');
-var Store = require("rauricoste-store");
-var Actions = require("./Actions");
+const XRoot = require("./components/XRoot");
 
-var GameCreator = injector.getInstance("GameCreator");
-var HistoryService = require("./services/HistoryService")
+// var Store = require("rauricoste-store");
+// var Actions = require("./Actions");
+// GameCreator.create(4, "standard").then(game => {
+//   var initState = {
+//     game: HistoryService.getState() || game
+//   };
+//   logger.info("initState", initState);
+//   window.store = new Store(initState);
+//   window.Actions = Actions(window.store);
 
-GameCreator.create(4, "standard").then(game => {
-  var initState = {
-    game: HistoryService.getState() || game
-  };
-  logger.info("initState", initState);
-  window.store = new Store(initState);
-  window.Actions = Actions(window.store);
+// });
 
-  ReactDOM.render(<XGame />, document.getElementById('app'));
-})
-
-
+ReactDOM.render(<XRoot />, document.getElementById("app"));

@@ -8,10 +8,9 @@
   },
   "dependencies": {
     "MD5": "^1.3.0",
-    "rauricoste-arrays": "0.x",
+    "rauricoste-arrays": "^0.4.0",
     "rauricoste-commandify": "^1.1.1",
     "rauricoste-logger": "0.0.x",
-    "rauricoste-model": "1.x",
     "rauricoste-random": "^1.x",
     "rauricoste-request": "0.x",
     "rauricoste-store": "^1.3.1",
@@ -22,6 +21,6 @@
   },
   "devDependencies": {
     "rauricoste-tests": "0.x",
-    "rauricoste-web-builder": "^2.0.1"
+    "rauricoste-web-builder": "4.x"
   }
 }

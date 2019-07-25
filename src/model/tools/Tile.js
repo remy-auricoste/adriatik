@@ -1,38 +1,40 @@
-var Arrays = require("rauricoste-arrays");
+const Arrays = require("rauricoste-arrays");
 
-var Tile = function(id, code, pos) {
-  this.code = code;
-  this.id = id;
-  this.neighbours = [];
-  this.pos = pos;
-}
-Tile.prototype.nextTo = function(tile) {
-  tile.neighbours.push(this);
-  this.neighbours.push(tile);
-}
-Tile.prototype.getNeighbours = function(code, visited) {
-  return this.neighbours.filter(function(tile) {
-    return visited.indexOf(tile) === -1 && tile.code === code;
-  });
-}
-Tile.prototype.getBlock = function() {
-  if (this.block) {
-    return this.block;
+class Tile {
+  constructor(id, code, pos, neighbours = []) {
+    this.code = code;
+    this.id = id;
+    this.neighbours = neighbours;
+    this.pos = pos;
   }
-  var self = this;
-  var block = [];
-  var added = [this];
-  while (added.length) {
-    block = block.concat(added);
-    var visited = block.concat([]);
-    var added = Arrays.flatMap(added, function(tile) {
-      var neighbours = tile.getNeighbours(self.code, visited);
-      visited = visited.concat(neighbours);
-      return neighbours;
+  nextTo(tile) {
+    tile.neighbours.push(this);
+    this.neighbours.push(tile);
+  }
+  getNeighbours(code, visited) {
+    return this.neighbours.filter(tile => {
+      return visited.indexOf(tile) === -1 && tile.code === code;
     });
   }
-  this.block = block;
-  return block;
+  getBlock() {
+    const { block, code } = this;
+    if (block) {
+      return block;
+    }
+    let block = [];
+    const added = [this];
+    while (added.length) {
+      block = block.concat(added);
+      const visited = block.concat([]);
+      added = Arrays.flatMap(added, tile => {
+        const neighbours = tile.getNeighbours(code, visited);
+        visited = visited.concat(neighbours);
+        return neighbours;
+      });
+    }
+    this.block = block;
+    return block;
+  }
 }
 
 module.exports = Tile;

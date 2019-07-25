@@ -68,7 +68,7 @@ const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
     });
 };
 
-describe.only("BattleActions class", () => {
+describe("BattleActions class", () => {
   describe("move method", () => {
     it("should move units from a territory to an empty territory", () => {
       return initState({ player1UnitCount: 3 }).then(init => {

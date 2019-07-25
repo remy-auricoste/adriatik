@@ -5,7 +5,7 @@ const { DataTest, BattleFSM, Battle } = injector.resolveAll();
 
 const { legionnaire, player } = DataTest;
 
-describe.only("BattleFSM class", () => {
+describe("BattleFSM class", () => {
   it("should do everything in automatic mode (1 vs 1)", () => {
     const attacker = player.copy({ id: "1" });
     const defender = player.copy({ id: "2" });

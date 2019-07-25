@@ -45,7 +45,7 @@ const getInitResults = battle => {
   });
 };
 
-describe.only("Battle class", () => {
+describe("Battle class", () => {
   describe("buildLosses method", () => {
     it("should calculate strengths, scores and losses (1 vs 1)", () => {
       return initBattle([1, 1]).then(battle => {
