@@ -164,5 +164,38 @@ describe.only("BattleActions class", () => {
         }
       );
     });
+    it("should throw an error as origin and destination are the same territory", () => {
+      return initState({ player1UnitCount: 1 }).then(init => {
+        const { fromTerritory, game } = init;
+        const { units: movedUnits } = fromTerritory;
+        return actions
+          .move({
+            game,
+            units: movedUnits,
+            fromTerritory,
+            toTerritory: fromTerritory
+          })
+          .catch(err => {
+            expect(err.message).to.equal(
+              "vos troupes sont déjà sur ce territoire"
+            );
+          });
+      });
+    });
+    it("should throw an error as there are no units", () => {
+      return initState({ player1UnitCount: 1 }).then(init => {
+        const { fromTerritory, toTerritory, game } = init;
+        return actions
+          .move({
+            game,
+            units: [],
+            fromTerritory,
+            toTerritory
+          })
+          .catch(err => {
+            expect(err.message).to.equal("il n'y a aucune unité sélectionnée.");
+          });
+      });
+    });
   });
 });

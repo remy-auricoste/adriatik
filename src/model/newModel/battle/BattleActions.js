@@ -80,19 +80,26 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
       if (player.id !== units[0].ownerId) {
         throw new Error(`vous ne pouvez déplacer que vos propres unités`);
       }
-      this.checkEarthConnected({ game, player, fromTerritory, toTerritory });
+      this.checkSeaConnected({ game, player, fromTerritory, toTerritory });
+      this.checkValidTerritoryType({ units, territory: fromTerritory });
+      this.checkValidTerritoryType({ units, territory: toTerritory });
     }
     checkValidRetreat({ game, player, fromTerritory, toTerritory }) {
+      const units = fromTerritory.units.filter(
+        unit => unit.ownerId === player.id
+      );
       this.checkNotSameTerritory({ fromTerritory, toTerritory });
       this.checkFriendlyDestination({ player, territory: toTerritory });
-      this.checkEarthConnected({ game, player, fromTerritory, toTerritory });
+      this.checkSeaConnected({ game, player, fromTerritory, toTerritory });
+      this.checkValidTerritoryType({ units, territory: fromTerritory });
+      this.checkValidTerritoryType({ units, territory: toTerritory });
     }
     checkFriendlyDestination({ territory, player }) {
       if (!territory.isFriendly(player)) {
         throw new Error(`le territoire est déjà contrôlé par un autre joueur`);
       }
     }
-    checkEarthConnected({ game, player, fromTerritory, toTerritory }) {
+    checkSeaConnected({ game, player, fromTerritory, toTerritory }) {
       const isValidFct = territory =>
         territory.type === sea && territory.isOwner(player);
       if (!game.findPath({ fromTerritory, toTerritory, isValidFct })) {
@@ -106,27 +113,17 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
         throw new Error("vos troupes sont déjà sur ce territoire");
       }
     }
+    checkValidTerritoryType({ units, territory }) {
+      const notValidUnit = units.find(unit => {
+        return unit.type.territoryType !== territory.type;
+      });
+      if (notValidUnit) {
+        throw new Error(
+          `Unit of type ${
+            notValidUnit.type.label
+          } cannot go on territory of type ${territory.type}`
+        );
+      }
+    }
   };
-
-  // possibleRetreats: function (territory) {
-  //     var self = this;
-  //     return Territory.allArray().filter(function(territory2) {
-  //       return territory2.isFriendly(self) && (territory.isNextTo(territory2) || !!self.findPathBySea(territory, territory2));
-  //     });
-  // },
-  // retreat: function (fromTerritory, toTerritorry) {
-  //     var self = this;
-  //     try {
-  //         if (fromTerritory.type !== toTerritorry.type) {
-  //             throw new Error("le territoire de départ et de destination doivent être du même type.");
-  //         }
-  //         if (this.possibleRetreats(fromTerritory).indexOf(toTerritorry) === -1) {
-  //             throw new Error("cette retraite n'est pas valide. Veuillez choisir un territoire que vous contrôlez ou inoccupé.");
-  //         }
-  //         var units = fromTerritory.getUnits(self);
-  //         return this.resolveMove(units, fromTerritory, toTerritorry);
-  //     } catch (err) {
-  //         throw err.prefix("Il est impossible de retraiter : ");
-  //     }
-  // },
 };
