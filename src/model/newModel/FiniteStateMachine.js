@@ -13,10 +13,16 @@ class MachineStep {
 }
 
 class FiniteStateMachine {
-  constructor({ state = {}, currentSteps = [], history = [] } = {}) {
+  constructor({
+    state = {},
+    currentSteps = [],
+    history = [],
+    promise = undefined
+  } = {}) {
     this.currentSteps = currentSteps;
     this.state = state;
     this.history = history;
+    this.promise = promise;
   }
   start() {
     return this.checkNext();
@@ -33,11 +39,15 @@ class FiniteStateMachine {
     if (condition(state)) {
       const newState = action(state);
       if (newState.constructor === Promise) {
+        this.assign({
+          promise: newState
+        });
         newState.then(newStateReal => {
           this.assign({
             state: newStateReal,
             currentSteps: nexts,
-            history: history.concat([name])
+            history: history.concat([name]),
+            promise: undefined
           }).checkNext();
         });
       } else {
@@ -66,14 +76,22 @@ class FiniteStateMachine {
   getCurrentStep() {
     return this.currentSteps[0];
   }
+  getHistory() {
+    return this.history;
+  }
+  getState() {
+    return this.state;
+  }
+  getReadyPromise() {
+    return this.promise || Promise.resolve();
+  }
+
+  // private
   copy(params = {}) {
     return new FiniteStateMachine(Object.assign({}, this, params));
   }
   assign(params = {}) {
     return Object.assign(this, params);
-  }
-  getHistory() {
-    return this.history;
   }
 }
 

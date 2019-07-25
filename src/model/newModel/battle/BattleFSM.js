@@ -25,7 +25,18 @@ module.exports = function(FiniteStateMachine) {
         name: `manual loss ${playerKey}`,
         condition: state => {
           const player = state[playerKey];
-          return state.isLossResolved(player);
+          const playerState = state.getState(player);
+          return playerState.loss && state.isLossResolved(player);
+        }
+      })
+      .join(end)
+      .move(start)
+      .step({
+        name: `no loss ${playerKey}`,
+        condition: state => {
+          const player = state[playerKey];
+          const playerState = state.getState(player);
+          return !playerState.loss;
         }
       })
       .join(end);

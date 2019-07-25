@@ -1,19 +1,5 @@
 const MachineBuilder = require("./FiniteStateMachine");
 
-const waitFor = condition => {
-  return new Promise(resolve => {
-    if (condition()) {
-      resolve();
-    } else {
-      setTimeout(() => {
-        waitFor(condition).then(() => {
-          resolve();
-        });
-      }, 10);
-    }
-  });
-};
-
 describe.only("FiniteStateMachine class", () => {
   it("should execute 1 simple step", () => {
     let machine = new MachineBuilder()
@@ -29,7 +15,7 @@ describe.only("FiniteStateMachine class", () => {
     expect(machine.getCurrentStep().name).to.equal("step1");
     expect(machine.isDone()).to.equal(false);
     machine = machine.updateState({ value: 0 });
-    expect(machine.state).to.deep.equal({ value: 1 });
+    expect(machine.getState()).to.deep.equal({ value: 1 });
     expect(machine.isDone()).to.equal(true);
     expect(machine.getCurrentStep()).to.equal(undefined);
   });
@@ -51,12 +37,12 @@ describe.only("FiniteStateMachine class", () => {
       })
       .build({ value: 0 });
     expect(machine.getCurrentStep().name).to.equal("step2");
-    expect(machine.state).to.deep.equal({ value: 1 });
+    expect(machine.getState()).to.deep.equal({ value: 1 });
     machine = machine.updateState({ value: 5 });
     expect(machine.getCurrentStep().name).to.equal("step2");
-    expect(machine.state).to.deep.equal({ value: 5 });
+    expect(machine.getState()).to.deep.equal({ value: 5 });
     machine = machine.updateState({ value: 4 });
-    expect(machine.state).to.deep.equal({ value: 40 });
+    expect(machine.getState()).to.deep.equal({ value: 40 });
   });
   it("should chain several steps at once", () => {
     let machine = new MachineBuilder()
@@ -75,7 +61,7 @@ describe.only("FiniteStateMachine class", () => {
         condition: ({ value }) => value === 1
       })
       .build({ value: 0 });
-    expect(machine.state).to.deep.equal({ value: 2 });
+    expect(machine.getState()).to.deep.equal({ value: 2 });
     expect(machine.isDone()).to.equal(true);
   });
   it("should handle forks", () => {
@@ -110,11 +96,11 @@ describe.only("FiniteStateMachine class", () => {
       })
       .build();
     const machineEven = machine.copy().updateState({ value: 2 });
-    expect(machineEven.state).to.deep.equal({ value: 5 });
+    expect(machineEven.getState()).to.deep.equal({ value: 5 });
     expect(machineEven.isDone()).to.deep.equal(true);
 
     const machineOdd = machine.copy().updateState({ value: 1 });
-    expect(machineOdd.state).to.deep.equal({ value: 14 });
+    expect(machineOdd.getState()).to.deep.equal({ value: 14 });
     expect(machineOdd.isDone()).to.deep.equal(true);
   });
   it("should handle asynchronous actions", () => {
@@ -135,14 +121,9 @@ describe.only("FiniteStateMachine class", () => {
         }
       })
       .build({ value: 1 });
-    expect(machine.state).to.deep.equal({ value: 1 });
-    return waitFor(() => {
-      try {
-        expect(machine.state).to.deep.equal({ value: 3 });
-        return true;
-      } catch (e) {
-        return false;
-      }
+    expect(machine.getState()).to.deep.equal({ value: 1 });
+    return machine.getReadyPromise().then(() => {
+      expect(machine.getState()).to.deep.equal({ value: 3 });
     });
   });
 });

@@ -109,7 +109,9 @@ module.exports = function(Dice, Building) {
     shouldMakeDecision(player) {
       const { territory } = this;
       const units = territory.getUnits(player);
-      return this.isLossResolved(player) && !!units.length;
+      return (
+        this.isLossResolved(player) && !!units.length && territory.hasConflict()
+      );
     }
     hasMadeDecision(player) {
       return !!this.getState(player).decision;
