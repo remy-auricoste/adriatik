@@ -51,9 +51,7 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
 
     // reads
     checkValidEarthMove({ game, units, fromTerritory, toTerritory }) {
-      if (fromTerritory === toTerritory) {
-        throw new Error("vos troupes sont déjà sur ce territoire");
-      }
+      this.checkNotSameTerritory({ fromTerritory, toTerritory });
       if (!units || !units.length) {
         throw new Error("il n'y a aucune unité sélectionnée.");
       }
@@ -85,13 +83,11 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
       this.checkEarthConnected({ game, player, fromTerritory, toTerritory });
     }
     checkValidRetreat({ game, player, fromTerritory, toTerritory }) {
-      this.checkValidDestination({ player, territory: toTerritory });
-      if (fromTerritory === toTerritory) {
-        throw new Error("vos troupes sont déjà sur ce territoire");
-      }
+      this.checkNotSameTerritory({ fromTerritory, toTerritory });
+      this.checkFriendlyDestination({ player, territory: toTerritory });
       this.checkEarthConnected({ game, player, fromTerritory, toTerritory });
     }
-    checkValidDestination({ territory, player }) {
+    checkFriendlyDestination({ territory, player }) {
       if (!territory.isFriendly(player)) {
         throw new Error(`le territoire est déjà contrôlé par un autre joueur`);
       }
@@ -103,6 +99,11 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
         throw new Error(
           "le territoire de destination n'est pas adjacent au territoire de départ, ou relié par une chaîne de bateaux."
         );
+      }
+    }
+    checkNotSameTerritory({ fromTerritory, toTerritory }) {
+      if (fromTerritory.id === toTerritory.id) {
+        throw new Error("vos troupes sont déjà sur ce territoire");
       }
     }
   };
