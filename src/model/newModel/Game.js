@@ -6,8 +6,7 @@ module.exports = function(
   PhaseBid,
   PhaseAction,
   randomReaderAsync,
-  Building,
-  Territory
+  Building
 ) {
   return class Game {
     constructor({

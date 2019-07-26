@@ -1,5 +1,13 @@
 {
-  "libs": ["react", "react-dom"],
+  "libs": [
+    "react",
+    "react-dom",
+    "rauricoste-arrays",
+    "rauricoste-random",
+    "rauricoste-commandify",
+    "rauricoste-logger",
+    "rauricoste-request"
+  ],
   "dist": "dist",
   "modules": {
     "main": {
@@ -7,6 +15,10 @@
       "browserify": {
         "entry": "main.js",
         "output": "bundle.js"
+      },
+      "sass": {
+        "entry": "style/main.scss",
+        "output": "bundle-sass.css"
       },
       "assets": ["txt", "jpg", "ttf", "png", "html"],
       "watch": true

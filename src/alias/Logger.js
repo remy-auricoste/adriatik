@@ -1,5 +1,3 @@
-var rootLogger = require("rauricoste-logger");
-rootLogger.setLevel("info");
 // TODO fix this
 //if (!config.isLocal()) {
 //  rootLogger.addAppender(function(logger, methodName, callArgs) {
@@ -9,4 +7,7 @@ rootLogger.setLevel("info");
 //  });
 //}
 
-module.exports = rootLogger;
+module.exports = function(Logger) {
+  Logger.setLevel("info");
+  return Logger;
+};

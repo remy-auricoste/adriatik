@@ -45,6 +45,9 @@ class Injector {
     if (this.files[name]) {
       throw new Error(`file ${name} already exists`);
     }
+    if (!file) {
+      throw new Error(`trying to add dep with name ${name} but got ${file}`);
+    }
     this.files[name] = file;
   }
   addAll(object) {

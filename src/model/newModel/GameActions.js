@@ -1,6 +1,4 @@
-const Commandify = require("rauricoste-commandify");
-
-module.exports = function(FirstTurnActions) {
+module.exports = function(FirstTurnActions, Commandify) {
   const firstActions = new FirstTurnActions();
   return class GameActions {
     initUnit({ territoryId, game }) {

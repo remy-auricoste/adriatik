@@ -25,7 +25,7 @@ describe.skip("random factory object", function() {
       };
 
       const randomNumbers = function() {
-        const randoms = Arrays.seq(0, 4).map(function(index) {
+        const randoms = Arrays.seq(0, 4).map(() => {
           return Math.random();
         });
         return random.multRandom(randoms);

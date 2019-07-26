@@ -1,34 +1,16 @@
-const ClassObject = require("./ClassObject");
-const XActionPanel = require("./XActionPanel");
-const XBattlePanel = require("./XBattlePanel");
-const XBidPanel = require("./XBidPanel");
-const XCreaturePanel = require("./XCreaturePanel");
-const XErrorPanel = require("./XErrorPanel");
-const XGame = require("./XGame");
-const XHelper = require("./XHelper");
+const XGodCard = require("./XGodCard");
 const XIcon = require("./XIcon");
-const XIf = require("./XIf");
-const XIntroPanel = require("./XIntroPanel");
-const XItemPrice = require("./XItemPrice");
-const XMap = require("./XMap");
-const XMapCounter = require("./XMapCounter");
+const XPanel = require("./XPanel");
 const XPlayerPanel = require("./XPlayerPanel");
+const XRoot = require("./XRoot");
 const XSesterces = require("./XSesterces");
+const XTooltip = require("./XTooltip");
 module.exports = {
-ClassObject,
-XActionPanel,
-XBattlePanel,
-XBidPanel,
-XCreaturePanel,
-XErrorPanel,
-XGame,
-XHelper,
-XIcon,
-XIf,
-XIntroPanel,
-XItemPrice,
-XMap,
-XMapCounter,
-XPlayerPanel,
-XSesterces
-}
+  XGodCard,
+  XIcon,
+  XPanel,
+  XPlayerPanel,
+  XRoot,
+  XSesterces,
+  XTooltip
+};

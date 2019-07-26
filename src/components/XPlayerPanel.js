@@ -1,53 +1,54 @@
-var Component = require("../core/Component");
-var ClassObject = require("./ClassObject");
 var gravatarService = require("../services/gravatarService");
-var Arrays = require("rauricoste-arrays");
 
-var XSesterces = require("./XSesterces");
-
-var XPlayerPanel = Component({
-  selectPlayer: function(player) {
-  },
-  render: function() {
-    var game = store.getState().game;
-    return (<div className="XPlayerPanel">
-      <section className="player-panel">
-          {
-            game.players.map((player, index) => {
-              return (
-                <div className={"player rounded-box "+ClassObject({current: player.name === game.getCurrentPlayer().name})}
-                        key={index}
-                        onClick={this.selectPlayer.bind(this, player)}
-                        >
-                    <div className={"title player-name player-"+player.color}>{player.name}</div>
-                    {
-                      player.account && player.account.email &&
-                        <div className="player-avatar"><img src={gravatarService.getPictureUrl(player.account.email)} /></div>
-                    }
-                    <XSesterces number={player.gold} size={30} stacked={true} />
-                    <div className="resources">
-                        <div className="priest adk-tooltip" title={player.getPriests()+" prêtre(s)"}>
-                            {
-                              Arrays.seq(0, player.getPriests()).map(index => {
-                                return (<img src="/images/priest.png" />);
-                              })
-                            }
-                        </div>
-                        <div className="philosopher adk-tooltip" title={player.getPhilosophers()+" philosophe(s)"}>
-                            {
-                              Arrays.seq(0, player.getPhilosophers()).map(index => {
-                                return (<img src="/images/philosopher.png" />);
-                              })
-                            }
-                        </div>
-                    </div>
+module.exports = function(XSesterces, XGodCard, XPanel) {
+  return ({ game }) => {
+    const { players } = game;
+    return (
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-evenly"
+        }}
+      >
+        {players.map((player, index) => {
+          return (
+            <XPanel key={index}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-evenly"
+                }}
+              >
+                <div>{player.name}</div>
+                {player.account && player.account.email && (
+                  <div className="player-avatar">
+                    <img
+                      src={gravatarService.getPictureUrl(player.account.email)}
+                    />
+                  </div>
+                )}
+                <XSesterces number={player.gold} size={30} stacked={true} />
+                <div className="resources">
+                  <XGodCard
+                    count={player.getPriests()}
+                    label="prêtre"
+                    imageName="priest.png"
+                  />
+                  <XGodCard
+                    count={player.getPhilosophers()}
+                    label="philosophe"
+                    imageName="philosopher.png"
+                  />
                 </div>
-              )
-            })
-          }
-      </section>
-    </div>)
-  }
-})
-
-module.exports = XPlayerPanel;
+              </div>
+            </XPanel>
+          );
+        })}
+      </div>
+    );
+  };
+};

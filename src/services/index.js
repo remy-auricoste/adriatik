@@ -6,7 +6,6 @@ const commandCenter = require("./commandCenter");
 const commandSocket = require("./commandSocket");
 const config = require("./config");
 const cron = require("./cron");
-const exceptionHandler = require("./exceptionHandler");
 const gameFinder = require("./gameFinder");
 const gameInitializer = require("./gameInitializer");
 const gameSocket = require("./gameSocket");
@@ -28,7 +27,6 @@ commandCenter,
 commandSocket,
 config,
 cron,
-exceptionHandler,
 gameFinder,
 gameInitializer,
 gameSocket,

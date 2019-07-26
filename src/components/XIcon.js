@@ -1,10 +1,12 @@
-var Component = require("../core/Component");
-
-var XIcon = Component({
-  render: function() {
-    var props = this.props;
-    return (<img className="XIcon" src={"/images/"+props.fileName+".png"} width={props.size} height={props.size} />)
-  }
-})
+const XIcon = ({ fileName, size }) => {
+  return (
+    <img
+      className="XIcon"
+      src={`/images/${fileName}.png`}
+      width={size}
+      height={size}
+    />
+  );
+};
 
 module.exports = XIcon;
