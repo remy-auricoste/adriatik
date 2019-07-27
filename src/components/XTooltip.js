@@ -101,7 +101,7 @@ const TooltipElement = ({
           parentStyle
         )}
       >
-        <div
+        <p
           style={Object.assign(
             {
               backgroundColor: "grey",
@@ -114,7 +114,7 @@ const TooltipElement = ({
           )}
         >
           {title}
-        </div>
+        </p>
       </div>
     </div>
   );

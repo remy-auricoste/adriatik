@@ -98,45 +98,44 @@ module.exports = function(
                   })}
                 {!isPhaseBid && <XSesterces number={bid.amount} />}
               </div>
-              <div style={{ display: "flex" }}>
-                <div className="god-avatar">
-                  <XTooltip title={god.name}>
-                    <img src="/images/gods/jupiter.png" width={50} />
-                  </XTooltip>
-                </div>
-                <div className="content-container" style={{ display: "flex" }}>
-                  {god.unitType && unitPrices.length && (
-                    <React.Fragment>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        {renderedUnitPrices.slice(0, 2)}
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        {renderedUnitPrices.slice(2, 4)}
-                      </div>
-                    </React.Fragment>
-                  )}
-                  {god.card && (
+              <div
+                className="row-margin"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <XTooltip title={god.name}>
+                  <img src="/images/gods/jupiter.png" width={50} />
+                </XTooltip>
+                {god.unitType && unitPrices.length && (
+                  <React.Fragment>
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                      {god.cardPrice.map((price, index) => {
-                        return (
-                          <XItemPrice
-                            key={index}
-                            price={price}
-                            iconName={god.card.id}
-                            name={god.card.label}
-                          />
-                        );
-                      })}
+                      {renderedUnitPrices.slice(0, 2)}
                     </div>
-                  )}
-                  {god.building && (
-                    <XItemPrice
-                      price={2}
-                      iconName={god.building.id}
-                      name={god.building.label}
-                    />
-                  )}
-                </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      {renderedUnitPrices.slice(2, 4)}
+                    </div>
+                  </React.Fragment>
+                )}
+                {god.card && (
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    {god.cardPrice.map((price, index) => {
+                      return (
+                        <XItemPrice
+                          key={index}
+                          price={price}
+                          iconName={god.card.id}
+                          name={god.card.label}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+                {god.building && (
+                  <XItemPrice
+                    price={2}
+                    iconName={god.building.id}
+                    name={god.building.label}
+                  />
+                )}
               </div>
             </div>
           );

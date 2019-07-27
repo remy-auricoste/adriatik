@@ -3,6 +3,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  line-height: 1px;
+}
+p {
+  line-height: 1em;
 }
 html,
 body,
@@ -11,4 +15,15 @@ body,
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.column-margin {
+  & > * {
+    margin-top: 10px;
+  }
+}
+.row-margin {
+  & > * {
+    margin-left: 10px;
+  }
 }
