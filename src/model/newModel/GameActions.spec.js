@@ -10,15 +10,12 @@ const {
   PhaseAction,
   Territory,
   TerritoryType,
-  FirstTurnActions,
   PhaseBid
 } = injector.resolveAll();
 
 const gameActions = new GameActions();
 const commands = gameActions.commands();
 const settings = new GameSettings();
-
-const firstActions = new FirstTurnActions();
 
 describe("GameActions class", () => {
   describe("2 turns", () => {
@@ -48,9 +45,15 @@ describe("GameActions class", () => {
           const { gods, turn, players } = game;
           expect(turn).to.equal(1);
           expect(players).to.deep.equal([player2, player1]);
-          game = commands.placeBid({ godId: gods[0].id, amount: 1 })(game); // player2
-          game = commands.placeBid({ godId: gods[0].id, amount: 2 })(game); // player1
-          game = commands.placeBid({ godId: God.Ceres.id, amount: 0 })(game); // player2
+          game = commands
+            .placeBid({ godId: gods[0].id, amount: 1 })
+            .apply(game); // player2
+          game = commands
+            .placeBid({ godId: gods[0].id, amount: 2 })
+            .apply(game); // player1
+          game = commands
+            .placeBid({ godId: God.Ceres.id, amount: 0 })
+            .apply(game); // player2
           return game;
         })
         .then(game => {
@@ -73,19 +76,37 @@ describe("GameActions class", () => {
           expect(players).to.deep.equal([player1.copy({ gold: 5 }), player2]);
           expect(game.getCurrentPlayer().id).to.equal(player1.id);
           expect(game.getCurrentPhase().constructor).to.equal(PhaseAction);
-          game = commands.initUnit({ territoryId: territories[1].id })(game); // earth
-          game = commands.initUnit({ territoryId: territories[3].id })(game); // earth
-          game = commands.initUnit({ territoryId: territories[0].id })(game); // sea
-          game = commands.initUnit({ territoryId: territories[2].id })(game); // sea
-          game = commands.initUnit({ territoryId: territories[2].id })(game); // sea
+          game = commands
+            .initUnit({ territoryId: territories[1].id })
+            .apply(game); // earth
+          game = commands
+            .initUnit({ territoryId: territories[3].id })
+            .apply(game); // earth
+          game = commands
+            .initUnit({ territoryId: territories[0].id })
+            .apply(game); // sea
+          game = commands
+            .initUnit({ territoryId: territories[2].id })
+            .apply(game); // sea
+          game = commands
+            .initUnit({ territoryId: territories[2].id })
+            .apply(game); // sea
           return game;
         })
         .then(game => {
           expect(game.getCurrentPlayer().id).to.equal(player2.id);
-          game = commands.initUnit({ territoryId: territories[5].id })(game); // earth
-          game = commands.initUnit({ territoryId: territories[7].id })(game); // earth
-          game = commands.initUnit({ territoryId: territories[6].id })(game); // sea
-          game = commands.initUnit({ territoryId: territories[8].id })(game); // sea
+          game = commands
+            .initUnit({ territoryId: territories[5].id })
+            .apply(game); // earth
+          game = commands
+            .initUnit({ territoryId: territories[7].id })
+            .apply(game); // earth
+          game = commands
+            .initUnit({ territoryId: territories[6].id })
+            .apply(game); // sea
+          game = commands
+            .initUnit({ territoryId: territories[8].id })
+            .apply(game); // sea
           return game;
         })
         .then(game => {

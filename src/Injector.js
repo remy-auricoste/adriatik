@@ -41,7 +41,7 @@ class Injector {
     });
     return result;
   }
-  add(name, file) {
+  add(name, file, alreadyResolved = false) {
     if (this.files[name]) {
       throw new Error(`file ${name} already exists`);
     }
@@ -49,6 +49,9 @@ class Injector {
       throw new Error(`trying to add dep with name ${name} but got ${file}`);
     }
     this.files[name] = file;
+    if (alreadyResolved) {
+      this.resolved[name] = file;
+    }
   }
   addAll(object) {
     Object.keys(object).forEach(key => {

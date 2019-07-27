@@ -14,6 +14,7 @@ const injector = new Injector();
 
 Object.assign(window, {
   React,
+  ReactDOM,
   injector
 });
 

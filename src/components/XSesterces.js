@@ -2,7 +2,10 @@ module.exports = function(XIcon, XTooltip, Arrays) {
   return ({ number, stacked = true, size = 30, withTooltip = true }) => {
     if (number > 0) {
       return (
-        <XTooltip title={`${number} sesterce(s)`} display={withTooltip}>
+        <XTooltip
+          title={`${number} sesterce(s)`}
+          display={withTooltip && number > 4}
+        >
           <div
             style={{
               display: "flex"
@@ -25,10 +28,25 @@ module.exports = function(XIcon, XTooltip, Arrays) {
       );
     } else {
       return (
-        <div className="zero-container">
-          <XIcon fileName="sesterce" size={size} />
-          <div className="zero">0</div>
-        </div>
+        <XTooltip title="gratuit">
+          <div
+            className="zero-container"
+            style={{
+              borderRadius: "10em",
+              overflow: "hidden"
+            }}
+          >
+            <XIcon
+              fileName="sesterce"
+              size={size}
+              withOverlay={true}
+              overlayProps={{
+                color: "white",
+                percentage: 0.6
+              }}
+            />
+          </div>
+        </XTooltip>
       );
     }
   };

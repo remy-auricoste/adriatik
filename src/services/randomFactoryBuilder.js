@@ -1,5 +1,5 @@
 var StateSync = require("../model/tools/StateSync");
-var logger = require("../alias/Logger").getLogger("randomFactoryBuilder");
+var logger = console;
 
 function randomFactoryBuilder(randomSocket, hashService) {
   if (randomSocket) {

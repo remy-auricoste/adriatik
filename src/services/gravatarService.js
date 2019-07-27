@@ -1,6 +1,5 @@
 var Request = require("rauricoste-request");
-const Logger = require("rauricoste-logger");
-var logger = require("../alias/Logger")(Logger).getLogger("gravatarService");
+var logger = console;
 var md5 = require("MD5");
 
 var gravatarService = {

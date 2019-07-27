@@ -1,10 +1,12 @@
-const Arrays = require("rauricoste-arrays");
+const injector = require("../Injector").instance;
+const { Arrays, Logger } = injector.resolveAll();
+
 const hashService = require("./hashService");
 const randomSocketMock = require("./randomSocket.mock");
 const randomFactoryBuilder = require("./randomFactoryBuilder");
 
 const randomFactory = randomFactoryBuilder(randomSocketMock, hashService);
-const logger = require("../alias/Logger").getLogger("randomFactory.spec");
+const logger = Logger.getLogger("randomFactory.spec");
 
 describe.skip("random factory object", function() {
   const random = randomFactory;

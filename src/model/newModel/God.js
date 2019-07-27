@@ -35,7 +35,7 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
         if (!unitType) {
           throw new Error("ce dieu ne peut pas vous fournir d'unité.");
         }
-        const price = god.unitPrice(god)[unitBuyCount];
+        const price = god.getUnitPrices()[unitBuyCount];
         if (!price && price !== 0) {
           throw new Error("il n'y a plus d'unité à acheter.");
         }
@@ -118,6 +118,15 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
       } catch (err) {
         throw err.prefix("Il est impossible de construire : ");
       }
+    }
+
+    // read
+    getUnitPrices() {
+      const { unitPrice } = this;
+      if (!unitPrice) {
+        return [];
+      }
+      return unitPrice(this);
     }
 
     // private

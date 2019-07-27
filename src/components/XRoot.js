@@ -1,14 +1,32 @@
-module.exports = function(XPlayerPanel) {
+module.exports = function(XPlayerPanel, XBidPanel) {
   return ({ game }) => {
     return (
       <div
         className="XRoot"
         style={{
           width: "100%",
-          height: "100%"
+          height: "100%",
+          display: "flex"
         }}
       >
-        <XPlayerPanel game={game} />
+        <div
+          className="left"
+          style={{
+            height: "100%",
+            minWidth: 200,
+            borderRight: "black solid 1px"
+          }}
+        >
+          <XBidPanel game={game} />
+        </div>
+        <div
+          className="right"
+          style={{
+            flex: 1
+          }}
+        >
+          <XPlayerPanel game={game} />
+        </div>
       </div>
     );
   };

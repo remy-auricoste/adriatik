@@ -1,18 +1,15 @@
-var Component = require("../core/Component");
-
-var XSesterces = require("./XSesterces");
-var XIcon = require("./XIcon");
-
-var XItemPrice = Component({
-  render: function() {
-    var price = this.props.price;
-    return (<div className={"XItemPrice "+(this.props.className || "")}>
-          <XIcon fileName={this.props.iconName} size={this.props.iconSize} title={price + "sesterce(s)"} />
-          <div>
-            <XSesterces number={price} size={this.props.iconSize} />
-          </div>
-    </div>)
-  }
-})
-
-module.exports = XItemPrice;
+module.exports = function(XSesterces, XIcon) {
+  return ({ price, iconName, name }) => {
+    return (
+      <div
+        className="XItemPrice"
+        style={{
+          display: "flex"
+        }}
+      >
+        <XIcon fileName={iconName} size={30} tooltip={name} />
+        <XSesterces number={price} />
+      </div>
+    );
+  };
+};

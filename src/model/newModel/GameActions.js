@@ -49,13 +49,16 @@ module.exports = function(FirstTurnActions, Commandify) {
     }
     commands() {
       return Commandify(this, {
-        wrapper: ({ object, method, args }) => {
+        wrapper: command => {
+          const { object, method, args } = command;
           const params = args[0];
-          return game => {
-            const newArgs = [Object.assign({ game }, params)];
-            const newCommand = { object, method, args: newArgs };
-            return Commandify.applyCommand(this, newCommand);
-          };
+          return Object.assign(command, {
+            apply: game => {
+              const newArgs = [Object.assign({ game }, params)];
+              const newCommand = { object, method, args: newArgs };
+              return Commandify.applyCommand(this, newCommand);
+            }
+          });
         }
       });
     }

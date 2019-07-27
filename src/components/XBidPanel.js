@@ -1,98 +1,128 @@
-var Arrays = require("rauricoste-arrays");
+const coinSize = 35;
 
-var Component = require("../core/Component");
-var ClassObject = require("./ClassObject");
-
-var Phases = require("../model/data/Phases");
-var God = require("../model/data/God");
-
-var XBidPanel = Component({
-  visibleCoins: function(god) {
-    var state = store.getState();
-    var godBid = (god && god.bid && god.bid.gold) ? god.bid.gold : 0;
-    var coinsNb = Math.max(state.game.getCurrentPlayer().gold, godBid);
-    return Arrays.seq(1, coinsNb+1);
-  },
-  placeBid: function(god, value) {
-    var game = store.getState().game;
-    Actions.Game.placeBid(game.getCurrentPlayer(), god, value);
-  },
-  render: function() {
-    var state = store.getState();
-    var game = state.game;
-    return (<div className="XBidPanel">
-            <debug-panel game="game"></debug-panel>
-            <div className="phase">{game.phase}: {game.turn}</div>
-            {
-              game.currentGods.map(god => {
-                var isPhaseActions = game.phase === Phases.actions;
-                var bids = game.getBidsForGod(god);
-                var lastBid = bids[bids.length - 1];
-                var player = lastBid && game.getPlayerByName(lastBid.player);
-                var playerColor = player && player.color;
-                return (<div className={"god "+god.name+" "+(isPhaseActions && playerColor ? "player-"+playerColor : "")+" "+ClassObject({selected: isPhaseActions && player === game.getCurrentPlayer()})}
-                             key={god.name}
-                             >
-                      <div className="god-avatar">
-                          <img src="/images/gods/jupiter.png" />
-                          <div className="god-tooltip" >
-                              {
-                                (() => {
-                                  if (god.building) {
-                                    return (<div><img src={"/images/"+god.building.name+".png"} />{god.building.label}</div>)
-                                  }
-                                })()
-                              }
-                              {
-                                (() => {
-                                  if (god.unitType) {
-                                    return (<div><img src={"/images/"+god.unitType.name+".png"} />{god.unitType.label}</div>)
-                                  }
-                                })()
-                              }
+module.exports = function(
+  XTooltip,
+  God,
+  PhaseBid,
+  GameActions,
+  Arrays,
+  XItemPrice
+) {
+  const commands = new GameActions().commands();
+  const { Ceres } = God;
+  return ({ game }) => {
+    const { gods, bidState } = game;
+    const player = game.getCurrentPlayer();
+    const possibleBidCommands = Arrays.flatMap(gods, god => {
+      return Arrays.seq(1, player.gold + 1).map(amount => {
+        try {
+          const command = commands.placeBid({ godId: god.id, amount });
+          command.apply(game);
+          return command;
+        } catch (err) {
+          return false;
+        }
+      });
+    }).filter(command => !!command);
+    possibleBidCommands.map(command =>
+      console.log(JSON.stringify(command.args))
+    );
+    const phase = game.getCurrentPhase();
+    const isPhaseBid = phase.constructor === PhaseBid;
+    console.log("phase", phase, isPhaseBid);
+    return (
+      <div className="XBidPanel">
+        {gods.map(god => {
+          const isCeres = god.id === Ceres.id;
+          const bid = bidState.getBidsForGod(god)[0];
+          const bidGoldCount = 3;
+          const maxPossibleBid = 6;
+          console.log("bid", bid);
+          console.log("god", god);
+          const unitPrices = god.getUnitPrices();
+          return (
+            <div key={god.id} style={{ display: "flex" }}>
+              <div className="god-avatar">
+                <XTooltip title={god.name}>
+                  <img src="/images/gods/jupiter.png" />
+                </XTooltip>
+              </div>
+              <div className="content-container">
+                {isPhaseBid && (
+                  <div className="gold-container" style={{ display: "flex" }}>
+                    {Arrays.seq(0, maxPossibleBid).map(index => {
+                      const gold = index + 1;
+                      return (
+                        <XTooltip
+                          key={index}
+                          title={`${
+                            isCeres ? "Gagner" : "Miser"
+                          } ${gold} sesterce(s)`}
+                          display={gold > bidGoldCount}
+                        >
+                          <div
+                            key={index}
+                            style={{
+                              backgroundColor:
+                                gold === bidGoldCount ? "red" : "transparent",
+                              borderRadius: "10em",
+                              border:
+                                gold < bidGoldCount
+                                  ? "solid 1px black"
+                                  : "none",
+                              width: coinSize,
+                              height: coinSize
+                            }}
+                          >
+                            {gold > bidGoldCount && (
+                              <img src="/images/sesterce.png" />
+                            )}
                           </div>
-                      </div>
-                      <div className="content-container">
-                        <div className="god-name">{god.name}</div>
-                        {
-                          (() => {
-                            if (isPhaseActions && player) {
-                              return (<div className="player-name">{player.name}</div>)
-                            }
-                          })()
-                        }
-                        {
-                          (() => {
-                            if (game.phase === Phases.bidding) {
-                              return (
-                                <div className="gold-container">
-                                    {
-                                      this.visibleCoins(god)
-                                        .filter(gold => {
-                                          return gold === 1 || god !== God.Ceres;
-                                        })
-                                        .map(gold => {
-                                          return (<div className={"gold "+(lastBid && player && gold <= lastBid.amount ? ("bidden bidden-player-"+playerColor) : "")}
-                                                       onClick={this.placeBid.bind(this, god, gold)}
-                                                       key={gold}
-                                                       >
-                                              <span className="adk-tooltip" title={(god === God.Ceres ? "Gagner" : "Miser")+" "+gold+" sesterce(s)"}>
-                                                  <img src="/images/sesterce.png" className={ClassObject({hidden: player && gold <= lastBid.amount})} />
-                                              </span>
-                                          </div>)
-                                      })
-                                    }
-                                </div>
-                              )
-                            }
-                          })()
-                        }
-                      </div>
-                </div>)
-              })
-            }
-    </div>)
-  }
-})
+                        </XTooltip>
+                      );
+                    })}
+                  </div>
+                )}
+                {god.building && (
+                  <XItemPrice
+                    price={2}
+                    iconName={god.building.id}
+                    name={god.building.label}
+                  />
+                )}
+                {god.unitType &&
+                  unitPrices.length &&
+                  unitPrices.map(price => {
+                    return (
+                      <XItemPrice
+                        price={price}
+                        iconName={god.unitType.id}
+                        name={god.unitType.label}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+};
 
-module.exports = XBidPanel;
+// var XBidPanel = Component({
+//   visibleCoins: function(god) {
+//     var state = store.getState();
+//     var godBid = god && god.bid && god.bid.gold ? god.bid.gold : 0;
+//     var coinsNb = Math.max(state.game.getCurrentPlayer().gold, godBid);
+//     return Arrays.seq(1, coinsNb + 1);
+//   },
+//   placeBid: function(god, value) {
+//     var game = store.getState().game;
+//     Actions.Game.placeBid(game.getCurrentPlayer(), god, value);
+//   },
+//   render: function() {
+//     var state = store.getState();
+//     var game = state.game;
+//   }
+// });

@@ -5,6 +5,9 @@ const XPlayerPanel = require("./XPlayerPanel");
 const XRoot = require("./XRoot");
 const XSesterces = require("./XSesterces");
 const XTooltip = require("./XTooltip");
+const XBidPanel = require("./XBidPanel");
+const XItemPrice = require("./XItemPrice");
+const XOverlay = require("./XOverlay");
 module.exports = {
   XGodCard,
   XIcon,
@@ -12,5 +15,8 @@ module.exports = {
   XPlayerPanel,
   XRoot,
   XSesterces,
-  XTooltip
+  XTooltip,
+  XBidPanel,
+  XItemPrice,
+  XOverlay
 };
