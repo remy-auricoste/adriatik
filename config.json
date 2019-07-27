@@ -6,7 +6,8 @@
     "rauricoste-random",
     "rauricoste-commandify",
     "rauricoste-logger",
-    "rauricoste-request"
+    "rauricoste-request",
+    "rauricoste-store-sync"
   ],
   "dist": "dist",
   "modules": {

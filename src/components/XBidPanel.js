@@ -6,101 +6,137 @@ module.exports = function(
   PhaseBid,
   GameActions,
   Arrays,
-  XItemPrice
+  XItemPrice,
+  storeCommands,
+  XSesterces
 ) {
   const commands = new GameActions().commands();
   const { Ceres } = God;
   return ({ game }) => {
+    const handleBid = (god, amount) => {
+      const command = commands.placeBid({ godId: god.id, amount });
+      game = command.apply(game);
+      if (game.constructor !== Promise) {
+        game = Promise.resolve(game);
+      }
+      game.then(game => {
+        storeCommands.set("game", game);
+      });
+    };
+
     const { gods, bidState } = game;
     const player = game.getCurrentPlayer();
-    const possibleBidCommands = Arrays.flatMap(gods, god => {
-      return Arrays.seq(1, player.gold + 1).map(amount => {
-        try {
-          const command = commands.placeBid({ godId: god.id, amount });
-          command.apply(game);
-          return command;
-        } catch (err) {
-          return false;
-        }
-      });
-    }).filter(command => !!command);
-    possibleBidCommands.map(command =>
-      console.log(JSON.stringify(command.args))
-    );
     const phase = game.getCurrentPhase();
     const isPhaseBid = phase.constructor === PhaseBid;
-    console.log("phase", phase, isPhaseBid);
     return (
-      <div className="XBidPanel">
+      <div className="XBidPanel" style={{ width: 400 }}>
         {gods.map(god => {
-          const isCeres = god.id === Ceres.id;
           const bid = bidState.getBidsForGod(god)[0];
-          const bidGoldCount = 3;
-          const maxPossibleBid = 6;
-          console.log("bid", bid);
-          console.log("god", god);
+          if (!bid && !isPhaseBid) {
+            return null;
+          }
+
+          const isCeres = god.id === Ceres.id;
+          const bidGoldCount = (bid && bid.amount) || 0;
+          const maxPossibleBid = isCeres ? 1 : player.getMaxBid();
           const unitPrices = god.getUnitPrices();
+
+          const renderedUnitPrices = unitPrices.map((price, index) => {
+            return (
+              <XItemPrice
+                key={index}
+                price={price}
+                iconName={god.unitType.id}
+                name={god.unitType.label}
+              />
+            );
+          });
+
           return (
-            <div key={god.id} style={{ display: "flex" }}>
-              <div className="god-avatar">
-                <XTooltip title={god.name}>
-                  <img src="/images/gods/jupiter.png" />
-                </XTooltip>
-              </div>
-              <div className="content-container">
-                {isPhaseBid && (
-                  <div className="gold-container" style={{ display: "flex" }}>
-                    {Arrays.seq(0, maxPossibleBid).map(index => {
-                      const gold = index + 1;
-                      return (
-                        <XTooltip
-                          key={index}
-                          title={`${
-                            isCeres ? "Gagner" : "Miser"
-                          } ${gold} sesterce(s)`}
-                          display={gold > bidGoldCount}
-                        >
-                          <div
-                            key={index}
-                            style={{
-                              backgroundColor:
-                                gold === bidGoldCount ? "red" : "transparent",
-                              borderRadius: "10em",
-                              border:
-                                gold < bidGoldCount
-                                  ? "solid 1px black"
-                                  : "none",
-                              width: coinSize,
-                              height: coinSize
-                            }}
-                          >
-                            {gold > bidGoldCount && (
-                              <img src="/images/sesterce.png" />
-                            )}
-                          </div>
-                        </XTooltip>
-                      );
-                    })}
-                  </div>
-                )}
-                {god.building && (
-                  <XItemPrice
-                    price={2}
-                    iconName={god.building.id}
-                    name={god.building.label}
-                  />
-                )}
-                {god.unitType &&
-                  unitPrices.length &&
-                  unitPrices.map(price => {
+            <div
+              key={god.id}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                border: "solid 1px black",
+                marginTop: 10,
+                marginLeft: 10,
+                marginRight: 10
+              }}
+            >
+              <div className="gold-container" style={{ display: "flex" }}>
+                {isPhaseBid &&
+                  Arrays.seq(0, maxPossibleBid).map(index => {
+                    const gold = index + 1;
+                    const isPossibleBid = gold > bidGoldCount;
                     return (
-                      <XItemPrice
-                        price={price}
-                        iconName={god.unitType.id}
-                        name={god.unitType.label}
-                      />
+                      <XTooltip
+                        key={index}
+                        title={`${
+                          isCeres ? "Gagner" : "Miser"
+                        } ${gold} sesterce(s)`}
+                        display={isPossibleBid}
+                      >
+                        <div
+                          style={{
+                            backgroundColor:
+                              gold === bidGoldCount ? "red" : "transparent",
+                            borderRadius: "10em",
+                            border:
+                              gold < bidGoldCount ? "solid 1px black" : "none",
+                            width: coinSize,
+                            height: coinSize
+                          }}
+                          onClick={() => {
+                            isPossibleBid && handleBid(god, gold);
+                          }}
+                        >
+                          {isPossibleBid && <img src="/images/sesterce.png" />}
+                        </div>
+                      </XTooltip>
                     );
                   })}
+                {!isPhaseBid && <XSesterces number={bid.amount} />}
+              </div>
+              <div style={{ display: "flex" }}>
+                <div className="god-avatar">
+                  <XTooltip title={god.name}>
+                    <img src="/images/gods/jupiter.png" width={50} />
+                  </XTooltip>
+                </div>
+                <div className="content-container" style={{ display: "flex" }}>
+                  {god.unitType && unitPrices.length && (
+                    <React.Fragment>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {renderedUnitPrices.slice(0, 2)}
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {renderedUnitPrices.slice(2, 4)}
+                      </div>
+                    </React.Fragment>
+                  )}
+                  {god.card && (
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      {god.cardPrice.map((price, index) => {
+                        return (
+                          <XItemPrice
+                            key={index}
+                            price={price}
+                            iconName={god.card.id}
+                            name={god.card.label}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+                  {god.building && (
+                    <XItemPrice
+                      price={2}
+                      iconName={god.building.id}
+                      name={god.building.label}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           );
@@ -109,20 +145,3 @@ module.exports = function(
     );
   };
 };
-
-// var XBidPanel = Component({
-//   visibleCoins: function(god) {
-//     var state = store.getState();
-//     var godBid = god && god.bid && god.bid.gold ? god.bid.gold : 0;
-//     var coinsNb = Math.max(state.game.getCurrentPlayer().gold, godBid);
-//     return Arrays.seq(1, coinsNb + 1);
-//   },
-//   placeBid: function(god, value) {
-//     var game = store.getState().game;
-//     Actions.Game.placeBid(game.getCurrentPlayer(), god, value);
-//   },
-//   render: function() {
-//     var state = store.getState();
-//     var game = state.game;
-//   }
-// });

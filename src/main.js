@@ -19,11 +19,19 @@ Object.assign(window, {
 });
 
 Injector.instance = injector;
-injector.add("randomReaderAsync", randomReaderAsync);
-injector.add("Arrays", libs["rauricoste-arrays"]);
-injector.add("Commandify", libs["rauricoste-commandify"]);
-injector.add("Logger", libs["rauricoste-logger"]);
-injector.add("Request", libs["rauricoste-request"]);
+
+const Store = libs["rauricoste-store-sync"];
+const store = new Store();
+const storeCommands = store.getCommandEmitter();
+injector.addAll({
+  randomReaderAsync,
+  Arrays: libs["rauricoste-arrays"],
+  Commandify: libs["rauricoste-commandify"],
+  Logger: libs["rauricoste-logger"],
+  Request: libs["rauricoste-request"],
+  store,
+  storeCommands
+});
 
 const components = require("./components/index");
 injector.addAll(components);
@@ -39,16 +47,13 @@ const game = new Game({ settings, gods: settings.gods, players });
 
 console.log(game);
 
-// var Store = require("rauricoste-store");
-// var Actions = require("./Actions");
-// GameCreator.create(4, "standard").then(game => {
-//   var initState = {
-//     game: HistoryService.getState() || game
-//   };
-//   logger.info("initState", initState);
-//   window.store = new Store(initState);
-//   window.Actions = Actions(window.store);
+const appElement = document.getElementById("app");
+const render = () => {
+  const { game } = store.getState();
+  ReactDOM.render(<XRoot game={game} />, appElement);
+};
 
-// });
+storeCommands.set("game", game);
 
-ReactDOM.render(<XRoot game={game} />, document.getElementById("app"));
+render();
+store.subscribe(render);

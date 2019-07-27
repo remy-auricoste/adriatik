@@ -29,11 +29,13 @@ module.exports = function(GodCard) {
     spendTemples(count) {
       return this.copy({ templeUsed: this.templeUsed + count });
     }
+
     addGodCard(card) {
       const { cards } = this;
       const newCards = Object.assign({}, cards);
-      const currentValue = cards[card] || 0;
-      newCards[card] = currentValue + 1;
+      const { id: cardId } = card;
+      const currentValue = this.getGodCardCount(card);
+      newCards[cardId] = currentValue + 1;
       return this.copy({
         cards: newCards
       });
@@ -53,7 +55,8 @@ module.exports = function(GodCard) {
 
     // reads
     getGodCardCount(godCard) {
-      return this.cards[godCard] || 0;
+      const { id: cardId } = godCard;
+      return this.cards[cardId] || 0;
     }
     getPriests() {
       return this.getGodCardCount(GodCard.Priest);
@@ -63,6 +66,9 @@ module.exports = function(GodCard) {
     }
     getMaxBid() {
       const { gold } = this;
+      if (!gold) {
+        return 0;
+      }
       return gold + this.getPriests();
     }
 

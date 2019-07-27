@@ -67,7 +67,7 @@ const TooltipElement = ({
   if (display) {
     firstRender = false;
   }
-  if (firstRender) {
+  if (firstRender || !parent) {
     return null;
   }
   const { top, left, width, height } = parent.getBoundingClientRect();
