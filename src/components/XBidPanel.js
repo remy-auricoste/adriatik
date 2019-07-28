@@ -32,10 +32,6 @@ module.exports = function(
       <div className="XBidPanel" style={{ width: 400 }}>
         {gods.map(god => {
           const bid = bidState.getBidsForGod(god)[0];
-          if (!bid && !isPhaseBid) {
-            return null;
-          }
-
           const isCeres = god.id === Ceres.id;
           const bidGoldCount = (bid && bid.amount) || 0;
           const maxPossibleBid = isCeres ? 1 : player.getMaxBid();
@@ -96,7 +92,7 @@ module.exports = function(
                       </XTooltip>
                     );
                   })}
-                {!isPhaseBid && <XSesterces number={bid.amount} />}
+                {!isPhaseBid && bid && <XSesterces number={bid.amount} />}
               </div>
               <div
                 className="row-margin"

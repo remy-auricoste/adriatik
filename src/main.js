@@ -40,20 +40,41 @@ injector.addAll(newModelIndex);
 const battleIndex = require("./model/newModel/battle/index");
 injector.addAll(battleIndex);
 
-const { Game, GameSettings, Player, XRoot } = injector.resolveAll();
+injector.addAll({
+  Tile: require("./model/tools/Tile"),
+  mapGenerator: require("./services/mapGenerator")
+});
+
+const {
+  Game,
+  GameSettings,
+  Player,
+  XRoot,
+  mapGenerator,
+  Territory
+} = injector.resolveAll();
 const settings = new GameSettings();
 const players = [new Player(), new Player()];
-const game = new Game({ settings, gods: settings.gods, players });
 
-console.log(game);
+mapGenerator.getTerritories("standard").then(territories => {
+  territories = territories.map(territory => new Territory(territory));
 
-const appElement = document.getElementById("app");
-const render = () => {
-  const { game } = store.getState();
-  ReactDOM.render(<XRoot game={game} />, appElement);
-};
+  const game = new Game({
+    settings,
+    gods: settings.gods,
+    players,
+    territories
+  });
+  console.log(game);
 
-storeCommands.set("game", game);
+  const appElement = document.getElementById("app");
+  const render = () => {
+    const { game } = store.getState();
+    ReactDOM.render(<XRoot game={game} />, appElement);
+  };
 
-render();
-store.subscribe(render);
+  storeCommands.set("game", game);
+
+  store.subscribe(render);
+  render();
+});

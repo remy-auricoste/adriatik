@@ -1,4 +1,4 @@
-module.exports = function(XPlayerPanel, XBidPanel) {
+module.exports = function(XPlayerPanel, XBidPanel, XMap) {
   return ({ game }) => {
     return (
       <div
@@ -25,6 +25,7 @@ module.exports = function(XPlayerPanel, XBidPanel) {
             flex: 1
           }}
         >
+          <XMap game={game} />
           <XPlayerPanel game={game} />
         </div>
       </div>

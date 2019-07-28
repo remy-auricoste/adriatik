@@ -8,6 +8,7 @@ const XTooltip = require("./XTooltip");
 const XBidPanel = require("./XBidPanel");
 const XItemPrice = require("./XItemPrice");
 const XOverlay = require("./XOverlay");
+const XMap = require("./XMap");
 module.exports = {
   XGodCard,
   XIcon,
@@ -18,5 +19,6 @@ module.exports = {
   XTooltip,
   XBidPanel,
   XItemPrice,
-  XOverlay
+  XOverlay,
+  XMap
 };

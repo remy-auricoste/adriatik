@@ -16,15 +16,15 @@ module.exports = function(Arrays) {
       });
     }
     getBlock() {
-      const { block, code } = this;
-      if (block) {
-        return block;
+      const { code } = this;
+      if (this.block) {
+        return this.block;
       }
       let block = [];
-      const added = [this];
+      let added = [this];
       while (added.length) {
         block = block.concat(added);
-        const visited = block.concat([]);
+        let visited = block.concat([]);
         added = Arrays.flatMap(added, tile => {
           const neighbours = tile.getNeighbours(code, visited);
           visited = visited.concat(neighbours);

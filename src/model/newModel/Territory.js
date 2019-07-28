@@ -7,6 +7,8 @@ class Territory {
     baseIncome = 0,
     buildSlots = 0,
     id = Math.random() + "",
+    path,
+    box,
     type
   }) {
     this.buildings = buildings;
@@ -17,6 +19,8 @@ class Territory {
     this.buildSlots = buildSlots;
     this.type = type;
     this.id = id;
+    this.path = path;
+    this.box = box;
   }
   // writes
   placeUnit(unit) {

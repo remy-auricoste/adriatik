@@ -19,4 +19,11 @@ injector.addAll(newModelIndex);
 const battleIndex = require("./model/newModel/battle/index");
 injector.addAll(battleIndex);
 
+const Tile = require("./model/tools/Tile");
+const mapGenerator = require("./services/mapGenerator");
+injector.addAll({
+  Tile,
+  mapGenerator
+});
+
 expect = require("rauricoste-tests");
