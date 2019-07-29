@@ -24,7 +24,7 @@ module.exports = function(XTooltip, XOverlay) {
             />
           </XOverlay>
           {text && (
-            <div
+            <p
               style={{
                 position: "absolute",
                 top: 0,
@@ -37,7 +37,7 @@ module.exports = function(XTooltip, XOverlay) {
               }}
             >
               {text}
-            </div>
+            </p>
           )}
         </div>
       </XTooltip>

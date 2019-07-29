@@ -1,4 +1,5 @@
-module.exports = function(FirstTurnActions, Commandify) {
+module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
+  const { Ceres } = God;
   const firstActions = new FirstTurnActions();
   return class GameActions {
     initUnit({ territoryId, game }) {
@@ -61,6 +62,34 @@ module.exports = function(FirstTurnActions, Commandify) {
           });
         }
       });
+    }
+    getPossibleActionTypes({ game }) {
+      const { turn } = game;
+      const isBidPhase = game.getCurrentPhase().constructor === PhaseBid;
+      if (isBidPhase) {
+        return ["placeBid"];
+      }
+      if (turn === 1) {
+        return ["initUnit"];
+      }
+      const { player, god } = game.getCurrentPlayerAndGod();
+      const isCeres = Ceres.id === god.id;
+      const result = ["pass"];
+      if (isCeres) {
+        return result;
+      }
+      if (god.unitType) {
+        result.push("buyUnit");
+      }
+      if (god.card) {
+        result.push("buyGodCard");
+      }
+      // TODO move and retreat
+      result.push("build");
+      return result;
+    }
+    canDo({ actionType, game }) {
+      return this.getPossibleActionTypes({ game }).indexOf(actionType !== -1);
     }
   };
 };

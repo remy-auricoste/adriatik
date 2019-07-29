@@ -1,6 +1,15 @@
 const { useState } = React;
 
-module.exports = function(Arrays, XIcon, TerritoryType) {
+module.exports = function(
+  Arrays,
+  XIcon,
+  TerritoryType,
+  GameActions,
+  commandHandler,
+  XMapCounter
+) {
+  const gameActions = new GameActions();
+  const commands = gameActions.commands();
   const { sea } = TerritoryType;
   return ({ game }) => {
     const [territoryOver, setTerritoryOver] = useState(null);
@@ -10,6 +19,12 @@ module.exports = function(Arrays, XIcon, TerritoryType) {
     const territoryMouseOut = territory => () => {
       if (territoryOver === territory) {
         setTerritoryOver(null);
+      }
+    };
+    const territoryClick = territory => () => {
+      if (gameActions.canDo({ actionType: "initUnit", game })) {
+        const command = commands.initUnit({ territoryId: territory.id });
+        commandHandler({ command });
       }
     };
 
@@ -36,6 +51,7 @@ module.exports = function(Arrays, XIcon, TerritoryType) {
                   stroke="black"
                   onMouseOver={territoryMouseOver(territory)}
                   onMouseOut={territoryMouseOut(territory)}
+                  onClick={territoryClick(territory)}
                 />
               );
             })}
@@ -53,35 +69,27 @@ module.exports = function(Arrays, XIcon, TerritoryType) {
               className="icon-container"
               key={territoryIndex}
               style={{
+                position: "absolute",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
                 left: territory.box.x,
                 top: territory.box.y,
                 width: territory.box.width,
-                height: territory.box.height
+                height: territory.box.height,
+                pointerEvents: "none"
               }}
             >
-              {/* <XMapCounter
-                fileName="sesterce"
-                value={territory.getIncome()}
-                className={
-                  "bg-player-" +
-                  ownerColor +
-                  " income " +
-                  ClassObject({ controlledIncome: territory.owner })
-                }
-              /> */}
+              <XMapCounter fileName="sesterce" value={territory.getIncome()} />
               {Object.keys(groupedUnits).map(key => {
                 var unitGroup = groupedUnits[key];
                 var firstUnit = unitGroup[0];
-                var color =
-                  firstUnit.owner &&
-                  game.getPlayerByName(firstUnit.owner).color;
+                var color = "red";
                 return (
                   <XMapCounter
                     key={key}
-                    fileName={firstUnit.type.name}
+                    fileName={firstUnit.type.id}
                     value={unitGroup.length}
-                    className={"bg-player-" + color + " player-unit clickable"}
-                    onClick={this.select.bind(this, territory, firstUnit)}
                   />
                 );
               })}

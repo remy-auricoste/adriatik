@@ -9,6 +9,8 @@ const XBidPanel = require("./XBidPanel");
 const XItemPrice = require("./XItemPrice");
 const XOverlay = require("./XOverlay");
 const XMap = require("./XMap");
+const XPossibleAction = require("./XPossibleAction");
+const XMapCounter = require("./XMapCounter");
 module.exports = {
   XGodCard,
   XIcon,
@@ -20,5 +22,7 @@ module.exports = {
   XBidPanel,
   XItemPrice,
   XOverlay,
-  XMap
+  XMap,
+  XPossibleAction,
+  XMapCounter
 };

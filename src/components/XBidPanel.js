@@ -7,21 +7,17 @@ module.exports = function(
   GameActions,
   Arrays,
   XItemPrice,
-  storeCommands,
-  XSesterces
+  XSesterces,
+  XPossibleAction,
+  commandHandler
 ) {
-  const commands = new GameActions().commands();
+  const gameActions = new GameActions();
+  const commands = gameActions.commands();
   const { Ceres } = God;
   return ({ game }) => {
     const handleBid = (god, amount) => {
       const command = commands.placeBid({ godId: god.id, amount });
-      game = command.apply(game);
-      if (game.constructor !== Promise) {
-        game = Promise.resolve(game);
-      }
-      game.then(game => {
-        storeCommands.set("game", game);
-      });
+      commandHandler({ command });
     };
 
     const { gods, bidState } = game;
@@ -112,25 +108,29 @@ module.exports = function(
                   </React.Fragment>
                 )}
                 {god.card && (
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    {god.cardPrice.map((price, index) => {
-                      return (
-                        <XItemPrice
-                          key={index}
-                          price={price}
-                          iconName={god.card.id}
-                          name={god.card.label}
-                        />
-                      );
-                    })}
-                  </div>
+                  <XPossibleAction actionType="buyGodCard" game={game}>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      {god.cardPrice.map((price, index) => {
+                        return (
+                          <XItemPrice
+                            key={index}
+                            price={price}
+                            iconName={god.card.id}
+                            name={god.card.label}
+                          />
+                        );
+                      })}
+                    </div>
+                  </XPossibleAction>
                 )}
                 {god.building && (
-                  <XItemPrice
-                    price={2}
-                    iconName={god.building.id}
-                    name={god.building.label}
-                  />
+                  <XPossibleAction actionType="build" game={game}>
+                    <XItemPrice
+                      price={2}
+                      iconName={god.building.id}
+                      name={god.building.label}
+                    />
+                  </XPossibleAction>
                 )}
               </div>
             </div>

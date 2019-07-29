@@ -198,7 +198,7 @@ module.exports = function(Arrays, Request, Tile) {
           };
           if (territory.type === "earth") {
             territory.buildSlots = Math.min(4, block.length);
-            territory.income = 4 - territory.buildSlots;
+            territory.baseIncome = 4 - territory.buildSlots;
           }
           territory.box = this.getBox(points);
           territory.segments = segments;

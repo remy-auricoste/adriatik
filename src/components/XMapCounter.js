@@ -1,19 +1,15 @@
-var Component = require("../core/Component");
-var ClassObject = require("./ClassObject");
-
-var XIcon = require("./XIcon")
-
-var XMapCounter = Component({
-  render: function() {
-    var props = this.props;
-    return (<div className="XMapCounter">
-      <div className={"map-counter "+ClassObject({hidden: !props.value})+" "+(props.className || "")}>
-        <XIcon size={20} fileName={props.fileName} />
-        <div className="count">{props.value}</div>
+module.exports = function(XIcon) {
+  return ({ fileName, value }) => {
+    return (
+      <div
+        className="XMapCounter"
+        style={{
+          display: value ? "block" : "none",
+          pointerEvents: "unset"
+        }}
+      >
+        <XIcon size={30} fileName={fileName} text={value} />
       </div>
-
-    </div>)
-  }
-})
-
-module.exports = XMapCounter;
+    );
+  };
+};
