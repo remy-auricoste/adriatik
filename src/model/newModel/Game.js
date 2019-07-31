@@ -124,11 +124,22 @@ module.exports = function(
       const { players, currentPlayerIndex } = this;
       return players[currentPlayerIndex];
     }
-    getCurrentPlayerAndGod({ game = this } = {}) {
-      const { bidState } = game;
-      const player = game.getCurrentPlayer();
-      const godId = bidState.getBidForPlayer(player).godId;
-      const god = game.getEntityById(godId);
+    getCurrentGod() {
+      const { bidState } = this;
+      if (!bidState) {
+        return null;
+      }
+      const player = this.getCurrentPlayer();
+      const bid = bidState.getBidForPlayer(player);
+      if (!bid) {
+        return null;
+      }
+      const { godId } = bid;
+      return this.getEntityById(godId);
+    }
+    getCurrentPlayerAndGod() {
+      const player = this.getCurrentPlayer();
+      const god = this.getCurrentGod();
       return { player, god };
     }
     getCurrentPhase() {

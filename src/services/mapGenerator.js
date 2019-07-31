@@ -265,7 +265,6 @@ module.exports = function(Arrays, Request, Tile) {
         const contents = points.map(point => {
           return point[0] + "," + point[1];
         });
-        console.log("2", segments);
         const pathValue = "M" + contents.join(",") + "Z";
         var territory = {
           type: code === 1 ? "sea" : "earth",
