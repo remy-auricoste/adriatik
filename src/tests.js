@@ -26,4 +26,6 @@ injector.addAll({
   mapGenerator
 });
 
+window = {};
+
 expect = require("rauricoste-tests");

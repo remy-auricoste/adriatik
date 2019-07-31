@@ -42,18 +42,99 @@ class Point {
 
 module.exports = function(Arrays, Request, Tile) {
   class MapGenerator {
-    getTiles(name) {
-      return new Request().get("/maps/" + name + ".txt").then(function(res) {
+    getTiles(template) {
+      const lines = template.split("\n").filter(line => !!line);
+      let id = 0;
+
+      const link = (tileA, tileB) => {
+        tileA.neighbours.push(tileB.id);
+        tileB.neighbours.push(tileA.id);
+      };
+
+      const tiles = Arrays.flatMap(lines, (line, lineIndex) => {
+        const values = line.split(" ").filter(value => value !== "");
+        const shouldAdd = lineIndex % 2 === 1;
+        const addedX = shouldAdd ? 0.5 : 0;
+
+        return values
+          .map((value, index) => {
+            return {
+              code: parseInt(value),
+              id: id++,
+              pos: { x: index + addedX, y: lineIndex },
+              neighbours: []
+            };
+          })
+          .filter(tile => !!tile.code);
+      });
+      tiles.forEach((tile, index) => {
+        tiles
+          .slice(index + 1)
+          .filter(tile2 => {
+            return (
+              Math.abs(tile.pos.x - tile2.pos.x) <= 1 &&
+              Math.abs(tile.pos.y - tile2.pos.y) <= 1
+            );
+          })
+          .forEach(tile2 => link(tile, tile2));
+      });
+      return tiles;
+    }
+    getBlocks(template) {
+      const tiles = this.getTiles(template);
+      const blocks = Arrays.flatMap(
+        Object.values(Arrays.groupBy(tiles, tile => tile.code)),
+        group => {
+          const { code } = group[0];
+          return code === 1 ? group.map(tile => [tile]) : [group];
+        }
+      )
+        .map(group => {
+          const { code } = group[0];
+          const tiles = group.map(tile => tile.pos);
+          const tileIds = group.map(tile => tile.id);
+          const tileNeighbours = Arrays.toSet(
+            Arrays.flatMap(group, tile => tile.neighbours)
+          ).filter(id => tileIds.indexOf(id) === -1);
+          return {
+            code,
+            tiles,
+            tileNeighbours,
+            tileIds
+          };
+        })
+        .sort((a, b) => (a.code < b.code ? -1 : 1))
+        .map((block, index) => Object.assign(block, { id: index }));
+
+      return blocks.map(block => {
+        const { code, tiles, tileNeighbours, id } = block;
+        const neighbourBlockIds = Arrays.toSet(
+          tileNeighbours.map(
+            tileId =>
+              blocks.find(block2 => block2.tileIds.indexOf(tileId) !== -1).id
+          )
+        );
+        return {
+          id,
+          code,
+          tiles,
+          neighbours: neighbourBlockIds.sort()
+        };
+      });
+    }
+
+    getTilesOld(name) {
+      return new Request().get("/maps/" + name + ".txt").then(res => {
         var content = res.body;
 
         var lastLine = null;
         var lines = content.split("\n");
-        var tiles = Arrays.flatMap(lines, function(line, lineIndex) {
+        var tiles = Arrays.flatMap(lines, (line, lineIndex) => {
           var lastTile = null;
           var tileLine = line
             .trim()
             .split(" ")
-            .map(function(code, tileIndex) {
+            .map((code, tileIndex) => {
               if (code === "0" || !code || !code.length) {
                 return null;
               }
@@ -68,13 +149,11 @@ module.exports = function(Arrays, Request, Tile) {
               lastTile = tile;
               return tile;
             });
-          tileLine = tileLine.filter(function(tile) {
-            return !!tile;
-          });
+          tileLine = tileLine.filter(tile => !!tile);
           if (lastLine) {
             var modifier = lineIndex % 2 === 0 ? -1 : 0;
-            tileLine.map(function(tile, tileIndex) {
-              Arrays.seq(0, 1).map(function(value) {
+            tileLine.map((tile, tileIndex) => {
+              Arrays.seq(0, 1).map(value => {
                 var otherTile = lastLine[tileIndex + value + modifier];
                 if (otherTile) {
                   otherTile.nextTo(tile);
@@ -97,9 +176,6 @@ module.exports = function(Arrays, Request, Tile) {
         position[0] * xSize,
         position[1] * (yStep * 3)
       ]);
-      if (position[1] % 2 === 1) {
-        pixelPos[0] += xStep;
-      }
       return [
         pixelPos.plus([xStep, 0]),
         pixelPos.plus([0, yStep]),
@@ -110,9 +186,9 @@ module.exports = function(Arrays, Request, Tile) {
       ];
     }
     getSegments(points) {
-      return points.map(function(point, index) {
-        var nextIndex = (index + 1) % points.length;
-        return [point, points[nextIndex]].sort(function(a, b) {
+      return points.map((point, index) => {
+        const nextIndex = (index + 1) % points.length;
+        return [point, points[nextIndex]].sort((a, b) => {
           return a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : a[1] < b[1] ? -1 : 1;
         });
       });
@@ -124,20 +200,24 @@ module.exports = function(Arrays, Request, Tile) {
       var line = segments.splice(0, 1)[0].concat([]);
       while (segments.length) {
         var lastPoint = line[line.length - 1];
-        var segmentIndex = segments.findIndex(function(segment) {
-          return segment.find(function(point, index) {
+        var segmentIndex = segments.findIndex(segment => {
+          return segment.find(point => {
             return point.distance(lastPoint) < distEpsilon;
           });
         });
         var segment = segments[segmentIndex];
-        !segment &&
+        if (segment) {
+          var nextPoint = segment.find(point => {
+            return point.distance(lastPoint) > distEpsilon;
+          });
+          if (nextPoint) {
+            line.push(nextPoint);
+          } else {
+            console.error("could not find next point", lastPoint, segment);
+          }
+        } else {
           console.error("could not find segment", lastPoint, line, segments);
-        var nextPoint = segment.find(function(point) {
-          return point.distance(lastPoint) > distEpsilon;
-        });
-        !nextPoint &&
-          console.error("could not find next point", lastPoint, segment);
-        line.push(nextPoint);
+        }
         segments.splice(segmentIndex, 1);
       }
       return line;
@@ -158,8 +238,8 @@ module.exports = function(Arrays, Request, Tile) {
         if (isNew) {
           result.push(segment);
         } else {
-          var found = result.findIndex(function(otherSegment) {
-            var dists = segment.map(function(point, index) {
+          var found = result.findIndex(otherSegment => {
+            var dists = segment.map((point, index) => {
               return point.distance(otherSegment[index]);
             });
             return sum(dists) < distEpsilon;
@@ -171,39 +251,35 @@ module.exports = function(Arrays, Request, Tile) {
       });
       return result;
     }
-    getTerritories(name) {
-      return this.getTiles(name).then(tiles => {
-        var blocks = {};
-        tiles.map(tile => {
-          if (!blocks[tile.code]) {
-            blocks[tile.code] = tile.getBlock();
-          }
+    getTerritories(template) {
+      const blocks = this.getBlocks(template);
+      return blocks.map(block => {
+        const { tiles, code, id, neighbours } = block;
+        let segments = Arrays.flatMap(tiles, tilePos => {
+          const { x, y } = tilePos;
+          const tilePoints = this.getTilePoints([x, y]);
+          return this.getSegments(tilePoints);
         });
-        return Object.keys(blocks).map((key, index) => {
-          var block = blocks[key];
-          var segments = Arrays.flatMap(block, tile => {
-            return this.getSegments(this.getTilePoints(tile.pos));
-          });
-          segments = this.removeDuplicates(segments);
-          var points = this.getAroundLine(segments);
-          var contents = points.map(point => {
-            return point[0] + "," + point[1];
-          });
-          var pathValue = "M" + contents.join(",") + "Z";
-
-          var territory = {
-            type: block[0].id !== "1" ? "earth" : "sea",
-            path: pathValue,
-            index: index
-          };
-          if (territory.type === "earth") {
-            territory.buildSlots = Math.min(4, block.length);
-            territory.baseIncome = 4 - territory.buildSlots;
-          }
-          territory.box = this.getBox(points);
-          territory.segments = segments;
-          return territory;
+        segments = this.removeDuplicates(segments);
+        const points = this.getAroundLine(segments);
+        const contents = points.map(point => {
+          return point[0] + "," + point[1];
         });
+        console.log("2", segments);
+        const pathValue = "M" + contents.join(",") + "Z";
+        var territory = {
+          type: code === 1 ? "sea" : "earth",
+          path: pathValue,
+          id,
+          neighbours
+        };
+        if (territory.type === "earth") {
+          territory.buildSlots = Math.min(4, tiles.length);
+          territory.baseIncome = Math.max(0, 3 - territory.buildSlots);
+        }
+        territory.box = this.getBox(points);
+        territory.segments = segments;
+        return territory;
       });
     }
     getBox(points) {

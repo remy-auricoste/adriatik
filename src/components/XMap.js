@@ -35,16 +35,19 @@ module.exports = function(
           <g>
             {territories.map((territory, index) => {
               const isOver = territoryOver && territoryOver.id === territory.id;
+              const isNeighbour =
+                territoryOver && territory.isNextTo(territoryOver);
+              const changeColor = isOver || isNeighbour;
               return (
                 <path
                   key={index}
                   d={territory.path}
                   fill={
                     territory.type === sea
-                      ? isOver
+                      ? changeColor
                         ? "blue"
                         : "lightblue"
-                      : isOver
+                      : changeColor
                       ? "brown"
                       : "orange"
                   }

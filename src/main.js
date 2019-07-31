@@ -69,28 +69,37 @@ const {
 const settings = new GameSettings();
 const players = [new Player(), new Player()];
 
-mapGenerator.getTerritories("standard").then(territories => {
-  territories = territories.map(territory => new Territory(territory));
+const template = `
+0 0 1 9 1 2 1 1 0 0 0 0
+ 0 0 9 9 1 2 1 1 0 0 0 0
+0 0 1 1 9 1 1 3 3 0 0 0
+ 0 0 8 1 1 4 1 1 0 0 0
+0 0 8 8 1 4 1 5 5 0 0 0
+ 0 0 1 1 1 1 1 5 0 0 0
+0 0 1 1 7 1 6 1 0 0 0 0
+ 0 0 1 1 1 1 1 0 0 0 0
+`;
+let territories = mapGenerator.getTerritories(template);
+territories = territories.map(territory => new Territory(territory));
 
-  const { game: gameJson } = localStorage;
-  const storedGame = gameJson && new Game(JSON.parse(gameJson)); // TODO
+const { game: gameJson } = localStorage;
+const storedGame = gameJson && new Game(JSON.parse(gameJson)); // TODO
 
-  const game = new Game({
-    settings,
-    gods: settings.gods,
-    players,
-    territories
-  });
-
-  const appElement = document.getElementById("app");
-  const render = () => {
-    const { game } = store.getState();
-    console.log(game);
-    ReactDOM.render(<XRoot game={game} />, appElement);
-  };
-
-  storeCommands.set("game", game);
-
-  store.subscribe(render);
-  render();
+const game = new Game({
+  settings,
+  gods: settings.gods,
+  players,
+  territories
 });
+
+const appElement = document.getElementById("app");
+const render = () => {
+  const { game } = store.getState();
+  console.log(game);
+  ReactDOM.render(<XRoot game={game} />, appElement);
+};
+
+storeCommands.set("game", game);
+
+store.subscribe(render);
+render();
