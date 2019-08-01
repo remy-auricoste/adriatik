@@ -22,6 +22,7 @@ module.exports = function(
 
     const { gods, bidState } = game;
     const player = game.getCurrentPlayer();
+    const currentGod = game.getCurrentGod();
     const phase = game.getCurrentPhase();
     const isPhaseBid = phase.constructor === PhaseBid;
     return (
@@ -32,6 +33,7 @@ module.exports = function(
           const bidGoldCount = (bid && bid.amount) || 0;
           const maxPossibleBid = isCeres ? 1 : player.getMaxBid();
           const unitPrices = god.getUnitPrices();
+          const isCurrentGod = currentGod && god.id === currentGod.id;
 
           const renderedUnitPrices = unitPrices.map((price, index) => {
             return (
@@ -50,7 +52,7 @@ module.exports = function(
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: "solid 1px black",
+                border: isCurrentGod ? "solid 3px green" : "solid 1px black",
                 marginTop: 10,
                 marginLeft: 10,
                 marginRight: 10

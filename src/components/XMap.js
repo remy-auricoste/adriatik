@@ -38,12 +38,15 @@ module.exports = function(
               const isNeighbour =
                 territoryOver && territory.isNextTo(territoryOver);
               const changeColor = isOver || isNeighbour;
+              const ownerId = territory.getOwner();
               return (
                 <path
                   key={index}
                   d={territory.path}
                   fill={
-                    territory.type === sea
+                    ownerId
+                      ? "green"
+                      : territory.type === sea
                       ? changeColor
                         ? "blue"
                         : "lightblue"
