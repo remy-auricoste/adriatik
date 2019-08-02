@@ -40,7 +40,9 @@ class Territory {
   removeUnit(unit) {
     const { units } = this;
     var index = units.findIndex(unitIte => {
-      return unit.type === unitIte.type && unit.ownerId === unitIte.ownerId;
+      return (
+        unit.type.id === unitIte.type.id && unit.ownerId === unitIte.ownerId
+      );
     });
     if (!(typeof index === "number" && index >= 0)) {
       console.error("impossible de retirer cette unité : ", unit, units, index);
@@ -97,7 +99,7 @@ class Territory {
   }
   getUnitsOfType(player, type) {
     return this.units.filter(unit => {
-      return unit.ownerId === player.id && unit.type === type;
+      return unit.ownerId === player.id && unit.type.id === type.id;
     });
   }
   getIncome() {

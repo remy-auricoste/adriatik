@@ -71,7 +71,9 @@ module.exports = function(Dice, Building) {
       const buildingsCount = this.isAttacker(player)
         ? 0
         : territory.buildings.filter(
-            building => building === Building.Fort || building === Building.Cite
+            building =>
+              building.id === Building.Fort.id ||
+              building.id === Building.Cite.id
           ).length;
       return unitsCount + buildingsCount;
     }
@@ -103,7 +105,9 @@ module.exports = function(Dice, Building) {
           `illegal state : has a loss but no units on the territory`
         );
       }
-      const allSameType = units.every(unit => unit.type === firstUnit.type);
+      const allSameType = units.every(
+        unit => unit.type.id === firstUnit.type.id
+      );
       return allSameType;
     }
     shouldMakeDecision(player) {

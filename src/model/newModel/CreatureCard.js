@@ -1,7 +1,7 @@
 const all = [];
 
 class CreatureCard {
-  constructor({ name, targetTypes, action, addToEnum = true }) {
+  constructor({ name, targetTypes, action }) {
     this.name = name;
     this.targetTypes = targetTypes;
     this.action = action;
@@ -9,22 +9,24 @@ class CreatureCard {
     if (typeof this.action !== "function") {
       throw new Error("you must define this.action as a function");
     }
-    if (addToEnum) {
-      CreatureCard[this.name] = this;
-      all.push(this);
-    }
   }
   apply(game, player, args) {
     this.action(game, player, args[0], args[1], args[2], args[3]);
   }
 }
 
-new CreatureCard({
+const createCard = params => {
+  const card = new CreatureCard(Object.assign({}, params, { addToEnum: true }));
+  CreatureCard[card.name] = card;
+  all.push(card);
+};
+
+createCard({
   name: "Pégase",
   targetTypes: [["Unit"], "Territory"],
   action: function(game, player, units, territory) {}
 });
-new CreatureCard({
+createCard({
   name: "armée des morts",
   targetTypes: [],
   action: function(game, player) {
@@ -33,7 +35,7 @@ new CreatureCard({
     // TODO message
   }
 });
-new CreatureCard({
+createCard({
   name: "Griffon",
   targetTypes: ["Player"],
   action: function(game, player, stolenPlayer) {
@@ -44,17 +46,17 @@ new CreatureCard({
     // TODO emit message command
   }
 });
-new CreatureCard({
+createCard({
   name: "Kraken",
   targetTypes: ["Territory"],
   action: function(game, player, territory) {}
 });
-new CreatureCard({
+createCard({
   name: "Harpie",
   targetTypes: ["Territory"],
   action: function(game, player, territory) {
-    var units = territory.units.filter(function(unit) {
-      return unit.type === UnitType.Legionnaire && unit.owner !== player;
+    var units = territory.units.filter(unit => {
+      return unit.type.id === UnitType.Legionnaire.id && unit.owner !== player;
     });
     if (units.length) {
       territory.units.splice(territory.units.indexOf(units[0]), 1);
@@ -62,27 +64,27 @@ new CreatureCard({
     // TODO message
   }
 });
-new CreatureCard({
+createCard({
   name: "Minotaure",
   targetTypes: ["Territory"],
   action: function(game, player, territory) {}
 });
-new CreatureCard({
+createCard({
   name: "Méduse",
   targetTypes: ["Territory"],
   action: function(game, player, territory) {}
 });
-new CreatureCard({
+createCard({
   name: "Cyclope",
   targetTypes: ["Territory"],
   action: function(game, player, territory) {}
 });
-new CreatureCard({
+createCard({
   name: "Centaure",
   targetTypes: ["Territory"],
   action: function(game, player, territory) {}
 });
-new CreatureCard({
+createCard({
   name: "Sphinx",
   targetTypes: [],
   action: function(game, player) {

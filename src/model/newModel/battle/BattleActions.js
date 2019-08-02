@@ -67,7 +67,9 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
       if (god.id === Ceres.id) {
         throw new Error("Ceres ne peut pas déplacer d'unité.");
       }
-      const gladiators = units.filter(unit => unit.type === UnitType.Gladiator);
+      const gladiators = units.filter(
+        unit => unit.type.id === UnitType.Gladiator.id
+      );
       const fromType = fromTerritory.type;
       const isGodOk =
         (fromType === sea && god.id === Neptune.id) ||
@@ -117,7 +119,7 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
     }
     checkValidTerritoryType({ units, territory }) {
       const notValidUnit = units.find(unit => {
-        return unit.type.territoryType !== territory.type;
+        return unit.type.territoryType.id !== territory.type.id;
       });
       if (notValidUnit) {
         throw new Error(

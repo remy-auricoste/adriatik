@@ -6,7 +6,11 @@ module.exports = function(
   PhaseBid,
   PhaseAction,
   randomReaderAsync,
-  Building
+  Building,
+  Player,
+  BidsState,
+  God,
+  Territory
 ) {
   return class Game {
     constructor({
@@ -20,20 +24,19 @@ module.exports = function(
       settings = new GameSettings(),
       bidState = new BidsState(),
       currentPlayerIndex = 0,
-      phases = [new PhaseBid(), new PhaseAction()],
       currentPhaseIndex = 0,
       battle = undefined
     } = {}) {
       this.turn = turn;
-      this.players = players;
-      this.creatureMarket = creatureMarket;
-      this.gods = gods;
-      this.settings = settings;
-      this.bidState = bidState;
+      this.players = players.map(_ => new Player(_));
+      this.creatureMarket = new CreatureMarket(creatureMarket);
+      this.gods = gods.map(_ => new God(_));
+      this.settings = new GameSettings(settings);
+      this.bidState = new BidsState(bidState);
       this.currentPlayerIndex = currentPlayerIndex;
-      this.phases = phases;
+      this.phases = [new PhaseBid(), new PhaseAction()];
       this.currentPhaseIndex = currentPhaseIndex;
-      this.territories = territories;
+      this.territories = territories.map(_ => new Territory(_));
       this.battle = battle;
     }
     //writes
@@ -98,7 +101,10 @@ module.exports = function(
       return this.getTerritoriesForPlayer(player)
         .map(territory => {
           return territory.buildings.filter(building => {
-            return building === Building.Temple || building === Building.Cite;
+            return (
+              building.id === Building.Temple.id ||
+              building.id === Building.Cite.id
+            );
           }).length;
         })
         .reduce((acc, value) => acc + value, 0);

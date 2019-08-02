@@ -3,7 +3,7 @@ module.exports = function(God, randomReaderAsync) {
   return class PhaseBid {
     async start({ game }) {
       const { turn, players, creatureMarket, settings, bidState } = game;
-      const normalGods = settings.gods.filter(god => god !== Ceres);
+      const normalGods = settings.gods.filter(god => god.id !== Ceres.id);
       const godPromise = randomReaderAsync
         .shuffle(normalGods)
         .then(shuffled => {

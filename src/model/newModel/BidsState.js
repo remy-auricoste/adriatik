@@ -1,7 +1,7 @@
 module.exports = function(God, Bid) {
   return class BidsState {
     constructor({ bids = [] } = {}) {
-      this.bids = bids;
+      this.bids = bids.map(_ => new Bid(_));
     }
 
     placeBid({ player, god, amount }) {
@@ -40,7 +40,7 @@ module.exports = function(God, Bid) {
       return this.bids.find(bid => bid.playerId === player.id);
     }
     init() {
-      return new BidsState()
+      return new BidsState();
     }
 
     // private

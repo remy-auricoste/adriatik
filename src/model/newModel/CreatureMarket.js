@@ -1,15 +1,17 @@
 const baseCreatureCosts = [4, 3, 2];
 
-module.exports = function(randomReaderAsync) {
+module.exports = function(randomReaderAsync, CreatureCard) {
+  const buildCard = card => card && new CreatureCard(card);
+
   return class CreatureMarket {
     constructor({
       creaturesDraw,
       creaturesDiscard = [],
       creaturesDisplay = []
     }) {
-      this.creaturesDraw = creaturesDraw;
-      this.creaturesDiscard = creaturesDiscard;
-      this.creaturesDisplay = creaturesDisplay;
+      this.creaturesDraw = creaturesDraw.map(buildCard);
+      this.creaturesDiscard = creaturesDiscard.map(buildCard);
+      this.creaturesDisplay = creaturesDisplay.map(buildCard);
     }
     buyCreature({ player, templeAvailableCount, creature, args = [] }) {
       const index = this.getDisplayIndex(creature);
@@ -48,7 +50,7 @@ module.exports = function(randomReaderAsync) {
     getDisplayIndex(creature) {
       const { creaturesDisplay } = this;
       const index = creaturesDisplay.findIndex(
-        creatureIte => creatureIte === creature
+        creatureIte => creatureIte && creatureIte.name === creature.name
       );
       if (index < 0) {
         throw new Error(`could not find creature ${JSON.stringify(creature)}`);
@@ -59,7 +61,7 @@ module.exports = function(randomReaderAsync) {
       const { creaturesDisplay, creaturesDiscard } = this;
       return this.copy({
         creaturesDisplay: creaturesDisplay.map(c =>
-          c === creature ? null : c
+          c && c.name === creature.name ? null : c
         ),
         creaturesDiscard: creaturesDiscard.concat([creature])
       });

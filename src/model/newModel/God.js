@@ -39,7 +39,7 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
         if (!price && price !== 0) {
           throw new Error("il n'y a plus d'unité à acheter.");
         }
-        if (unitType.territoryType !== territory.type) {
+        if (unitType.territoryType.id !== territory.type.id) {
           throw new Error(
             "il est impossible de placer ce type d'unité sur ce type de territoire."
           );

@@ -59,10 +59,12 @@ module.exports = function(UnitType, TerritoryType, Unit) {
               "."
           );
         }
-        if (unitsOfTypeLeft === 1 && territory.isOwner(player) && earthTerritories.length < 2) {
-          throw new Error(
-            "vous devez prendre 2 territoires terrestres."
-          );
+        if (
+          unitsOfTypeLeft === 1 &&
+          territory.isOwner(player) &&
+          earthTerritories.length < 2
+        ) {
+          throw new Error("vous devez prendre 2 territoires terrestres.");
         }
         const unit = new Unit({
           type: unitType,
@@ -82,7 +84,7 @@ module.exports = function(UnitType, TerritoryType, Unit) {
     getUnitsLeft({ game, god, player }) {
       const playerTerritories = game.getTerritoriesForPlayer(player);
       const getAllowed = unitType => {
-        return 2 + (god.unitType && god.unitType === unitType ? 1 : 0);
+        return 2 + (god.unitType && god.unitType.id === unitType.id ? 1 : 0);
       };
       const getLeft = unitType => {
         const currentValue = playerTerritories
