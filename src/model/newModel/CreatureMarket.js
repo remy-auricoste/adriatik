@@ -1,30 +1,29 @@
 const baseCreatureCosts = [4, 3, 2];
 
 module.exports = function(randomReaderAsync, CreatureCard) {
-  const buildCard = card => card && new CreatureCard(card);
-
   return class CreatureMarket {
     constructor({
       creaturesDraw,
       creaturesDiscard = [],
       creaturesDisplay = []
     }) {
-      this.creaturesDraw = creaturesDraw.map(buildCard);
-      this.creaturesDiscard = creaturesDiscard.map(buildCard);
-      this.creaturesDisplay = creaturesDisplay.map(buildCard);
+      this.creaturesDraw = creaturesDraw;
+      this.creaturesDiscard = creaturesDiscard;
+      this.creaturesDisplay = creaturesDisplay;
     }
-    buyCreature({ player, templeAvailableCount, creature, args = [] }) {
-      const index = this.getDisplayIndex(creature);
+    buyCreature({ player, templeAvailableCount, creatureId, args = [] }) {
+      const index = this.getDisplayIndex(creatureId);
       const cost = baseCreatureCosts[index];
       const finalCost = Math.max(1, cost - templeAvailableCount);
       const discountUsed = cost - finalCost;
       // TODO handle immutability here
+      const creature = this.getCreatureById(creatureId);
       creature.apply(this, player, args);
       const newPlayer = player.spend(finalCost).spendTemples(discountUsed);
       return {
         player: newPlayer,
         creature,
-        creatureMarket: this.useCreature(creature)
+        creatureMarket: this.useCreature(creatureId)
       };
     }
     pushCreatures(wantedCount = 3) {
@@ -47,23 +46,26 @@ module.exports = function(randomReaderAsync, CreatureCard) {
     copy(params = {}) {
       return new CreatureMarket(Object.assign({}, this, params));
     }
-    getDisplayIndex(creature) {
+    getDisplayIndex(creatureId) {
       const { creaturesDisplay } = this;
-      const index = creaturesDisplay.findIndex(
-        creatureIte => creatureIte && creatureIte.name === creature.name
-      );
+      const index = creaturesDisplay.indexOf(creatureId);
       if (index < 0) {
-        throw new Error(`could not find creature ${JSON.stringify(creature)}`);
+        throw new Error(
+          `could not find creature ${JSON.stringify(creatureId)}`
+        );
       }
       return index;
     }
-    useCreature(creature) {
+    getCreatureById(creatureId) {
+      return CreatureCard.all.find(creature => creature.id === creatureId);
+    }
+    useCreature(creatureId) {
       const { creaturesDisplay, creaturesDiscard } = this;
       return this.copy({
         creaturesDisplay: creaturesDisplay.map(c =>
-          c && c.name === creature.name ? null : c
+          c && c === creatureId ? null : c
         ),
-        creaturesDiscard: creaturesDiscard.concat([creature])
+        creaturesDiscard: creaturesDiscard.concat([creatureId])
       });
     }
   };

@@ -5,6 +5,7 @@ class CreatureCard {
     this.name = name;
     this.targetTypes = targetTypes;
     this.action = action;
+    this.id = name;
 
     if (typeof this.action !== "function") {
       throw new Error("you must define this.action as a function");

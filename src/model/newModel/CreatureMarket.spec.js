@@ -5,21 +5,21 @@ const { CreatureCard, CreatureMarket, DataTest } = injector.resolveAll();
 
 const { player } = DataTest;
 
-const creature = CreatureCard.Sphinx;
-const creature2 = CreatureCard.Méduse;
-const creaturesDraw = [creature, creature, creature];
+const creatureId = "Sphinx";
+const creatureId2 = "Méduse";
+const creaturesDraw = [creatureId, creatureId, creatureId];
 
-describe("CreatureMarket class", function() {
-  describe("buyCreature method", function() {
-    it("should buy the creatures for player. Temples should be used only once", function() {
+describe("CreatureMarket class", () => {
+  describe("buyCreature method", () => {
+    it("should buy the creatures for player. Temples should be used only once", () => {
       const market = new CreatureMarket({
         creaturesDraw,
-        creaturesDisplay: [creature, creature2, null]
+        creaturesDisplay: [creatureId, creatureId2, null]
       });
       // when
       const result = market.buyCreature({
         templeAvailableCount: 1,
-        creature,
+        creatureId,
         player
       });
       // then
@@ -27,14 +27,14 @@ describe("CreatureMarket class", function() {
       expect(result.player.templeUsed).to.equal(1);
       expect(result.creatureMarket.creaturesDisplay).to.deep.equal([
         null,
-        creature2,
+        creatureId2,
         null
       ]);
 
       // when
       const result2 = result.creatureMarket.buyCreature({
         templeAvailableCount: 0,
-        creature: creature2,
+        creatureId: creatureId2,
         player: result.player
       });
       // then
@@ -48,7 +48,7 @@ describe("CreatureMarket class", function() {
     });
   });
 
-  describe("pushCreatures method", function() {
+  describe("pushCreatures method", () => {
     const testFilled = initState => {
       const market = new CreatureMarket({
         creaturesDisplay: initState,
@@ -62,24 +62,24 @@ describe("CreatureMarket class", function() {
     };
 
     it("should push the creatures [X, X, 0]", () => {
-      return testFilled([creature, creature, null]);
+      return testFilled([creatureId, creatureId, null]);
     });
 
     it("should push the creatures [X, 0, X]", () => {
-      return testFilled([creature, null, creature]);
+      return testFilled([creatureId, null, creatureId]);
     });
 
     it("should push the creatures [0, X, X]", () => {
-      return testFilled([null, creature, creature]);
+      return testFilled([null, creatureId, creatureId]);
     });
     it("should push the creatures [0, 0, X]", () => {
-      return testFilled([null, null, creature]);
+      return testFilled([null, null, creatureId]);
     });
     it("should push the creatures [0, X, 0]", () => {
-      return testFilled([null, creature, null]);
+      return testFilled([null, creatureId, null]);
     });
     it("should push the creatures [X, 0, 0]", () => {
-      return testFilled([creature, null, null]);
+      return testFilled([creatureId, null, null]);
     });
     it("should push the creatures [0, 0, 0]", () => {
       return testFilled([null, null, null]);
