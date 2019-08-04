@@ -16,6 +16,8 @@ module.exports = function(
   const { Ceres } = God;
   return ({ game }) => {
     const handleBid = (god, amount) => {
+      const isCeres = god.id === Ceres.id;
+      amount = isCeres ? 0 : amount;
       const command = commands.placeBid({ godId: god.id, amount });
       commandHandler({ command });
     };
