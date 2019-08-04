@@ -8,7 +8,6 @@ module.exports = function(
   randomReaderAsync,
   Building,
   Player,
-  BidsState,
   God,
   Territory
 ) {
