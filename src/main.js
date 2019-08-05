@@ -97,7 +97,6 @@ const accounts = players.map(
       color: defaultPlayerColors[index]
     })
 );
-const room = new Room({ players, accounts });
 const settings = new GameSettings();
 const game = new Game({
   settings,
@@ -113,7 +112,9 @@ const render = () => {
   ReactDOM.render(<XRoot game={game} />, appElement);
 };
 
-storeCommands.set("game", game);
+const finalGame = storedGame || game;
+storeCommands.set("game", finalGame);
+const room = new Room({ players: finalGame.players, accounts });
 storeCommands.set("room", room);
 
 store.subscribe(render);

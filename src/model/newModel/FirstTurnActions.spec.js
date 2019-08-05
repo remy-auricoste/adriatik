@@ -42,7 +42,7 @@ describe("FirstTurnActions class", () => {
       const resultTerritory = result.game.getEntity(territory);
       expect(resultTerritory.getOwner()).to.equal(player.id);
       expect(resultTerritory.units.length).to.equal(1);
-      expect(resultTerritory.units[0].type).to.equal(UnitType.Legionnaire);
+      expect(resultTerritory.units[0].type).to.deep.equal(UnitType.Legionnaire);
       expect(result.game.getEntity(territory2).getOwner()).to.equal(player.id);
     });
     it("should throw an exception if the territory is already controlled by another player", () => {

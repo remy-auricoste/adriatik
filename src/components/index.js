@@ -8,6 +8,7 @@ const XOverlay = require("./XOverlay");
 const XPanel = require("./XPanel");
 const XPlayerPanel = require("./XPlayerPanel");
 const XPossibleAction = require("./XPossibleAction");
+const XReset = require("./XReset");
 const XRoot = require("./XRoot");
 const XSesterces = require("./XSesterces");
 const XTooltip = require("./XTooltip");
@@ -22,6 +23,7 @@ XOverlay,
 XPanel,
 XPlayerPanel,
 XPossibleAction,
+XReset,
 XRoot,
 XSesterces,
 XTooltip

@@ -17,7 +17,6 @@ module.exports = function(XSesterces, XGodCard, XPanel, store) {
         {players.map((player, index) => {
           const account = room.getAccountByPlayerId(player.id);
           const { name, color, email } = account;
-          console.log(account);
           const { gold } = player;
           return (
             <XPanel key={index}>

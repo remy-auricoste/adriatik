@@ -17,7 +17,7 @@ module.exports = function(
       territories = [],
       players = [],
       creatureMarket = new CreatureMarket({
-        creaturesDraw: CreatureCard.all
+        creaturesDraw: CreatureCard.all.map(_ => _.id)
       }),
       gods = [],
       settings = new GameSettings(),
