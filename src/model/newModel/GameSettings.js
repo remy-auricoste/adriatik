@@ -7,18 +7,11 @@ module.exports = function(God) {
     God.Ceres
   ];
   const warModeGods = normalGods.concat([God.Pluton]);
+
   class GameSettings {
-    constructor({
-      players,
-      gods = normalGods,
-      creatures,
-      colors,
-      warMode = false
-    } = {}) {
-      this.players = players;
+    constructor({ gods = normalGods, creatures, warMode = false } = {}) {
       this.gods = gods;
       this.creatures = creatures;
-      this.colors = colors;
       this.warMode = warMode;
     }
   }

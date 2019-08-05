@@ -1,8 +1,9 @@
 var gravatarService = require("../services/gravatarService");
 
-module.exports = function(XSesterces, XGodCard, XPanel) {
+module.exports = function(XSesterces, XGodCard, XPanel, store) {
   return ({ game }) => {
     const { players } = game;
+    const { room } = store.getState();
     return (
       <div
         style={{
@@ -14,24 +15,27 @@ module.exports = function(XSesterces, XGodCard, XPanel) {
         }}
       >
         {players.map((player, index) => {
+          const account = room.getAccountByPlayerId(player.id);
+          const { name, color, email } = account;
+          console.log(account);
+          const { gold } = player;
           return (
             <XPanel key={index}>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-evenly"
+                  justifyContent: "space-evenly",
+                  backgroundColor: color
                 }}
               >
-                <div>{player.name}</div>
-                {player.account && player.account.email && (
+                <p>{name}</p>
+                {email && (
                   <div className="player-avatar">
-                    <img
-                      src={gravatarService.getPictureUrl(player.account.email)}
-                    />
+                    <img src={gravatarService.getPictureUrl(email)} />
                   </div>
                 )}
-                <XSesterces number={player.gold} size={30} stacked={true} />
+                <XSesterces number={gold} size={30} stacked={true} />
                 <div className="resources">
                   <XGodCard
                     count={player.getPriests()}

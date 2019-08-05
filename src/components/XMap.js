@@ -6,7 +6,8 @@ module.exports = function(
   TerritoryType,
   GameActions,
   commandHandler,
-  XMapCounter
+  XMapCounter,
+  store
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
@@ -28,6 +29,7 @@ module.exports = function(
       }
     };
 
+    const { room } = store.getState();
     const { territories } = game;
     return (
       <div className="XMap">
@@ -39,21 +41,21 @@ module.exports = function(
                 territoryOver && territory.isNextTo(territoryOver);
               const changeColor = isOver || isNeighbour;
               const ownerId = territory.getOwner();
+              const account = ownerId && room.getAccountByPlayerId(ownerId);
+              const ownerColor = account && account.color;
+              const isSea = territory.type === sea;
+              const defaultColor = isSea
+                ? changeColor
+                  ? "blue"
+                  : "lightblue"
+                : changeColor
+                ? "brown"
+                : "orange";
               return (
                 <path
                   key={index}
                   d={territory.path}
-                  fill={
-                    ownerId
-                      ? "green"
-                      : territory.type === sea
-                      ? changeColor
-                        ? "blue"
-                        : "lightblue"
-                      : changeColor
-                      ? "brown"
-                      : "orange"
-                  }
+                  fill={ownerColor ? ownerColor : defaultColor}
                   stroke="black"
                   onMouseOver={territoryMouseOver(territory)}
                   onMouseOut={territoryMouseOut(territory)}

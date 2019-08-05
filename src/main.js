@@ -39,6 +39,8 @@ const newModelIndex = require("./model/newModel/index");
 injector.addAll(newModelIndex);
 const battleIndex = require("./model/newModel/battle/index");
 injector.addAll(battleIndex);
+const roomIndex = require("./model/room/index");
+injector.addAll(roomIndex);
 
 const commandHandler = ({ command }) => {
   let { game } = store.getState();
@@ -64,10 +66,10 @@ const {
   Player,
   XRoot,
   mapGenerator,
-  Territory
+  Territory,
+  Account,
+  Room
 } = injector.resolveAll();
-const settings = new GameSettings();
-const players = [new Player(), new Player()];
 
 const template = `
 0 0 1 9 1 2 1 1 0 0 0 0
@@ -85,6 +87,18 @@ territories = territories.map(territory => new Territory(territory));
 const { game: gameJson } = localStorage;
 const storedGame = gameJson && new Game(JSON.parse(gameJson)); // TODO
 
+const players = [new Player(), new Player()];
+const defaultPlayerColors = ["red", "blue", "green", "yellow"];
+const accounts = players.map(
+  (_, index) =>
+    new Account({
+      id: Math.random().toString(),
+      name: "name" + Math.random(),
+      color: defaultPlayerColors[index]
+    })
+);
+const room = new Room({ players, accounts });
+const settings = new GameSettings();
 const game = new Game({
   settings,
   gods: settings.gods,
@@ -100,6 +114,7 @@ const render = () => {
 };
 
 storeCommands.set("game", game);
+storeCommands.set("room", room);
 
 store.subscribe(render);
 render();
