@@ -102,14 +102,14 @@ module.exports = function(
                   <img src="/images/gods/jupiter.png" width={50} />
                 </XTooltip>
                 {god.unitType && unitPrices.length && (
-                  <React.Fragment>
+                  <XPossibleAction actionType="buyUnit" game={game}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       {renderedUnitPrices.slice(0, 2)}
                     </div>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       {renderedUnitPrices.slice(2, 4)}
                     </div>
-                  </React.Fragment>
+                  </XPossibleAction>
                 )}
                 {god.card && (
                   <XPossibleAction actionType="buyGodCard" game={game}>

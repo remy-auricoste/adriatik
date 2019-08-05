@@ -6,7 +6,8 @@ module.exports = function(GameActions) {
     return (
       <div
         style={{
-          border: canDo ? "solid 1px green" : "none"
+          border: canDo ? "solid 1px green" : "none",
+          cursor: canDo ? "pointer" : "default"
         }}
       >
         {children}
