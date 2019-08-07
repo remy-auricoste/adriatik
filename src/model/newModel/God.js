@@ -22,6 +22,8 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
       this.cardBuyCount = cardBuyCount;
       this.id = name.toLowerCase();
       this.index = index;
+      // fix functions when loading from JSON
+      Object.assign(this, God[name]);
     }
     init() {
       return this.copy({
