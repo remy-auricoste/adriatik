@@ -1,5 +1,6 @@
-module.exports = function(XPlayerPanel, XBidPanel, XMap, XReset) {
+module.exports = function(XPlayerPanel, XBidPanel, XMap, XReset, store) {
   return ({ game }) => {
+    const { room } = store.getState();
     return (
       <div
         className="XRoot"
@@ -17,7 +18,7 @@ module.exports = function(XPlayerPanel, XBidPanel, XMap, XReset) {
             borderRight: "black solid 1px"
           }}
         >
-          <XBidPanel game={game} />
+          <XBidPanel game={game} room={room} />
         </div>
         <div
           className="right"
@@ -26,7 +27,7 @@ module.exports = function(XPlayerPanel, XBidPanel, XMap, XReset) {
           }}
         >
           <XMap game={game} />
-          <XPlayerPanel game={game} />
+          <XPlayerPanel game={game} room={room} />
           <XReset />
         </div>
       </div>

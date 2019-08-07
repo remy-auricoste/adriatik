@@ -1,9 +1,8 @@
 var gravatarService = require("../services/gravatarService");
 
-module.exports = function(XSesterces, XGodCard, XPanel, store) {
-  return ({ game }) => {
+module.exports = function(XSesterces, XGodCard, XPanel, XPlayerIcon) {
+  return ({ game, room }) => {
     const { players } = game;
-    const { room } = store.getState();
     return (
       <div
         style={{
@@ -25,9 +24,10 @@ module.exports = function(XSesterces, XGodCard, XPanel, store) {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-evenly",
-                  backgroundColor: color
+                  backgroundColor: "lightgrey"
                 }}
               >
+                <XPlayerIcon playerId={player.id} />
                 <p>{name}</p>
                 {email && (
                   <div className="player-avatar">

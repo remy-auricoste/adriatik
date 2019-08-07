@@ -6,3 +6,4 @@ coverage/
 .tmp/
 *.iml
 dist/
+.DS_Store

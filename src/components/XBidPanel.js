@@ -9,12 +9,13 @@ module.exports = function(
   XItemPrice,
   XSesterces,
   XPossibleAction,
+  XPlayerIcon,
   commandHandler
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
   const { Ceres } = God;
-  return ({ game }) => {
+  return ({ game, room }) => {
     const handleBid = (god, amount) => {
       const isCeres = god.id === Ceres.id;
       amount = isCeres ? 0 : amount;
@@ -36,6 +37,7 @@ module.exports = function(
           const maxPossibleBid = isCeres ? 1 : player.getMaxBid();
           const unitPrices = god.getUnitPrices();
           const isCurrentGod = currentGod && god.id === currentGod.id;
+          const { color } = room.getAccountByPlayerId(player.id);
 
           const renderedUnitPrices = unitPrices.map((price, index) => {
             return (
@@ -76,7 +78,7 @@ module.exports = function(
                         <div
                           style={{
                             backgroundColor:
-                              gold === bidGoldCount ? "red" : "transparent",
+                              gold === bidGoldCount ? color : "transparent",
                             borderRadius: "10em",
                             border:
                               gold < bidGoldCount ? "solid 1px black" : "none",
@@ -92,7 +94,12 @@ module.exports = function(
                       </XTooltip>
                     );
                   })}
-                {!isPhaseBid && bid && <XSesterces number={bid.amount} />}
+                {!isPhaseBid && bid && (
+                  <div style={{ display: "flex" }}>
+                    <XPlayerIcon playerId={bid.playerId} />
+                    <XSesterces number={bid.amount} />
+                  </div>
+                )}
               </div>
               <div
                 className="row-margin"
@@ -101,7 +108,7 @@ module.exports = function(
                 <XTooltip title={god.name}>
                   <img src="/images/gods/jupiter.png" width={50} />
                 </XTooltip>
-                {god.unitType && unitPrices.length && (
+                {(god.unitType && unitPrices.length && (
                   <XPossibleAction actionType="buyUnit" game={game}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       {renderedUnitPrices.slice(0, 2)}
@@ -110,7 +117,8 @@ module.exports = function(
                       {renderedUnitPrices.slice(2, 4)}
                     </div>
                   </XPossibleAction>
-                )}
+                )) ||
+                  null}
                 {god.card && (
                   <XPossibleAction actionType="buyGodCard" game={game}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
