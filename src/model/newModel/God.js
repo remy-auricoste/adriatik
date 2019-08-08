@@ -23,7 +23,10 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
       this.id = name.toLowerCase();
       this.index = index;
       // fix functions when loading from JSON
-      Object.assign(this, God[name]);
+      const godDef = God[name];
+      if (godDef) {
+        Object.assign(this, { unitPrice: godDef.unitPrice });
+      }
     }
     init() {
       return this.copy({
@@ -132,7 +135,7 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
     }
 
     // private
-    copy(params) {
+    copy(params = {}) {
       return new God(Object.assign({}, this, params));
     }
   }
