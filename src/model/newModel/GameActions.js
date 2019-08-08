@@ -89,7 +89,7 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       return result;
     }
     canDo({ actionType, game }) {
-      return this.getPossibleActionTypes({ game }).indexOf(actionType !== -1);
+      return this.getPossibleActionTypes({ game }).indexOf(actionType) !== -1;
     }
   };
 };
