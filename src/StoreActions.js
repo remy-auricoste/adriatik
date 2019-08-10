@@ -1,12 +1,15 @@
 module.exports = function(GameActions, storeCommands, store, commandHandler) {
   const gameActions = new GameActions();
   class StoreActions {
+    resetSelection() {
+      storeCommands.set("selection", {});
+    }
     selectAction(actionType) {
       const {
         selection: { actionType: selectedActionType }
       } = store.getState();
       const isSelectedActionType = selectedActionType === actionType;
-      storeCommands.set("selection", {});
+      this.resetSelection();
       storeCommands.set(
         "selection.actionType",
         isSelectedActionType ? undefined : actionType
@@ -33,6 +36,7 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
           params[paramName] = args[index].id;
         });
         const command = gameActions.commands()[actionType](params);
+        storeCommands.set("selection.args", []);
         commandHandler({ command });
       }
     }

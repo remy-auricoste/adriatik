@@ -6,6 +6,7 @@ const XMap = require("./XMap");
 const XMapCounter = require("./XMapCounter");
 const XOverlay = require("./XOverlay");
 const XPanel = require("./XPanel");
+const XPastille = require("./XPastille");
 const XPlayerIcon = require("./XPlayerIcon");
 const XPlayerPanel = require("./XPlayerPanel");
 const XPossibleAction = require("./XPossibleAction");
@@ -22,6 +23,7 @@ XMap,
 XMapCounter,
 XOverlay,
 XPanel,
+XPastille,
 XPlayerIcon,
 XPlayerPanel,
 XPossibleAction,

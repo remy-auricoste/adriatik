@@ -1,5 +1,6 @@
-module.exports = function(XIcon) {
+module.exports = function(XIcon, XPastille) {
   return ({ fileName, value }) => {
+    const withPastille = value !== 1;
     return (
       <div
         className="XMapCounter"
@@ -8,7 +9,9 @@ module.exports = function(XIcon) {
           pointerEvents: "unset"
         }}
       >
-        <XIcon size={30} fileName={fileName} text={value} />
+        <XPastille value={value} display={withPastille}>
+          <XIcon size={30} fileName={fileName} />
+        </XPastille>
       </div>
     );
   };

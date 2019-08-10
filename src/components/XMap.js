@@ -69,8 +69,6 @@ module.exports = function(
         </svg>
         {territories.map((territory, territoryIndex) => {
           const { buildings } = territory;
-          const ownerId = territory.getOwner();
-          const ownerColor = "red"; // TODO
           var groupedUnits = Arrays.groupBy(territory.units, unit => {
             return unit.type.id + "_" + unit.ownerId;
           });
@@ -94,7 +92,6 @@ module.exports = function(
               {Object.keys(groupedUnits).map(key => {
                 var unitGroup = groupedUnits[key];
                 var firstUnit = unitGroup[0];
-                var color = "red";
                 return (
                   <XMapCounter
                     key={key}
