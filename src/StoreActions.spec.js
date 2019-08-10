@@ -18,5 +18,25 @@ describe("StoreActions class", () => {
         StoreActions.isSelectionReady({ actionType: "build", args: [] })
       ).to.equal(false);
     });
+    it("should return true", () => {
+      expect(
+        StoreActions.isSelectionReady({ actionType: "buyGodCard" })
+      ).to.equal(true);
+      expect(
+        StoreActions.isSelectionReady({ actionType: "buyGodCard", args: [] })
+      ).to.equal(true);
+      expect(
+        StoreActions.isSelectionReady({
+          actionType: "build",
+          args: [territory]
+        })
+      ).to.equal(true);
+      expect(
+        StoreActions.isSelectionReady({
+          actionType: "buyUnit",
+          args: [territory]
+        })
+      ).to.equal(true);
+    });
   });
 });

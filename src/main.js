@@ -24,7 +24,9 @@ const {
   mapGenerator,
   Territory,
   Account,
-  Room
+  Room,
+  storeCommands,
+  store
 } = injector.resolveAll();
 
 const template = `

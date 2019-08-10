@@ -1,4 +1,4 @@
-module.exports = function(GameActions, storeCommands, store) {
+module.exports = function(GameActions, storeCommands, store, commandHandler) {
   const gameActions = new GameActions();
   class StoreActions {
     selectAction(actionType) {
@@ -11,6 +11,7 @@ module.exports = function(GameActions, storeCommands, store) {
         "selection.actionType",
         isSelectedActionType ? undefined : actionType
       );
+      this.checkSelection();
     }
     select(entity) {
       const {
@@ -19,15 +20,38 @@ module.exports = function(GameActions, storeCommands, store) {
       if (actionType) {
         storeCommands.push("selection.args", entity);
       }
+      this.checkSelection();
     }
-    isSelectionReady({ actionType, args }) {
+    checkSelection() {
+      const { selection } = store.getState();
+      if (this.isSelectionReady(selection)) {
+        const { actionType, args = [] } = selection;
+        const argsTypings = gameActions.getActionCommandTypings()[actionType];
+        const params = {};
+        argsTypings.forEach((typing, index) => {
+          const paramName = typing.toLowerCase() + "Id";
+          params[paramName] = args[index].id;
+        });
+        const command = gameActions.commands()[actionType](params);
+        commandHandler({ command });
+      }
+    }
+    isSelectionReady(selection) {
+      if (!selection) {
+        return false;
+      }
+      const { actionType, args = [] } = selection;
       if (!actionType) {
         return false;
       }
       const argsTypings = gameActions.getActionCommandTypings()[actionType];
-      if (argsTypings.length !== args.length) {
+      if (args.length !== argsTypings.length) {
         return false;
       }
+      const areAllTypesOk = argsTypings.every(
+        (typing, index) => typing === args[index].constructor.name
+      );
+      return areAllTypesOk;
     }
   }
   return new StoreActions();

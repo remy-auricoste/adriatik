@@ -41,22 +41,10 @@ injector.addAll(battleIndex);
 const roomIndex = require("./model/room/index");
 injector.addAll(roomIndex);
 
-const commandHandler = ({ command }) => {
-  let { game } = store.getState();
-  game = command.apply(game);
-  if (game.constructor !== Promise) {
-    game = Promise.resolve(game);
-  }
-  game.then(game => {
-    storeCommands.set("game", game);
-    localStorage.game = JSON.stringify(game);
-  });
-};
-
 injector.addAll({
   Tile: require("./model/tools/Tile"),
   mapGenerator: require("./services/mapGenerator"),
-  commandHandler
+  commandHandler: require("./commandHandler")
 });
 
 module.exports = injector;

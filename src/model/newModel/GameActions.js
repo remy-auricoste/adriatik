@@ -40,7 +40,17 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
     }
     build({ game, territoryId }) {
       const territory = game.getEntityById(territoryId);
+      if (!territory) {
+        throw new Error(
+          `dev error : could not find territory with id=${territoryId}`
+        );
+      }
       const { player, god } = game.getCurrentPlayerAndGod();
+      if (territory.getOwner() !== player.id) {
+        throw new Error(
+          `Vous ne pouvez construire que sur des territoires que vous contrôlez`
+        );
+      }
       const result = god.build({ player, territory });
       return game.updateAll(result);
     }
@@ -72,7 +82,7 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       if (turn === 1) {
         return ["initUnit"];
       }
-      const { god } = game.getCurrentGod();
+      const god = game.getCurrentGod();
       const isCeres = Ceres.id === god.id;
       const result = ["pass"];
       if (isCeres) {
