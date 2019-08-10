@@ -7,14 +7,16 @@ require("./model/natif/Strings");
 
 const injector = require("./injects");
 
+const components = require("./components/index");
+injector.addAll(components);
+
 Object.assign(window, {
   React,
   ReactDOM,
   injector
 });
 
-const components = require("./components/index");
-injector.addAll(components);
+console.log(injector.resolveAll());
 
 const {
   Game,

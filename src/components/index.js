@@ -16,23 +16,24 @@ const XRoot = require("./XRoot");
 const XSesterces = require("./XSesterces");
 const XSnackbar = require("./XSnackbar");
 const XTooltip = require("./XTooltip");
-module.exports = {
-svg,
-XBidPanel,
-XGodCard,
-XIcon,
-XItemPrice,
-XMap,
-XMapCounter,
-XOverlay,
-XPanel,
-XPastille,
-XPlayerIcon,
-XPlayerPanel,
-XPossibleAction,
-XReset,
-XRoot,
-XSesterces,
-XSnackbar,
-XTooltip
+const jsDeps = {
+	XBidPanel,
+	XGodCard,
+	XIcon,
+	XItemPrice,
+	XMap,
+	XMapCounter,
+	XOverlay,
+	XPanel,
+	XPastille,
+	XPlayerIcon,
+	XPlayerPanel,
+	XPossibleAction,
+	XReset,
+	XRoot,
+	XSesterces,
+	XSnackbar,
+	XTooltip
 }
+
+module.exports = Object.assign({}, jsDeps, svg)

@@ -21,28 +21,29 @@ const Territory = require("./Territory");
 const TerritoryType = require("./TerritoryType");
 const Unit = require("./Unit");
 const UnitType = require("./UnitType");
-module.exports = {
-battle,
-ActionBuilder,
-Bid,
-BidsState,
-Building,
-CreatureCard,
-CreatureMarket,
-DataTest,
-Dice,
-FiniteStateMachine,
-FirstTurnActions,
-Game,
-GameActions,
-GameSettings,
-God,
-GodCard,
-PhaseAction,
-PhaseBid,
-Player,
-Territory,
-TerritoryType,
-Unit,
-UnitType
+const jsDeps = {
+	ActionBuilder,
+	Bid,
+	BidsState,
+	Building,
+	CreatureCard,
+	CreatureMarket,
+	DataTest,
+	Dice,
+	FiniteStateMachine,
+	FirstTurnActions,
+	Game,
+	GameActions,
+	GameSettings,
+	God,
+	GodCard,
+	PhaseAction,
+	PhaseBid,
+	Player,
+	Territory,
+	TerritoryType,
+	Unit,
+	UnitType
 }
+
+module.exports = Object.assign({}, jsDeps, battle)

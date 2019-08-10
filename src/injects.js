@@ -1,14 +1,21 @@
+const isTest = typeof window === "undefined";
 const libs = require("./libs");
 
-const isTest = typeof window === "undefined";
+const React = libs["react"];
+const ReactDOM = libs["react-dom"];
 
-const RandomReaderAsync = require("./services/RandomReaderAsync");
-const libRandom = libs["rauricoste-random"];
-const Random = isTest ? libRandom.zero : libRandom.simple;
-const randomReaderAsync = RandomReaderAsync(Random);
+!isTest &&
+  Object.assign(window, {
+    React,
+    ReactDOM
+  });
 
 const Injector = require("./Injector");
 const injector = new Injector();
+
+const libRandom = libs["rauricoste-random"];
+const Random = isTest ? libRandom.zero : libRandom.simple;
+injector.add("randomReader", Random);
 
 const libRenames = {
   "rauricoste-arrays": "Arrays",
@@ -27,24 +34,11 @@ const Store = libs["rauricoste-store-sync"];
 const store = new Store();
 const storeCommands = store.getCommandEmitter();
 injector.addAll({
-  randomReaderAsync,
   store,
   storeCommands
 });
 
-const newModelIndex = require("./model/newModel/index");
-injector.addAll(newModelIndex);
-const battleIndex = require("./model/newModel/battle/index");
-injector.addAll(battleIndex);
-const roomIndex = require("./model/room/index");
-injector.addAll(roomIndex);
-const actionsIndex = require("./actions/index");
-injector.addAll(actionsIndex);
-
-injector.addAll({
-  Tile: require("./model/tools/Tile"),
-  mapGenerator: require("./services/mapGenerator"),
-  commandHandler: require("./commandHandler")
-});
+const index = require("./index");
+injector.addAll(index);
 
 module.exports = injector;

@@ -5,7 +5,7 @@ module.exports = function(
   BidsState,
   PhaseBid,
   PhaseAction,
-  randomReaderAsync,
+  RandomReaderAsync,
   Building,
   Player,
   God,
@@ -70,7 +70,7 @@ module.exports = function(
     async start() {
       const game = this;
       const { players } = game;
-      const newPlayers = await randomReaderAsync.shuffle(players);
+      const newPlayers = await RandomReaderAsync.shuffle(players);
       const newGame = game.copy({
         players: newPlayers
       });

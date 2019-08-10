@@ -1,15 +1,15 @@
-module.exports = function(God, randomReaderAsync) {
+module.exports = function(God, RandomReaderAsync) {
   const { Ceres } = God;
   return class PhaseBid {
     async start({ game }) {
       const { turn, players, creatureMarket, settings, bidState } = game;
       const normalGods = settings.gods.filter(god => god.id !== Ceres.id);
-      const godPromise = randomReaderAsync
-        .shuffle(normalGods)
-        .then(shuffled => {
+      const godPromise = RandomReaderAsync.shuffle(normalGods).then(
+        shuffled => {
           const newGods = shuffled.slice(0, players.length - 1).concat([Ceres]);
           return newGods.map((god, index) => god.copy({ index }).init());
-        });
+        }
+      );
       const newPlayers =
         turn === 1
           ? players

@@ -1,4 +1,6 @@
 const SvgDuration = require("./SvgDuration");
-module.exports = {
-SvgDuration
+const jsDeps = {
+	SvgDuration
 }
+
+module.exports = Object.assign({}, jsDeps, )

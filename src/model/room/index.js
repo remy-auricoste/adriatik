@@ -1,6 +1,8 @@
 const Account = require("./Account");
 const Room = require("./Room");
-module.exports = {
-Account,
-Room
+const jsDeps = {
+	Account,
+	Room
 }
+
+module.exports = Object.assign({}, jsDeps, )

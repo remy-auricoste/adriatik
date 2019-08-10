@@ -1,6 +1,6 @@
 const baseCreatureCosts = [4, 3, 2];
 
-module.exports = function(randomReaderAsync, CreatureCard) {
+module.exports = function(RandomReaderAsync, CreatureCard) {
   return class CreatureMarket {
     constructor({
       creaturesDraw,
@@ -31,7 +31,7 @@ module.exports = function(randomReaderAsync, CreatureCard) {
       let newDisplay = creaturesDisplay.concat([]);
       newDisplay[2] = null;
       newDisplay = newDisplay.filter(creature => !!creature);
-      return randomReaderAsync.shuffle(creaturesDraw).then(shuffledDraw => {
+      return RandomReaderAsync.shuffle(creaturesDraw).then(shuffledDraw => {
         const toDrawCount = wantedCount - newDisplay.length;
         return this.copy({
           creaturesDisplay: shuffledDraw

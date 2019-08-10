@@ -1,6 +1,6 @@
-module.exports = function(randomReaderAsync) {
+module.exports = function(RandomReaderAsync) {
   return async () => {
-    const index = await randomReaderAsync.nextInt(0, 5);
+    const index = await RandomReaderAsync.nextInt(0, 5);
     return [0, 1, 1, 2, 2, 3][index];
   };
 };

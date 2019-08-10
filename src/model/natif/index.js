@@ -1,6 +1,8 @@
 const Errors = require("./Errors");
 const Strings = require("./Strings");
-module.exports = {
-Errors,
-Strings
+const jsDeps = {
+	Errors,
+	Strings
 }
+
+module.exports = Object.assign({}, jsDeps, )

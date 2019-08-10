@@ -2,7 +2,7 @@
   "name": "adriatik",
   "version": "0.0.1",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --require './src/tests' 'src/**/*.spec.js'",
+    "test": "./node_modules/mocha/bin/mocha --require './src/test' 'src/**/*.spec.js'",
     "dev": "./startSocketServer.sh & npm start",
     "start": "./node_modules/rauricoste-web-builder/bin/reactWatch.js config.json"
   },

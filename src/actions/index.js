@@ -1,6 +1,8 @@
 const MessageActions = require("./MessageActions");
 const SelectionActions = require("./SelectionActions");
-module.exports = {
-MessageActions,
-SelectionActions
+const jsDeps = {
+	MessageActions,
+	SelectionActions
 }
+
+module.exports = Object.assign({}, jsDeps, )
