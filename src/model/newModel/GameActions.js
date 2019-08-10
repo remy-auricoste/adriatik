@@ -72,7 +72,7 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       if (turn === 1) {
         return ["initUnit"];
       }
-      const { player, god } = game.getCurrentPlayerAndGod();
+      const { god } = game.getCurrentGod();
       const isCeres = Ceres.id === god.id;
       const result = ["pass"];
       if (isCeres) {
@@ -87,6 +87,13 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       // TODO move and retreat
       result.push("build");
       return result;
+    }
+    getActionCommandTypings() {
+      return {
+        buyUnit: ["Territory"],
+        buyGodCard: [],
+        build: ["Territory"]
+      };
     }
     canDo({ actionType, game }) {
       return this.getPossibleActionTypes({ game }).indexOf(actionType) !== -1;

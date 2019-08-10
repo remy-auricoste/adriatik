@@ -1,6 +1,3 @@
-const Injector = require("../../Injector");
-const injector = Injector.instance;
-
 const {
   Building,
   DataTest,

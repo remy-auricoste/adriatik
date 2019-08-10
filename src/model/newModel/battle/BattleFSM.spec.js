@@ -1,6 +1,3 @@
-const Injector = require("../../../Injector");
-const injector = Injector.instance;
-
 const { DataTest, BattleFSM, Battle } = injector.resolveAll();
 
 const { legionnaire, player } = DataTest;

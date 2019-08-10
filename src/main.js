@@ -5,12 +5,7 @@ const ReactDOM = libs["react-dom"];
 require("./model/natif/Errors");
 require("./model/natif/Strings");
 
-const RandomReaderAsync = require("./services/RandomReaderAsync");
-const Random = libs["rauricoste-random"].simple;
-const randomReaderAsync = RandomReaderAsync(Random);
-
-const Injector = require("./Injector");
-const injector = new Injector();
+const injector = require("./injects");
 
 Object.assign(window, {
   React,
@@ -18,47 +13,8 @@ Object.assign(window, {
   injector
 });
 
-Injector.instance = injector;
-
-const Store = libs["rauricoste-store-sync"];
-const store = new Store();
-const storeCommands = store.getCommandEmitter();
-injector.addAll({
-  randomReaderAsync,
-  Arrays: libs["rauricoste-arrays"],
-  Commandify: libs["rauricoste-commandify"],
-  Logger: libs["rauricoste-logger"],
-  Request: libs["rauricoste-request"],
-  store,
-  storeCommands
-});
-
 const components = require("./components/index");
 injector.addAll(components);
-const newModelIndex = require("./model/newModel/index");
-injector.addAll(newModelIndex);
-const battleIndex = require("./model/newModel/battle/index");
-injector.addAll(battleIndex);
-const roomIndex = require("./model/room/index");
-injector.addAll(roomIndex);
-
-const commandHandler = ({ command }) => {
-  let { game } = store.getState();
-  game = command.apply(game);
-  if (game.constructor !== Promise) {
-    game = Promise.resolve(game);
-  }
-  game.then(game => {
-    storeCommands.set("game", game);
-    localStorage.game = JSON.stringify(game);
-  });
-};
-
-injector.addAll({
-  Tile: require("./model/tools/Tile"),
-  mapGenerator: require("./services/mapGenerator"),
-  commandHandler
-});
 
 const {
   Game,
@@ -107,8 +63,10 @@ const game = new Game({
 
 const appElement = document.getElementById("app");
 const render = () => {
-  const { game } = store.getState();
-  console.log(game);
+  const state = store.getState();
+  const { game } = state;
+  console.log("state", state);
+  console.log("selection", state.selection);
   ReactDOM.render(<XRoot game={game} />, appElement);
 };
 
@@ -116,6 +74,7 @@ const finalGame = storedGame || game;
 storeCommands.set("game", finalGame);
 const room = new Room({ players: finalGame.players, accounts });
 storeCommands.set("room", room);
+storeCommands.set("selection", {});
 
 store.subscribe(render);
 render();

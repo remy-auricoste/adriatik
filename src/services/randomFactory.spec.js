@@ -1,4 +1,3 @@
-const injector = require("../Injector").instance;
 const { Arrays, Logger } = injector.resolveAll();
 
 const hashService = require("./hashService");

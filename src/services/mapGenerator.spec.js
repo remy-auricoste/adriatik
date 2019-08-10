@@ -1,5 +1,3 @@
-const injector = require("../Injector").instance;
-
 const { mapGenerator } = injector.resolveAll();
 
 describe("mapGenerator", () => {

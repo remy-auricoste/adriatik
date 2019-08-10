@@ -1,6 +1,3 @@
-const Injector = require("../../Injector");
-const injector = Injector.instance;
-
 const { God, Game, Player } = injector.resolveAll();
 
 describe("Game class", () => {

@@ -1,6 +1,3 @@
-const Injector = require("../../Injector");
-const injector = Injector.instance;
-
 const { BidsState, God, DataTest, GodCard } = injector.resolveAll();
 
 const { player } = DataTest;
