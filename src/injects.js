@@ -26,12 +26,10 @@ Object.keys(libRenames).forEach(libName => {
 const Store = libs["rauricoste-store-sync"];
 const store = new Store();
 const storeCommands = store.getCommandEmitter();
-const StoreActions = require("./StoreActions");
 injector.addAll({
   randomReaderAsync,
   store,
-  storeCommands,
-  StoreActions
+  storeCommands
 });
 
 const newModelIndex = require("./model/newModel/index");
@@ -40,6 +38,8 @@ const battleIndex = require("./model/newModel/battle/index");
 injector.addAll(battleIndex);
 const roomIndex = require("./model/room/index");
 injector.addAll(roomIndex);
+const actionsIndex = require("./actions/index");
+injector.addAll(actionsIndex);
 
 injector.addAll({
   Tile: require("./model/tools/Tile"),

@@ -1,8 +1,8 @@
-module.exports = function(GameActions, StoreActions, store) {
+module.exports = function(GameActions, SelectionActions, store) {
   const gameActions = new GameActions();
   return ({ actionType, game, children }) => {
     const handleClick = () => {
-      StoreActions.selectAction(actionType);
+      SelectionActions.selectAction(actionType);
     };
 
     const {

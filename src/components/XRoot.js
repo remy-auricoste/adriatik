@@ -1,4 +1,11 @@
-module.exports = function(XPlayerPanel, XBidPanel, XMap, XReset, store) {
+module.exports = function(
+  XPlayerPanel,
+  XBidPanel,
+  XMap,
+  XReset,
+  store,
+  XSnackbar
+) {
   return ({ game }) => {
     const { room } = store.getState();
     return (
@@ -29,6 +36,7 @@ module.exports = function(XPlayerPanel, XBidPanel, XMap, XReset, store) {
           <XMap game={game} />
           <XPlayerPanel game={game} room={room} />
           <XReset />
+          <XSnackbar />
         </div>
       </div>
     );

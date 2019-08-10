@@ -1,4 +1,4 @@
-module.exports = function(store, storeCommands) {
+module.exports = function(store, storeCommands, MessageActions) {
   const commandHandler = ({ command }) => {
     return Promise.resolve()
       .then(() => {
@@ -8,6 +8,9 @@ module.exports = function(store, storeCommands) {
       .then(game => {
         storeCommands.set("game", game);
         localStorage.game = JSON.stringify(game);
+      })
+      .catch(err => {
+        MessageActions.setErrorMessage(err.message);
       });
   };
   return commandHandler;

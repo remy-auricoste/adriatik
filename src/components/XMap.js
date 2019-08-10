@@ -8,7 +8,7 @@ module.exports = function(
   commandHandler,
   XMapCounter,
   store,
-  StoreActions
+  SelectionActions
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
@@ -24,7 +24,7 @@ module.exports = function(
       }
     };
     const territoryClick = territory => () => {
-      StoreActions.select(territory);
+      SelectionActions.select(territory);
       if (gameActions.canDo({ actionType: "initUnit", game })) {
         const command = commands.initUnit({ territoryId: territory.id });
         commandHandler({ command });

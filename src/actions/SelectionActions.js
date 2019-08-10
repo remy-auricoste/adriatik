@@ -1,6 +1,8 @@
 module.exports = function(GameActions, storeCommands, store, commandHandler) {
   const gameActions = new GameActions();
-  class StoreActions {
+  storeCommands.set("selection", {});
+
+  class SelectionActions {
     resetSelection() {
       storeCommands.set("selection", {});
     }
@@ -62,5 +64,5 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
       return areAllTypesOk;
     }
   }
-  return new StoreActions();
+  return new SelectionActions();
 };

@@ -76,7 +76,6 @@ const finalGame = storedGame || game;
 storeCommands.set("game", finalGame);
 const room = new Room({ players: finalGame.players, accounts });
 storeCommands.set("room", room);
-storeCommands.set("selection", {});
 
 store.subscribe(render);
 render();

@@ -13,6 +13,7 @@ const XPossibleAction = require("./XPossibleAction");
 const XReset = require("./XReset");
 const XRoot = require("./XRoot");
 const XSesterces = require("./XSesterces");
+const XSnackbar = require("./XSnackbar");
 const XTooltip = require("./XTooltip");
 module.exports = {
 XBidPanel,
@@ -30,5 +31,6 @@ XPossibleAction,
 XReset,
 XRoot,
 XSesterces,
+XSnackbar,
 XTooltip
 }
