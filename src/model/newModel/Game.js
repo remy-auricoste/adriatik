@@ -197,18 +197,3 @@ module.exports = function(
     }
   };
 };
-
-// module.exports = class Game {
-//   resolveBattle(player, battle, options) {
-//       const result = player.resolveBattle(battle, options);
-//       if (result === true) {
-//         this.currentBattle = null;
-//       } else if(result) {
-//         return result.then(function(battle) {
-//           logger.info("setting new battle", battle);
-//           this.currentBattle = battle;
-//           return battle;
-//         });
-//       }
-//   },
-//

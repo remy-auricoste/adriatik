@@ -18,6 +18,14 @@ module.exports = function(God) {
     }
     async end({ game }) {
       const { turn } = game;
+      const { player, god } = game.getCurrentPlayerAndGod();
+      if (god.id === God.Ceres.id && turn !== 1) {
+        const territoriesOwnedCount = game.getTerritoriesForPlayer(player)
+          .length;
+        const earntGold = territoriesOwnedCount > 1 ? 1 : 4;
+        const newPlayer = player.copy({ gold: player.gold + earntGold });
+        game = game.updateAll({ player: newPlayer });
+      }
       return game.copy({
         turn: turn + 1
       });

@@ -167,4 +167,28 @@ describe("GameActions class", () => {
         });
     });
   });
+  describe("pass", () => {
+    it("should add 1 sesterce to Ceres player", () => {
+      return initGame({ withTurn1: true })
+        .then(game => {
+          expect(game.turn).to.equal(2);
+          expect(game.getEntityById(player1.id).gold).to.equal(9); // +2 from territories
+          expect(game.getEntityById(player2.id).gold).to.equal(8); // -1 from bid, +2 from territories
+          return game;
+        })
+        .then(doSimpleBids)
+        .then(game => {
+          expect(game.getEntityById(player1.id).gold).to.equal(9);
+          expect(game.getEntityById(player2.id).gold).to.equal(7); // -1 from bid
+          game = commands.pass().apply(game);
+          game = commands.pass().apply(game);
+          return game;
+        })
+        .then(game => {
+          expect(game.turn).to.equal(3);
+          expect(game.getEntityById(player1.id).gold).to.equal(12); // +2 from territories, +1 from Ceres
+          expect(game.getEntityById(player2.id).gold).to.equal(9); // +2 from territories
+        });
+    });
+  });
 });
