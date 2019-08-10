@@ -5,7 +5,8 @@ module.exports = function(XTooltip, XOverlay) {
     tooltip = "",
     text = "",
     withOverlay = false,
-    overlayProps = {}
+    overlayProps = {},
+    textProps = {}
   }) => {
     return (
       <XTooltip title={tooltip} display={!!tooltip}>
@@ -25,16 +26,20 @@ module.exports = function(XTooltip, XOverlay) {
           </XOverlay>
           {text && (
             <p
-              style={{
-                position: "absolute",
-                top: 0,
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                pointerEvents: "none"
-              }}
+              style={Object.assign(
+                {},
+                {
+                  position: "absolute",
+                  top: 0,
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  pointerEvents: "none"
+                },
+                textProps
+              )}
             >
               {text}
             </p>

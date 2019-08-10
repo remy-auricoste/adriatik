@@ -10,7 +10,8 @@ module.exports = function(
   XSesterces,
   XPossibleAction,
   XPlayerIcon,
-  commandHandler
+  commandHandler,
+  XIcon
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
@@ -70,6 +71,7 @@ module.exports = function(
                   Arrays.seq(0, maxPossibleBid).map(index => {
                     const gold = index + 1;
                     const isPossibleBid = gold > bidGoldCount;
+                    const isCurrentBid = gold === bidGoldCount;
                     return (
                       <XTooltip
                         key={index}
@@ -80,19 +82,31 @@ module.exports = function(
                       >
                         <div
                           style={{
-                            backgroundColor:
-                              gold === bidGoldCount ? color : "transparent",
+                            backgroundColor: isCurrentBid
+                              ? color
+                              : "transparent",
                             borderRadius: "10em",
-                            border:
-                              gold < bidGoldCount ? "solid 1px black" : "none",
+                            border: isCurrentBid ? "solid 1px black" : "none",
                             width: coinSize,
-                            height: coinSize
+                            height: coinSize,
+                            cursor: isPossibleBid ? "pointer" : "default"
                           }}
                           onClick={() => {
                             isPossibleBid && handleBid(god, gold);
                           }}
                         >
-                          {isPossibleBid && <img src="/images/sesterce.png" />}
+                          {!isCurrentBid && (
+                            <XIcon
+                              fileName="sesterce"
+                              withOverlay={!isPossibleBid}
+                              size={coinSize}
+                              text={isPossibleBid ? "" : gold}
+                              overlayProps={{
+                                color: "white",
+                                percentage: 0.6
+                              }}
+                            />
+                          )}
                         </div>
                       </XTooltip>
                     );
