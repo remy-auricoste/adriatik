@@ -1,3 +1,4 @@
+const battle = require("./battle/index");
 const ActionBuilder = require("./ActionBuilder");
 const Bid = require("./Bid");
 const BidsState = require("./BidsState");
@@ -21,6 +22,7 @@ const TerritoryType = require("./TerritoryType");
 const Unit = require("./Unit");
 const UnitType = require("./UnitType");
 module.exports = {
+battle,
 ActionBuilder,
 Bid,
 BidsState,

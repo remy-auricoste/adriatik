@@ -1,3 +1,4 @@
+const svg = require("./svg/index");
 const XBidPanel = require("./XBidPanel");
 const XGodCard = require("./XGodCard");
 const XIcon = require("./XIcon");
@@ -16,6 +17,7 @@ const XSesterces = require("./XSesterces");
 const XSnackbar = require("./XSnackbar");
 const XTooltip = require("./XTooltip");
 module.exports = {
+svg,
 XBidPanel,
 XGodCard,
 XIcon,
