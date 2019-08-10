@@ -1,5 +1,5 @@
 module.exports = function(XSesterces, XIcon) {
-  return ({ price, iconName, name }) => {
+  return ({ price, iconName, name, buyable = true }) => {
     return (
       <div
         className="XItemPrice"
@@ -7,7 +7,12 @@ module.exports = function(XSesterces, XIcon) {
           display: "flex"
         }}
       >
-        <XIcon fileName={iconName} size={30} tooltip={name} />
+        <XIcon
+          fileName={iconName}
+          size={30}
+          tooltip={name}
+          withOverlay={!buyable}
+        />
         <XSesterces number={price} />
       </div>
     );

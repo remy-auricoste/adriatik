@@ -40,12 +40,15 @@ module.exports = function(
           const { color } = room.getAccountByPlayerId(player.id);
 
           const renderedUnitPrices = unitPrices.map((price, index) => {
+            const { unitBuyCount } = god;
+            const isBought = unitBuyCount > index;
             return (
               <XItemPrice
                 key={index}
                 price={price}
                 iconName={god.unitType.id}
                 name={god.unitType.label}
+                buyable={!isBought}
               />
             );
           });
@@ -110,11 +113,13 @@ module.exports = function(
                 </XTooltip>
                 {(god.unitType && unitPrices.length && (
                   <XPossibleAction actionType="buyUnit" game={game}>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      {renderedUnitPrices.slice(0, 2)}
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      {renderedUnitPrices.slice(2, 4)}
+                    <div style={{ display: "flex" }}>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {renderedUnitPrices.slice(0, 2)}
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {renderedUnitPrices.slice(2, 4)}
+                      </div>
                     </div>
                   </XPossibleAction>
                 )) ||
@@ -123,12 +128,15 @@ module.exports = function(
                   <XPossibleAction actionType="buyGodCard" game={game}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       {god.cardPrice.map((price, index) => {
+                        const { cardBuyCount } = god;
+                        const isBought = cardBuyCount > index;
                         return (
                           <XItemPrice
                             key={index}
                             price={price}
                             iconName={god.card.id}
                             name={god.card.label}
+                            buyable={!isBought}
                           />
                         );
                       })}

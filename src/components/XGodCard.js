@@ -1,10 +1,10 @@
-module.exports = function(XTooltip, Arrays) {
+module.exports = function(XTooltip, Arrays, XIcon) {
   return ({ count, label, imageName }) => {
     return (
       <XTooltip title={`${count} ${label}(s)`}>
-        <div>
+        <div style={{ display: "flex" }}>
           {Arrays.seq(0, count).map(i => {
-            return <img key={i} src={`/images/${imageName}`} />;
+            return <XIcon key={i} fileName={imageName} size={30} />;
           })}
         </div>
       </XTooltip>

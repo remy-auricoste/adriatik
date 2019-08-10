@@ -36,7 +36,11 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
           params[paramName] = args[index].id;
         });
         const command = gameActions.commands()[actionType](params);
-        storeCommands.set("selection.args", []);
+        if (!args.length) {
+          this.resetSelection();
+        } else {
+          storeCommands.set("selection.args", []);
+        }
         commandHandler({ command });
       }
     }

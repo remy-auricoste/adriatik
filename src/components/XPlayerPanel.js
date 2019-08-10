@@ -39,12 +39,12 @@ module.exports = function(XSesterces, XGodCard, XPanel, XPlayerIcon) {
                   <XGodCard
                     count={player.getPriests()}
                     label="prêtre"
-                    imageName="priest.png"
+                    imageName="priest"
                   />
                   <XGodCard
                     count={player.getPhilosophers()}
                     label="philosophe"
-                    imageName="philosopher.png"
+                    imageName="philosopher"
                   />
                 </div>
               </div>
