@@ -25,7 +25,8 @@ module.exports = function(XSesterces, XGodCard, XPanel, XPlayerIcon) {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-evenly",
-                  backgroundColor: "lightgrey"
+                  backgroundColor: "lightgrey",
+                  pointerEvents: "auto"
                 }}
               >
                 <XPlayerIcon playerId={player.id} />

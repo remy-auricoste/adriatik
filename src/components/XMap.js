@@ -15,6 +15,14 @@ module.exports = function(
   const { sea } = TerritoryType;
   return ({ game }) => {
     const [territoryOver, setTerritoryOver] = useState(null);
+
+    const { room } = store.getState();
+    const { territories } = game;
+    const {
+      player: currentPlayer,
+      god: currentGod
+    } = game.getCurrentPlayerAndGod();
+
     const territoryMouseOver = territory => () => {
       setTerritoryOver(territory);
     };
@@ -30,9 +38,15 @@ module.exports = function(
         commandHandler({ command });
       }
     };
+    const handleClickUnit = (unitKind, valid) => {
+      if (!valid) {
+        return;
+      }
+      return () => {
+        console.log("click", unitKind);
+      };
+    };
 
-    const { room } = store.getState();
-    const { territories } = game;
     return (
       <div className="XMap">
         <svg width="100%" height={window.innerHeight}>
@@ -42,8 +56,6 @@ module.exports = function(
               const isNeighbour =
                 territoryOver && territory.isNextTo(territoryOver);
               const changeColor = isOver || isNeighbour;
-              const ownerId = territory.getOwner();
-              const account = ownerId && room.getAccountByPlayerId(ownerId);
               const isSea = territory.type === sea;
               const defaultColor = isSea
                 ? changeColor
@@ -96,12 +108,20 @@ module.exports = function(
                 var unitGroup = groupedUnits[key];
                 var firstUnit = unitGroup[0];
                 const { color } = room.getAccountByPlayerId(firstUnit.ownerId);
+                const { ownerId, type: unitType } = firstUnit;
+                const isCurrentPlayerUnit = currentPlayer.id === ownerId;
+                const isMovable =
+                  isCurrentPlayerUnit &&
+                  currentGod &&
+                  currentGod.unitType &&
+                  unitType.id === currentGod.unitType.id;
                 return (
                   <XMapCounter
                     key={key}
                     fileName={firstUnit.type.id}
                     value={unitGroup.length}
                     color={color}
+                    onClick={handleClickUnit(firstUnit, isMovable)}
                   />
                 );
               })}

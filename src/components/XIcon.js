@@ -22,15 +22,21 @@ module.exports = function(
     overlayProps = {},
     textProps = {},
     color = "black",
-    svgProps = {}
+    svgProps = {},
+    borderColor
   }) => {
     const mappedSvg = svgMapping[fileName];
+    const borderWidth = borderColor ? 2 : 0;
     return (
       <XTooltip title={tooltip} display={!!tooltip}>
         <div
           style={{
-            width: size,
-            height: size
+            width: size + borderWidth * 2,
+            height: size + borderWidth * 2,
+            borderRadius: "10em",
+            borderStyle: "solid",
+            borderWidth,
+            borderColor
           }}
         >
           <XOverlay {...overlayProps} display={withOverlay}>

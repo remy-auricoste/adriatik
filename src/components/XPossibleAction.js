@@ -16,7 +16,8 @@ module.exports = function(GameActions, SelectionActions, store) {
         style={{
           border: canDo ? "solid 1px green" : "none",
           cursor: canDo ? "pointer" : "default",
-          borderColor: isSelectedAction ? "yellow" : "green"
+          borderColor: isSelectedAction ? "yellow" : "green",
+          pointerEvents: canDo ? "auto" : "none"
         }}
         onClick={handleClick}
       >
