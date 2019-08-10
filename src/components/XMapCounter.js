@@ -8,7 +8,6 @@ module.exports = function(XIcon, XPastille) {
       <div
         className="XMapCounter"
         style={{
-          display: value ? "block" : "none",
           pointerEvents: "unset"
         }}
       >

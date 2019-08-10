@@ -10,7 +10,8 @@ module.exports = function(XSesterces, XGodCard, XPanel, XPlayerIcon) {
           bottom: 0,
           display: "flex",
           width: "100%",
-          justifyContent: "space-evenly"
+          justifyContent: "space-evenly",
+          pointerEvents: "none"
         }}
       >
         {players.map((player, index) => {
