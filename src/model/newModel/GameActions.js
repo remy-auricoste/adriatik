@@ -102,7 +102,8 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       return {
         buyUnit: ["Territory"],
         buyGodCard: [],
-        build: ["Territory"]
+        build: ["Territory"],
+        pass: []
       };
     }
     canDo({ actionType, game }) {

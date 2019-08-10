@@ -1,4 +1,4 @@
-const RandomReaderAsync = function(randomReader) {
+module.exports = function(randomReader) {
   var randomReaderAsync = {};
   for (var key in randomReader) {
     var value = randomReader[key];
@@ -16,5 +16,3 @@ const RandomReaderAsync = function(randomReader) {
   }
   return randomReaderAsync;
 };
-
-module.exports = RandomReaderAsync;

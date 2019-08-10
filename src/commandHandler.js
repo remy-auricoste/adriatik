@@ -10,6 +10,7 @@ module.exports = function(store, storeCommands, MessageActions) {
         localStorage.game = JSON.stringify(game);
       })
       .catch(err => {
+        console.error(err);
         MessageActions.setErrorMessage(err.message);
       });
   };

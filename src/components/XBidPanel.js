@@ -11,7 +11,8 @@ module.exports = function(
   XPossibleAction,
   XPlayerIcon,
   commandHandler,
-  XIcon
+  XIcon,
+  SvgDuration
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
@@ -68,49 +69,51 @@ module.exports = function(
             >
               <div className="gold-container" style={{ display: "flex" }}>
                 {isPhaseBid &&
-                  Arrays.seq(0, maxPossibleBid).map(index => {
-                    const gold = index + 1;
-                    const isPossibleBid = gold > bidGoldCount;
-                    const isCurrentBid = gold === bidGoldCount;
-                    return (
-                      <XTooltip
-                        key={index}
-                        title={`${
-                          isCeres ? "Gagner" : "Miser"
-                        } ${gold} sesterce(s)`}
-                        display={isPossibleBid}
-                      >
-                        <div
-                          style={{
-                            backgroundColor: isCurrentBid
-                              ? color
-                              : "transparent",
-                            borderRadius: "10em",
-                            border: isCurrentBid ? "solid 1px black" : "none",
-                            width: coinSize,
-                            height: coinSize,
-                            cursor: isPossibleBid ? "pointer" : "default"
-                          }}
-                          onClick={() => {
-                            isPossibleBid && handleBid(god, gold);
-                          }}
+                  Arrays.seq(0, Math.max(maxPossibleBid, bidGoldCount)).map(
+                    index => {
+                      const gold = index + 1;
+                      const isPossibleBid = gold > bidGoldCount;
+                      const isCurrentBid = gold === bidGoldCount;
+                      return (
+                        <XTooltip
+                          key={index}
+                          title={`${
+                            isCeres ? "Gagner" : "Miser"
+                          } ${gold} sesterce(s)`}
+                          display={isPossibleBid}
                         >
-                          {!isCurrentBid && (
-                            <XIcon
-                              fileName="sesterce"
-                              withOverlay={!isPossibleBid}
-                              size={coinSize}
-                              text={isPossibleBid ? "" : gold}
-                              overlayProps={{
-                                color: "white",
-                                percentage: 0.6
-                              }}
-                            />
-                          )}
-                        </div>
-                      </XTooltip>
-                    );
-                  })}
+                          <div
+                            style={{
+                              backgroundColor: isCurrentBid
+                                ? color
+                                : "transparent",
+                              borderRadius: "10em",
+                              border: isCurrentBid ? "solid 1px black" : "none",
+                              width: coinSize,
+                              height: coinSize,
+                              cursor: isPossibleBid ? "pointer" : "default"
+                            }}
+                            onClick={() => {
+                              isPossibleBid && handleBid(god, gold);
+                            }}
+                          >
+                            {!isCurrentBid && (
+                              <XIcon
+                                fileName="sesterce"
+                                withOverlay={!isPossibleBid}
+                                size={coinSize}
+                                text={isPossibleBid ? "" : gold}
+                                overlayProps={{
+                                  color: "white",
+                                  percentage: 0.6
+                                }}
+                              />
+                            )}
+                          </div>
+                        </XTooltip>
+                      );
+                    }
+                  )}
                 {!isPhaseBid && bid && (
                   <div style={{ display: "flex" }}>
                     <XPlayerIcon playerId={bid.playerId} />
@@ -165,6 +168,19 @@ module.exports = function(
                       name={god.building.label}
                     />
                   </XPossibleAction>
+                )}
+                {!isPhaseBid && isCurrentGod && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 10,
+                      right: 10
+                    }}
+                  >
+                    <XPossibleAction actionType="pass" game={game}>
+                      <SvgDuration size={30} color="#18b100" />
+                    </XPossibleAction>
+                  </div>
                 )}
               </div>
             </div>
