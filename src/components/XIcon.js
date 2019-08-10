@@ -1,4 +1,18 @@
-module.exports = function(XTooltip, XOverlay) {
+module.exports = function(
+  XTooltip,
+  XOverlay,
+  SvgTrieme,
+  SvgSpartanHelmet,
+  SvgDuration,
+  SvgCornucopia
+) {
+  console.log(SvgCornucopia);
+  const svgMapping = {
+    ship: SvgTrieme,
+    legionnaire: SvgSpartanHelmet,
+    duration: SvgDuration,
+    cornucopia: SvgCornucopia
+  };
   return ({
     fileName,
     size,
@@ -6,8 +20,11 @@ module.exports = function(XTooltip, XOverlay) {
     text = "",
     withOverlay = false,
     overlayProps = {},
-    textProps = {}
+    textProps = {},
+    color = "black",
+    svgProps = {}
   }) => {
+    const mappedSvg = svgMapping[fileName];
     return (
       <XTooltip title={tooltip} display={!!tooltip}>
         <div
@@ -17,12 +34,19 @@ module.exports = function(XTooltip, XOverlay) {
           }}
         >
           <XOverlay {...overlayProps} display={withOverlay}>
-            <img
-              className="XIcon"
-              src={`/images/${fileName}.png`}
-              width={size}
-              height={size}
-            />
+            {!mappedSvg && (
+              <img
+                className="XIcon"
+                src={`/images/${fileName}.png`}
+                width={size}
+                height={size}
+              />
+            )}
+            {mappedSvg &&
+              React.createElement(
+                mappedSvg,
+                Object.assign({}, svgProps, { size, color })
+              )}
           </XOverlay>
           {text && (
             <p

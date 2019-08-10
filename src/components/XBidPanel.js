@@ -178,7 +178,14 @@ module.exports = function(
                     }}
                   >
                     <XPossibleAction actionType="pass" game={game}>
-                      <SvgDuration size={30} color="#18b100" />
+                      <XIcon
+                        size={30}
+                        fileName="duration"
+                        color="#18b100"
+                        svgProps={{
+                          withShadow: true
+                        }}
+                      />
                     </XPossibleAction>
                   </div>
                 )}

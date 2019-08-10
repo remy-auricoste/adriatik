@@ -44,20 +44,19 @@ module.exports = function(
               const changeColor = isOver || isNeighbour;
               const ownerId = territory.getOwner();
               const account = ownerId && room.getAccountByPlayerId(ownerId);
-              const ownerColor = account && account.color;
               const isSea = territory.type === sea;
               const defaultColor = isSea
                 ? changeColor
-                  ? "blue"
+                  ? "#79c8e2"
                   : "lightblue"
                 : changeColor
-                ? "brown"
+                ? "#e89600"
                 : "orange";
               return (
                 <path
                   key={index}
                   d={territory.path}
-                  fill={ownerColor ? ownerColor : defaultColor}
+                  fill={defaultColor}
                   stroke="black"
                   onMouseOver={territoryMouseOver(territory)}
                   onMouseOut={territoryMouseOut(territory)}
@@ -88,15 +87,21 @@ module.exports = function(
                 pointerEvents: "none"
               }}
             >
-              <XMapCounter fileName="sesterce" value={territory.getIncome()} />
+              <XMapCounter
+                fileName="cornucopia"
+                value={territory.getIncome()}
+                color="#ece200"
+              />
               {Object.keys(groupedUnits).map(key => {
                 var unitGroup = groupedUnits[key];
                 var firstUnit = unitGroup[0];
+                const { color } = room.getAccountByPlayerId(firstUnit.ownerId);
                 return (
                   <XMapCounter
                     key={key}
                     fileName={firstUnit.type.id}
                     value={unitGroup.length}
+                    color={color}
                   />
                 );
               })}
