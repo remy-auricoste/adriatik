@@ -174,7 +174,7 @@ module.exports = function(
       return possibleNeighbours.find(territory => {
         return this.findPath({
           fromTerritory: territory,
-          toTerritorry: toTerritory,
+          toTerritory,
           isValidFct,
           currentPath: currentPath.concat([territory]),
           passedTerritories
