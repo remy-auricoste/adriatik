@@ -4,7 +4,8 @@ module.exports = ({
   color,
   backgroundColor = "white",
   withShadow = false,
-  shadowOffset = 20
+  shadowOffset = 20,
+  children
 }) => {
   return (
     <svg viewBox="0 0 512 512" style={{ width: size, height: size }}>
@@ -25,11 +26,14 @@ module.exports = ({
       )}
       <circle cx="256" cy="256" r="256" fill={backgroundColor} />
       <g>
-        <path
-          d={path}
-          fill={color}
-          filter={withShadow ? "url(#shadow-1)" : undefined}
-        />
+        {path && (
+          <path
+            d={path}
+            fill={color}
+            filter={withShadow ? "url(#shadow-1)" : undefined}
+          />
+        )}
+        {children}
       </g>
     </svg>
   );

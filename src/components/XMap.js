@@ -144,9 +144,7 @@ module.exports = function(
               })}
               {buildings &&
                 buildings.map((building, index) => {
-                  return (
-                    <XIcon fileName={building.name} size={20} key={index} />
-                  );
+                  return <XIcon fileName={building.id} size={30} key={index} />;
                 })}
             </div>
           );

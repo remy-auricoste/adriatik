@@ -11,8 +11,7 @@ module.exports = function(
   XPossibleAction,
   XPlayerIcon,
   commandHandler,
-  XIcon,
-  SvgDuration
+  XIcon
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();

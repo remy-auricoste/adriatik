@@ -17,6 +17,9 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
         isSelectedActionType ? undefined : actionType
       );
       this.checkSelection();
+      if (actionType === "pass") {
+        this.resetSelection();
+      }
     }
     select(entity) {
       const {

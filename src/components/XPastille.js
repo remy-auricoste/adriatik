@@ -17,7 +17,8 @@ module.exports = ({ value = 0, size = 20, display = true, children }) => {
             color: "white",
             width: size,
             height: size,
-            fontSize: size * 0.6
+            fontSize: size * 0.6,
+            zIndex: 10
           }}
         >
           {value}

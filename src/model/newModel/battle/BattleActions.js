@@ -9,6 +9,7 @@ module.exports = function(
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
   return class BattleActions {
+    // TODO handle special ship moves
     async move({ game, units, fromTerritory, toTerritory }) {
       this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
       const fromType = fromTerritory.type;
