@@ -1,10 +1,10 @@
 module.exports = function(GameActions, storeCommands, store, commandHandler) {
   const gameActions = new GameActions();
-  storeCommands.set("selection", {});
+  storeCommands.set("selection", { args: [] });
 
   class SelectionActions {
     resetSelection() {
-      storeCommands.set("selection", {});
+      storeCommands.set("selection", { args: [] });
     }
     selectAction(actionType) {
       const {

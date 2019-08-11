@@ -8,7 +8,8 @@ module.exports = function(
   commandHandler,
   XMapCounter,
   store,
-  SelectionActions
+  SelectionActions,
+  MoveActions
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
@@ -22,6 +23,7 @@ module.exports = function(
       player: currentPlayer,
       god: currentGod
     } = game.getCurrentPlayerAndGod();
+    const selectedUnits = MoveActions.getSelectedUnits();
 
     const territoryMouseOver = territory => () => {
       setTerritoryOver(territory);
@@ -33,17 +35,27 @@ module.exports = function(
     };
     const territoryClick = territory => () => {
       SelectionActions.select(territory);
+      MoveActions.selectTerritory(territory);
       if (gameActions.canDo({ actionType: "initUnit", game })) {
         const command = commands.initUnit({ territoryId: territory.id });
         commandHandler({ command });
       }
     };
-    const handleClickUnit = (unitKind, valid) => {
+    const handleClickUnit = (unitKind, territory, valid) => {
       if (!valid) {
         return;
       }
       return () => {
-        console.log("click", unitKind);
+        const newUnit = territory.units.find(
+          unit =>
+            unit.ownerId === unitKind.ownerId &&
+            unit.type.id === unitKind.type.id &&
+            selectedUnits.indexOf(unit) === -1
+        );
+        if (!newUnit) {
+          throw new Error(`could not select a new unit`);
+        }
+        MoveActions.select(newUnit, territory);
       };
     };
 
@@ -105,8 +117,13 @@ module.exports = function(
                 color="#ece200"
               />
               {Object.keys(groupedUnits).map(key => {
-                var unitGroup = groupedUnits[key];
-                var firstUnit = unitGroup[0];
+                const unitGroup = groupedUnits[key].filter(
+                  unit => selectedUnits.indexOf(unit) === -1
+                );
+                const firstUnit = unitGroup[0];
+                if (!firstUnit) {
+                  return null;
+                }
                 const { color } = room.getAccountByPlayerId(firstUnit.ownerId);
                 const { ownerId, type: unitType } = firstUnit;
                 const isCurrentPlayerUnit = currentPlayer.id === ownerId;
@@ -121,7 +138,7 @@ module.exports = function(
                     fileName={firstUnit.type.id}
                     value={unitGroup.length}
                     color={color}
-                    onClick={handleClickUnit(firstUnit, isMovable)}
+                    onClick={handleClickUnit(firstUnit, territory, isMovable)}
                   />
                 );
               })}

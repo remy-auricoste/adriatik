@@ -1,4 +1,11 @@
-module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
+module.exports = function(
+  TerritoryType,
+  God,
+  UnitType,
+  Battle,
+  BattleFSM,
+  Commandify
+) {
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
   return class BattleActions {
@@ -16,7 +23,10 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
       }
       const newTerritories = fromTerritory.moveUnits(units, toTerritory);
       const [fromNew, toNew] = newTerritories;
-      let newGame = game.update(fromNew).update(toNew);
+      let newGame = game
+        .update(fromNew)
+        .update(toNew)
+        .update(newPlayer);
       if (!toNew.hasConflict()) {
         return newGame;
       }
@@ -128,6 +138,17 @@ module.exports = function(TerritoryType, God, UnitType, Battle, BattleFSM) {
           } cannot go on territory of type ${territory.type}`
         );
       }
+    }
+    commands() {
+      return Commandify(this, {
+        wrapper: command => {
+          return {
+            apply: () => {
+              return Commandify.applyCommand(this, command);
+            }
+          };
+        }
+      });
     }
   };
 };
