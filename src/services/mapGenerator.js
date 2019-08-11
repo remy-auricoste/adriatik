@@ -1,10 +1,12 @@
-var tileSize = 90;
-var distEpsilon = 0.5;
+const tileSize = 90;
+const xSize = tileSize;
+const ySize = (tileSize * 2) / Math.sqrt(3);
+const distEpsilon = 0.5;
 
-var minFct = (a, b) => {
+const minFct = (a, b) => {
   return Math.min(a, b);
 };
-var maxFct = (a, b) => {
+const maxFct = (a, b) => {
   return Math.max(a, b);
 };
 const sum = array => {
@@ -168,11 +170,9 @@ module.exports = function(Arrays, Request, Tile) {
       });
     }
     getTilePoints(position) {
-      var xSize = tileSize;
-      var ySize = (tileSize * 2) / Math.sqrt(3);
-      var yStep = ySize / 4;
-      var xStep = xSize / 2;
-      var pixelPos = new Point([
+      const yStep = ySize / 4;
+      const xStep = xSize / 2;
+      const pixelPos = new Point([
         position[0] * xSize,
         position[1] * (yStep * 3)
       ]);
@@ -229,8 +229,8 @@ module.exports = function(Arrays, Request, Tile) {
       var result = [segments[0]];
       segments.splice(0, 1);
       segments.forEach(segment => {
-        var isNew = result.every(otherSegment => {
-          var dists = segment.map((point, index) => {
+        const isNew = result.every(otherSegment => {
+          const dists = segment.map((point, index) => {
             return point.distance(otherSegment[index]);
           });
           return sum(dists) > distEpsilon;
@@ -238,8 +238,8 @@ module.exports = function(Arrays, Request, Tile) {
         if (isNew) {
           result.push(segment);
         } else {
-          var found = result.findIndex(otherSegment => {
-            var dists = segment.map((point, index) => {
+          const found = result.findIndex(otherSegment => {
+            const dists = segment.map((point, index) => {
               return point.distance(otherSegment[index]);
             });
             return sum(dists) < distEpsilon;
@@ -266,11 +266,17 @@ module.exports = function(Arrays, Request, Tile) {
           return point[0] + "," + point[1];
         });
         const pathValue = "M" + contents.join(",") + "Z";
-        var territory = {
+        const territory = {
           type: code === 1 ? "sea" : "earth",
           path: pathValue,
           id,
-          neighbours
+          neighbours,
+          tiles: tiles.map(({ x, y }) => {
+            return {
+              x: x * xSize + xSize * 0.5,
+              y: y * ySize * 0.75 + ySize * 0.5
+            };
+          })
         };
         if (territory.type === "earth") {
           territory.buildSlots = Math.min(4, tiles.length);
@@ -282,13 +288,13 @@ module.exports = function(Arrays, Request, Tile) {
       });
     }
     getBox(points) {
-      var xs = points.map(point => point[0]);
-      var ys = points.map(point => point[1]);
-      var minX = xs.reduce(minFct);
-      var minY = ys.reduce(minFct);
-      var maxX = xs.reduce(maxFct);
-      var maxY = ys.reduce(maxFct);
-      var box = {
+      const xs = points.map(point => point[0]);
+      const ys = points.map(point => point[1]);
+      const minX = xs.reduce(minFct);
+      const minY = ys.reduce(minFct);
+      const maxX = xs.reduce(maxFct);
+      const maxY = ys.reduce(maxFct);
+      const box = {
         x: minX,
         y: minY,
         width: maxX - minX,

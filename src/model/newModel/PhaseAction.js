@@ -23,7 +23,6 @@ module.exports = function(God, TerritoryType) {
         const territoriesOwnedCount = game
           .getTerritoriesForPlayer(player)
           .filter(territory => territory.type === TerritoryType.earth).length;
-        console.log("territoriesOwnedCount", territoriesOwnedCount);
         const earntGold = territoriesOwnedCount > 1 ? 1 : 4;
         const newPlayer = player.copy({ gold: player.gold + earntGold });
         game = game.updateAll({ player: newPlayer });

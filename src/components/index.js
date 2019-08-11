@@ -5,6 +5,7 @@ const XIcon = require("./XIcon");
 const XItemPrice = require("./XItemPrice");
 const XMap = require("./XMap");
 const XMapCounter = require("./XMapCounter");
+const XMapIconContainer = require("./XMapIconContainer");
 const XOverlay = require("./XOverlay");
 const XPanel = require("./XPanel");
 const XPastille = require("./XPastille");
@@ -23,6 +24,7 @@ const jsDeps = {
 	XItemPrice,
 	XMap,
 	XMapCounter,
+	XMapIconContainer,
 	XOverlay,
 	XPanel,
 	XPastille,

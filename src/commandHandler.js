@@ -1,5 +1,6 @@
 module.exports = function(store, storeCommands, MessageActions) {
   const commandHandler = ({ command }) => {
+    // TODO handle move commands and other actions on turn 1
     return Promise.resolve()
       .then(() => {
         const { game } = store.getState();

@@ -10,7 +10,8 @@ module.exports = function(Unit, Building) {
       id = Math.random() + "",
       path,
       box,
-      type
+      type,
+      tiles
     }) {
       this.buildings = buildings.map(_ => new Building(_));
       this.units = units.map(_ => new Unit(_));
@@ -22,6 +23,7 @@ module.exports = function(Unit, Building) {
       this.id = id;
       this.path = path;
       this.box = box;
+      this.tiles = tiles;
     }
     // writes
     placeUnit(unit) {
