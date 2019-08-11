@@ -5,8 +5,11 @@ module.exports = ({
   backgroundColor = "white",
   withShadow = false,
   shadowOffset = 20,
-  children
+  children,
+  shape = "circle"
 }) => {
+  const isCircle = shape === "circle";
+  const isSquare = shape === "square";
   return (
     <svg viewBox="0 0 512 512" style={{ width: size, height: size }}>
       {withShadow && (
@@ -24,7 +27,17 @@ module.exports = ({
           </filter>
         </defs>
       )}
-      <circle cx="256" cy="256" r="256" fill={backgroundColor} />
+      {isCircle && <circle cx="256" cy="256" r="256" fill={backgroundColor} />}
+      {isSquare && (
+        <rect
+          width="512"
+          height="512"
+          x="0"
+          y="0"
+          rx="50"
+          fill={backgroundColor}
+        />
+      )}
       <g>
         {path && (
           <path

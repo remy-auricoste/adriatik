@@ -34,7 +34,8 @@ module.exports = function(
     textProps = {},
     color = "black",
     svgProps = {},
-    borderColor
+    borderColor,
+    shape = "circle"
   }) => {
     const mappedSvg = svgMapping[fileName];
     const borderWidth = borderColor ? 2 : 0;
@@ -62,7 +63,7 @@ module.exports = function(
             {mappedSvg &&
               React.createElement(
                 mappedSvg,
-                Object.assign({}, svgProps, { size, color })
+                Object.assign({}, svgProps, { size, color, shape })
               )}
           </XOverlay>
           {text && (
