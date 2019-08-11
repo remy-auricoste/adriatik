@@ -1,4 +1,5 @@
 module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
+  const { earth, sea } = TerritoryType;
   class God {
     constructor({
       name,
@@ -49,26 +50,23 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
             "il est impossible de placer ce type d'unité sur ce type de territoire."
           );
         }
-        if (
-          !territory.isOwner(player) &&
-          territory.type === TerritoryType.earth
-        ) {
+        if (!territory.isOwner(player) && territory.type === earth) {
           throw new Error(
             "vous ne pouvez acheter des unités terrestres que sur des territoires que vous contrôlez"
           );
         }
-        if (
-          !territory.isFriendly(player) &&
-          territory.type === TerritoryType.sea
-        ) {
+        if (!territory.isFriendly(player) && territory.type === sea) {
           throw new Error(
             "vous ne pouvez acheter des unités maritimes que sur des territoires vides ou que vous contrôlez"
           );
         }
-        if (territory.type === TerritoryType.sea) {
+        if (territory.type === sea) {
           const isNextEarthTerritory = game
             .getTerritoriesForPlayer(player)
-            .some(territory2 => territory2.isNextTo(territory));
+            .find(
+              territory2 =>
+                territory2.type === earth && territory2.isNextTo(territory)
+            );
           if (!isNextEarthTerritory) {
             throw new Error(
               "vous ne pouvez acheter des unités maritimes que sur des territoires situés à proximité d'un territoire terrestre que vous contrôlez"
