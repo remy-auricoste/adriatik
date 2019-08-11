@@ -13,7 +13,8 @@ module.exports = function(store, MessageActions) {
           top: display ? 5 : -100,
           display: "flex",
           justifyContent: "center",
-          transition: "top 0.5s"
+          transition: "top 0.5s",
+          width: "100%"
         }}
       >
         <p

@@ -4,14 +4,25 @@ module.exports = function(
   SvgTrieme,
   SvgSpartanHelmet,
   SvgDuration,
-  SvgCornucopia
+  SvgCornucopia,
+  SvgBooks,
+  SvgTemple,
+  SvgPrayer,
+  SvgRoman,
+  SvgPort,
+  SvgTower
 ) {
-  console.log(SvgCornucopia);
   const svgMapping = {
     ship: SvgTrieme,
     legionnaire: SvgSpartanHelmet,
     duration: SvgDuration,
-    cornucopia: SvgCornucopia
+    cornucopia: SvgCornucopia,
+    university: SvgBooks,
+    temple: SvgTemple,
+    priest: SvgPrayer,
+    philosopher: SvgRoman,
+    port: SvgPort,
+    fort: SvgTower
   };
   return ({
     fileName,

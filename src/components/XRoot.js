@@ -36,8 +36,8 @@ module.exports = function(
           <XMap game={game} />
           <XPlayerPanel game={game} room={room} />
           <XReset />
-          <XSnackbar />
         </div>
+        <XSnackbar />
       </div>
     );
   };
