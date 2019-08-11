@@ -1,4 +1,4 @@
-module.exports = function(God) {
+module.exports = function(God, TerritoryType) {
   return class PhaseAction {
     async start({ game }) {
       return game.copy({
@@ -20,8 +20,10 @@ module.exports = function(God) {
       const { turn } = game;
       const { player, god } = game.getCurrentPlayerAndGod();
       if (god.id === God.Ceres.id && turn !== 1) {
-        const territoriesOwnedCount = game.getTerritoriesForPlayer(player)
-          .length;
+        const territoriesOwnedCount = game
+          .getTerritoriesForPlayer(player)
+          .filter(territory => territory.type === TerritoryType.earth).length;
+        console.log("territoriesOwnedCount", territoriesOwnedCount);
         const earntGold = territoriesOwnedCount > 1 ? 1 : 4;
         const newPlayer = player.copy({ gold: player.gold + earntGold });
         game = game.updateAll({ player: newPlayer });

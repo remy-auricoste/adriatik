@@ -70,7 +70,6 @@ const render = () => {
   const state = store.getState();
   const { game } = state;
   console.log("state", state);
-  console.log("selection", state.selection);
   ReactDOM.render(<XRoot game={game} />, appElement);
 };
 
