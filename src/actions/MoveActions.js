@@ -20,7 +20,7 @@ module.exports = function(BattleActions, storeCommands, store, commandHandler) {
         return;
       }
       const { game } = store.getState();
-      const command = battleActions.commands().move({
+      const command = battleActions.commands().moveEarth({
         game,
         units,
         fromTerritory,

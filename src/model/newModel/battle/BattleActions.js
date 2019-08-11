@@ -10,7 +10,7 @@ module.exports = function(
   const { Neptune, Ceres, Minerve } = God;
   return class BattleActions {
     // TODO handle special ship moves
-    async move({ game, units, fromTerritory, toTerritory }) {
+    async moveEarth({ game, units, fromTerritory, toTerritory }) {
       this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
       const fromType = fromTerritory.type;
       const { player, god } = game.getCurrentPlayerAndGod();

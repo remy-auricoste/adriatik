@@ -66,14 +66,14 @@ const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
 };
 
 describe("BattleActions class", () => {
-  describe("move method", () => {
+  describe("moveEarth method", () => {
     it("should move units from a territory to an empty territory", () => {
       return initState({ player1UnitCount: 3 }).then(init => {
         const { fromTerritory, toTerritory, game } = init;
         const { units } = fromTerritory;
         const movedUnits = [units[0], units[2]];
         return actions
-          .move({
+          .moveEarth({
             game,
             units: movedUnits,
             fromTerritory,
@@ -92,7 +92,7 @@ describe("BattleActions class", () => {
           const { units } = fromTerritory;
           const movedUnits = units;
           return actions
-            .move({
+            .moveEarth({
               game,
               units: movedUnits,
               fromTerritory,
@@ -112,7 +112,7 @@ describe("BattleActions class", () => {
           const { units: movedUnits } = fromTerritory;
           const attacker = player;
           return actions
-            .move({
+            .moveEarth({
               game,
               units: movedUnits,
               fromTerritory,
@@ -141,7 +141,7 @@ describe("BattleActions class", () => {
           const { units: movedUnits } = fromTerritory;
           const defender = player2;
           return actions
-            .move({
+            .moveEarth({
               game,
               units: movedUnits,
               fromTerritory,
@@ -166,7 +166,7 @@ describe("BattleActions class", () => {
         const { fromTerritory, game } = init;
         const { units: movedUnits } = fromTerritory;
         return actions
-          .move({
+          .moveEarth({
             game,
             units: movedUnits,
             fromTerritory,
@@ -183,7 +183,7 @@ describe("BattleActions class", () => {
       return initState({ player1UnitCount: 1 }).then(init => {
         const { fromTerritory, toTerritory, game } = init;
         return actions
-          .move({
+          .moveEarth({
             game,
             units: [],
             fromTerritory,
