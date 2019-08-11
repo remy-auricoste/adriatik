@@ -25,7 +25,7 @@ module.exports = function(
     };
 
     const { gods, bidState } = game;
-    const player = game.getCurrentPlayer();
+    const currentPlayer = game.getCurrentPlayer();
     const currentGod = game.getCurrentGod();
     const phase = game.getCurrentPhase();
     const isPhaseBid = phase.constructor === PhaseBid;
@@ -35,10 +35,11 @@ module.exports = function(
           const bid = bidState.getBidsForGod(god)[0];
           const isCeres = god.id === Ceres.id;
           const bidGoldCount = (bid && bid.amount) || 0;
-          const maxPossibleBid = isCeres ? 1 : player.getMaxBid();
+          const maxPossibleBid = isCeres ? 1 : currentPlayer.getMaxBid();
           const unitPrices = god.getUnitPrices();
           const isCurrentGod = currentGod && god.id === currentGod.id;
-          const { color } = room.getAccountByPlayerId(player.id);
+          const { color } =
+            (bid && room.getAccountByPlayerId(bid.playerId)) || {};
 
           const renderedUnitPrices = unitPrices.map((price, index) => {
             const { unitBuyCount } = god;
