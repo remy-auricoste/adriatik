@@ -13,10 +13,10 @@ module.exports = function(Building, GodCard, UnitType, TerritoryType, Unit) {
       index
     }) {
       this.name = name;
-      this.building = building;
-      this.unitType = unitType;
+      this.building = building && new Building(building);
+      this.unitType = unitType && new UnitType(unitType);
       this.unitPrice = unitPrice;
-      this.card = card;
+      this.card = card && new GodCard(card);
       this.cardPrice = cardPrice;
 
       this.unitBuyCount = unitBuyCount;
