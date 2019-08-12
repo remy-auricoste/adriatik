@@ -23,7 +23,8 @@ module.exports = function(HandSelection, XEntity) {
           position: "absolute",
           top: y + 20,
           left: x + 10,
-          zIndex: 100
+          zIndex: 100,
+          display: "flex"
         }}
       >
         {items.map((item, index) => {
