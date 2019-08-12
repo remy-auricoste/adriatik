@@ -1,4 +1,4 @@
-module.exports = function(Arrays, XIcon, XIconCount, store, MoveActions) {
+module.exports = function(Arrays, XIconCount, store, MoveActions, XEntity) {
   return ({ game }) => {
     const { room } = store.getState();
     const { territories } = game;
@@ -32,13 +32,14 @@ module.exports = function(Arrays, XIcon, XIconCount, store, MoveActions) {
           const { buildings = [], tiles, units } = territory;
           const income = territory.getIncome();
 
-          var groupedUnits = Arrays.groupBy(units, unit => {
+          const displayedUnits = units.filter(unit => {
+            return selectedUnits.indexOf(unit) === -1;
+          });
+          var groupedUnits = Arrays.groupBy(displayedUnits, unit => {
             return unit.type.id + "_" + unit.ownerId;
           });
           const renderedUnits = Object.keys(groupedUnits).map(key => {
-            const unitGroup = groupedUnits[key].filter(
-              unit => selectedUnits.indexOf(unit) === -1
-            );
+            const unitGroup = groupedUnits[key];
             const firstUnit = unitGroup[0];
             if (!firstUnit) {
               return null;
@@ -70,14 +71,7 @@ module.exports = function(Arrays, XIcon, XIconCount, store, MoveActions) {
               ]
             : [];
           const renderedBuildings = buildings.map((building, buildingIndex) => {
-            return (
-              <XIcon
-                key={buildingIndex}
-                fileName={building.id}
-                size={30}
-                shape="square"
-              />
-            );
+            return <XEntity entity={building} key={buildingIndex} />;
           });
           const renderedAll = renderedIncome
             .concat(renderedBuildings)

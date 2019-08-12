@@ -26,9 +26,9 @@ module.exports = function(HandSelection, XEntity) {
           zIndex: 100
         }}
       >
-        {items.map(item => (
-          <XEntity entity={item} />
-        ))}
+        {items.map((item, index) => {
+          return <XEntity entity={item} key={index} />;
+        })}
       </div>
     );
   };

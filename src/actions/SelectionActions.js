@@ -3,18 +3,18 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
   storeCommands.set("selection", { args: [] });
 
   class SelectionActions {
-    resetSelection() {
+    reset() {
       storeCommands.set("selection", { args: [] });
     }
     selectAction(actionType) {
       const { actionType: selectedActionType } = this.getState();
       const isSelectedActionType = selectedActionType === actionType;
       const newActionType = isSelectedActionType ? undefined : actionType;
-      this.resetSelection();
+      this.reset();
       storeCommands.set("selection.actionType", newActionType);
       this.checkSelection();
       if (actionType === "pass") {
-        this.resetSelection();
+        this.reset();
       }
     }
     select(entity) {
@@ -36,7 +36,7 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
         });
         const command = gameActions.commands()[actionType](params);
         if (!args.length) {
-          this.resetSelection();
+          this.reset();
         } else {
           storeCommands.set("selection.args", []);
         }
