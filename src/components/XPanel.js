@@ -4,8 +4,8 @@ module.exports = ({ children, style = {} }) => {
       style={Object.assign(
         {
           border: "black solid 1px",
-          borderBottom: "none",
-          zIndex: 10
+          zIndex: 10,
+          backgroundColor: "lightgrey"
         },
         style
       )}

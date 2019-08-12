@@ -11,7 +11,8 @@ module.exports = function(
   XPossibleAction,
   XPlayerIcon,
   commandHandler,
-  XIcon
+  XIcon,
+  XPanel
 ) {
   const gameActions = new GameActions();
   const commands = gameActions.commands();
@@ -30,7 +31,15 @@ module.exports = function(
     const phase = game.getCurrentPhase();
     const isPhaseBid = phase.constructor === PhaseBid;
     return (
-      <div className="XBidPanel" style={{ width: 400 }}>
+      <XPanel
+        style={{
+          width: 400,
+          border: "none",
+          borderRight: "solid 1px black",
+          height: "100%",
+          paddingTop: 10
+        }}
+      >
         {gods.map(god => {
           const bid = bidState.getBidsForGod(god)[0];
           const isCeres = god.id === Ceres.id;
@@ -62,7 +71,7 @@ module.exports = function(
                 display: "flex",
                 flexDirection: "column",
                 border: isCurrentGod ? "solid 3px green" : "solid 1px black",
-                marginTop: 10,
+                marginBottom: 10,
                 marginLeft: 10,
                 marginRight: 10
               }}
@@ -193,7 +202,7 @@ module.exports = function(
             </div>
           );
         })}
-      </div>
+      </XPanel>
     );
   };
 };

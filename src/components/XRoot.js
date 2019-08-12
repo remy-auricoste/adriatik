@@ -15,15 +15,15 @@ module.exports = function(
         style={{
           width: "100%",
           height: "100%",
-          display: "flex"
+          display: "flex",
+          backgroundImage: "url('/images/map.jpg')"
         }}
       >
         <div
           className="left"
           style={{
             height: "100%",
-            minWidth: 200,
-            borderRight: "black solid 1px"
+            minWidth: 200
           }}
         >
           <XBidPanel game={game} room={room} />

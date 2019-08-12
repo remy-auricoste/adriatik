@@ -19,13 +19,12 @@ module.exports = function(XSesterces, XGodCard, XPanel, XPlayerIcon) {
           const { name, email } = account;
           const { gold } = player;
           return (
-            <XPanel key={index}>
+            <XPanel key={index} style={{ borderBottom: "none" }}>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-evenly",
-                  backgroundColor: "lightgrey",
                   pointerEvents: "auto"
                 }}
               >
