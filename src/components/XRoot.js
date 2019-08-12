@@ -4,7 +4,8 @@ module.exports = function(
   XMap,
   XReset,
   store,
-  XSnackbar
+  XSnackbar,
+  XCurrentSelection
 ) {
   return ({ game }) => {
     const { room } = store.getState();
@@ -38,6 +39,7 @@ module.exports = function(
           <XReset />
         </div>
         <XSnackbar />
+        <XCurrentSelection />
       </div>
     );
   };

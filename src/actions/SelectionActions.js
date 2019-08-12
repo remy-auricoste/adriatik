@@ -7,31 +7,25 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
       storeCommands.set("selection", { args: [] });
     }
     selectAction(actionType) {
-      const {
-        selection: { actionType: selectedActionType }
-      } = store.getState();
+      const { actionType: selectedActionType } = this.getState();
       const isSelectedActionType = selectedActionType === actionType;
+      const newActionType = isSelectedActionType ? undefined : actionType;
       this.resetSelection();
-      storeCommands.set(
-        "selection.actionType",
-        isSelectedActionType ? undefined : actionType
-      );
+      storeCommands.set("selection.actionType", newActionType);
       this.checkSelection();
       if (actionType === "pass") {
         this.resetSelection();
       }
     }
     select(entity) {
-      const {
-        selection: { actionType }
-      } = store.getState();
+      const { actionType } = this.getState();
       if (actionType) {
         storeCommands.push("selection.args", entity);
       }
       this.checkSelection();
     }
     checkSelection() {
-      const { selection } = store.getState();
+      const selection = this.getState();
       if (this.isSelectionReady(selection)) {
         const { actionType, args = [] } = selection;
         const argsTypings = gameActions.getActionCommandTypings()[actionType];
@@ -65,6 +59,14 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
         (typing, index) => typing === args[index].constructor.name
       );
       return areAllTypesOk;
+    }
+    getState() {
+      const { selection } = store.getState();
+      return selection;
+    }
+    getSelectedActionType() {
+      const { actionType } = this.getState();
+      return actionType;
     }
   }
   return new SelectionActions();

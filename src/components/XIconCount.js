@@ -7,7 +7,7 @@ module.exports = function(XIcon, XPastille) {
     const isClickable = !!onClick;
     return (
       <div
-        className="XMapCounter"
+        className="XIconCount"
         style={{
           pointerEvents: isClickable ? "auto" : "none",
           cursor: isClickable ? "pointer" : "default"

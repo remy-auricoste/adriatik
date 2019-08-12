@@ -1,4 +1,4 @@
-module.exports = function(Arrays, XIcon, XMapCounter, store, MoveActions) {
+module.exports = function(Arrays, XIcon, XIconCount, store, MoveActions) {
   return ({ game }) => {
     const { room } = store.getState();
     const { territories } = game;
@@ -52,7 +52,7 @@ module.exports = function(Arrays, XIcon, XMapCounter, store, MoveActions) {
               currentGod.unitType &&
               unitType.id === currentGod.unitType.id;
             return (
-              <XMapCounter
+              <XIconCount
                 key={key}
                 fileName={firstUnit.type.id}
                 value={unitGroup.length}
@@ -63,7 +63,7 @@ module.exports = function(Arrays, XIcon, XMapCounter, store, MoveActions) {
           });
           const renderedIncome = income
             ? [
-                <XMapCounter
+                <XIconCount
                   fileName="cornucopia"
                   value={territory.getIncome()}
                 />

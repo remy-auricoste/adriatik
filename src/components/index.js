@@ -1,10 +1,12 @@
 const svg = require("./svg/index");
 const XBidPanel = require("./XBidPanel");
+const XCurrentSelection = require("./XCurrentSelection");
+const XEntity = require("./XEntity");
 const XGodCard = require("./XGodCard");
 const XIcon = require("./XIcon");
+const XIconCount = require("./XIconCount");
 const XItemPrice = require("./XItemPrice");
 const XMap = require("./XMap");
-const XMapCounter = require("./XMapCounter");
 const XMapIconContainer = require("./XMapIconContainer");
 const XOverlay = require("./XOverlay");
 const XPanel = require("./XPanel");
@@ -19,11 +21,13 @@ const XSnackbar = require("./XSnackbar");
 const XTooltip = require("./XTooltip");
 const jsDeps = {
 	XBidPanel,
+	XCurrentSelection,
+	XEntity,
 	XGodCard,
 	XIcon,
+	XIconCount,
 	XItemPrice,
 	XMap,
-	XMapCounter,
 	XMapIconContainer,
 	XOverlay,
 	XPanel,
