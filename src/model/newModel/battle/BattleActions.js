@@ -46,14 +46,15 @@ module.exports = function(
           .copy({ battle: battleFsm });
       });
     }
-    retreat({ game, player, fromTerritory, toTerritory }) {
+    retreat({ game, player, toTerritory }) {
+      const { battle } = game;
+      const { territory: fromTerritory } = battle.getState();
       this.checkValidRetreat({ game, player, fromTerritory, toTerritory });
       const units = fromTerritory.units.filter(
         unit => unit.ownerId === player.id
       );
       const newTerritories = fromTerritory.moveUnits(units, toTerritory);
       const [fromNew, toNew] = newTerritories;
-      const { battle } = game;
       battle.updateState(
         battle
           .getState()

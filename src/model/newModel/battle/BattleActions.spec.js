@@ -127,7 +127,6 @@ describe("BattleActions class", () => {
               game = actions.retreat({
                 player: attacker,
                 game,
-                fromTerritory: newToT,
                 toTerritory: newFromT
               });
               expect(game.battle.isDone()).to.equal(true);
@@ -150,11 +149,9 @@ describe("BattleActions class", () => {
             })
             .then(game => {
               const newFromT = game.getEntity(fromTerritory);
-              const newToT = game.getEntity(toTerritory);
               game = actions.retreat({
                 player: defender,
                 game,
-                fromTerritory: newToT,
                 toTerritory: newFromT
               });
               expect(game.battle.isDone()).to.equal(true);
