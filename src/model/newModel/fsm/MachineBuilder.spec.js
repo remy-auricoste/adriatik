@@ -1,6 +1,6 @@
-const MachineBuilder = require("./FiniteStateMachine");
+const MachineBuilder = require("./MachineBuilder");
 
-describe("FiniteStateMachine class", () => {
+describe("MachineBuilder class", () => {
   it("should execute 1 simple step", () => {
     let machine = new MachineBuilder()
       .step({
