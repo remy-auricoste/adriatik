@@ -12,6 +12,7 @@ module.exports = function(
     // TODO handle special ship moves
     async moveEarth({ game, units, fromTerritory, toTerritory }) {
       this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
+      const defender = game.getEntityById(toTerritory.getOwner());
       const fromType = fromTerritory.type;
       const { player, god } = game.getCurrentPlayerAndGod();
       let newPlayer;
@@ -34,13 +35,15 @@ module.exports = function(
       const battle = new Battle({
         territory: toNew,
         attacker: newPlayer,
-        defender: newGame.getEntityById(toTerritory.getOwner())
+        defender
       });
       const battleFsm = BattleFSM.build(battle);
       newGame = newGame.copy({ battle: battleFsm });
       return battleFsm.getReadyPromise().then(() => {
         const { attacker, defender, territory } = battleFsm.getState();
-        return newGame.updateAll({ attacker, defender, territory });
+        return newGame
+          .updateAll({ attacker, defender, territory })
+          .copy({ battle: battleFsm });
       });
     }
     retreat({ game, player, fromTerritory, toTerritory }) {

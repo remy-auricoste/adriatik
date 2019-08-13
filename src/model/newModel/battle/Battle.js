@@ -20,13 +20,13 @@ class PlayerBattle {
   }
 }
 
-module.exports = function(Dice, Building) {
+module.exports = function(Dice, Building, Territory, Player) {
   return class Battle {
     constructor({ territory, attacker, defender, states = [] }) {
-      this.territory = territory;
-      this.attacker = attacker;
-      this.defender = defender;
-      this.states = states;
+      this.territory = new Territory(territory);
+      this.attacker = new Player(attacker);
+      this.defender = new Player(defender);
+      this.states = states.map(_ => new PlayerBattle(_));
     }
     async buildLosses() {
       const { attacker, defender } = this;
@@ -70,11 +70,7 @@ module.exports = function(Dice, Building) {
       const unitsCount = territory.getUnits(player).length;
       const buildingsCount = this.isAttacker(player)
         ? 0
-        : territory.buildings.filter(
-            building =>
-              building.id === Building.Fort.id ||
-              building.id === Building.Cite.id
-          ).length;
+        : this.getDefendingBuildings().length;
       return unitsCount + buildingsCount;
     }
     async getScore(player) {
@@ -82,8 +78,20 @@ module.exports = function(Dice, Building) {
       const diceCount = await Dice();
       return strength + diceCount;
     }
+    getDefendingBuildings() {
+      const { territory } = this;
+      // TODO handle sea battles
+      return territory.buildings.filter(building => {
+        return (
+          building.id === Building.Fort.id || building.id === Building.Cite.id
+        );
+      });
+    }
     isAttacker(player) {
       return player.id === this.attacker.id;
+    }
+    isDefender(playerId) {
+      return playerId === this.defender.id;
     }
     getState(player, state = this) {
       return state.states.find(state => state.playerId === player.id);
@@ -102,7 +110,9 @@ module.exports = function(Dice, Building) {
       const firstUnit = units[0];
       if (!firstUnit) {
         throw new Error(
-          `illegal state : has a loss but no units on the territory`
+          `illegal state : ${
+            player.id
+          } has a loss but no units on the territory`
         );
       }
       const allSameType = units.every(

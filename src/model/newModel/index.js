@@ -1,4 +1,5 @@
 const battle = require("./battle/index");
+const fsm = require("./fsm/index");
 const ActionBuilder = require("./ActionBuilder");
 const Bid = require("./Bid");
 const BidsState = require("./BidsState");
@@ -7,7 +8,6 @@ const CreatureCard = require("./CreatureCard");
 const CreatureMarket = require("./CreatureMarket");
 const DataTest = require("./DataTest");
 const Dice = require("./Dice");
-const FiniteStateMachine = require("./FiniteStateMachine");
 const FirstTurnActions = require("./FirstTurnActions");
 const Game = require("./Game");
 const GameActions = require("./GameActions");
@@ -30,7 +30,6 @@ const jsDeps = {
 	CreatureMarket,
 	DataTest,
 	Dice,
-	FiniteStateMachine,
 	FirstTurnActions,
 	Game,
 	GameActions,
@@ -46,4 +45,4 @@ const jsDeps = {
 	UnitType
 }
 
-module.exports = Object.assign({}, jsDeps, battle)
+module.exports = Object.assign({}, jsDeps, battle, fsm)

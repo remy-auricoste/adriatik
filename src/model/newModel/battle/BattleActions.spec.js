@@ -108,7 +108,7 @@ describe("BattleActions class", () => {
     it("should move units, fight and retreat", () => {
       return initState({ player1UnitCount: 2, player2UnitCount: 2 }).then(
         init => {
-          const { fromTerritory, toTerritory, game, player, player2 } = init;
+          let { fromTerritory, toTerritory, game, player } = init;
           const { units: movedUnits } = fromTerritory;
           const attacker = player;
           return actions
@@ -118,7 +118,8 @@ describe("BattleActions class", () => {
               fromTerritory,
               toTerritory
             })
-            .then(game => {
+            .then(gameParam => {
+              game = gameParam;
               const newFromT = game.getEntity(fromTerritory);
               const newToT = game.getEntity(toTerritory);
               expect(newFromT.units.length).to.equal(0);

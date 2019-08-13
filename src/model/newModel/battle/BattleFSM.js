@@ -1,4 +1,4 @@
-module.exports = function(FiniteStateMachine) {
+module.exports = function(MachineBuilder) {
   const addLossSteps = (machine, playerKey) => {
     const start = `start loss ${playerKey}`;
     const end = `end loss ${playerKey}`;
@@ -70,7 +70,7 @@ module.exports = function(FiniteStateMachine) {
       .join(end);
   };
 
-  let machine = new FiniteStateMachine().step({
+  let machine = new MachineBuilder().step({
     name: "start",
     action: state => {
       return state.buildLosses();

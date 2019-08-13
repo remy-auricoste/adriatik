@@ -9,7 +9,9 @@ module.exports = function(
   Building,
   Player,
   God,
-  Territory
+  Territory,
+  BattleFSM,
+  Battle
 ) {
   return class Game {
     constructor({
@@ -36,7 +38,14 @@ module.exports = function(
       this.phases = [new PhaseBid(), new PhaseAction()];
       this.currentPhaseIndex = currentPhaseIndex;
       this.territories = territories.map(_ => new Territory(_));
-      this.battle = battle;
+      if (battle) {
+        if (battle.constructor.name === "FiniteStateMachine") {
+          this.battle = battle;
+        } else {
+          battle.state = new Battle(battle.state);
+          this.battle = BattleFSM.restoreFsm(battle);
+        }
+      }
     }
     //writes
     update(entity) {
