@@ -1,5 +1,6 @@
 module.exports = function(XSesterces, XIcon) {
   return ({ price, iconName, name, buyable = true }) => {
+    // TODO handle square shapes for buildings
     return (
       <div
         className="XItemPrice"

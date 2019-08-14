@@ -11,6 +11,7 @@ module.exports = function(XSesterces, XGodCard, XPanel, XPlayerIcon) {
           display: "flex",
           width: "100%",
           justifyContent: "space-evenly",
+          alignItems: "flex-end",
           pointerEvents: "none"
         }}
       >
