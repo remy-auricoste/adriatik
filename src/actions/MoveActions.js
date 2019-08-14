@@ -1,11 +1,11 @@
 module.exports = function(
-  BattleActions,
+  GameActions,
   storeCommands,
   store,
   commandHandler,
   SelectionActions
 ) {
-  const battleActions = new BattleActions();
+  const gameActions = new GameActions();
   storeCommands.set("move", { units: [] });
 
   class MoveActions {
@@ -28,7 +28,7 @@ module.exports = function(
         return;
       }
       const { game } = store.getState();
-      const command = battleActions.commands().moveEarth({
+      const command = gameActions.commands().moveEarth({
         game,
         units,
         fromTerritory,

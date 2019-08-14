@@ -1,4 +1,11 @@
-module.exports = function(Arrays, XIconCount, store, MoveActions, XEntity) {
+module.exports = function(
+  Arrays,
+  XIconCount,
+  store,
+  MoveActions,
+  XEntity,
+  ZIndexs
+) {
   return ({ game }) => {
     const { room } = store.getState();
     const { territories } = game;
@@ -87,7 +94,7 @@ module.exports = function(Arrays, XIconCount, store, MoveActions, XEntity) {
                 left: x - squareSize / 2,
                 width: squareSize,
                 height: squareSize,
-                zIndex: 1,
+                zIndex: ZIndexs.map + 1,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",

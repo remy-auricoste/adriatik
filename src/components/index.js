@@ -1,5 +1,7 @@
 const svg = require("./svg/index");
+const XBattle = require("./XBattle");
 const XBidPanel = require("./XBidPanel");
+const XButton = require("./XButton");
 const XCurrentSelection = require("./XCurrentSelection");
 const XEntity = require("./XEntity");
 const XGodCard = require("./XGodCard");
@@ -19,8 +21,11 @@ const XRoot = require("./XRoot");
 const XSesterces = require("./XSesterces");
 const XSnackbar = require("./XSnackbar");
 const XTooltip = require("./XTooltip");
+const ZIndexs = require("./ZIndexs");
 const jsDeps = {
+	XBattle,
 	XBidPanel,
+	XButton,
 	XCurrentSelection,
 	XEntity,
 	XGodCard,
@@ -39,7 +44,8 @@ const jsDeps = {
 	XRoot,
 	XSesterces,
 	XSnackbar,
-	XTooltip
+	XTooltip,
+	ZIndexs
 }
 
 module.exports = Object.assign({}, jsDeps, svg)

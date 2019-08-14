@@ -1,6 +1,6 @@
 const { useEffect, useState } = React;
 
-module.exports = function(HandSelection, XEntity) {
+module.exports = function(HandSelection, XEntity, ZIndexs) {
   return () => {
     const [{ x, y }, setMousePos] = useState({ x: 0, y: 0 });
     useEffect(() => {
@@ -23,7 +23,7 @@ module.exports = function(HandSelection, XEntity) {
           position: "absolute",
           top: y + 20,
           left: x + 10,
-          zIndex: 100,
+          zIndex: ZIndexs.mouse,
           display: "flex"
         }}
       >

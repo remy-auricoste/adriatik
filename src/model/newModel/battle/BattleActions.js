@@ -4,8 +4,10 @@ module.exports = function(
   UnitType,
   Battle,
   BattleFSM,
-  Commandify
+  Commandify,
+  BattleDecisions
 ) {
+  const { stay, retreat } = BattleDecisions;
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
   return class BattleActions {
@@ -47,6 +49,7 @@ module.exports = function(
       });
     }
     retreat({ game, player, toTerritory }) {
+      this.checkForBattle({ game });
       const { battle } = game;
       const { territory: fromTerritory } = battle.getState();
       this.checkValidRetreat({ game, player, fromTerritory, toTerritory });
@@ -58,10 +61,16 @@ module.exports = function(
       battle.updateState(
         battle
           .getState()
-          .makeDecision(player, "retreat")
+          .makeDecision(player, retreat)
           .copy({ territory: fromNew })
       );
       return game.update(fromNew).update(toNew);
+    }
+    stay({ game, player }) {
+      this.checkForBattle({ game });
+      const { battle } = game;
+      battle.updateState(battle.getState().makeDecision(player, stay));
+      return game;
     }
 
     // reads
@@ -144,16 +153,11 @@ module.exports = function(
         );
       }
     }
-    commands() {
-      return Commandify(this, {
-        wrapper: command => {
-          return {
-            apply: () => {
-              return Commandify.applyCommand(this, command);
-            }
-          };
-        }
-      });
+    checkForBattle({ game }) {
+      const { battle } = game;
+      if (!battle) {
+        throw new Error(`cannot retreat as there is no battle going on !`);
+      }
     }
   };
 };

@@ -1,9 +1,16 @@
-module.exports = function(store, storeCommands, MessageActions) {
+module.exports = function(store, storeCommands, MessageActions, GameActions) {
+  const gameActions = new GameActions();
   const commandHandler = ({ command }) => {
-    // TODO handle move commands and other actions on turn 1
+    const { game } = store.getState();
+    const actionType = command.method;
+    if (!gameActions.canDo({ game, actionType })) {
+      throw new Error(
+        `commandHandler : actionType=${actionType} is not authorized`
+      );
+    }
+
     return Promise.resolve()
       .then(() => {
-        const { game } = store.getState();
         return command.apply(game);
       })
       .then(game => {

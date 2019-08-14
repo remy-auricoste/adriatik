@@ -44,6 +44,9 @@ module.exports = function(
         } else {
           battle.state = new Battle(battle.state);
           this.battle = BattleFSM.restoreFsm(battle);
+          if (this.battle.isDone()) {
+            this.battle = undefined;
+          }
         }
       }
     }

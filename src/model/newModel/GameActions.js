@@ -1,7 +1,16 @@
-module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
+module.exports = function(
+  FirstTurnActions,
+  Commandify,
+  PhaseBid,
+  God,
+  BattleActions,
+  UnitType
+) {
   const { Ceres } = God;
   const firstActions = new FirstTurnActions();
+  const battleActions = new BattleActions();
   return class GameActions {
+    // actions
     initUnit({ territoryId, game }) {
       const territory = game.getEntityById(territoryId);
       const { player, god } = game.getCurrentPlayerAndGod();
@@ -58,6 +67,22 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       const phase = game.getCurrentPhase();
       return phase.pass({ game });
     }
+    stay({ game, player }) {
+      return battleActions.stay({ game, player });
+    }
+    moveEarth({ game, units, fromTerritory, toTerritory }) {
+      return battleActions.moveEarth({
+        game,
+        units,
+        fromTerritory,
+        toTerritory
+      });
+    }
+    retreat({ game, player, toTerritory }) {
+      return battleActions.retreat({ game, player, toTerritory });
+    }
+
+    // reads
     commands() {
       return Commandify(this, {
         wrapper: command => {
@@ -74,7 +99,7 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       });
     }
     getPossibleActionTypes({ game }) {
-      const { turn } = game;
+      const { turn, battle } = game;
       const isBidPhase = game.getCurrentPhase().constructor === PhaseBid;
       if (isBidPhase) {
         return ["placeBid"];
@@ -82,14 +107,24 @@ module.exports = function(FirstTurnActions, Commandify, PhaseBid, God) {
       if (turn === 1) {
         return ["initUnit"];
       }
+      if (battle && !battle.isDone()) {
+        return ["stay", "retreat"];
+      }
+
       const god = game.getCurrentGod();
+      const { unitType } = god;
       const isCeres = Ceres.id === god.id;
       const result = ["pass"];
       if (isCeres) {
         return result;
       }
-      if (god.unitType) {
+      if (unitType) {
         result.push("buyUnit");
+        if (unitType.id === UnitType.Legionnaire.id) {
+          result.push("moveEarth");
+        } else {
+          result.push("moveSea");
+        }
       }
       if (god.card) {
         result.push("buyGodCard");

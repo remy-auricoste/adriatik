@@ -5,8 +5,11 @@ const {
   UnitType,
   Territory,
   TerritoryType,
-  Building
+  Building,
+  BattleDecisions
 } = injector.resolveAll();
+
+const { stay, retreat } = BattleDecisions;
 
 const seq = (min, max) => {
   const result = [];
@@ -121,9 +124,9 @@ describe("Battle class", () => {
     it("should fill the decision field for one player", () => {
       return initBattle([1, 1]).then(battle => {
         const { attacker } = battle;
-        battle = battle.makeDecision(attacker, "stay");
+        battle = battle.makeDecision(attacker, stay);
         const attackerState = battle.getState(attacker);
-        expect(attackerState.decision).to.equal("stay");
+        expect(attackerState.decision).to.equal(stay);
       });
     });
   });

@@ -85,7 +85,7 @@ describe("BattleActions class", () => {
           });
       });
     });
-    it("should move a unit and fight to death", () => {
+    it("should move a unit and kill each other", () => {
       return initState({ player1UnitCount: 1, player2UnitCount: 1 }).then(
         init => {
           const { fromTerritory, toTerritory, game } = init;
@@ -136,6 +136,31 @@ describe("BattleActions class", () => {
     });
     it("should move units, fight and defender should retreat", () => {
       return initState({ player1UnitCount: 2, player2UnitCount: 2 }).then(
+        init => {
+          const { fromTerritory, toTerritory, game, player2 } = init;
+          const { units: movedUnits } = fromTerritory;
+          const defender = player2;
+          return actions
+            .moveEarth({
+              game,
+              units: movedUnits,
+              fromTerritory,
+              toTerritory
+            })
+            .then(game => {
+              const newFromT = game.getEntity(fromTerritory);
+              game = actions.retreat({
+                player: defender,
+                game,
+                toTerritory: newFromT
+              });
+              expect(game.battle.isDone()).to.equal(true);
+            });
+        }
+      );
+    });
+    it("should move units, fight to death", () => {
+      return initState({ player1UnitCount: 3, player2UnitCount: 3 }).then(
         init => {
           const { fromTerritory, toTerritory, game, player2 } = init;
           const { units: movedUnits } = fromTerritory;

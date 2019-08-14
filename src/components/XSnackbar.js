@@ -1,4 +1,4 @@
-module.exports = function(store, MessageActions) {
+module.exports = function(store, MessageActions, ZIndexs) {
   return ({}) => {
     const { errorMessage } = store.getState();
     const { display, text } = errorMessage;
@@ -14,7 +14,8 @@ module.exports = function(store, MessageActions) {
           display: "flex",
           justifyContent: "center",
           transition: "top 0.5s",
-          width: "100%"
+          width: "100%",
+          zIndex: ZIndexs.mouse
         }}
       >
         <p

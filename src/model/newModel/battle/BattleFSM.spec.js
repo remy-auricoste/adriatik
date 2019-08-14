@@ -1,4 +1,5 @@
-const { DataTest, BattleFSM, Battle } = injector.resolveAll();
+const { DataTest, BattleFSM, Battle, BattleDecisions } = injector.resolveAll();
+const { stay, retreat } = BattleDecisions;
 
 const { legionnaire, player } = DataTest;
 
@@ -29,8 +30,8 @@ describe("BattleFSM class", () => {
       expect(battleFSM.isDone()).to.equal(false);
       const state = battleFSM.getState();
       const { attacker, defender } = state;
-      battleFSM.updateState(state.makeDecision(attacker, "stay"));
-      battleFSM.updateState(state.makeDecision(defender, "stay"));
+      battleFSM.updateState(state.makeDecision(attacker, stay));
+      battleFSM.updateState(state.makeDecision(defender, stay));
       expect(battleFSM.isDone()).to.equal(true);
     });
   });
