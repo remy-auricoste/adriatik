@@ -81,6 +81,14 @@ module.exports = function(
         toTerritory
       });
     }
+    moveSea({ game, units, fromTerritory, toTerritory }) {
+      return BattleActions.moveSea({
+        game,
+        units,
+        fromTerritory,
+        toTerritory
+      });
+    }
     retreat({ game, player, toTerritory }) {
       return BattleActions.retreat({ game, player, toTerritory });
     }

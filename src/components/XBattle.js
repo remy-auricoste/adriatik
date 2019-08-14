@@ -1,3 +1,5 @@
+const { useState } = React;
+
 module.exports = function(
   XPanel,
   XEntity,
@@ -12,6 +14,8 @@ module.exports = function(
   const commands = GameActions.commands();
   const { Ship } = UnitType;
   return ({ game }) => {
+    const [lastClosedBattle, setLastClosedBattle] = useState(null);
+
     const { battle: battleFsm } = game;
     if (!battleFsm) {
       return null;
@@ -29,6 +33,11 @@ module.exports = function(
 
     const { state: battle } = battleFsm;
     const { states, territory } = battle;
+    const isBattleOver = battleFsm.isDone();
+    const shouldDisplayBattle = !isBattleOver || lastClosedBattle !== battle.id;
+    if (!shouldDisplayBattle) {
+      return null;
+    }
     console.log("battleFsm", battleFsm);
     return (
       <div
@@ -49,6 +58,19 @@ module.exports = function(
           }}
         >
           <XPanel>
+            {isBattleOver && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 10,
+                  right: 10
+                }}
+              >
+                <XButton onClick={() => setLastClosedBattle(battle.id)}>
+                  Fermer
+                </XButton>
+              </div>
+            )}
             <div
               style={{
                 display: "flex",

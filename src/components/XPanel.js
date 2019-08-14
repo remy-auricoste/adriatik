@@ -6,7 +6,8 @@ module.exports = function(ZIndexs) {
           {
             border: "black solid 1px",
             zIndex: ZIndexs.panel,
-            backgroundColor: "lightgrey"
+            backgroundColor: "lightgrey",
+            height: "100%"
           },
           style
         )}

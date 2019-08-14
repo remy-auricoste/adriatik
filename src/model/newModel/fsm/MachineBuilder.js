@@ -43,7 +43,7 @@ class MachineBuilder {
     const { store } = this;
     const { state, currentSteps, history, promise } = finiteStateMachine;
     if (promise) {
-      throw new Error(`cannot restore an FSM with a promise`);
+      console.error(`cannot restore an FSM with a promise`);
     }
     return new FiniteStateMachine({
       state,

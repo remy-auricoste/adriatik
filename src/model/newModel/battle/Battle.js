@@ -22,11 +22,18 @@ class PlayerBattle {
 
 module.exports = function(Dice, Building, Territory, Player) {
   return class Battle {
-    constructor({ territory, attacker, defender, states = [] }) {
+    constructor({
+      territory,
+      attacker,
+      defender,
+      states = [],
+      id = Math.random() + ""
+    }) {
       this.territory = new Territory(territory);
       this.attacker = new Player(attacker);
       this.defender = new Player(defender);
       this.states = states.map(_ => new PlayerBattle(_));
+      this.id = id;
     }
     async buildLosses() {
       const { attacker, defender } = this;

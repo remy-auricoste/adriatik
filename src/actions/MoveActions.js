@@ -3,8 +3,10 @@ module.exports = function(
   storeCommands,
   store,
   commandHandler,
-  SelectionActions
+  SelectionActions,
+  TerritoryType
 ) {
+  const { sea, earth } = TerritoryType;
   storeCommands.set("move", { units: [] });
 
   class MoveActions {
@@ -27,7 +29,9 @@ module.exports = function(
         return;
       }
       const { game } = store.getState();
-      const command = GameActions.commands().moveEarth({
+      const { type: territoryType } = fromTerritory;
+      const actionMethod = territoryType === earth ? "moveEarth" : "moveSea";
+      const command = GameActions.commands()[actionMethod]({
         game,
         units,
         fromTerritory,
