@@ -1,9 +1,8 @@
 module.exports = function(store, storeCommands, MessageActions, GameActions) {
-  const gameActions = new GameActions();
   const commandHandler = ({ command }) => {
     const { game } = store.getState();
     const actionType = command.method;
-    if (!gameActions.canDo({ game, actionType })) {
+    if (!GameActions.canDo({ game, actionType })) {
       throw new Error(
         `commandHandler : actionType=${actionType} is not authorized`
       );

@@ -8,8 +8,7 @@ module.exports = function(
   MoveActions,
   XMapIconContainer
 ) {
-  const gameActions = new GameActions();
-  const commands = gameActions.commands();
+  const commands = GameActions.commands();
   const { sea } = TerritoryType;
   return ({ game }) => {
     const [territoryOver, setTerritoryOver] = useState(null);
@@ -27,7 +26,7 @@ module.exports = function(
     const territoryClick = territory => () => {
       SelectionActions.select(territory);
       MoveActions.selectTerritory(territory);
-      if (gameActions.canDo({ actionType: "initUnit", game })) {
+      if (GameActions.canDo({ actionType: "initUnit", game })) {
         const command = commands.initUnit({ territoryId: territory.id });
         commandHandler({ command });
       }

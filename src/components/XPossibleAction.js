@@ -1,5 +1,4 @@
 module.exports = function(GameActions, SelectionActions, store) {
-  const gameActions = new GameActions();
   return ({ actionType, game, children }) => {
     const handleClick = () => {
       SelectionActions.selectAction(actionType);
@@ -8,7 +7,7 @@ module.exports = function(GameActions, SelectionActions, store) {
     const {
       selection: { actionType: selectedActionType }
     } = store.getState();
-    const possibleActionTypes = gameActions.getPossibleActionTypes({ game });
+    const possibleActionTypes = GameActions.getPossibleActionTypes({ game });
     const canDo = possibleActionTypes.indexOf(actionType) !== -1;
     const isSelectedAction = selectedActionType === actionType;
     return (

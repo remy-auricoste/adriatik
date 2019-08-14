@@ -7,16 +7,19 @@ module.exports = function(
   UnitType
 ) {
   const { Ceres } = God;
-  const firstActions = new FirstTurnActions();
-  const battleActions = new BattleActions();
-  return class GameActions {
+  class GameActions {
     // actions
     initUnit({ territoryId, game }) {
       const territory = game.getEntityById(territoryId);
       const { player, god } = game.getCurrentPlayerAndGod();
-      const result = firstActions.initUnit({ player, territory, game, god });
+      const result = FirstTurnActions.initUnit({
+        player,
+        territory,
+        game,
+        god
+      });
       const newGame = result.game;
-      const unitsLeft = firstActions.getUnitsLeft({
+      const unitsLeft = FirstTurnActions.getUnitsLeft({
         game: newGame,
         god,
         player
@@ -68,10 +71,10 @@ module.exports = function(
       return phase.pass({ game });
     }
     stay({ game, player }) {
-      return battleActions.stay({ game, player });
+      return BattleActions.stay({ game, player });
     }
     moveEarth({ game, units, fromTerritory, toTerritory }) {
-      return battleActions.moveEarth({
+      return BattleActions.moveEarth({
         game,
         units,
         fromTerritory,
@@ -79,7 +82,7 @@ module.exports = function(
       });
     }
     retreat({ game, player, toTerritory }) {
-      return battleActions.retreat({ game, player, toTerritory });
+      return BattleActions.retreat({ game, player, toTerritory });
     }
 
     // reads
@@ -144,5 +147,6 @@ module.exports = function(
     canDo({ actionType, game }) {
       return this.getPossibleActionTypes({ game }).indexOf(actionType) !== -1;
     }
-  };
+  }
+  return new GameActions();
 };

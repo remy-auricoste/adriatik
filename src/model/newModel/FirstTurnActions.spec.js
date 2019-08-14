@@ -12,7 +12,7 @@ const {
 const { player } = DataTest;
 const god = God.Neptune;
 
-const firstTurnActions = new FirstTurnActions();
+const firstTurnActions = FirstTurnActions;
 
 describe("FirstTurnActions class", () => {
   describe("initUnit method", () => {

@@ -14,8 +14,7 @@ const { Legionnaire } = UnitType;
 
 const { player, territory } = DataTest;
 
-const actions = new BattleActions();
-const gameActions = new GameActions();
+const actions = BattleActions;
 
 const seq = (min, max) => {
   const result = [];
@@ -51,10 +50,9 @@ const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
     gods: [Minerve, Neptune]
   });
 
-  game = gameActions.placeBid({ game, godId: Minerve.id, amount: 1 });
-  return gameActions
-    .placeBid({ game, godId: Neptune.id, amount: 1 })
-    .then(game => {
+  game = GameActions.placeBid({ game, godId: Minerve.id, amount: 1 });
+  return GameActions.placeBid({ game, godId: Neptune.id, amount: 1 }).then(
+    game => {
       return {
         player,
         player2,
@@ -62,7 +60,8 @@ const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
         toTerritory,
         game
       };
-    });
+    }
+  );
 };
 
 describe("BattleActions class", () => {

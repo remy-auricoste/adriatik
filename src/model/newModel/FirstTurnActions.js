@@ -100,5 +100,5 @@ module.exports = function(UnitType, TerritoryType, Unit) {
       return result;
     }
   }
-  return FirstTurnActions;
+  return new FirstTurnActions();
 };

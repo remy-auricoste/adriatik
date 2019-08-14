@@ -9,8 +9,7 @@ module.exports = function(
   commandHandler
 ) {
   const { stay, retreat } = BattleDecisions;
-  const gameActions = new GameActions();
-  const commands = gameActions.commands();
+  const commands = GameActions.commands();
   const { Ship } = UnitType;
   return ({ game }) => {
     const { battle: battleFsm } = game;

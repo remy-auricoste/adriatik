@@ -1,5 +1,4 @@
 module.exports = function(GameActions, storeCommands, store, commandHandler) {
-  const gameActions = new GameActions();
   storeCommands.set("selection", { args: [] });
 
   class SelectionActions {
@@ -28,13 +27,13 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
       const selection = this.getState();
       if (this.isSelectionReady(selection)) {
         const { actionType, args = [] } = selection;
-        const argsTypings = gameActions.getActionCommandTypings()[actionType];
+        const argsTypings = GameActions.getActionCommandTypings()[actionType];
         const params = {};
         argsTypings.forEach((typing, index) => {
           const paramName = typing.toLowerCase() + "Id";
           params[paramName] = args[index].id;
         });
-        const command = gameActions.commands()[actionType](params);
+        const command = GameActions.commands()[actionType](params);
         if (!args.length) {
           this.reset();
         } else {
@@ -51,7 +50,7 @@ module.exports = function(GameActions, storeCommands, store, commandHandler) {
       if (!actionType) {
         return false;
       }
-      const argsTypings = gameActions.getActionCommandTypings()[actionType];
+      const argsTypings = GameActions.getActionCommandTypings()[actionType];
       if (args.length !== argsTypings.length) {
         return false;
       }

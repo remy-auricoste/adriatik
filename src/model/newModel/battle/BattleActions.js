@@ -10,7 +10,7 @@ module.exports = function(
   const { stay, retreat } = BattleDecisions;
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
-  return class BattleActions {
+  class BattleActions {
     // TODO handle special ship moves
     async moveEarth({ game, units, fromTerritory, toTerritory }) {
       this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
@@ -159,5 +159,6 @@ module.exports = function(
         throw new Error(`cannot retreat as there is no battle going on !`);
       }
     }
-  };
+  }
+  return new BattleActions();
 };

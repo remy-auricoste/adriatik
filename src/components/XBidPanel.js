@@ -14,8 +14,7 @@ module.exports = function(
   XIcon,
   XPanel
 ) {
-  const gameActions = new GameActions();
-  const commands = gameActions.commands();
+  const commands = GameActions.commands();
   const { Ceres } = God;
   return ({ game, room }) => {
     const handleBid = (god, amount) => {

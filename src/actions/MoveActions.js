@@ -5,7 +5,6 @@ module.exports = function(
   commandHandler,
   SelectionActions
 ) {
-  const gameActions = new GameActions();
   storeCommands.set("move", { units: [] });
 
   class MoveActions {
@@ -28,7 +27,7 @@ module.exports = function(
         return;
       }
       const { game } = store.getState();
-      const command = gameActions.commands().moveEarth({
+      const command = GameActions.commands().moveEarth({
         game,
         units,
         fromTerritory,

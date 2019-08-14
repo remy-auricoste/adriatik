@@ -12,8 +12,7 @@ const {
   UnitType
 } = injector.resolveAll();
 
-const gameActions = new GameActions();
-const commands = gameActions.commands();
+const commands = GameActions.commands();
 const settings = new GameSettings();
 const player1 = new Player({ gold: 7, id: "player1" });
 const player2 = new Player({ gold: 7, id: "player2" });
