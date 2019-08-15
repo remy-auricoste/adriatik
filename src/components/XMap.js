@@ -40,7 +40,10 @@ module.exports = function(
               const isOver = territoryOver && territoryOver.id === territory.id;
               const isNeighbour =
                 territoryOver && territory.isNextTo(territoryOver);
-              const changeColor = isOver || isNeighbour;
+              const changeColor =
+                isOver ||
+                isNeighbour ||
+                MoveActions.isValidSeaDestination(territory);
               const isSea = territory.type === sea;
               const defaultColor = isSea
                 ? changeColor

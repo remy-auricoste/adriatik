@@ -184,6 +184,11 @@ module.exports = function(
       }
     }
     checkSeaRange({ game, player, fromTerritory, toTerritory }) {
+      const { currentSeaMove } = player;
+      const maxMove = (currentSeaMove && currentSeaMove.remaining) || 3;
+      if (currentSeaMove && currentSeaMove.territory) {
+        fromTerritory = game.getEntityById(currentSeaMove.territory.id);
+      }
       const seaRange = this.getSeaRange({
         game,
         player,
@@ -195,7 +200,6 @@ module.exports = function(
           `il n'y a pas de chemin pour accéder au territoire de destination`
         );
       }
-      const maxMove = player.remainingSeaMove || 3;
       if (seaRange > maxMove) {
         throw new Error(
           `vous ne pouvez vous déplacer que de ${maxMove} territoires`

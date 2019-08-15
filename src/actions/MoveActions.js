@@ -4,7 +4,8 @@ module.exports = function(
   store,
   commandHandler,
   SelectionActions,
-  TerritoryType
+  TerritoryType,
+  BattleActions
 ) {
   const { sea, earth } = TerritoryType;
   storeCommands.set("move", { units: [] });
@@ -37,7 +38,6 @@ module.exports = function(
         fromTerritory,
         toTerritory: territory
       });
-      console.log(command);
       commandHandler({ command });
       this.reset();
     }
@@ -46,6 +46,32 @@ module.exports = function(
     }
     getState() {
       return store.getState().move;
+    }
+    isValidSeaDestination(territory) {
+      const selectedUnits = this.getSelectedUnits();
+      if (!selectedUnits.length) {
+        return false;
+      }
+      const { game } = store.getState();
+      const currentPlayer = game.getCurrentPlayer();
+      const { currentSeaMove } = currentPlayer;
+      const fromTerritory = currentSeaMove
+        ? currentSeaMove.territory
+        : this.getState().fromTerritory;
+      if (!fromTerritory) {
+        return false;
+      }
+      try {
+        BattleActions.checkSeaRange({
+          game,
+          player: currentPlayer,
+          fromTerritory,
+          toTerritory: territory
+        });
+        return true;
+      } catch (err) {
+        return false;
+      }
     }
   }
   return new MoveActions();
