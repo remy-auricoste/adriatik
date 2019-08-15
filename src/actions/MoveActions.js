@@ -54,9 +54,11 @@ module.exports = function(
       }
       const { game } = store.getState();
       const currentPlayer = game.getCurrentPlayer();
-      const { currentSeaMove } = currentPlayer;
-      const fromTerritory = currentSeaMove
-        ? currentSeaMove.territory
+      const {
+        currentSeaMove: { territory: currentTerritory, remaining }
+      } = currentPlayer;
+      const fromTerritory = remaining
+        ? currentTerritory
         : this.getState().fromTerritory;
       if (!fromTerritory) {
         return false;

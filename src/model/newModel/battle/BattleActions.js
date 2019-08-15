@@ -17,7 +17,30 @@ module.exports = function(
     }
     async moveSea({ game, units, fromTerritory, toTerritory }) {
       this.checkValidSeaMove({ game, units, fromTerritory, toTerritory });
-      return this.move({ game, units, fromTerritory, toTerritory });
+      const result = this.move({ game, units, fromTerritory, toTerritory });
+      return Promise.resolve(result).then(game => {
+        const player = game.getEntityById(units[0].ownerId);
+        const seaRange = this.getSeaRange({
+          game,
+          player,
+          fromTerritory,
+          toTerritory
+        });
+        const {
+          currentSeaMove: { remaining: oldRemaining }
+        } = player;
+        const newRemaining = Math.max(0, (oldRemaining || 3) - seaRange);
+        const newPlayer =
+          seaRange > 0
+            ? player.copy({
+                currentSeaMove: {
+                  territory: toTerritory,
+                  remaining: newRemaining
+                }
+              })
+            : player;
+        return game.update(newPlayer);
+      });
     }
     retreat({ game, player, toTerritory }) {
       this.checkForBattle({ game });
@@ -184,10 +207,12 @@ module.exports = function(
       }
     }
     checkSeaRange({ game, player, fromTerritory, toTerritory }) {
-      const { currentSeaMove } = player;
-      const maxMove = (currentSeaMove && currentSeaMove.remaining) || 3;
-      if (currentSeaMove && currentSeaMove.territory) {
-        fromTerritory = game.getEntityById(currentSeaMove.territory.id);
+      const {
+        currentSeaMove: { territory: currentTerritory, remaining }
+      } = player;
+      const maxMove = remaining || 3;
+      if (currentTerritory && remaining) {
+        fromTerritory = game.getEntityById(currentTerritory.id);
       }
       const seaRange = this.getSeaRange({
         game,
@@ -205,12 +230,15 @@ module.exports = function(
           `vous ne pouvez vous déplacer que de ${maxMove} territoires`
         );
       }
+      if (toTerritory.type !== sea) {
+        throw new Error(`destination is not a sea territory !`);
+      }
     }
     getSeaRange({ game, player, fromTerritory, toTerritory }) {
       const isValidFct = territory =>
         territory.type === sea && territory.isFriendly(player);
       const path = game.findPath({ fromTerritory, toTerritory, isValidFct });
-      return !!path ? path.length : -1;
+      return !!path ? path.length - 1 : -1;
     }
     checkNotSameTerritory({ fromTerritory, toTerritory }) {
       if (fromTerritory.id === toTerritory.id) {

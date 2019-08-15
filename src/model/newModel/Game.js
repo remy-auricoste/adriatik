@@ -11,7 +11,8 @@ module.exports = function(
   God,
   Territory,
   BattleFSM,
-  Battle
+  Battle,
+  Arrays
 ) {
   return class Game {
     constructor({
@@ -163,38 +164,48 @@ module.exports = function(
       const { currentPhaseIndex, phases } = this;
       return phases[currentPhaseIndex];
     }
-    findPath({
-      fromTerritory,
+    findPath({ fromTerritory, toTerritory, isValidFct }) {
+      return this.findPathExtended({
+        possibleFromPaths: [[fromTerritory]],
+        toTerritory,
+        isValidFct
+      });
+    }
+    findPathExtended({
+      possibleFromPaths,
       toTerritory,
       isValidFct,
-      currentPath = [],
       passedTerritories = []
     }) {
-      if (fromTerritory.isNextTo(toTerritory)) {
-        return currentPath.concat([toTerritory]);
+      const foundDirectPath = possibleFromPaths.find(path => {
+        const lastTerritory = path[path.length - 1];
+        return lastTerritory.isNextTo(toTerritory);
+      });
+      if (foundDirectPath) {
+        return foundDirectPath.concat([toTerritory]);
       }
-      const neighbourIdsLeft = fromTerritory.neighbours.filter(
-        id => passedTerritories.indexOf(id) === -1
+      const newPassedTerritories = Arrays.toSet(
+        Arrays.flatMap(possibleFromPaths, path => {
+          return path.map(_ => _.id);
+        })
       );
-      if (!neighbourIdsLeft.length) {
+      const newPossiblePaths = Arrays.flatMap(possibleFromPaths, path => {
+        const lastTerritory = path[path.length - 1];
+        return lastTerritory.neighbours
+          .filter(id => newPassedTerritories.indexOf(id) === -1)
+          .map(id => this.getEntityById(id))
+          .filter(isValidFct)
+          .map(_ => path.concat([_]));
+      });
+      if (!newPossiblePaths.length) {
         return null;
       }
-      const possibleNeighbours = neighbourIdsLeft
-        .map(id => this.getEntityById(id))
-        .filter(isValidFct);
-      passedTerritories.push(fromTerritory.id);
-      return possibleNeighbours.reduce((acc, territory) => {
-        return (
-          acc ||
-          this.findPath({
-            fromTerritory: territory,
-            toTerritory,
-            isValidFct,
-            currentPath: currentPath.concat([territory]),
-            passedTerritories
-          })
-        );
-      }, undefined);
+      return this.findPathExtended({
+        possibleFromPaths: newPossiblePaths,
+        toTerritory,
+        isValidFct,
+        passedTerritories: newPassedTerritories
+      });
     }
 
     // private

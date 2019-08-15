@@ -6,7 +6,10 @@ module.exports = function(GodCard) {
       cards = {},
       lastIncome = 0,
       id = Math.random() + "",
-      currentSeaMove = undefined
+      currentSeaMove = {
+        territory: undefined,
+        remaining: 0
+      }
     } = {}) {
       this.gold = gold;
       this.templeUsed = templeUsed;
