@@ -161,9 +161,16 @@ describe("BattleActions class", () => {
     it("should move units, fight to death", () => {
       return initState({ player1UnitCount: 3, player2UnitCount: 3 }).then(
         init => {
-          const { fromTerritory, toTerritory, game, player2 } = init;
+          const { fromTerritory, toTerritory, game, player, player2 } = init;
           const { units: movedUnits } = fromTerritory;
           const defender = player2;
+          const attacker = player;
+          const countUnits = game => {
+            return [
+              game.getEntityById(toTerritory.id).getUnits(attacker).length,
+              game.getEntityById(toTerritory.id).getUnits(defender).length
+            ];
+          };
           return actions
             .moveEarth({
               game,
@@ -172,12 +179,18 @@ describe("BattleActions class", () => {
               toTerritory
             })
             .then(game => {
-              const newFromT = game.getEntity(fromTerritory);
-              game = actions.retreat({
-                player: defender,
-                game,
-                toTerritory: newFromT
-              });
+              expect(countUnits(game)).to.deep.equal([2, 2]);
+              game = actions.stay({ game, player: attacker });
+              return actions.stay({ game, player: defender });
+            })
+            .then(game => {
+              expect(countUnits(game)).to.deep.equal([1, 1]);
+              expect(game.battle.isDone()).to.equal(false);
+              game = actions.stay({ game, player: attacker });
+              return actions.stay({ game, player: defender });
+            })
+            .then(game => {
+              expect(countUnits(game)).to.deep.equal([0, 0]);
               expect(game.battle.isDone()).to.equal(true);
             });
         }
