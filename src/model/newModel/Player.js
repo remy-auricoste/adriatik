@@ -5,14 +5,15 @@ module.exports = function(GodCard) {
       templeUsed = 0,
       cards = {},
       lastIncome = 0,
-      id = Math.random() + ""
+      id = Math.random() + "",
+      remainingSeaMove = 0
     } = {}) {
       this.gold = gold;
       this.templeUsed = templeUsed;
       this.cards = cards;
       this.lastIncome = lastIncome;
-
       this.id = id;
+      this.remainingSeaMove = remainingSeaMove;
     }
     // writes
     spend(number) {

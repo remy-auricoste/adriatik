@@ -84,6 +84,13 @@ module.exports = function(
       this.checkNotStupidMove({ game, units, fromTerritory, toTerritory });
       this.checkValidGod({ units, game, fromTerritory });
 
+      const player = game.getCurrentPlayer();
+      this.checkSeaRange({
+        game,
+        fromTerritory,
+        toTerritory,
+        player
+      });
       this.checkValidTerritoryType({ units, territory: fromTerritory });
       this.checkValidTerritoryType({ units, territory: toTerritory });
     }
@@ -173,6 +180,25 @@ module.exports = function(
       if (!game.findPath({ fromTerritory, toTerritory, isValidFct })) {
         throw new Error(
           "le territoire de destination n'est pas adjacent au territoire de départ, ou relié par une chaîne de bateaux."
+        );
+      }
+    }
+    checkSeaRange({ game, player, fromTerritory, toTerritory }) {
+      const seaRange = this.getSeaRange({
+        game,
+        player,
+        fromTerritory,
+        toTerritory
+      });
+      if (seaRange === -1) {
+        throw new Error(
+          `il n'y a pas de chemin pour accéder au territoire de destination`
+        );
+      }
+      const maxMove = player.remainingSeaMove || 3;
+      if (seaRange > maxMove) {
+        throw new Error(
+          `vous ne pouvez vous déplacer que de ${maxMove} territoires`
         );
       }
     }
