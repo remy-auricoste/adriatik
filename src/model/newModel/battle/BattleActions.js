@@ -176,11 +176,11 @@ module.exports = function(
         );
       }
     }
-    isWithinSeaRange({ game, player, fromTerritory, toTerritory }) {
+    getSeaRange({ game, player, fromTerritory, toTerritory }) {
       const isValidFct = territory =>
         territory.type === sea && territory.isFriendly(player);
       const path = game.findPath({ fromTerritory, toTerritory, isValidFct });
-      return !!path && path.length <= 3;
+      return !!path ? path.length : -1;
     }
     checkNotSameTerritory({ fromTerritory, toTerritory }) {
       if (fromTerritory.id === toTerritory.id) {

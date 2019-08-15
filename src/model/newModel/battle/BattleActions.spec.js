@@ -284,41 +284,41 @@ describe("BattleActions class", () => {
       });
     });
   });
-  describe("isWithinSeaRange method", () => {
-    it("should return true if target territory is 3 territories away", () => {
+  describe("getSeaRange method", () => {
+    it("should return 3 if target territory is 3 territories away", () => {
       const { game, territories, player } = initSeaState({ territoryCount: 4 });
       expect(
-        actions.isWithinSeaRange({
+        actions.getSeaRange({
           game,
           player,
           fromTerritory: territories[0],
           toTerritory: territories[territories.length - 1]
         })
-      ).to.equal(true);
+      ).to.equal(3);
     });
-    it("should return true if target territory is 4 territories away", () => {
+    it("should return 4 if target territory is 4 territories away", () => {
       const { game, territories, player } = initSeaState({ territoryCount: 5 });
       expect(
-        actions.isWithinSeaRange({
+        actions.getSeaRange({
           game,
           player,
           fromTerritory: territories[0],
           toTerritory: territories[territories.length - 1]
         })
-      ).to.equal(false);
+      ).to.equal(4);
     });
-    it("should return true if target territory is 1 territories away", () => {
+    it("should return 1 if target territory is 1 territories away", () => {
       const { game, territories, player } = initSeaState({ territoryCount: 2 });
       expect(
-        actions.isWithinSeaRange({
+        actions.getSeaRange({
           game,
           player,
           fromTerritory: territories[0],
           toTerritory: territories[territories.length - 1]
         })
-      ).to.equal(true);
+      ).to.equal(1);
     });
-    it("should return false if territories are not sea connected", () => {
+    it("should return -1 if territories are not sea connected", () => {
       let fromTerritory = new Territory({ type: sea });
       let toTerritory = new Territory({ type: sea });
       fromTerritory = fromTerritory.placeUnit(
@@ -332,13 +332,13 @@ describe("BattleActions class", () => {
         gods: [Minerve, Neptune]
       });
       expect(
-        actions.isWithinSeaRange({
+        actions.getSeaRange({
           game,
           player,
           fromTerritory,
           toTerritory
         })
-      ).to.equal(false);
+      ).to.equal(-1);
     });
   });
 });
