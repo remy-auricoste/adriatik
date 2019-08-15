@@ -11,35 +11,42 @@ module.exports = function(
   const { Neptune, Ceres, Minerve } = God;
   class BattleActions {
     // TODO handle special ship moves
-    async moveEarth({ game, units, fromTerritory, toTerritory }) {
-      this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
-      return this.move({ game, units, fromTerritory, toTerritory });
+    moveEarth({ game, units, fromTerritory, toTerritory }) {
+      return Promise.resolve().then(() => {
+        this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
+        return this.move({ game, units, fromTerritory, toTerritory });
+      });
     }
-    async moveSea({ game, units, fromTerritory, toTerritory }) {
-      this.checkValidSeaMove({ game, units, fromTerritory, toTerritory });
-      const result = this.move({ game, units, fromTerritory, toTerritory });
-      return Promise.resolve(result).then(game => {
-        const player = game.getEntityById(units[0].ownerId);
-        const seaRange = this.getSeaRange({
-          game,
-          player,
-          fromTerritory,
-          toTerritory
+    moveSea({ game, units, fromTerritory, toTerritory }) {
+      return Promise.resolve().then(() => {
+        this.checkValidSeaMove({ game, units, fromTerritory, toTerritory });
+        const result = this.move({ game, units, fromTerritory, toTerritory });
+        return Promise.resolve(result).then(game => {
+          const player = game.getEntityById(units[0].ownerId);
+          const seaRange = this.getSeaRange({
+            game,
+            player,
+            fromTerritory,
+            toTerritory
+          });
+          const {
+            currentSeaMove: { remaining: oldRemaining },
+            gold
+          } = player;
+          const newRemaining = Math.max(0, (oldRemaining || 3) - seaRange);
+          const newPlayer =
+            seaRange > 0
+              ? player.copy({
+                  // TODO improve this logic
+                  gold: oldRemaining ? gold + 1 : gold, // if there was a remaining, do not spend gold
+                  currentSeaMove: {
+                    territory: toTerritory,
+                    remaining: newRemaining
+                  }
+                })
+              : player;
+          return game.update(newPlayer);
         });
-        const {
-          currentSeaMove: { remaining: oldRemaining }
-        } = player;
-        const newRemaining = Math.max(0, (oldRemaining || 3) - seaRange);
-        const newPlayer =
-          seaRange > 0
-            ? player.copy({
-                currentSeaMove: {
-                  territory: toTerritory,
-                  remaining: newRemaining
-                }
-              })
-            : player;
-        return game.update(newPlayer);
       });
     }
     retreat({ game, player, toTerritory }) {
@@ -129,7 +136,7 @@ module.exports = function(
     }
 
     // private
-    async move({ game, units, fromTerritory, toTerritory }) {
+    move({ game, units, fromTerritory, toTerritory }) {
       const defender = game.getEntityById(toTerritory.getOwner());
       const fromType = fromTerritory.type;
       const { player, god } = game.getCurrentPlayerAndGod();
@@ -148,7 +155,7 @@ module.exports = function(
         .update(toNew)
         .update(newPlayer);
       if (!toNew.hasConflict()) {
-        return newGame;
+        return Promise.resolve(newGame);
       }
       return this.initBattle({
         game: newGame,

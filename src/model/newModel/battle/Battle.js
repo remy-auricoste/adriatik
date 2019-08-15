@@ -35,25 +35,28 @@ module.exports = function(Dice, Building, Territory, Player) {
       this.states = states.map(_ => new PlayerBattle(_));
       this.id = id;
     }
-    async buildLosses() {
+    buildLosses() {
       const { attacker, defender } = this;
       const players = [attacker, defender];
-      const scoreAttacker = await this.getScore(attacker);
-      const scoreDefender = await this.getScore(defender);
-      const scores = [scoreAttacker, scoreDefender];
-      const newStates = players.map((player, index) => {
-        const otherIndex = 1 - index;
-        const score = scores[index];
-        const otherScore = scores[otherIndex];
-        return new PlayerBattle({
-          playerId: player.id,
-          score: scores[index],
-          strength: this.getStrength(player),
-          loss: score <= otherScore ? 1 : 0
+      return Promise.all([
+        this.getScore(attacker),
+        this.getScore(defender)
+      ]).then(([scoreAttacker, scoreDefender]) => {
+        const scores = [scoreAttacker, scoreDefender];
+        const newStates = players.map((player, index) => {
+          const otherIndex = 1 - index;
+          const score = scores[index];
+          const otherScore = scores[otherIndex];
+          return new PlayerBattle({
+            playerId: player.id,
+            score: scores[index],
+            strength: this.getStrength(player),
+            loss: score <= otherScore ? 1 : 0
+          });
         });
-      });
-      return this.copy({
-        states: newStates
+        return this.copy({
+          states: newStates
+        });
       });
     }
     resolveLoss(player) {
@@ -80,10 +83,11 @@ module.exports = function(Dice, Building, Territory, Player) {
         : this.getDefendingBuildings().length;
       return unitsCount + buildingsCount;
     }
-    async getScore(player) {
+    getScore(player) {
       const strength = this.getStrength(player);
-      const diceCount = await Dice();
-      return strength + diceCount;
+      return Dice().then(diceCount => {
+        return strength + diceCount;
+      });
     }
     getDefendingBuildings() {
       const { territory } = this;

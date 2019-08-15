@@ -80,24 +80,27 @@ module.exports = function(
         game
       );
     }
-    async start() {
+    start() {
       const game = this;
       const { players } = game;
-      const newPlayers = await RandomReaderAsync.shuffle(players);
-      const newGame = game.copy({
-        players: newPlayers
+      return RandomReaderAsync.shuffle(players).then(newPlayers => {
+        const newGame = game.copy({
+          players: newPlayers
+        });
+        return newGame.getCurrentPhase().start({ game: newGame });
       });
-      return await newGame.getCurrentPhase().start({ game: newGame });
     }
-    async nextPhase(game = this) {
+    nextPhase(game = this) {
       const { currentPhaseIndex, phases } = game;
       const currentPhase = game.getCurrentPhase();
-      let newGame = await currentPhase.end({ game });
-      const newPhaseIndex = (currentPhaseIndex + 1) % phases.length;
-      const newPhase = phases[newPhaseIndex];
-      newGame = await newPhase.start({ game: newGame });
-      return newGame.copy({
-        currentPhaseIndex: newPhaseIndex
+      return currentPhase.end({ game }).then(newGame => {
+        const newPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+        const newPhase = phases[newPhaseIndex];
+        return newPhase.start({ game: newGame }).then(newGame => {
+          return newGame.copy({
+            currentPhaseIndex: newPhaseIndex
+          });
+        });
       });
     }
     copy(params = {}) {

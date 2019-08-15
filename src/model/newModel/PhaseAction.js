@@ -1,9 +1,11 @@
 module.exports = function(God, TerritoryType) {
   return class PhaseAction {
-    async start({ game }) {
-      return game.copy({
-        currentPlayerIndex: 0
-      });
+    start({ game }) {
+      return Promise.resolve(
+        game.copy({
+          currentPlayerIndex: 0
+        })
+      );
     }
     pass({ game }) {
       const { currentPlayerIndex, players } = game;
@@ -16,7 +18,7 @@ module.exports = function(God, TerritoryType) {
         });
       }
     }
-    async end({ game }) {
+    end({ game }) {
       const { turn } = game;
       const { player, god } = game.getCurrentPlayerAndGod();
       if (god.id === God.Ceres.id && turn !== 1) {
@@ -27,9 +29,11 @@ module.exports = function(God, TerritoryType) {
         const newPlayer = player.copy({ gold: player.gold + earntGold });
         game = game.updateAll({ player: newPlayer });
       }
-      return game.copy({
-        turn: turn + 1
-      });
+      return Promise.resolve(
+        game.copy({
+          turn: turn + 1
+        })
+      );
     }
   };
 };

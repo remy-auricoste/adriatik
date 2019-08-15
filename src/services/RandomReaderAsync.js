@@ -1,9 +1,9 @@
 module.exports = function(randomReader) {
-  var randomReaderAsync = {};
+  const randomReaderAsync = {};
   for (var key in randomReader) {
     var value = randomReader[key];
     if (typeof value === "function") {
-      var build = function(key, value) {
+      const build = (key, value) => {
         randomReaderAsync[key] = function() {
           const result = value.apply(randomReader, arguments);
           return new Promise(function(resolve) {
