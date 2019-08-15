@@ -183,15 +183,18 @@ module.exports = function(
         .map(id => this.getEntityById(id))
         .filter(isValidFct);
       passedTerritories.push(fromTerritory.id);
-      return possibleNeighbours.find(territory => {
-        return this.findPath({
-          fromTerritory: territory,
-          toTerritory,
-          isValidFct,
-          currentPath: currentPath.concat([territory]),
-          passedTerritories
-        });
-      });
+      return possibleNeighbours.reduce((acc, territory) => {
+        return (
+          acc ||
+          this.findPath({
+            fromTerritory: territory,
+            toTerritory,
+            isValidFct,
+            currentPath: currentPath.concat([territory]),
+            passedTerritories
+          })
+        );
+      }, undefined);
     }
 
     // private

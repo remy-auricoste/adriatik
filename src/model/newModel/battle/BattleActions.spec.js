@@ -6,29 +6,24 @@ const {
   God,
   Unit,
   UnitType,
-  Player
+  Player,
+  TerritoryType,
+  Arrays,
+  Territory
 } = injector.resolveAll();
 
+const { sea, earth } = TerritoryType;
 const { Minerve, Neptune } = God;
-const { Legionnaire } = UnitType;
-
+const { Legionnaire, Ship } = UnitType;
 const { player, territory } = DataTest;
-
 const actions = BattleActions;
+const seq = Arrays.seq;
 
-const seq = (min, max) => {
-  const result = [];
-  for (let i = min; i < max; i++) {
-    result.push(i);
-  }
-  return result;
-};
-
-const placeUnits = (territory, count, player) => {
+const placeUnits = ({ territory, count, player, unitType }) => {
   seq(0, count).forEach(() => {
     territory = territory.placeUnit(
       new Unit({
-        type: Legionnaire,
+        type: unitType,
         ownerId: player.id
       })
     );
@@ -36,13 +31,52 @@ const placeUnits = (territory, count, player) => {
   return territory;
 };
 
+const createConnectedTerritories = ({ count, type }) => {
+  const territories = seq(0, count).map(i => {
+    return new Territory({ id: "territory" + i, type });
+  });
+  territories.reduce((a, b) => {
+    a && b.nextTo(a);
+    return b;
+  }, undefined);
+  return territories;
+};
+const addUnits = ({
+  territories,
+  player1,
+  player1UnitCount,
+  player2 = undefined,
+  player2UnitCount = undefined,
+  unitType
+}) => {
+  territories[0] = placeUnits({
+    territory: territories[0],
+    player: player1,
+    count: player1UnitCount,
+    unitType
+  });
+  if (player2) {
+    territories[territories.length - 1] = placeUnits({
+      territory: territories[territories.length - 1],
+      player: player2,
+      count: player2UnitCount,
+      unitType
+    });
+  }
+  return territories;
+};
+
 const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
   const player2 = new Player({ id: "player2" });
-  let fromTerritory = territory;
-  fromTerritory = placeUnits(fromTerritory, player1UnitCount, player);
-  let toTerritory = territory.copy({ id: "toTerritory" });
-  toTerritory = placeUnits(toTerritory, player2UnitCount, player2);
-  fromTerritory.nextTo(toTerritory);
+  const territories = createConnectedTerritories({ count: 2, type: earth });
+  const [fromTerritory, toTerritory] = addUnits({
+    territories,
+    player1: player,
+    player1UnitCount,
+    player2,
+    player2UnitCount,
+    unitType: Legionnaire
+  });
 
   let game = new Game({
     territories: [fromTerritory, toTerritory],
@@ -62,6 +96,26 @@ const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
       };
     }
   );
+};
+
+initSeaState = ({ territoryCount, player1UnitCount = 1 } = {}) => {
+  let territories = createConnectedTerritories({
+    count: territoryCount,
+    type: sea
+  });
+  territories = addUnits({
+    territories,
+    player1: player,
+    player1UnitCount,
+    unitType: Ship
+  });
+
+  const game = new Game({
+    territories,
+    players: [player],
+    gods: [Minerve, Neptune]
+  });
+  return { game, territories };
 };
 
 describe("BattleActions class", () => {
@@ -228,6 +282,63 @@ describe("BattleActions class", () => {
             expect(err.message).to.equal("il n'y a aucune unité sélectionnée.");
           });
       });
+    });
+  });
+  describe("isWithinSeaRange method", () => {
+    it("should return true if target territory is 3 territories away", () => {
+      const { game, territories, player } = initSeaState({ territoryCount: 4 });
+      expect(
+        actions.isWithinSeaRange({
+          game,
+          player,
+          fromTerritory: territories[0],
+          toTerritory: territories[territories.length - 1]
+        })
+      ).to.equal(true);
+    });
+    it("should return true if target territory is 4 territories away", () => {
+      const { game, territories, player } = initSeaState({ territoryCount: 5 });
+      expect(
+        actions.isWithinSeaRange({
+          game,
+          player,
+          fromTerritory: territories[0],
+          toTerritory: territories[territories.length - 1]
+        })
+      ).to.equal(false);
+    });
+    it("should return true if target territory is 1 territories away", () => {
+      const { game, territories, player } = initSeaState({ territoryCount: 2 });
+      expect(
+        actions.isWithinSeaRange({
+          game,
+          player,
+          fromTerritory: territories[0],
+          toTerritory: territories[territories.length - 1]
+        })
+      ).to.equal(true);
+    });
+    it("should return false if territories are not sea connected", () => {
+      let fromTerritory = new Territory({ type: sea });
+      let toTerritory = new Territory({ type: sea });
+      fromTerritory = fromTerritory.placeUnit(
+        new Unit({ type: Ship, ownerId: player.id })
+      );
+      const territories = [fromTerritory, toTerritory];
+
+      const game = new Game({
+        territories,
+        players: [player],
+        gods: [Minerve, Neptune]
+      });
+      expect(
+        actions.isWithinSeaRange({
+          game,
+          player,
+          fromTerritory,
+          toTerritory
+        })
+      ).to.equal(false);
     });
   });
 });
