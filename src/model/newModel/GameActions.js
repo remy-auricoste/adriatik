@@ -73,21 +73,11 @@ module.exports = function(
     stay({ game, player }) {
       return BattleActions.stay({ game, player });
     }
-    moveEarth({ game, units, fromTerritory, toTerritory }) {
-      return BattleActions.moveEarth({
-        game,
-        units,
-        fromTerritory,
-        toTerritory
-      });
+    moveEarth({ game, unitMoves }) {
+      return BattleActions.moveEarth({ game, unitMoves });
     }
-    moveSea({ game, units, fromTerritory, toTerritory }) {
-      return BattleActions.moveSea({
-        game,
-        units,
-        fromTerritory,
-        toTerritory
-      });
+    moveSea({ game, unitMoves }) {
+      return BattleActions.moveSea({ game, unitMoves });
     }
     retreat({ game, player, toTerritory }) {
       return BattleActions.retreat({ game, player, toTerritory });

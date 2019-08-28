@@ -5,7 +5,8 @@ module.exports = function(
   commandHandler,
   SelectionActions,
   TerritoryType,
-  BattleActions
+  BattleActions,
+  UnitMove
 ) {
   const { sea, earth } = TerritoryType;
   storeCommands.set("move", { units: [] });
@@ -17,10 +18,14 @@ module.exports = function(
     select(unit, territory) {
       SelectionActions.reset();
       const { fromTerritory } = this.getState();
-      if (fromTerritory && territory.id !== fromTerritory.id) {
+      if (
+        fromTerritory &&
+        territory.id !== fromTerritory.id &&
+        fromTerritory.type === earth
+      ) {
         this.reset();
       }
-      storeCommands.set("move.fromTerritory", territory);
+      storeCommands.push("move.fromTerritory", territory);
       storeCommands.push("move.units", unit);
     }
     selectTerritory(territory) {
@@ -30,16 +35,42 @@ module.exports = function(
         return;
       }
       const { game } = store.getState();
-      const { type: territoryType } = fromTerritory;
-      const actionMethod = territoryType === earth ? "moveEarth" : "moveSea";
-      const command = GameActions.commands()[actionMethod]({
-        game,
-        units,
-        fromTerritory,
-        toTerritory: territory
-      });
-      commandHandler({ command });
-      this.reset();
+      const { type: territoryType } = territory;
+      if (territoryType === sea) {
+        storeCommands.push(
+          "move.unitMoves",
+          new UnitMove({
+            unit: units[0],
+            fromTerritory: fromTerritory[0],
+            toTerritory: territory
+          })
+        );
+        storeCommands.set("move.units", units.slice(1));
+        storeCommands.set("move.fromTerritory", fromTerritory.slice(1));
+        if (!this.getState().units.length) {
+          const { unitMoves } = this.getState();
+          const command = GameActions.commands().moveSea({
+            game,
+            unitMoves
+          });
+          commandHandler({ command });
+          this.reset();
+        }
+      } else {
+        const unitMoves = units.map(unit => {
+          return new UnitMove({
+            unit,
+            fromTerritory: fromTerritory[0],
+            toTerritory: territory
+          });
+        });
+        const command = GameActions.commands().moveEarth({
+          game,
+          unitMoves
+        });
+        commandHandler({ command });
+        this.reset();
+      }
     }
     getSelectedUnits() {
       return this.getState().units;
@@ -54,12 +85,7 @@ module.exports = function(
       }
       const { game } = store.getState();
       const currentPlayer = game.getCurrentPlayer();
-      const {
-        currentSeaMove: { territory: currentTerritory, remaining }
-      } = currentPlayer;
-      const fromTerritory = remaining
-        ? currentTerritory
-        : this.getState().fromTerritory;
+      const fromTerritory = this.getState().fromTerritory;
       if (!fromTerritory) {
         return false;
       }

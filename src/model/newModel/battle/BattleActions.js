@@ -4,49 +4,24 @@ module.exports = function(
   UnitType,
   Battle,
   BattleFSM,
-  BattleDecisions
+  BattleDecisions,
+  UnitMove
 ) {
   const { stay, retreat } = BattleDecisions;
   const { sea, earth } = TerritoryType;
   const { Neptune, Ceres, Minerve } = God;
   class BattleActions {
     // TODO handle special ship moves
-    moveEarth({ game, units, fromTerritory, toTerritory }) {
+    moveEarth({ game, unitMoves }) {
       return Promise.resolve().then(() => {
-        this.checkValidEarthMove({ game, units, fromTerritory, toTerritory });
-        return this.move({ game, units, fromTerritory, toTerritory });
+        this.checkValidEarthMove({ game, unitMoves });
+        return this.move({ game, unitMoves });
       });
     }
-    moveSea({ game, units, fromTerritory, toTerritory }) {
+    moveSea({ game, unitMoves }) {
       return Promise.resolve().then(() => {
-        this.checkValidSeaMove({ game, units, fromTerritory, toTerritory });
-        const result = this.move({ game, units, fromTerritory, toTerritory });
-        return Promise.resolve(result).then(game => {
-          const player = game.getEntityById(units[0].ownerId);
-          const seaRange = this.getSeaRange({
-            game,
-            player,
-            fromTerritory,
-            toTerritory
-          });
-          const {
-            currentSeaMove: { remaining: oldRemaining },
-            gold
-          } = player;
-          const newRemaining = Math.max(0, (oldRemaining || 3) - seaRange);
-          const newPlayer =
-            seaRange > 0
-              ? player.copy({
-                  // TODO improve this logic
-                  gold: oldRemaining ? gold + 1 : gold, // if there was a remaining, do not spend gold
-                  currentSeaMove: {
-                    territory: toTerritory,
-                    remaining: newRemaining
-                  }
-                })
-              : player;
-          return game.update(newPlayer);
-        });
+        this.checkValidSeaMove({ game, unitMoves });
+        return this.move({ game, unitMoves });
       });
     }
     retreat({ game, player, toTerritory }) {
@@ -101,44 +76,46 @@ module.exports = function(
     }
 
     // reads
-    checkValidEarthMove({ game, units, fromTerritory, toTerritory }) {
-      this.checkNotStupidMove({ game, units, fromTerritory, toTerritory });
-      this.checkValidGod({ units, game, fromTerritory });
+    checkValidEarthMove({ game, unitMoves }) {
+      this.checkNotStupidMove({ game, unitMoves });
+      this.checkValidGod({ game, unitMoves });
 
       const player = game.getCurrentPlayer();
+      const { fromTerritory, toTerritory } = unitMoves[0];
       this.checkSeaConnected({ game, player, fromTerritory, toTerritory });
-      this.checkValidTerritoryType({ units, territory: fromTerritory });
-      this.checkValidTerritoryType({ units, territory: toTerritory });
+      this.checkValidTerritoryTypes({ unitMoves });
     }
-    checkValidSeaMove({ game, units, fromTerritory, toTerritory }) {
-      this.checkNotStupidMove({ game, units, fromTerritory, toTerritory });
-      this.checkValidGod({ units, game, fromTerritory });
+    checkValidSeaMove({ game, unitMoves }) {
+      this.checkNotStupidMove({ game, unitMoves });
+      this.checkValidGod({ game, unitMoves });
 
       const player = game.getCurrentPlayer();
-      this.checkSeaRange({
-        game,
-        fromTerritory,
-        toTerritory,
-        player
+      unitMoves.forEach(({ fromTerritory, toTerritory }) => {
+        this.checkSeaRange({
+          game,
+          fromTerritory,
+          toTerritory,
+          player
+        });
       });
-      this.checkValidTerritoryType({ units, territory: fromTerritory });
-      this.checkValidTerritoryType({ units, territory: toTerritory });
+      this.checkValidTerritoryTypes({ unitMoves });
     }
     checkValidRetreat({ game, player, fromTerritory, toTerritory }) {
-      const units = fromTerritory.units.filter(
-        unit => unit.ownerId === player.id
-      );
       this.checkNotSameTerritory({ fromTerritory, toTerritory });
       this.checkFriendlyDestination({ player, territory: toTerritory });
       this.checkSeaConnected({ game, player, fromTerritory, toTerritory });
-      this.checkValidTerritoryType({ units, territory: fromTerritory });
-      this.checkValidTerritoryType({ units, territory: toTerritory });
+      const units = fromTerritory.units.filter(
+        unit => unit.ownerId === player.id
+      );
+      const unitMoves = units.map(
+        unit => new UnitMove({ unit, fromTerritory, toTerritory })
+      );
+      this.checkValidTerritoryTypes({ unitMoves });
     }
 
     // private
-    move({ game, units, fromTerritory, toTerritory }) {
-      const defender = game.getEntityById(toTerritory.getOwner());
-      const fromType = fromTerritory.type;
+    move({ game, unitMoves }) {
+      const fromType = unitMoves[0].fromTerritory.type;
       const { player, god } = game.getCurrentPlayerAndGod();
       let newPlayer;
       if (fromType === sea || god.id === Minerve.id) {
@@ -148,49 +125,82 @@ module.exports = function(
           .spend(player.gladiatorMoveCount + 1)
           .copy({ gladiatorMoveCount: player.gladiatorMoveCount + 1 });
       }
-      const newTerritories = fromTerritory.moveUnits(units, toTerritory);
-      const [fromNew, toNew] = newTerritories;
-      let newGame = game
-        .update(fromNew)
-        .update(toNew)
-        .update(newPlayer);
-      if (!toNew.hasConflict()) {
+      let newGame = game.update(newPlayer);
+      let battleTerritoryId;
+      newGame = unitMoves.reduce((gameAcc, move) => {
+        const result = move.apply(gameAcc);
+        const toNew = result.getEntityById(move.toTerritory.id);
+        if (toNew.hasConflict()) {
+          battleTerritoryId = toNew.id;
+        }
+        return result;
+      }, newGame);
+
+      if (!battleTerritoryId) {
         return Promise.resolve(newGame);
       }
+      const territory = newGame.getEntityById(battleTerritoryId);
+      const defenderId = territory.units.find(
+        unit => unit.ownerId !== newPlayer.id
+      ).ownerId;
+      const defender = newGame.getEntityById(defenderId);
       return this.initBattle({
         game: newGame,
-        territory: toNew,
+        territory,
         attacker: newPlayer,
         defender
       });
     }
-    checkNotStupidMove({ game, units, fromTerritory, toTerritory }) {
-      this.checkNotSameTerritory({ fromTerritory, toTerritory });
-      if (!units || !units.length) {
+    checkNotStupidMove({ game, unitMoves }) {
+      if (!unitMoves || !unitMoves.length) {
         throw new Error("il n'y a aucune unité sélectionnée.");
-      }
-      const allInTerritory = units.every(unit => {
-        return fromTerritory.units.indexOf(unit) !== -1;
-      });
-      if (!allInTerritory) {
-        throw new Error(
-          "toutes les unités doivent partir du même territoire et arriver sur le même territoire"
-        );
       }
       const { player, god } = game.getCurrentPlayerAndGod();
       if (god.id === Ceres.id) {
         throw new Error("Ceres ne peut pas déplacer d'unité.");
       }
-      if (player.id !== units[0].ownerId) {
-        throw new Error(`vous ne pouvez déplacer que vos propres unités`);
+      unitMoves.forEach(({ fromTerritory, toTerritory, unit }) => {
+        this.checkNotSameTerritory({ fromTerritory, toTerritory });
+        const inFromTerritory = fromTerritory.units.indexOf(unit) !== -1;
+        if (!inFromTerritory) {
+          throw new Error(
+            `unit ${JSON.stringify(unit)} is not in territory ${JSON.stringify(
+              fromTerritory
+            )}`
+          );
+        }
+        if (player.id !== unit.ownerId) {
+          throw new Error(`vous ne pouvez déplacer que vos propres unités`);
+        }
+      });
+      const aggressiveMoves = unitMoves
+        .filter(({ toTerritory }) => {
+          return !toTerritory.isFriendly(player);
+        })
+        .reduce((territoryArray, { toTerritory }) => {
+          if (territoryArray.indexOf(toTerritory.id) === -1) {
+            return territoryArray.concat([toTerritory.id]);
+          } else {
+            return territoryArray;
+          }
+        }, []);
+      if (aggressiveMoves.length > 1) {
+        throw new Error(
+          `vous ne pouvez pas provoquer plus d'une bataille en vous déplaçant`
+        );
       }
+
+      // TODO move this for earth moves
+      // throw new Error(
+      //   "toutes les unités doivent partir du même territoire et arriver sur le même territoire"
+      // );
     }
-    checkValidGod({ units, game, fromTerritory }) {
+    checkValidGod({ game, unitMoves }) {
       const god = game.getCurrentGod();
-      const gladiators = units.filter(
-        unit => unit.type.id === UnitType.Gladiator.id
-      );
-      const fromType = fromTerritory.type;
+      const gladiators = unitMoves
+        .map(move => move.unit)
+        .filter(unit => unit.type.id === UnitType.Gladiator.id);
+      const fromType = unitMoves[0].fromTerritory.type;
       const isGodOk =
         (fromType === sea && god.id === Neptune.id) ||
         (fromType === earth && god.id === Minerve.id) ||
@@ -214,13 +224,7 @@ module.exports = function(
       }
     }
     checkSeaRange({ game, player, fromTerritory, toTerritory }) {
-      const {
-        currentSeaMove: { territory: currentTerritory, remaining }
-      } = player;
-      const maxMove = remaining || 3;
-      if (currentTerritory && remaining) {
-        fromTerritory = game.getEntityById(currentTerritory.id);
-      }
+      const maxMove = 3;
       const seaRange = this.getSeaRange({
         game,
         player,
@@ -252,15 +256,19 @@ module.exports = function(
         throw new Error("vos troupes sont déjà sur ce territoire");
       }
     }
-    checkValidTerritoryType({ units, territory }) {
-      const notValidUnit = units.find(unit => {
-        return unit.type.territoryType.id !== territory.type.id;
+    checkValidTerritoryTypes({ unitMoves }) {
+      unitMoves.forEach(({ unit, fromTerritory, toTerritory }) => {
+        this.checkValidTerritoryType({ unit, territory: fromTerritory });
+        this.checkValidTerritoryType({ unit, territory: toTerritory });
       });
+    }
+    checkValidTerritoryType({ unit, territory }) {
+      const notValidUnit = unit.type.territoryType.id !== territory.type.id;
       if (notValidUnit) {
         throw new Error(
-          `Unit of type ${
-            notValidUnit.type.label
-          } cannot go on territory of type ${territory.type}`
+          `Unit of type ${unit.type.label} cannot go on territory of type ${
+            territory.type
+          }`
         );
       }
     }

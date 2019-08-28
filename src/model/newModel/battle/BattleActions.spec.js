@@ -9,7 +9,8 @@ const {
   Player,
   TerritoryType,
   Arrays,
-  Territory
+  Territory,
+  UnitMove
 } = injector.resolveAll();
 
 const { sea, earth } = TerritoryType;
@@ -125,12 +126,13 @@ describe("BattleActions class", () => {
         const { fromTerritory, toTerritory, game } = init;
         const { units } = fromTerritory;
         const movedUnits = [units[0], units[2]];
+        const unitMoves = movedUnits.map(
+          unit => new UnitMove({ unit, fromTerritory, toTerritory })
+        );
         return actions
           .moveEarth({
             game,
-            units: movedUnits,
-            fromTerritory,
-            toTerritory
+            unitMoves
           })
           .then(result => {
             expect(result.getEntity(fromTerritory).units.length).to.equal(1);
@@ -144,12 +146,13 @@ describe("BattleActions class", () => {
           const { fromTerritory, toTerritory, game } = init;
           const { units } = fromTerritory;
           const movedUnits = units;
+          const unitMoves = movedUnits.map(
+            unit => new UnitMove({ unit, fromTerritory, toTerritory })
+          );
           return actions
             .moveEarth({
               game,
-              units: movedUnits,
-              fromTerritory,
-              toTerritory
+              unitMoves
             })
             .then(game => {
               expect(game.getEntity(fromTerritory).units.length).to.equal(0);
@@ -164,12 +167,13 @@ describe("BattleActions class", () => {
           let { fromTerritory, toTerritory, game, player } = init;
           const { units: movedUnits } = fromTerritory;
           const attacker = player;
+          const unitMoves = movedUnits.map(
+            unit => new UnitMove({ unit, fromTerritory, toTerritory })
+          );
           return actions
             .moveEarth({
               game,
-              units: movedUnits,
-              fromTerritory,
-              toTerritory
+              unitMoves
             })
             .then(gameParam => {
               game = gameParam;
@@ -193,12 +197,13 @@ describe("BattleActions class", () => {
           const { fromTerritory, toTerritory, game, player2 } = init;
           const { units: movedUnits } = fromTerritory;
           const defender = player2;
+          const unitMoves = movedUnits.map(
+            unit => new UnitMove({ unit, fromTerritory, toTerritory })
+          );
           return actions
             .moveEarth({
               game,
-              units: movedUnits,
-              fromTerritory,
-              toTerritory
+              unitMoves
             })
             .then(game => {
               const newFromT = game.getEntity(fromTerritory);
@@ -217,6 +222,9 @@ describe("BattleActions class", () => {
         init => {
           const { fromTerritory, toTerritory, game, player, player2 } = init;
           const { units: movedUnits } = fromTerritory;
+          const unitMoves = movedUnits.map(
+            unit => new UnitMove({ unit, fromTerritory, toTerritory })
+          );
           const defender = player2;
           const attacker = player;
           const countUnits = game => {
@@ -228,9 +236,7 @@ describe("BattleActions class", () => {
           return actions
             .moveEarth({
               game,
-              units: movedUnits,
-              fromTerritory,
-              toTerritory
+              unitMoves
             })
             .then(game => {
               expect(countUnits(game)).to.deep.equal([2, 2]);
@@ -254,12 +260,14 @@ describe("BattleActions class", () => {
       return initState({ player1UnitCount: 1 }).then(init => {
         const { fromTerritory, game } = init;
         const { units: movedUnits } = fromTerritory;
+        const unitMoves = movedUnits.map(
+          unit =>
+            new UnitMove({ unit, fromTerritory, toTerritory: fromTerritory })
+        );
         return actions
           .moveEarth({
             game,
-            units: movedUnits,
-            fromTerritory,
-            toTerritory: fromTerritory
+            unitMoves
           })
           .catch(err => {
             expect(err.message).to.equal(
@@ -270,13 +278,11 @@ describe("BattleActions class", () => {
     });
     it("should throw an error as there are no units", () => {
       return initState({ player1UnitCount: 1 }).then(init => {
-        const { fromTerritory, toTerritory, game } = init;
+        const { game } = init;
         return actions
           .moveEarth({
             game,
-            units: [],
-            fromTerritory,
-            toTerritory
+            unitMoves: []
           })
           .catch(err => {
             expect(err.message).to.equal("il n'y a aucune unité sélectionnée.");
