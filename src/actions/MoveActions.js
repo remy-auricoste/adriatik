@@ -9,9 +9,11 @@ module.exports = function(
   UnitMove
 ) {
   const { sea, earth } = TerritoryType;
-  storeCommands.set("move", { units: [] });
 
   class MoveActions {
+    constructor() {
+      this.reset();
+    }
     reset() {
       storeCommands.set("move", { units: [] });
     }
@@ -25,6 +27,7 @@ module.exports = function(
       ) {
         this.reset();
       }
+      storeCommands.push("move.orderedTerritories", territory);
       storeCommands.push("move.fromTerritory", territory);
       storeCommands.push("move.units", unit);
     }
@@ -34,6 +37,7 @@ module.exports = function(
         this.reset();
         return;
       }
+      storeCommands.push("move.orderedTerritories", territory);
       const { game } = store.getState();
       const { type: territoryType } = territory;
       if (territoryType === sea) {
@@ -48,10 +52,11 @@ module.exports = function(
         storeCommands.set("move.units", units.slice(1));
         storeCommands.set("move.fromTerritory", fromTerritory.slice(1));
         if (!this.getState().units.length) {
-          const { unitMoves } = this.getState();
+          const { unitMoves, orderedTerritories } = this.getState();
           const command = GameActions.commands().moveSea({
             game,
-            unitMoves
+            unitMoves,
+            orderedTerritories
           });
           commandHandler({ command });
           this.reset();

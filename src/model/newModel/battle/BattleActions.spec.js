@@ -99,7 +99,7 @@ const initState = ({ player1UnitCount, player2UnitCount = 0 }) => {
   );
 };
 
-initSeaState = ({ territoryCount, player1UnitCount = 1 } = {}) => {
+const initSeaState = ({ territoryCount, player1UnitCount = 1 } = {}) => {
   let territories = createConnectedTerritories({
     count: territoryCount,
     type: sea
@@ -116,7 +116,7 @@ initSeaState = ({ territoryCount, player1UnitCount = 1 } = {}) => {
     players: [player],
     gods: [Minerve, Neptune]
   });
-  return { game, territories };
+  return { game, territories, player };
 };
 
 describe("BattleActions class", () => {
@@ -345,6 +345,123 @@ describe("BattleActions class", () => {
           toTerritory
         })
       ).to.equal(-1);
+    });
+  });
+  describe("checkShareSamePath", () => {
+    const initMoveSeaState = ({
+      territoryCount,
+      shipCount = 3,
+      startTerritoryIndex
+    }) => {
+      let { game, territories, player } = initSeaState({ territoryCount });
+      let startTerritory = territories[startTerritoryIndex];
+      startTerritory = placeUnits({
+        territory: startTerritory,
+        count: shipCount,
+        player,
+        unitType: Ship
+      });
+      game = game.update(startTerritory);
+      return { game, startTerritory, player, territories };
+    };
+
+    it("should not throw if the path is valid and has a length <= 3", () => {
+      const { game, territories, startTerritory } = initMoveSeaState({
+        territoryCount: 4,
+        startTerritoryIndex: 0
+      });
+      const unitMoves = startTerritory.units.map(
+        (unit, unitIndex) =>
+          new UnitMove({
+            unit,
+            fromTerritory: startTerritory,
+            toTerritory: territories[unitIndex + 1]
+          })
+      );
+      const orderedTerritories = [
+        startTerritory,
+        startTerritory,
+        startTerritory,
+        territories[1],
+        territories[2],
+        territories[3]
+      ];
+
+      expect(
+        actions.checkShareSamePath({
+          game,
+          unitMoves,
+          orderedTerritories
+        })
+      ).to.equal(undefined);
+    });
+    it("should not throw if doing an aller-retour with the ships", () => {
+      const { game, territories, startTerritory } = initMoveSeaState({
+        territoryCount: 3,
+        startTerritoryIndex: 1,
+        shipCount: 2
+      });
+      const { units } = startTerritory;
+      const unitMoves = [
+        new UnitMove({
+          unit: units[0],
+          fromTerritory: startTerritory,
+          toTerritory: territories[0]
+        }),
+        new UnitMove({
+          unit: units[1],
+          fromTerritory: startTerritory,
+          toTerritory: territories[2]
+        })
+      ];
+      const orderedTerritories = [
+        startTerritory,
+        startTerritory,
+        territories[0],
+        territories[2]
+      ];
+
+      expect(
+        actions.checkShareSamePath({
+          game,
+          unitMoves,
+          orderedTerritories
+        })
+      ).to.equal(undefined);
+    });
+    it("should throw if doing an aller-retour with the ships that 4 territories long", () => {
+      const { game, territories, startTerritory } = initMoveSeaState({
+        territoryCount: 4,
+        startTerritoryIndex: 1,
+        shipCount: 2
+      });
+      const { units } = startTerritory;
+      const unitMoves = [
+        new UnitMove({
+          unit: units[0],
+          fromTerritory: startTerritory,
+          toTerritory: territories[0]
+        }),
+        new UnitMove({
+          unit: units[1],
+          fromTerritory: startTerritory,
+          toTerritory: territories[3]
+        })
+      ];
+      const orderedTerritories = [
+        startTerritory,
+        startTerritory,
+        territories[0],
+        territories[3]
+      ];
+
+      expect(() =>
+        actions.checkShareSamePath({
+          game,
+          unitMoves,
+          orderedTerritories
+        })
+      ).to.throw("vous ne pouvez vous déplacer que de 3 territoires");
     });
   });
 });

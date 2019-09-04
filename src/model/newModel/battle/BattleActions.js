@@ -1,3 +1,5 @@
+const maxSeaMove = 3;
+
 module.exports = function(
   TerritoryType,
   God,
@@ -18,9 +20,9 @@ module.exports = function(
         return this.move({ game, unitMoves });
       });
     }
-    moveSea({ game, unitMoves }) {
+    moveSea({ game, unitMoves, orderedTerritories }) {
       return Promise.resolve().then(() => {
-        this.checkValidSeaMove({ game, unitMoves });
+        this.checkValidSeaMove({ game, unitMoves, orderedTerritories });
         return this.move({ game, unitMoves });
       });
     }
@@ -85,7 +87,7 @@ module.exports = function(
       this.checkSeaConnected({ game, player, fromTerritory, toTerritory });
       this.checkValidTerritoryTypes({ unitMoves });
     }
-    checkValidSeaMove({ game, unitMoves }) {
+    checkValidSeaMove({ game, unitMoves, orderedTerritories }) {
       this.checkNotStupidMove({ game, unitMoves });
       this.checkValidGod({ game, unitMoves });
 
@@ -99,6 +101,7 @@ module.exports = function(
         });
       });
       this.checkValidTerritoryTypes({ unitMoves });
+      this.checkShareSamePath({ game, unitMoves, orderedTerritories });
     }
     checkValidRetreat({ game, player, fromTerritory, toTerritory }) {
       this.checkNotSameTerritory({ fromTerritory, toTerritory });
@@ -223,8 +226,29 @@ module.exports = function(
         );
       }
     }
+    checkShareSamePath({ game, unitMoves, orderedTerritories }) {
+      const player = game.getEntityById(unitMoves[0].unit.ownerId);
+      const isAuthorizedSea = territory => {
+        return territory.type === sea && territory.isFriendly(player);
+      };
+      const fullPath = orderedTerritories.reduce((currentPath, territory) => {
+        const isValidFct = isAuthorizedSea;
+        const lastTerritory = currentPath[currentPath.length - 1];
+        const path = game.findPath({
+          fromTerritory: lastTerritory,
+          toTerritory: territory,
+          isValidFct
+        });
+        return currentPath.concat(path.slice(1));
+      }, orderedTerritories.slice(0, 1));
+      if (fullPath.length - 1 > maxSeaMove) {
+        throw new Error(
+          `vous ne pouvez vous déplacer que de ${maxSeaMove} territoires`
+        );
+      }
+    }
     checkSeaRange({ game, player, fromTerritory, toTerritory }) {
-      const maxMove = 3;
+      // check all moves are on the same path
       const seaRange = this.getSeaRange({
         game,
         player,
@@ -236,9 +260,9 @@ module.exports = function(
           `il n'y a pas de chemin pour accéder au territoire de destination`
         );
       }
-      if (seaRange > maxMove) {
+      if (seaRange > maxSeaMove) {
         throw new Error(
-          `vous ne pouvez vous déplacer que de ${maxMove} territoires`
+          `vous ne pouvez vous déplacer que de ${maxSeaMove} territoires`
         );
       }
       if (toTerritory.type !== sea) {
@@ -266,9 +290,7 @@ module.exports = function(
       const notValidUnit = unit.type.territoryType.id !== territory.type.id;
       if (notValidUnit) {
         throw new Error(
-          `Unit of type ${unit.type.label} cannot go on territory of type ${
-            territory.type
-          }`
+          `Unit of type ${unit.type.label} cannot go on territory of type ${territory.type}`
         );
       }
     }

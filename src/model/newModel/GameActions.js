@@ -76,8 +76,8 @@ module.exports = function(
     moveEarth({ game, unitMoves }) {
       return BattleActions.moveEarth({ game, unitMoves });
     }
-    moveSea({ game, unitMoves }) {
-      return BattleActions.moveSea({ game, unitMoves });
+    moveSea({ game, unitMoves, orderedTerritories }) {
+      return BattleActions.moveSea({ game, unitMoves, orderedTerritories });
     }
     retreat({ game, player, toTerritory }) {
       return BattleActions.retreat({ game, player, toTerritory });

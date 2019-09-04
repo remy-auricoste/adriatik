@@ -168,18 +168,16 @@ module.exports = function(
       return phases[currentPhaseIndex];
     }
     findPath({ fromTerritory, toTerritory, isValidFct }) {
+      if (fromTerritory.id === toTerritory.id) {
+        return [fromTerritory];
+      }
       return this.findPathExtended({
         possibleFromPaths: [[fromTerritory]],
         toTerritory,
         isValidFct
       });
     }
-    findPathExtended({
-      possibleFromPaths,
-      toTerritory,
-      isValidFct,
-      passedTerritories = []
-    }) {
+    findPathExtended({ possibleFromPaths, toTerritory, isValidFct }) {
       const foundDirectPath = possibleFromPaths.find(path => {
         const lastTerritory = path[path.length - 1];
         return lastTerritory.isNextTo(toTerritory);
@@ -206,8 +204,7 @@ module.exports = function(
       return this.findPathExtended({
         possibleFromPaths: newPossiblePaths,
         toTerritory,
-        isValidFct,
-        passedTerritories: newPassedTerritories
+        isValidFct
       });
     }
 
