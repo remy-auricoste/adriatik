@@ -8,12 +8,17 @@ module.exports = function(
 ) {
   return ({ game }) => {
     const { room } = store.getState();
-    const { territories } = game;
+
+    const { territories } = MoveActions.getAppliedGame({ game });
     const {
       player: currentPlayer,
       god: currentGod
     } = game.getCurrentPlayerAndGod();
     const selectedUnits = MoveActions.getSelectedUnits();
+    const selectedUnitsIds = selectedUnits.map(_ => _.id);
+    const isSelectedUnit = unit => {
+      return selectedUnitsIds.indexOf(unit.id) !== -1;
+    };
 
     const handleClickUnit = (unitKind, territory, valid) => {
       if (!valid) {
@@ -24,7 +29,7 @@ module.exports = function(
           unit =>
             unit.ownerId === unitKind.ownerId &&
             unit.type.id === unitKind.type.id &&
-            selectedUnits.indexOf(unit) === -1
+            !isSelectedUnit(unit)
         );
         if (!newUnit) {
           throw new Error(`could not select a new unit`);
@@ -40,7 +45,7 @@ module.exports = function(
           const income = territory.getIncome();
 
           const displayedUnits = units.filter(unit => {
-            return selectedUnits.indexOf(unit) === -1;
+            return !isSelectedUnit(unit);
           });
           var groupedUnits = Arrays.groupBy(displayedUnits, unit => {
             return unit.type.id + "_" + unit.ownerId;

@@ -83,6 +83,12 @@ module.exports = function(
     getState() {
       return store.getState().move;
     }
+    getAppliedGame({ game }) {
+      const { unitMoves = [] } = this.getState();
+      return unitMoves.reduce((gameAcc, move) => {
+        return move.apply(gameAcc);
+      }, game);
+    }
     isValidSeaDestination(territory) {
       const selectedUnits = this.getSelectedUnits();
       if (!selectedUnits.length) {
