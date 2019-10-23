@@ -8,11 +8,17 @@ module.exports = function(
   XButton,
   GameActions,
   BattleDecisions,
-  commandHandler
+  commandHandler,
+  TerritoryType
 ) {
   const { stay, retreat } = BattleDecisions;
   const commands = GameActions.commands();
-  const { Ship } = UnitType;
+  const { Ship, Legionnaire } = UnitType;
+  const { sea, earth } = TerritoryType;
+  const getUnitType = territoryType => {
+    return territoryType === sea ? Ship : Legionnaire;
+  };
+
   return ({ game }) => {
     const [lastClosedBattle, setLastClosedBattle] = useState(null);
 
@@ -117,10 +123,14 @@ module.exports = function(
                         return <XEntity key={unitIndex} entity={unit} />;
                       })}
                       {resolvedLoss !== 0 && (
-                        // TODO fix Ship
                         <div style={{ border: "solid 1px red" }}>
                           <XEntity
-                            entity={new Unit({ ownerId: playerId, type: Ship })}
+                            entity={
+                              new Unit({
+                                ownerId: playerId,
+                                type: getUnitType(territory.type)
+                              })
+                            }
                           />
                         </div>
                       )}
