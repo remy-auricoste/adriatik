@@ -18,11 +18,11 @@
     "rauricoste-store-sync": "0.0.6",
     "rauricoste-websocket-room-client": "0.x",
     "rauricoste-websocket-room-server": "0.x",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "rauricoste-tests": "0.x",
-    "rauricoste-web-builder": "^4.x"
+    "rauricoste-web-builder": "^6.x"
   }
 }
