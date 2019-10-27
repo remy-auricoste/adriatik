@@ -93,6 +93,9 @@ module.exports = function(Unit, Building) {
       this.neighbours.push(territory.id);
       territory.neighbours.push(this.id);
     }
+    addIncome(quantity = 1) {
+      return this.copy({ addedIncome: this.addedIncome + quantity });
+    }
 
     // reads
     isEmpty() {

@@ -46,6 +46,8 @@ module.exports = function(
           const maxPossibleBid = isCeres ? 1 : currentPlayer.getMaxBid();
           const unitPrices = god.getUnitPrices();
           const isCurrentGod = currentGod && god.id === currentGod.id;
+          const displayPassAction = !isPhaseBid && isCurrentGod && !isCeres;
+
           const { color } =
             (bid && room.getAccountByPlayerId(bid.playerId)) || {};
 
@@ -177,7 +179,7 @@ module.exports = function(
                     />
                   </XPossibleAction>
                 )}
-                {!isPhaseBid && isCurrentGod && (
+                {displayPassAction && (
                   <div
                     style={{
                       position: "absolute",

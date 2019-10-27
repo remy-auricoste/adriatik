@@ -6,14 +6,17 @@ module.exports = function(
   commandHandler,
   SelectionActions,
   MoveActions,
-  XMapIconContainer
+  XMapIconContainer,
+  God
 ) {
+  const { Ceres } = God;
   const commands = GameActions.commands();
   const { sea } = TerritoryType;
   return ({ game }) => {
     const [territoryOver, setTerritoryOver] = useState(null);
 
     const { territories } = game;
+    const currentGod = game.getCurrentGod();
 
     const territoryMouseOver = territory => () => {
       setTerritoryOver(territory);
@@ -24,6 +27,9 @@ module.exports = function(
       }
     };
     const territoryClick = territory => () => {
+      if (currentGod && currentGod.id === Ceres.id) {
+        SelectionActions.selectAction("addIncome");
+      }
       SelectionActions.select(territory);
       MoveActions.selectTerritory(territory);
       if (GameActions.canDo({ actionType: "initUnit", game })) {

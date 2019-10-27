@@ -82,6 +82,18 @@ module.exports = function(
     retreat({ game, player, toTerritory }) {
       return BattleActions.retreat({ game, player, toTerritory });
     }
+    addIncome({ game, territoryId }) {
+      const god = game.getCurrentGod();
+      const territory = game.getEntityById(territoryId);
+      if (god.id !== Ceres.id) {
+        throw new Error(
+          "vous ne pouvez pas ajouter de corne si vous n'avez pas Ceres"
+        );
+      }
+      const newTerritory = territory.addIncome();
+      const newGame = game.updateAll({ territory: newTerritory });
+      return this.pass({ game: newGame });
+    }
 
     // reads
     commands() {
@@ -117,7 +129,7 @@ module.exports = function(
       const isCeres = Ceres.id === god.id;
       const result = ["pass"];
       if (isCeres) {
-        return result;
+        return ["addIncome"];
       }
       if (unitType) {
         result.push("buyUnit");
@@ -139,7 +151,8 @@ module.exports = function(
         buyUnit: ["Territory"],
         buyGodCard: [],
         build: ["Territory"],
-        pass: []
+        pass: [],
+        addIncome: ["Territory"]
       };
     }
     canDo({ actionType, game }) {
